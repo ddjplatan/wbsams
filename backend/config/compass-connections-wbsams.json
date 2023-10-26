@@ -1,0 +1,25 @@
+{
+  "type": "Compass Connections",
+  "version": {
+    "$numberInt": "1"
+  },
+  "connections": [
+    {
+      "id": "6d8f4386-0d07-49f8-9d30-998e21e09cc8",
+      "lastUsed": {
+        "$date": {
+          "$numberLong": "1698285927165"
+        }
+      },
+      "favorite": {
+        "name": "wbsams"
+      },
+      "connectionOptions": {
+        "connectionString": "mongodb+srv://jr:superstrongdinosaurs@jr.deg5wtk.mongodb.net/",
+        "oidc": {
+          "serializedState": "eyJvaWRjUGx1Z2luU3RhdGVWZXJzaW9uIjowLCJzdGF0ZSI6W119"
+        }
+      }
+    }
+  ]
+}
