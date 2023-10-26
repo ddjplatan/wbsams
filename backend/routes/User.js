@@ -29,7 +29,7 @@ router
 
 router.route("/login").post(reqReceived, login);
 
-router.route("/logout").get(reqReceived, protectedRoute, logout);
+router.route("/logout").get(reqReceived, logout);
 
 router
   .route("/:userId")

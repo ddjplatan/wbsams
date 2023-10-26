@@ -1,10 +1,19 @@
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { FaSignInAlt,  FaUserPlus } from "react-icons/fa";
+import {
+  Container,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Image,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
+import DefaultImg from "../assets/images/defaults/default-profile.png";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -17,7 +26,7 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
-      navigate("/")
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -33,16 +42,43 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <LinkContainer to="/">
+                <Nav.Link>Home</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/adopt">
+                <Nav.Link>Adopt</Nav.Link>
+              </LinkContainer>
               {userInfo ? (
                 <>
                   <NavDropdown
-                    title={`${userInfo.lastname}, ${userInfo.firstname}`}
+                    align="end"
+                    className="fw-bold border rounded"
+                    title={`${userInfo.user.lastName}, ${userInfo.user.firstName}
+                    `}
                     id="lastname"
                   >
+                    <Row>
+                      <Col>
+                        <div className="d-flex justify-content-center">
+                          <Image
+                            src={`${DefaultImg}`}
+                            rounded
+                            width={100}
+                            height={100}
+                          />
+                        </div>
+                        <hr />
+                      </Col>
+                    </Row>
                     <LinkContainer to="/profile">
-                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                      <NavDropdown.Item className="text-center">
+                        Profile
+                      </NavDropdown.Item>
                     </LinkContainer>
-                    <NavDropdown.Item onClick={logoutHandler}>
+                    <NavDropdown.Item
+                      className="text-center"
+                      onClick={logoutHandler}
+                    >
                       Logout
                     </NavDropdown.Item>
                   </NavDropdown>

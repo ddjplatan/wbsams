@@ -181,9 +181,10 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
+  console.log("controller")
   res
     .status(200)
-    .cookie("token", "none", {
+    .cookie("token", "", {
       expires: new Date(0),
       httpOnly: true,
     })
