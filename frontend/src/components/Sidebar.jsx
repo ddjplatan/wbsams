@@ -7,13 +7,14 @@ import {
   CDBSidebarFooter,
 } from "cdbreact";
 import { LinkContainer } from "react-router-bootstrap";
+import { BsFill0CircleFill } from "react-icons/bs";
 
 const Sidebar = () => {
   return (
     <CDBSidebar
       textColor="#333"
       backgroundColor="#f0f0f0"
-      style={{ height: "90vh" }}
+      style={{ height: "90vh", marginRight: "10px" }}
     >
       <CDBSidebarHeader prefix={<i className="fa fa-bars" />}>
         Dashboard
@@ -21,7 +22,15 @@ const Sidebar = () => {
       <CDBSidebarContent>
         <CDBSidebarMenu>
           <LinkContainer to="/dashboard">
-            <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large">
+              Dashboard
+            </CDBSidebarMenuItem>
+          </LinkContainer>
+          <LinkContainer to="/manage/pets">
+            <CDBSidebarMenuItem icon="th-large">Manage Pet</CDBSidebarMenuItem>
+          </LinkContainer>
+          <LinkContainer to="/monitor/pets">
+            <CDBSidebarMenuItem icon="th-large">Monitor Pet</CDBSidebarMenuItem>
           </LinkContainer>
           <LinkContainer to="/adopt">
             <CDBSidebarMenuItem icon="sticky-note">
@@ -36,10 +45,8 @@ const Sidebar = () => {
 
       <CDBSidebarFooter style={{ textAlign: "center" }}>
         <div className="sidebar-btn-wrapper" style={{ padding: "20px 5px" }}>
-          © 2023 Copyright: 
-          <a className="ml-2" >
-            Animal Welfare
-          </a>
+          © 2023 Copyright:
+          <a className="ml-2">Animal Welfare</a>
         </div>
       </CDBSidebarFooter>
     </CDBSidebar>
