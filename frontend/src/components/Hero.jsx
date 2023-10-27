@@ -1,12 +1,13 @@
-import { Button, Container, Card } from "react-bootstrap";
+import { Button, Container, Card, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
+import DefaultImgCard from "../assets/images/defaults/goku.png";
 
 const Hero = () => {
   const { userInfo } = useSelector((state) => state.auth);
   return (
-    <div className="py-5">
-      <Container className="d-flex justify-content-center">
+    <div className="py-2">
+      <Container className="d-flex justify-content-center" id="style-container">
         <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-75">
           <h1 className="text-center fw-bold">Cagayan de Oro City</h1>
           <h1 className="text-center mb-4 fw-bold">Animal Shelter</h1>
@@ -16,9 +17,9 @@ const Hero = () => {
             friends find their forever homes and humans discover the
             unconditional love of a loyal companion.
           </p>
-          <div className="d-flex">
+          <div className="d-flex mb-4">
             {!userInfo && (
-              <>
+              <div>
                 <LinkContainer to="/login">
                   <Button variant="primary" className="me-3">
                     Sign in
@@ -29,9 +30,70 @@ const Hero = () => {
                     Sign up
                   </Button>
                 </LinkContainer>
-              </>
+              </div>
+            )}
+            {userInfo && (
+              <div>
+                <LinkContainer to="/dashboard">
+                  <Button variant="primary" className="me-3" size="lg">
+                    Go to Dashboard
+                  </Button>
+                </LinkContainer>
+              </div>
             )}
           </div>
+          <Row>
+            <div className="d-flex justify-content-center">
+              <Card className="mx-2" style={{ width: "18rem" }}>
+                <Card.Img
+                  variant="top"
+                  src={`${DefaultImgCard}`}
+                  height={180}
+                  width={100}
+                />
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card className="mx-2" style={{ width: "18rem" }}>
+                <Card.Img
+                  variant="top"
+                  src={`${DefaultImgCard}`}
+                  height={180}
+                  width={100}
+                />
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card className="mx-2" style={{ width: "18rem" }}>
+                <Card.Img
+                  variant="top"
+                  src={`${DefaultImgCard}`}
+                  height={180}
+                  width={100}
+                />
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+            </div>
+          </Row>
         </Card>
       </Container>
     </div>

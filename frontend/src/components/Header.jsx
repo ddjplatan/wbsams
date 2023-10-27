@@ -39,17 +39,13 @@ const Header = () => {
           <LinkContainer to="/">
             <Navbar.Brand>CDO Animal Shelter</Navbar.Brand>
           </LinkContainer>
+
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <LinkContainer to="/">
-                <Nav.Link>Home</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/adopt">
-                <Nav.Link>Adopt</Nav.Link>
-              </LinkContainer>
               {userInfo ? (
                 <>
+                  
                   <NavDropdown
                     align="end"
                     className="fw-bold border rounded"
