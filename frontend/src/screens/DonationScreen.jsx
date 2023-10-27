@@ -2,7 +2,7 @@ import { Card, Row, Col, Button } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import DataTable from "../components/DataTable";
 
-const ManagePetScreen = () => {
+const DonationScreen = () => {
   return (
     <div className="d-flex">
       <Sidebar />
@@ -10,7 +10,7 @@ const ManagePetScreen = () => {
         <Row>
           <Col>
             <Card border="default">
-              <Card.Header>Monitor Adopted Pets</Card.Header>
+              <Card.Header>Donations</Card.Header>
               <Card.Body>
                 <DataTable />
               </Card.Body>
@@ -22,4 +22,4 @@ const ManagePetScreen = () => {
   );
 };
 
-export default ManagePetScreen;
+export default DonationScreen;

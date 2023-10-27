@@ -20,6 +20,7 @@ import DashboardScreen from "./screens/DashboardScreen.jsx";
 import ManagePetScreen from "./screens/ManagePetScreen.jsx";
 import MonitorPetScreen from "./screens/MonitorPetScreen.jsx";
 import UserScreen from "./screens/UserScreen.jsx";
+import DonationScreen from "./screens/DonationScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/dashboard" element={<DashboardScreen />} />
         <Route path="/users" element={<UserScreen />} />
+        <Route path="/donations" element={<DonationScreen />} />
         <Route path="/manage/pets" element={<ManagePetScreen />} />
         <Route path="/monitor/pets" element={<MonitorPetScreen />} />
       </Route>

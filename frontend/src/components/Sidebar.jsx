@@ -13,7 +13,8 @@ const Sidebar = () => {
     <CDBSidebar
       textColor="#333"
       backgroundColor="#f0f0f0"
-      style={{ height: "90vh", marginRight: "10px" }}
+      className="mr-2 h-auto"
+      style={{ marginRight: "20px" }}
     >
       <CDBSidebarHeader prefix={<i className="fa fa-bars" />}>
         Dashboard
@@ -24,16 +25,22 @@ const Sidebar = () => {
             <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
           </LinkContainer>
           <LinkContainer to="/manage/pets">
-            <CDBSidebarMenuItem icon="th-large">Manage Pet</CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large">Manage Pets</CDBSidebarMenuItem>
           </LinkContainer>
           <LinkContainer to="/monitor/pets">
-            <CDBSidebarMenuItem icon="th-large">Monitor Pet</CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large">Monitor Adopted Pets</CDBSidebarMenuItem>
+          </LinkContainer>
+          <LinkContainer to="/donations">
+            <CDBSidebarMenuItem icon="th-large">Donations</CDBSidebarMenuItem>
           </LinkContainer>
         </CDBSidebarMenu>
       </CDBSidebarContent>
 
-      <CDBSidebarFooter style={{ textAlign: "center" }}>
-        <div className="sidebar-btn-wrapper" style={{ padding: "20px 5px" }}>
+      <CDBSidebarFooter
+        className="text-center p-2"
+        style={{ marginTop: "100%" }}
+      >
+        <div className="sidebar-btn-wrapper">
           © 2023 Copyright:
           <a className="ml-2">Animal Welfare</a>
         </div>
