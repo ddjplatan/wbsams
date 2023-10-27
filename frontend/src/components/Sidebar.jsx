@@ -7,7 +7,6 @@ import {
   CDBSidebarFooter,
 } from "cdbreact";
 import { LinkContainer } from "react-router-bootstrap";
-import { BsFill0CircleFill } from "react-icons/bs";
 
 const Sidebar = () => {
   return (
@@ -22,9 +21,7 @@ const Sidebar = () => {
       <CDBSidebarContent>
         <CDBSidebarMenu>
           <LinkContainer to="/dashboard">
-            <CDBSidebarMenuItem icon="th-large">
-              Dashboard
-            </CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
           </LinkContainer>
           <LinkContainer to="/manage/pets">
             <CDBSidebarMenuItem icon="th-large">Manage Pet</CDBSidebarMenuItem>
@@ -32,14 +29,6 @@ const Sidebar = () => {
           <LinkContainer to="/monitor/pets">
             <CDBSidebarMenuItem icon="th-large">Monitor Pet</CDBSidebarMenuItem>
           </LinkContainer>
-          <LinkContainer to="/adopt">
-            <CDBSidebarMenuItem icon="sticky-note">
-              Components
-            </CDBSidebarMenuItem>
-          </LinkContainer>
-          <CDBSidebarMenuItem icon="chart-line" iconType="solid">
-            Metrics
-          </CDBSidebarMenuItem>
         </CDBSidebarMenu>
       </CDBSidebarContent>
 
