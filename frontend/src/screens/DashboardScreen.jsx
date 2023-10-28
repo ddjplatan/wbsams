@@ -1,12 +1,87 @@
-import { Button, Container, Card, Row, Col } from "react-bootstrap";
+import { Button, Container, Card, Row, Col, Image } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchPets } from "../slices/petSlice";
+
 import Sidebar from "../components/Sidebar";
 import Chart from "../components/Chart";
 import DataTable from "../components/DataTable";
+import DefaultPetImg from "../assets/images/defaults/goku.png";
 
 const DashboardScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.pets.pets.pets);
+
+  useEffect(() => {
+    dispatch(fetchPets());
+  }, [dispatch]);
+
+  // const petArr = data.map((pet) => {
+  //   const row = {
+  //     image: <Image src={DefaultPetImg} height={100} width={100} />,
+  //     name: pet.name,
+  //     description: pet.description,
+  //     age: pet.age,
+  //     spicie: pet.spicie,
+  //     adopted: pet.adopted ? "YES" : "NO",
+  //   };
+  //   return row;
+  // });
+  let petArr = [];
+
+  data.forEach((petData) => {
+      const pet = {
+        image: <Image src={DefaultPetImg} height={100} width={100} />,
+        name: petData.name,
+        description: petData.description,
+        age: petData.age,
+        spicie: petData.spicie,
+        adopted: petData.adopted ? "YES" : "NO", 
+      };
+      petArr.push(pet)
+  });
+
+  console.log(petArr)
+
+  const petList = {
+    columns: [
+      {
+        label: "Image",
+        field: "image",
+      },
+      {
+        label: "Name",
+        field: "name",
+        attributes: {
+          "aria-controls": "DataTable",
+          "aria-label": "Name",
+        },
+      },
+      {
+        label: "Description",
+        field: "description",
+      },
+      {
+        label: "Age",
+        field: "age",
+      },
+      {
+        label: "Spicie",
+        field: "spicie",
+        sort: "disabled",
+      },
+      {
+        label: "Adopted",
+        field: "adopted",
+        sort: "disabled",
+      },
+    ],
+    rows: petArr,
+  };
+
   return (
     <div className="d-flex">
       <Sidebar />
@@ -24,9 +99,9 @@ const DashboardScreen = () => {
         <Row>
           <Col>
             <Card border="default">
-              <Card.Header>Table</Card.Header>
+              <Card.Header>Pets Table</Card.Header>
               <Card.Body>
-                <DataTable />
+                <DataTable data={petList} />
               </Card.Body>
             </Card>
           </Col>
