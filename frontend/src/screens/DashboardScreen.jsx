@@ -19,17 +19,6 @@ const DashboardScreen = () => {
     dispatch(fetchPets());
   }, [dispatch]);
 
-  // const petArr = data.map((pet) => {
-  //   const row = {
-  //     image: <Image src={DefaultPetImg} height={100} width={100} />,
-  //     name: pet.name,
-  //     description: pet.description,
-  //     age: pet.age,
-  //     spicie: pet.spicie,
-  //     adopted: pet.adopted ? "YES" : "NO",
-  //   };
-  //   return row;
-  // });
   let petArr = [];
 
   data.forEach((petData) => {
