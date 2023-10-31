@@ -143,12 +143,12 @@ const createPet = async (req, res, next) => {
       if (err) {
         throw new Error(`Error uploading attachment: ${err.message}`);
       } else {
-        if (!req.file) {
-          throw new Error("No file uploaded");
-        }
+        // if (!req.file) {
+        //   throw new Error("No file uploaded");
+        // }
         const { name, species, age, breed, description, gender } = req.body;
         // const { path } = req.file;
-        const path = `uploads/` + req.file.filename;
+        // const path = `uploads/` + req.file.filename;
 
         const pet = await Pet.create({
           name,
@@ -157,7 +157,7 @@ const createPet = async (req, res, next) => {
           breed,
           description,
           gender,
-          imgPath: path,
+          // imgPath: path,
         });
 
         res

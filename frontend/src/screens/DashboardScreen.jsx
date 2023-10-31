@@ -1,40 +1,14 @@
-import { Button, Container, Card, Row, Col, Image } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { fetchPets } from "../slices/petSlice";
+import { Card, Row, Col, Image } from "react-bootstrap";
 
 import Sidebar from "../components/Sidebar";
 import Chart from "../components/Chart";
 import DataTable from "../components/DataTable";
 import DefaultPetImg from "../assets/images/defaults/goku.png";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const DashboardScreen = () => {
-  const { userInfo } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state.pets.pets.pets);
-
-  useEffect(() => {
-    dispatch(fetchPets());
-  }, [dispatch]);
-
-  let petArr = [];
-
-  data.forEach((petData) => {
-      const pet = {
-        image: <Image src={DefaultPetImg} height={100} width={100} />,
-        name: petData.name,
-        description: petData.description,
-        age: petData.age,
-        spicie: petData.spicie,
-        adopted: petData.adopted ? "YES" : "NO", 
-      };
-      petArr.push(pet)
-  });
-
-  console.log(petArr)
-
+  
   const petList = {
     columns: [
       {
@@ -68,7 +42,7 @@ const DashboardScreen = () => {
         sort: "disabled",
       },
     ],
-    rows: petArr,
+    rows: [],
   };
 
   return (
