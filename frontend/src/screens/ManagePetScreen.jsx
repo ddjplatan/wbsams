@@ -11,9 +11,14 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const ManagePetScreen = (props) => {
-  const [modalShow, setModalShow] = useState(false);
+  const navigate = useNavigate();
+  // authenticated user
   const { userInfo } = useSelector((state) => state.auth);
 
+  // modal state (open/close)
+  const [modalShow, setModalShow] = useState(false);
+
+  // pet Details useState
   const [name, setName] = useState("");
   const [specie, setSpecie] = useState("");
   const [age, setAge] = useState("");
@@ -22,37 +27,22 @@ const ManagePetScreen = (props) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
 
+  // auth user token
   const token = userInfo.token;
-  const petDetails = {
-    name: name,
-    species: specie,
-    age: age,
-    gender: gender,
-    breed: breed,
-    description: description,
-    file: image,
-  };
 
-  const navigate = useNavigate();
-
+  // for image preview
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-
-    // Check if a file was selected
     if (file) {
-      // Create a URL for the selected file
       const filePreview = URL.createObjectURL(file);
-
-      // Set the selected file and image preview
       setImage(file);
       setSelectedFile(file);
       setImagePreview(filePreview);
     }
   };
-
+  // Create PET
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -61,14 +51,99 @@ const ManagePetScreen = (props) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
+      const petDetails = {
+        name: name,
+        species: specie,
+        age: age,
+        gender: gender,
+        breed: breed,
+        description: description,
+        file: image,
+      };
       const response = await axios.post(petUrl, petDetails, { headers });
-      console.log(response);
-
-      // toast.success("Successfully added pet details.");
+      if (response) {
+        setModalShow(false);
+        toast.success("Successfully added pet details.");
+        setPets([...pets, ...petDetails]);
+        console.log(response);
+      }
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
+
+  //! FETCH PETS
+  const [pets, setPets] = useState([]);
+  const getPets = async () => {
+    try {
+      const petUrl = "http://localhost:3001/api/pet";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(petUrl, { headers });
+      if (response) {
+        const petArray = response.data.pets;
+        const updatedPets = petArray.map((pet) => ({
+          name: pet.name,
+          species: pet.species,
+          age: pet.age,
+          gender: pet.gender,
+          breed: pet.breed,
+          description: pet.description,
+          adopted: pet.isAdopted ? "No" :"Yes",
+          file: pet.image ? pet.image : "No Image",
+        }));
+
+        // Update the state with all petDetails objects after the map loop
+        setPets([...pets, ...updatedPets]);
+
+        return response;
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+  useEffect(() => {
+    getPets();
+  }, []);
+
+  const petList = {
+    columns: [
+      {
+        label: "Image",
+        field: "image",
+      },
+      {
+        label: "Name",
+        field: "name",
+        attributes: {
+          "aria-controls": "DataTable",
+          "aria-label": "Name",
+        },
+      },
+      {
+        label: "Description",
+        field: "description",
+      },
+      {
+        label: "Age",
+        field: "age",
+      },
+      {
+        label: "Specie",
+        field: "species",
+        sort: "disabled",
+      },
+      {
+        label: "For Adoption",
+        field: "adopted",
+        sort: "disabled",
+      },
+    ],
+    rows: pets,
+  };
+
   return (
     <>
       <div className="d-flex">
@@ -84,7 +159,7 @@ const ManagePetScreen = (props) => {
                   </Button>
                 </Card.Header>
                 <Card.Body>
-                  <DataTable />
+                  <DataTable data={petList} />
                 </Card.Body>
               </Card>
             </Col>
@@ -93,6 +168,7 @@ const ManagePetScreen = (props) => {
       </div>
 
       <Modal
+        {...props}
         show={modalShow}
         onHide={() => setModalShow(false)}
         size="lg"
@@ -125,10 +201,7 @@ const ManagePetScreen = (props) => {
               </Row>
               <Form.Group className="my-2" controlId="file">
                 <Form.Label>Upload Image</Form.Label>
-                <Form.Control
-                  type="file"
-                  onChange={handleFileChange}
-                />
+                <Form.Control type="file" onChange={handleFileChange} />
               </Form.Group>
 
               <Form.Group className="my-2" controlId="name">
@@ -189,16 +262,21 @@ const ManagePetScreen = (props) => {
               </Form.Group>
 
               {/* {isLoading && <Loader />} */}
+              <Row>
+                <Col className="d-flex justify-content-between">
+                  <Button type="submit" variant="primary" className="mt-3">
+                    Register
+                  </Button>
 
-              <Button type="submit" variant="primary" className="mt-3">
-                Register
-              </Button>
+                  <Button className="mt-3" onClick={() => setModalShow(false)}>
+                    Close
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </FormContainer>
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );

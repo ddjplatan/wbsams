@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader"; import { useState, useEffect } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
-import { toast } from "react-toastify";
-import Loader from "../components/Loader";
 
 const LoginScreen = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,7 +20,6 @@ const LoginScreen = () => {
 
   const [login, { isLoading }] = useLoginMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (userInfo) {

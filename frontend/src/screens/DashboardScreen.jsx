@@ -1,49 +1,55 @@
-import { Card, Row, Col, Image } from "react-bootstrap";
-
+import { Card, Row, Col, Image, Button } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import Chart from "../components/Chart";
 import DataTable from "../components/DataTable";
 import DefaultPetImg from "../assets/images/defaults/goku.png";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
+
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const DashboardScreen = () => {
-  
-  const petList = {
-    columns: [
-      {
-        label: "Image",
-        field: "image",
-      },
-      {
-        label: "Name",
-        field: "name",
-        attributes: {
-          "aria-controls": "DataTable",
-          "aria-label": "Name",
-        },
-      },
-      {
-        label: "Description",
-        field: "description",
-      },
-      {
-        label: "Age",
-        field: "age",
-      },
-      {
-        label: "Spicie",
-        field: "spicie",
-        sort: "disabled",
-      },
-      {
-        label: "Adopted",
-        field: "adopted",
-        sort: "disabled",
-      },
-    ],
-    rows: [],
+  const { userInfo } = useSelector((state) => state.auth);
+  const token = userInfo.token;
+
+  const [pets, setPets] = useState([]);
+  const getPets = async () => {
+    try {
+      const petUrl = "http://localhost:3001/api/pet";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(petUrl, { headers });
+      if (response) {
+        const petArray = response.data.pets;
+        const updatedPets = petArray.map((pet) => ({
+          name: pet.name,
+          species: pet.species,
+          age: pet.age,
+          gender: pet.gender,
+          breed: pet.breed,
+          description: pet.description,
+          adopted: pet.isAdopted ? "No" : "Yes",
+          file: pet.image ? pet.image : "No Image",
+        }));
+
+        // Update the state with all petDetails objects after the map loop
+        setPets([...pets, ...updatedPets]);
+
+        return response;
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
+
+  useEffect(() => {
+    getPets();
+  }, []);
 
   return (
     <div className="d-flex">
@@ -61,10 +67,15 @@ const DashboardScreen = () => {
         </Row>
         <Row>
           <Col>
-            <Card border="default">
-              <Card.Header>Pets Table</Card.Header>
+            <Card style={{ width: "18rem" }}>
+              <Card.Img variant="top" src={DefaultPetImg} />
               <Card.Body>
-                <DataTable data={petList} />
+                <Card.Title>Card Title</Card.Title>
+                <Card.Text>
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </Card.Text>
+                <Button variant="primary">Go somewhere</Button>
               </Card.Body>
             </Card>
           </Col>
