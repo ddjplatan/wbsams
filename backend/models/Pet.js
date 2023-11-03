@@ -10,7 +10,7 @@ const PetSchema = new Schema(
     species: {
       type: String,
       required: true,
-      // enum: ["Cat", "Dog", "Bird", "Rabbit", "Hamster", "Livestock"],
+      enum: ["Cat", "Dog", "Bird"],
     },
     age: {
       type: String,
