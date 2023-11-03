@@ -132,7 +132,7 @@ const ManagePetScreen = (props) => {
         field: "age",
       },
       {
-        label: "Specie",
+        label: "Species",
         field: "species",
         sort: "disabled",
       },
