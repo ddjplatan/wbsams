@@ -3,12 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
-import { Form, Button, Row, Col, Modal, Card } from "react-bootstrap";
+import { Form, Button, Row, Col, Modal, Card, Image } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import Sidebar from "../components/Sidebar";
 import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import DefaultPetImg from "../assets/images/defaults/goku.png";
 
 const ManagePetScreen = (props) => {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ const ManagePetScreen = (props) => {
           breed: pet.breed,
           description: pet.description,
           adopted: pet.isAdopted ? "No" :"Yes",
-          file: pet.image ? pet.image : "No Image",
+          image: pet.image ? pet.image : <Image src={DefaultPetImg} height={100} width={100} />,
         }));
 
         // Update the state with all petDetails objects after the map loop
