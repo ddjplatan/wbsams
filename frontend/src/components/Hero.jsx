@@ -44,7 +44,7 @@ const Hero = () => {
           </div>
           <Row>
             <div className="d-flex justify-content-center">
-              <Card className="mx-2" style={{ width: "18rem" }}>
+              <Card className="mx-2">
                 <Card.Img
                   variant="top"
                   src={`${DefaultImgCard}`}
@@ -60,7 +60,7 @@ const Hero = () => {
                   <Button variant="primary">Go somewhere</Button>
                 </Card.Body>
               </Card>
-              <Card className="mx-2" style={{ width: "18rem" }}>
+              <Card className="mx-2">
                 <Card.Img
                   variant="top"
                   src={`${DefaultImgCard}`}
@@ -76,7 +76,7 @@ const Hero = () => {
                   <Button variant="primary">Go somewhere</Button>
                 </Card.Body>
               </Card>
-              <Card className="mx-2" style={{ width: "18rem" }}>
+              <Card className="mx-2">
                 <Card.Img
                   variant="top"
                   src={`${DefaultImgCard}`}

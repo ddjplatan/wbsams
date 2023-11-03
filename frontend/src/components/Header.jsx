@@ -45,7 +45,11 @@ const Header = () => {
             <Nav className="ms-auto">
               {userInfo ? (
                 <>
-                  
+                  <LinkContainer to="/users">
+                    <Nav.Link>
+                      <div style={{ marginRight: "20px" }}>Manage Users</div>
+                    </Nav.Link>
+                  </LinkContainer>
                   <NavDropdown
                     align="end"
                     className="fw-bold border rounded"
