@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -9,10 +8,13 @@ import Sidebar from "../components/Sidebar";
 import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import DefaultPetImg from "../assets/images/defaults/goku.png";
+import DefaultCat from "../assets/images/defaults/default-cat.jpg";
+import DefaultBird from "../assets/images/defaults/default-bird.jpg";
+import DefaultDog from "../assets/images/defaults/default-dog.jpg";
+import DefaultQuestionMark from "../assets/images/defaults/default-questionmark.jpg";
+import ViewPetModal from "../components/ViewPetModal";
 
 const ManagePetScreen = (props) => {
-  const navigate = useNavigate();
   // authenticated user
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -73,6 +75,11 @@ const ManagePetScreen = (props) => {
     }
   };
 
+  // view pet modal
+  const [viewPetModal, setViewPetModal] = useState(false);
+  // select pet state
+  const [selectedPet, setSelectedPet] = useState();
+
   //! FETCH PETS
   const [pets, setPets] = useState([]);
   const getPets = async () => {
@@ -92,8 +99,21 @@ const ManagePetScreen = (props) => {
           gender: pet.gender,
           breed: pet.breed,
           description: pet.description,
-          adopted: pet.isAdopted ? "No" :"Yes",
-          image: pet.image ? pet.image : <Image src={DefaultPetImg} height={100} width={100} />,
+          adopted: pet.isAdopted ? "No" : "Yes",
+          clickEvent: () => {
+            setSelectedPet(pet);
+            setViewPetModal(true);
+          },
+          image:
+            pet.species === "Cat" ? (
+              <Image src={DefaultCat} height={150} width={150} />
+            ) : pet.species === "Dog" ? (
+              <Image src={DefaultDog} height={150} width={150} />
+            ) : pet.species === "Bird" ? (
+              <Image src={DefaultBird} height={150} width={150} />
+            ) : (
+              <Image src={DefaultQuestionMark} height={150} width={150} />
+            ),
         }));
 
         // Update the state with all petDetails objects after the map loop
@@ -105,6 +125,7 @@ const ManagePetScreen = (props) => {
       toast.error(err?.data?.message || err.error);
     }
   };
+
   useEffect(() => {
     getPets();
   }, []);
@@ -132,11 +153,6 @@ const ManagePetScreen = (props) => {
         field: "age",
       },
       {
-        label: "Species",
-        field: "species",
-        sort: "disabled",
-      },
-      {
         label: "For Adoption",
         field: "adopted",
         sort: "disabled",
@@ -159,7 +175,7 @@ const ManagePetScreen = (props) => {
                     Add a Pet
                   </Button>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body >
                   <DataTable data={petList} />
                 </Card.Body>
               </Card>
@@ -216,12 +232,15 @@ const ManagePetScreen = (props) => {
               </Form.Group>
               <Form.Group className="my-2" controlId="specie">
                 <Form.Label>Pet specie:</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter pet's specie."
+                <Form.Select
                   value={specie}
                   onChange={(e) => setSpecie(e.target.value)}
-                ></Form.Control>
+                >
+                  <option>Select Specie</option>
+                  <option value="Dog">Dog</option>
+                  <option value="Cat">Cat</option>
+                  <option value="Bird">Bird</option>
+                </Form.Select>
               </Form.Group>
               <Form.Group className="my-2" controlId="age">
                 <Form.Label>Pet age:</Form.Label>
@@ -248,6 +267,7 @@ const ManagePetScreen = (props) => {
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
                 >
+                  <option>Select Gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </Form.Select>
@@ -279,6 +299,11 @@ const ManagePetScreen = (props) => {
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
+      <ViewPetModal
+        show={viewPetModal}
+        onHide={() => setViewPetModal(false)}
+        data={selectedPet}
+      />
     </>
   );
 };

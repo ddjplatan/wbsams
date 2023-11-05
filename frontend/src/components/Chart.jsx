@@ -10,33 +10,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const Chart = () => {
-  const data = [
-    {
-      name: "Dog",
-      qty: 3,
-    },
-    {
-      name: "Cat",
-      qty: 6,
-    },
-    {
-      name: "Horse",
-      qty: 9,
-    },
-    {
-      name: "Snake",
-      qty: 12,
-    },
-    {
-      name: "Spider",
-      qty: 9,
-    },
-    {
-      name: "Child",
-      qty: 99,
-    },
-  ];
+const Chart = ({data}) => {
+
 
   return (
     <ResponsiveContainer width="100%" height={300}>

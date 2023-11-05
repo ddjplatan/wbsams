@@ -107,7 +107,7 @@ const deletePet = async (req, res, next) => {
     res
       .status(202)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, msg: "Deleted a pet" });
+      .json({ success: true, msg: "Successfully deleted a pet." });
   } catch (err) {
     throw new Error(
       `Error deleting Users with ID of: ${req.params.userId} ${err.message}`

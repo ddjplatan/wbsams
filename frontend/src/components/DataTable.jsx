@@ -4,7 +4,7 @@ const DataTable = ({ data }) => {
   return (
     <CDBContainer>
       <CDBCard>
-        <CDBCardBody>
+        <CDBCardBody style={{overflowY: "auto", maxHeight: "80vh"}}>
           <CDBDataTable
             striped
             bordered

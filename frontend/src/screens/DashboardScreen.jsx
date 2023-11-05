@@ -1,13 +1,12 @@
-import { Card, Row, Col, Image, Button } from "react-bootstrap";
+import { Card, Row, Col, Image, Button, CardGroup } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import Chart from "../components/Chart";
 import DataTable from "../components/DataTable";
-import DefaultPetImg from "../assets/images/defaults/goku.png";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import PetCard from "../components/PetCard";
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -51,6 +50,26 @@ const DashboardScreen = () => {
     getPets();
   }, []);
 
+  const limitedPetData = pets.slice(0, 3);
+
+  // Initialize an object to store the quantities of each species
+  const speciesQty = {};
+
+  pets.forEach((pet) => {
+    const species = pet.species;
+    if (speciesQty[species]) {
+      speciesQty[species]++;
+    } else {
+      speciesQty[species] = 1;
+    }
+  });
+
+  // Convert the speciesQty object into an array of objects
+  const chartData = Object.keys(speciesQty).map((species) => ({
+    name: species,
+    qty: speciesQty[species],
+  }));
+
   return (
     <div className="d-flex">
       <Sidebar />
@@ -60,24 +79,18 @@ const DashboardScreen = () => {
             <Card border="default" className="w-auto mb-4">
               <Card.Header>Chart</Card.Header>
               <Card.Body>
-                <Chart />
+                <Chart data={chartData} />
               </Card.Body>
             </Card>
           </Col>
         </Row>
         <Row>
           <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={DefaultPetImg} />
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
-              </Card.Body>
-            </Card>
+            <CardGroup>
+              {limitedPetData.map((pet, index) => (
+                <PetCard key={index} pet={pet} />
+              ))}
+            </CardGroup>
           </Col>
         </Row>
       </Card>

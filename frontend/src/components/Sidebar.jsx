@@ -7,8 +7,11 @@ import {
   CDBSidebarFooter,
 } from "cdbreact";
 import { LinkContainer } from "react-router-bootstrap";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   return (
     <CDBSidebar
       textColor="#333"
@@ -24,15 +27,33 @@ const Sidebar = () => {
           <LinkContainer to="/dashboard">
             <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
           </LinkContainer>
-          <LinkContainer to="/manage/pets">
-            <CDBSidebarMenuItem icon="th-large">Manage Pets</CDBSidebarMenuItem>
-          </LinkContainer>
-          <LinkContainer to="/monitor/pets">
-            <CDBSidebarMenuItem icon="th-large">Monitor Adopted Pets</CDBSidebarMenuItem>
-          </LinkContainer>
-          <LinkContainer to="/donations">
-            <CDBSidebarMenuItem icon="th-large">Donations</CDBSidebarMenuItem>
-          </LinkContainer>
+          {userInfo.user.userType === "admin" ? (
+            <>
+              <LinkContainer to="/manage/pets">
+                <CDBSidebarMenuItem icon="th-large">
+                  Manage Pets
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/monitor/pets">
+                <CDBSidebarMenuItem icon="th-large">
+                  Monitor Adopted Pets
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/donations">
+                <CDBSidebarMenuItem icon="th-large">
+                  Donations
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+            </>
+          ) : (
+            <>
+              <LinkContainer to="/view/pets">
+                <CDBSidebarMenuItem icon="th-large">
+                  Donations
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+            </>
+          )}
         </CDBSidebarMenu>
       </CDBSidebarContent>
 
