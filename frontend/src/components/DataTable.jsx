@@ -4,16 +4,18 @@ const DataTable = ({ data }) => {
   return (
     <CDBContainer>
       <CDBCard>
-        <CDBCardBody style={{overflowY: "auto", maxHeight: "80vh"}}>
+        <CDBCardBody>
           <CDBDataTable
             striped
             bordered
             hover
+            scrollY
+            maxHeight="50vh"
             entriesOptions={[5, 10, 20]}
             entries={5}
             pagesAmount={4}
             data={data}
-            materialSearch={true}
+            searching={false}
           />
         </CDBCardBody>
       </CDBCard>

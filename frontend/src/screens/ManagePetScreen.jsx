@@ -78,7 +78,7 @@ const ManagePetScreen = (props) => {
   // view pet modal
   const [viewPetModal, setViewPetModal] = useState(false);
   // select pet state
-  const [selectedPet, setSelectedPet] = useState();
+  const [selectedPet, setSelectedPet] = useState(null);
 
   //! FETCH PETS
   const [pets, setPets] = useState([]);
@@ -175,7 +175,7 @@ const ManagePetScreen = (props) => {
                     Add a Pet
                   </Button>
                 </Card.Header>
-                <Card.Body >
+                <Card.Body>
                   <DataTable data={petList} />
                 </Card.Body>
               </Card>
@@ -207,11 +207,7 @@ const ManagePetScreen = (props) => {
                 <Col>
                   {selectedFile && (
                     <div>
-                      <img
-                        src={imagePreview}
-                        alt="Selected"
-                        style={{ maxWidth: "100%" }}
-                      />
+                      <img src={imagePreview} alt="Selected" />
                     </div>
                   )}
                 </Col>

@@ -22,7 +22,7 @@ router
   .route("/")
   .post(reqReceived, protectedRoute, createPet)
   .get(reqReceived, getPets)
-  .delete(reqReceived, protectedRoute, adminValidator, deletePets);
+  // .delete(reqReceived, protectedRoute, adminValidator, deletePets);
 
 router
   .route("/:petId")

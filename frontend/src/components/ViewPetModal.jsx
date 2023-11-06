@@ -12,6 +12,7 @@ import { useEffect } from "react";
 
 const ViewPetModal = (props) => {
   const { userInfo } = useSelector((state) => state.auth);
+  const token = userInfo.token;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,27 +27,19 @@ const ViewPetModal = (props) => {
     return null; // or some other fallback UI
   }
 
-  const handleDelete = () => {
-    console.log(data._id);
-    if (window.confirm(`Are you sure you want to delete ${data.name}?`)) {
-      deletePet(data._id);
-      onHide();
-    }
-  };
-
   //! delete pet
-  const deletePet = async (petId) => {
+  const deletePet = async (id) => {
     try {
       const petUrl = `http://localhost:3001/api/pet/`;
       const params = {
-        id: petId,
+        petId: id,
       };
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
       await axios
-        .delete(petUrl, { params }, { headers })
+        .delete(petUrl, { headers }, { params })
         .then((response) => {
           console.log(response.data);
         })
@@ -64,6 +57,15 @@ const ViewPetModal = (props) => {
         });
     } catch (err) {
       toast.error(err?.data?.message || err.error);
+    }
+  };
+
+  const handleDelete = () => {
+    console.log(data._id);
+    if (window.confirm(`Are you sure you want to delete ${data.name}?`)) {
+      deletePet(data._id);
+      // console.log(data._id);
+      onHide();
     }
   };
 
