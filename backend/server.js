@@ -33,6 +33,7 @@ dotenv.config({ path: "./.env" });
 connectDB();
 
 const app = express();
+app.use(express.static(__dirname + "/public"));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -49,8 +50,6 @@ app.use(
 app.use(bodyParser.json());
 
 app.use(cookieParser());
-
-app.use(express.static("public"));
 
 // app.use(fileupload());
 
