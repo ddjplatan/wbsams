@@ -1,7 +1,3 @@
-import DefaultCat from "../assets/images/defaults/default-cat.jpg";
-import DefaultBird from "../assets/images/defaults/default-bird.jpg";
-import DefaultDog from "../assets/images/defaults/default-dog.jpg";
-import DefaultQuestionMark from "../assets/images/defaults/default-questionmark.jpg";
 import { Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 
@@ -30,16 +26,13 @@ const ViewPetModal = (props) => {
   //! delete pet
   const deletePet = async (id) => {
     try {
-      const petUrl = `http://localhost:3001/api/pet/`;
-      const params = {
-        petId: id,
-      };
+      const petUrl = `http://localhost:3001/api/pet/${id}`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
       await axios
-        .delete(petUrl, { headers }, { params })
+        .delete(petUrl, { headers })
         .then((response) => {
           console.log(response.data);
         })
@@ -83,13 +76,13 @@ const ViewPetModal = (props) => {
         <Row>
           <Col className="d-flex justify-content-center">
             {data.species === "Cat" ? (
-              <Image variant="top" src={DefaultCat} height={250} width={250} />
+              <Image variant="top" src="" height={250} width={250} />
             ) : data.species === "Dog" ? (
-              <Image variant="top" src={DefaultDog} height={250} width={250} />
+              <Image variant="top" src="" height={250} width={250} />
             ) : data.species === "Bird" ? (
-              <Image variant="top" src={DefaultBird} height={250} width={250} />
+              <Image variant="top" src="" height={250} width={250} />
             ) : (
-              <Image src={DefaultQuestionMark} height={250} width={250} />
+              <Image src="" height={250} width={250} />
             )}
           </Col>
           <Col>

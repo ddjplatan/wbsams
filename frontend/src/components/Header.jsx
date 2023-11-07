@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
-import DefaultImg from "../assets/images/defaults/default-profile.png";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -63,7 +62,7 @@ const Header = () => {
                       <Col>
                         <div className="d-flex justify-content-center">
                           <Image
-                            src={`${DefaultImg}`}
+                            src=""
                             rounded
                             width={100}
                             height={100}

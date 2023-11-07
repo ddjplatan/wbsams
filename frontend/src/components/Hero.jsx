@@ -1,7 +1,6 @@
 import { Button, Container, Card, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
-import DefaultImgCard from "../assets/images/defaults/goku.png";
 
 const Hero = () => {
   const { userInfo } = useSelector((state) => state.auth);

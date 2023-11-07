@@ -8,10 +8,10 @@ import Sidebar from "../components/Sidebar";
 import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import DefaultCat from "../assets/images/defaults/default-cat.jpg";
-import DefaultBird from "../assets/images/defaults/default-bird.jpg";
-import DefaultDog from "../assets/images/defaults/default-dog.jpg";
-import DefaultQuestionMark from "../assets/images/defaults/default-questionmark.jpg";
+// import DefaultCat from "../assets/images/defaults/default-cat.jpg";
+// import DefaultBird from "../assets/images/defaults/default-bird.jpg";
+// import DefaultDog from "../assets/images/defaults/default-dog.jpg";
+// import DefaultQuestionMark from "../assets/images/defaults/default-questionmark.jpg";
 import ViewPetModal from "../components/ViewPetModal";
 
 const ManagePetScreen = (props) => {
@@ -106,13 +106,13 @@ const ManagePetScreen = (props) => {
           },
           image:
             pet.species === "Cat" ? (
-              <Image src={DefaultCat} height={150} width={150} />
+              <Image src="" height={150} width={150} />
             ) : pet.species === "Dog" ? (
-              <Image src={DefaultDog} height={150} width={150} />
+              <Image src="" height={150} width={150} />
             ) : pet.species === "Bird" ? (
-              <Image src={DefaultBird} height={150} width={150} />
+              <Image src="" height={150} width={150} />
             ) : (
-              <Image src={DefaultQuestionMark} height={150} width={150} />
+              <Image src="" height={150} width={150} />
             ),
         }));
 

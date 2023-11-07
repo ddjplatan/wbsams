@@ -1,10 +1,5 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
-import DefaultPetImg from "../assets/images/defaults/goku.png";
 import { useState } from "react";
-import DefaultCat from "../assets/images/defaults/default-cat.jpg";
-import DefaultBird from "../assets/images/defaults/default-bird.jpg";
-import DefaultDog from "../assets/images/defaults/default-dog.jpg";
-import DefaultQuestionMark from "../assets/images/defaults/default-questionmark.jpg";
 import ViewPetModal from "./ViewPetModal";
 
 const PetCard = ({ pet }) => {
@@ -16,13 +11,13 @@ const PetCard = ({ pet }) => {
     <>
       <Card>
         {pet.species === "Cat" ? (
-          <Card.Img variant="top" src={DefaultCat} />
+          <Card.Img variant="top" src="" />
         ) : pet.species === "Dog" ? (
-          <Card.Img variant="top" src={DefaultDog} />
+          <Card.Img variant="top" src="" />
         ) : pet.species === "Bird" ? (
-          <Card.Img variant="top" src={DefaultBird} />
+          <Card.Img variant="top" src="" />
         ) : (
-          <Image src={DefaultQuestionMark} />
+          <Image src="" />
         )}
         <Card.Body>
           <Card.Title>{pet.name}</Card.Title>

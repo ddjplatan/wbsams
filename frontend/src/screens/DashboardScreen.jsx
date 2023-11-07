@@ -85,13 +85,11 @@ const DashboardScreen = () => {
           </Col>
         </Row>
         <Row>
-          <Col>
-            <CardGroup>
-              {limitedPetData.map((pet, index) => (
-                <PetCard key={index} pet={pet} />
-              ))}
-            </CardGroup>
-          </Col>
+          {limitedPetData.map((pet, index) => (
+            <Col sm={12} md={4}>
+              <PetCard key={index} pet={pet} />
+            </Col>
+          ))}
         </Row>
       </Card>
     </div>
