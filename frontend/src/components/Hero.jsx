@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 const Hero = () => {
   const { userInfo } = useSelector((state) => state.auth);
+
+  const imagePath = `http://localhost:3001/defaults/goku.webp`
   return (
     <div className="py-2">
       <Container className="d-flex justify-content-center" id="style-container">
@@ -46,7 +48,7 @@ const Hero = () => {
               <Card className="mx-2">
                 <Card.Img
                   variant="top"
-                  src={`${DefaultImgCard}`}
+                  src={imagePath}
                   height={180}
                   width={100}
                 />
@@ -62,7 +64,7 @@ const Hero = () => {
               <Card className="mx-2">
                 <Card.Img
                   variant="top"
-                  src={`${DefaultImgCard}`}
+                  src={imagePath}
                   height={180}
                   width={100}
                 />
@@ -78,7 +80,7 @@ const Hero = () => {
               <Card className="mx-2">
                 <Card.Img
                   variant="top"
-                  src={`${DefaultImgCard}`}
+                  src={imagePath}
                   height={180}
                   width={100}
                 />
