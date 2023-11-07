@@ -8,11 +8,8 @@ import Sidebar from "../components/Sidebar";
 import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-// import DefaultCat from "../assets/images/defaults/default-cat.jpg";
-// import DefaultBird from "../assets/images/defaults/default-bird.jpg";
-// import DefaultDog from "../assets/images/defaults/default-dog.jpg";
-// import DefaultQuestionMark from "../assets/images/defaults/default-questionmark.jpg";
 import ViewPetModal from "../components/ViewPetModal";
+
 
 const ManagePetScreen = (props) => {
   // authenticated user
@@ -94,7 +91,7 @@ const ManagePetScreen = (props) => {
         const petArray = response.data.pets;
         const updatedPets = petArray.map((pet) => ({
           name: pet.name,
-          species: pet.species,
+          // species: pet.species,
           age: pet.age,
           gender: pet.gender,
           breed: pet.breed,
@@ -106,13 +103,19 @@ const ManagePetScreen = (props) => {
           },
           image:
             pet.species === "Cat" ? (
-              <Image src="" height={150} width={150} />
+              <Image height={150} width={150}
+                src="http://localhost:3001/defaults/default-cat.jpg"
+              />
             ) : pet.species === "Dog" ? (
-              <Image src="" height={150} width={150} />
+              <Image height={150} width={150}
+                src="http://localhost:3001/defaults/default-dog.jpg"
+              />
             ) : pet.species === "Bird" ? (
-              <Image src="" height={150} width={150} />
+              <Image height={150} width={150}
+                src="http://localhost:3001/defaults/default-bird.jpg"
+              />
             ) : (
-              <Image src="" height={150} width={150} />
+              <Image height={150} width={150} src="http://localhost:3001/defaults/default-questionmark.jpg" />
             ),
         }));
 
@@ -135,27 +138,28 @@ const ManagePetScreen = (props) => {
       {
         label: "Image",
         field: "image",
+        width: 200
       },
       {
         label: "Name",
         field: "name",
-        attributes: {
-          "aria-controls": "DataTable",
-          "aria-label": "Name",
-        },
+        width: 200
       },
       {
         label: "Description",
         field: "description",
+        width: 200
       },
       {
         label: "Age",
         field: "age",
+        width: 20
       },
       {
         label: "For Adoption",
         field: "adopted",
         sort: "disabled",
+        width: 50
       },
     ],
     rows: pets,

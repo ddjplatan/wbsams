@@ -11,13 +11,13 @@ const PetCard = ({ pet }) => {
     <>
       <Card>
         {pet.species === "Cat" ? (
-          <Card.Img variant="top" src="" />
+          <Card.Img variant="top" src="http://localhost:3001/defaults/default-cat.jpg" />
         ) : pet.species === "Dog" ? (
-          <Card.Img variant="top" src="" />
+          <Card.Img variant="top" src="http://localhost:3001/defaults/default-dog.jpg" />
         ) : pet.species === "Bird" ? (
-          <Card.Img variant="top" src="" />
+          <Card.Img variant="top" src="http://localhost:3001/defaults/default-bird.jpg" />
         ) : (
-          <Image src="" />
+          <Image src="http://localhost:3001/defaults/default-questionmark.jpg" />
         )}
         <Card.Body>
           <Card.Title>{pet.name}</Card.Title>
