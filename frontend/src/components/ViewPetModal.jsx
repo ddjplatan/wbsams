@@ -76,13 +76,32 @@ const ViewPetModal = (props) => {
         <Row>
           <Col className="d-flex justify-content-center">
             {data.species === "Cat" ? (
-              <Image variant="top" src="" height={250} width={250} />
+              <Image
+                variant="top"
+                src="http://localhost:3001/defaults/default-cat.jpg"
+                height={250}
+                width={250}
+              />
             ) : data.species === "Dog" ? (
-              <Image variant="top" src="" height={250} width={250} />
+              <Image
+                variant="top"
+                src="http://localhost:3001/defaults/default-dog.jpg"
+                height={250}
+                width={250}
+              />
             ) : data.species === "Bird" ? (
-              <Image variant="top" src="" height={250} width={250} />
+              <Image
+                variant="top"
+                src="http://localhost:3001/defaults/default-bird.jpg"
+                height={250}
+                width={250}
+              />
             ) : (
-              <Image src="" height={250} width={250} />
+              <Image
+                src="http://localhost:3001/defaults/default-questionmark.jpg"
+                height={250}
+                width={250}
+              />
             )}
           </Col>
           <Col>
@@ -112,9 +131,14 @@ const ViewPetModal = (props) => {
         </Row>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
-        <Button onClick={handleDelete} variant="danger">
-          Delete
-        </Button>
+        <Col>
+          <Button onClick={() => console.log("Update")} variant="success">
+            Update
+          </Button>
+          <Button className="ms-2" onClick={handleDelete} variant="danger">
+            Delete
+          </Button>
+        </Col>
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

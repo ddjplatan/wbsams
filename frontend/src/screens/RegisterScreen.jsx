@@ -8,8 +8,8 @@ import { Form, Button, Row, Col, Image, Card } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import RegistrationImg from "../assets/images/defaults/registration-img.png";
-import CardBgImage from "../assets/images/bg-card.png";
+import RegistrationImg from "../assets/images/defaults/registration.jpg";
+// import CardBgImage from "../assets/images/bg-card.png";
 
 const RegisterScreen = () => {
   const [file, setFile] = useState();
@@ -85,16 +85,17 @@ const RegisterScreen = () => {
   return (
     <FormContainer>
       <Row>
-        <Col
-          style={{ background: `url(${CardBgImage}) no-repeat fixed center` }}
-        >
+        <Col sm={12} lg={7}>
           <div className="d-flex justify-content-center">
-            <Image src={RegistrationImg} />
+            <Image src={RegistrationImg} fluid height={800} width={800} />
           </div>
         </Col>
         <Col>
-          <Card className="p-4">
-            <Form onSubmit={submitHandler} style={{ overflowY: "auto" }}>
+          <Card
+            className="p-4"
+            style={{ maxHeight: "800px", overflowY: "auto" }}
+          >
+            <Form onSubmit={submitHandler}>
               <Row>
                 <Col>
                   <h1>User Registration</h1>
