@@ -1,11 +1,12 @@
-import { Form, Button, Row, Col } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
+import { Form, Button, Row, Col, Card, Image } from "react-bootstrap";
 import { toast } from "react-toastify";
-import Loader from "../components/Loader"; import { useState, useEffect } from "react";
+import Loader from "../components/Loader";
+import RegistrationBG from "../assets/images/defaults/registration.jpg";
+import PetCareImg from "../assets/images/defaults/pet-care.png";
 
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 
@@ -20,7 +21,6 @@ const LoginScreen = () => {
 
   const [login, { isLoading }] = useLoginMutation();
 
-
   useEffect(() => {
     if (userInfo) {
       navigate("/dashboard");
@@ -34,47 +34,57 @@ const LoginScreen = () => {
       dispatch(setCredentials({ ...res }));
       navigate("/dasboard");
     } catch (err) {
-      toast.error(err?.data?.message || err.error)
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
-    <FormContainer>
-      <h1>Sign in</h1>
-      <Form onSubmit={submitHandler}>
-        <Form.Group className="my-2" controlId="email">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group className="my-2" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+    <Card className="p-4 mt-3">
+      <Row>
+        <Col sm={0} md={8}>
+          <Card.Img src={RegistrationBG} height={"100%"} />
+        </Col>
+        <Col className="d-flex align-items-center">
+          <Card className="w-100 h-100">
+          <Card.Img src={PetCareImg} height={"100%"} />
+            <Card.Body>
+              <Card.Title className="fw-bold">Sign in</Card.Title>
+              <Form onSubmit={submitHandler}>
+                <Form.Group className="my-2" controlId="email">
+                  <Form.Label>Email Address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group className="my-2" controlId="password">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
 
-        {
-          isLoading && <Loader />
-        }
+                {isLoading && <Loader />}
 
-        <Button type="submit" variant="primary" className="mt-3">
-          Sign in
-        </Button>
-        <Row className="py-3">
-          <Col>
-            New User? <Link to="/register">Register</Link>
-          </Col>
-        </Row>
-      </Form>
-    </FormContainer>
+                <Button type="submit" variant="primary" className="mt-3">
+                  Sign in
+                </Button>
+                <Row className="py-3">
+                  <Col>
+                    New User? <Link to="/register">Register</Link>
+                  </Col>
+                </Row>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Card>
   );
 };
 

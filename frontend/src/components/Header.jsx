@@ -16,6 +16,7 @@ import { logout } from "../slices/authSlice";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const baseUrl = 'http://localhost:3001'
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ const Header = () => {
                       <Col>
                         <div className="d-flex justify-content-center">
                           <Image
-                            src=""
+                            src={`${baseUrl}/${userInfo.user.img}`}
                             rounded
                             width={100}
                             height={100}

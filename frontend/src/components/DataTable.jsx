@@ -1,4 +1,4 @@
-import { CDBCard, CDBCardBody, CDBDataTable, CDBContainer } from "cdbreact";
+import React from "react";
 
 const DataTable = ({ data }) => {
   return (
@@ -22,5 +22,5 @@ const DataTable = ({ data }) => {
     </CDBContainer>
   );
 };
-
+ 
 export default DataTable;
