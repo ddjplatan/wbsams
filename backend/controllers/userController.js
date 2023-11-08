@@ -150,8 +150,10 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(401).send({message: "Please provide email and password"});
-  } 
+    return res
+      .status(401)
+      .send({ message: "Please provide email and password" });
+  }
 
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
@@ -181,7 +183,7 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
-  console.log("controller")
+  console.log("controller");
   res
     .status(200)
     .cookie("token", "", {
@@ -193,7 +195,6 @@ const logout = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const path = `defaults/default-profile.png`;
     const {
       email,
       password,
@@ -208,30 +209,41 @@ const createUser = async (req, res, next) => {
       address,
     } = req.body;
 
-    const verification = {
-      code: Math.random().toString(36).slice(-5),
-      timeGenerated: new Date(),
-      expiresIn: 30,
-    };
+    upload.single("img")(req, res, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "File upload failed" });
+      }
+      console.log("body", req.body);
+      console.log("file", req.file);
 
-    const user = await User.create({
-      email,
-      password,
-      username,
-      firstName,
-      middleName,
-      lastName,
-      phoneNumber,
-      gender,
-      birthday,
-      userType,
-      address,
-      img: path,
+      const imgPath = req.file ? req.file.path : "defaults/default-profile.png";
+
+      User.create({
+        email,
+        password,
+        username,
+        firstName,
+        middleName,
+        lastName,
+        phoneNumber,
+        gender,
+        birthday,
+        userType,
+        address,
+        img: imgPath,
+      })
+        .then((user) => {
+          sendTokenResponse(user, 201, res);
+        })
+        .catch((dbError) => {
+          console.error(dbError);
+          res.status(500).json({ error: "Database Error" });
+        });
     });
-
-    sendTokenResponse(user, 201, res);
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

@@ -62,8 +62,10 @@ const RegisterScreen = () => {
     if (password !== confirmPassword) {
       toast.error("Password do not match");
     } else {
+      
       try {
         const res = await register({
+          img: file,
           email: email,
           password: password,
           username: username,
@@ -95,14 +97,14 @@ const RegisterScreen = () => {
             className="p-4"
             style={{ maxHeight: "800px", overflowY: "auto" }}
           >
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={submitHandler} encType="multipart/form-data">
               <Row>
                 <Col>
                   <h1>User Registration</h1>
                 </Col>
                 <Col>
                   <Col className="d-flex justify-content-center">
-                    <Form.Group className=" " controlId="file">
+                    <Form.Group className=" " controlId="formFile">
                       <label htmlFor="fileInput" className="text-center">
                         {imagePreview ? (
                           <img
@@ -122,6 +124,7 @@ const RegisterScreen = () => {
                       </label>
                       <input
                         type="file"
+                        name="img"
                         id="fileInput"
                         style={{ display: "none" }}
                         onChange={handleFileChange}

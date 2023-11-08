@@ -16,6 +16,7 @@ import { logout } from "../slices/authSlice";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo)
   const baseUrl = 'http://localhost:3001'
 
   const dispatch = useDispatch();
