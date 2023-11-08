@@ -1,9 +1,32 @@
-import { Button, Container, Card, Row, Col } from "react-bootstrap";
+import { Button, Container, Card, Row, Col, Image } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
 
 const Hero = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const petDisplay = [
+    {
+      Title: "Bogart",
+      Specie: "Dog",
+      Description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      Image: "../assets/images/defaults/default-dog.jpg",
+    },
+    {
+      Title: "Bogart",
+      Specie: "Cat",
+      Description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      Image: "../assets/images/defaults/default-dog.jpg",
+    },
+    {
+      Title: "Bogart",
+      Specie: "Bird",
+      Description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      Image: "../assets/images/defaults/default-dog.jpg",
+    },
+  ];
   return (
     <div className="py-2">
       <Container className="d-flex justify-content-center" id="style-container">
@@ -44,12 +67,7 @@ const Hero = () => {
           <Row>
             <div className="d-flex justify-content-center">
               <Card className="mx-2">
-                <Card.Img
-                  variant="top"
-                  src={`${DefaultImgCard}`}
-                  height={180}
-                  width={100}
-                />
+                <Card.Img variant="top" src="" height={180} width={100} />
                 <Card.Body>
                   <Card.Title>Card Title</Card.Title>
                   <Card.Text>
@@ -60,12 +78,7 @@ const Hero = () => {
                 </Card.Body>
               </Card>
               <Card className="mx-2">
-                <Card.Img
-                  variant="top"
-                  src={`${DefaultImgCard}`}
-                  height={180}
-                  width={100}
-                />
+                <Card.Img variant="top" src="" height={180} width={100} />
                 <Card.Body>
                   <Card.Title>Card Title</Card.Title>
                   <Card.Text>
@@ -76,12 +89,7 @@ const Hero = () => {
                 </Card.Body>
               </Card>
               <Card className="mx-2">
-                <Card.Img
-                  variant="top"
-                  src={`${DefaultImgCard}`}
-                  height={180}
-                  width={100}
-                />
+                <Card.Img variant="top" src={""} height={180} width={100} />
                 <Card.Body>
                   <Card.Title>Card Title</Card.Title>
                   <Card.Text>
