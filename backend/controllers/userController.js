@@ -195,8 +195,6 @@ const logout = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    // const path = `defaults/default-profile.png`;
-    console.log(`body`, req.body);
     const {
       email,
       password,
@@ -209,33 +207,43 @@ const createUser = async (req, res, next) => {
       birthday,
       userType,
       address,
-      img,
     } = req.body;
 
-    const verification = {
-      code: Math.random().toString(36).slice(-5),
-      timeGenerated: new Date(),
-      expiresIn: 30,
-    };
+    upload.single("img")(req, res, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "File upload failed" });
+      }
+      console.log("body", req.body);
+      console.log("file", req.file);
 
-    const user = await User.create({
-      email,
-      password,
-      username,
-      firstName,
-      middleName,
-      lastName,
-      phoneNumber,
-      gender,
-      birthday,
-      userType,
-      address,
-      img: img || `defaults/default-profile.png`,
+      const imgPath = req.file ? req.file.path : "defaults/default-profile.png";
+
+      User.create({
+        email,
+        password,
+        username,
+        firstName,
+        middleName,
+        lastName,
+        phoneNumber,
+        gender,
+        birthday,
+        userType,
+        address,
+        img: imgPath,
+      })
+        .then((user) => {
+          sendTokenResponse(user, 201, res);
+        })
+        .catch((dbError) => {
+          console.error(dbError);
+          res.status(500).json({ error: "Database Error" });
+        });
     });
-
-    sendTokenResponse(user, 201, res);
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
