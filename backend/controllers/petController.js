@@ -56,6 +56,45 @@ const getPets = async (req, res, next) => {
   }
 };
 
+const getAdoptedPets = async (req, res, next) => {
+  const filter = { isAdopted: true };
+  const options = {
+    sort: {
+      createdAt: -1,
+    },
+  };
+  const { page, limit } = req.query;
+  const skip = (page - 1) * limit;
+  if (Object.keys(req.query).length) {
+    // query parameter
+    const { name, species, age, breed, gender, description } = req.query;
+
+    if (name) filter.name = true;
+    if (species) filter.species = true;
+    if (age) filter.age = true;
+    if (breed) filter.breed = true;
+    if (description) filter.description = true;
+    if (gender) filter.gender = true;
+
+    if (limit) options.limit = limit;
+    options.sort = {
+      createdAt: -1,
+    };
+  }
+
+  try {
+    const count = await Pet.countDocuments(filter);
+    const pets = await Pet.find(filter, {}, options).skip(skip).limit(limit);
+    res
+      .status(200)
+      .setHeader("Content-Type", "application/json")
+      .setHeader("X-Total-Count", `${count}`)
+      .json({ pets, count });
+  } catch (err) {
+    throw new Error(`Error retrieving pets: ${err.message}`);
+  }
+};
+
 const getPet = async (req, res, next) => {
   try {
     const pet = await Pet.findById(req.params.petId);
@@ -179,4 +218,5 @@ module.exports = {
   deletePet,
   updatePet,
   createPet,
+  getAdoptedPets,
 };
