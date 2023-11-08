@@ -16,13 +16,18 @@ const {
   deletePet,
   updatePet,
   createPet,
+  getAdoptedPets,
 } = require("../controllers/petController");
 
 router
   .route("/")
   .post(reqReceived, protectedRoute, createPet)
-  .get(reqReceived, getPets)
-  // .delete(reqReceived, protectedRoute, adminValidator, deletePets);
+  .get(reqReceived, getPets);
+// .delete(reqReceived, protectedRoute, adminValidator, deletePets);
+
+router
+  .route("/adoptedPets")
+  .get(reqReceived, protectedRoute, staffValidator, getAdoptedPets);
 
 router
   .route("/:petId")
