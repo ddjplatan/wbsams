@@ -18,7 +18,6 @@ const userValidator = async (req, res, next) => {
     !req.body.address
     // !req.body.img
   ) {
-    console.log(req.body);
     res
       .status(400)
       .setHeader("Content-Type", "text/plain")

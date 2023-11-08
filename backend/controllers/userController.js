@@ -150,8 +150,10 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(401).send({message: "Please provide email and password"});
-  } 
+    return res
+      .status(401)
+      .send({ message: "Please provide email and password" });
+  }
 
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
@@ -181,7 +183,7 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
-  console.log("controller")
+  console.log("controller");
   res
     .status(200)
     .cookie("token", "", {
@@ -193,7 +195,8 @@ const logout = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const path = `defaults/default-profile.png`;
+    // const path = `defaults/default-profile.png`;
+    console.log(`body`, req.body);
     const {
       email,
       password,
@@ -206,6 +209,7 @@ const createUser = async (req, res, next) => {
       birthday,
       userType,
       address,
+      img,
     } = req.body;
 
     const verification = {
@@ -226,7 +230,7 @@ const createUser = async (req, res, next) => {
       birthday,
       userType,
       address,
-      img: path,
+      img: img || `defaults/default-profile.png`,
     });
 
     sendTokenResponse(user, 201, res);
