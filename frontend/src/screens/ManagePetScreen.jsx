@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { Form, Button, Row, Col, Modal, Card, Image } from "react-bootstrap";
@@ -9,14 +10,20 @@ import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import ViewPetModal from "../components/ViewPetModal";
-
+import PetModal from "../components/PetModal";
 
 const ManagePetScreen = (props) => {
   // authenticated user
   const { userInfo } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    if (userInfo.user.userType !== "admin") {
+      navigate("/");
+    }
+  }, []);
+
   // modal state (open/close)
-  const [modalShow, setModalShow] = useState(false);
+  const [petModalShow, setPetModalShow] = useState(false);
 
   // pet Details useState
   const [name, setName] = useState("");
@@ -99,23 +106,37 @@ const ManagePetScreen = (props) => {
           adopted: pet.isAdopted ? "No" : "Yes",
           clickEvent: () => {
             setSelectedPet(pet);
-            setViewPetModal(true);
+            setPetModalShow(true);
           },
           image:
             pet.species === "Cat" ? (
-              <Image height={150} width={150}
-                src="http://localhost:3001/defaults/default-cat.jpg"
-              />
+              <div className="d-flex justify-content-center">
+                <Image
+                  height={150}
+                  src="http://localhost:3001/defaults/default-cat.jpg"
+                />
+              </div>
             ) : pet.species === "Dog" ? (
-              <Image height={150} width={150}
-                src="http://localhost:3001/defaults/default-dog.jpg"
-              />
+              <div className="d-flex justify-content-center">
+                <Image
+                  height={150}
+                  src="http://localhost:3001/defaults/default-dog.jpg"
+                />
+              </div>
             ) : pet.species === "Bird" ? (
-              <Image height={150} width={150}
-                src="http://localhost:3001/defaults/default-bird.jpg"
-              />
+              <div className="d-flex justify-content-center">
+                <Image
+                  height={150}
+                  src="http://localhost:3001/defaults/default-bird.jpg"
+                />
+              </div>
             ) : (
-              <Image height={150} width={150} src="http://localhost:3001/defaults/default-questionmark.jpg" />
+              <div className="d-flex justify-content-center">
+                <Image
+                  height={150}
+                  src="http://localhost:3001/defaults/default-questionmark.jpg"
+                />
+              </div>
             ),
         }));
 
@@ -138,28 +159,23 @@ const ManagePetScreen = (props) => {
       {
         label: "Image",
         field: "image",
-        width: 200
       },
       {
         label: "Name",
         field: "name",
-        width: 200
       },
       {
         label: "Description",
         field: "description",
-        width: 200
       },
       {
         label: "Age",
         field: "age",
-        width: 20
       },
       {
         label: "For Adoption",
         field: "adopted",
         sort: "disabled",
-        width: 50
       },
     ],
     rows: pets,
@@ -175,7 +191,13 @@ const ManagePetScreen = (props) => {
               <Card border="default">
                 <Card.Header className="d-flex justify-content-between">
                   <h4 className="fw-bold">Manage Pets</h4>
-                  <Button variant="primary" onClick={() => setModalShow(true)}>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      setPetModalShow(true);
+                      setSelectedPet(null);
+                    }}
+                  >
                     Add a Pet
                   </Button>
                 </Card.Header>
@@ -188,117 +210,12 @@ const ManagePetScreen = (props) => {
         </Card>
       </div>
 
-      <Modal
-        {...props}
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Pet Registration
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormContainer>
-            <Form onSubmit={submitHandler}>
-              <Row>
-                <Col>
-                  <h5>Pet Details:</h5>
-                </Col>
-                <Col>
-                  {selectedFile && (
-                    <div>
-                      <img src={imagePreview} alt="Selected" />
-                    </div>
-                  )}
-                </Col>
-              </Row>
-              <Form.Group className="my-2" controlId="file">
-                <Form.Label>Upload Image</Form.Label>
-                <Form.Control type="file" onChange={handleFileChange} />
-              </Form.Group>
+      <PetModal
+        show={petModalShow}
+        onHide={() => setPetModalShow(false)}
+        data={selectedPet || null}
+      />
 
-              <Form.Group className="my-2" controlId="name">
-                <Form.Label>Name:</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter pet's name."
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group className="my-2" controlId="specie">
-                <Form.Label>Pet specie:</Form.Label>
-                <Form.Select
-                  value={specie}
-                  onChange={(e) => setSpecie(e.target.value)}
-                >
-                  <option>Select Specie</option>
-                  <option value="Dog">Dog</option>
-                  <option value="Cat">Cat</option>
-                  <option value="Bird">Bird</option>
-                </Form.Select>
-              </Form.Group>
-              <Form.Group className="my-2" controlId="age">
-                <Form.Label>Pet age:</Form.Label>
-                <Form.Control
-                  type="number"
-                  min={1}
-                  placeholder="Enter pet's age."
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group className="my-2" controlId="breed">
-                <Form.Label>Pet breed:</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter pet's breed."
-                  value={breed}
-                  onChange={(e) => setBreed(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group className="my-2" controlId="gender">
-                <Form.Label>Pet gender:</Form.Label>
-                <Form.Select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                >
-                  <option>Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </Form.Select>
-              </Form.Group>
-              <Form.Group className="my-2" controlId="description">
-                <Form.Label>Pet description:</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter pet's description."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-
-              {/* {isLoading && <Loader />} */}
-              <Row>
-                <Col className="d-flex justify-content-between">
-                  <Button type="submit" variant="primary" className="mt-3">
-                    Register
-                  </Button>
-
-                  <Button className="mt-3" onClick={() => setModalShow(false)}>
-                    Close
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
-          </FormContainer>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
       <ViewPetModal
         show={viewPetModal}
         onHide={() => setViewPetModal(false)}

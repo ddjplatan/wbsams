@@ -2,29 +2,43 @@ import { Button, Container, Card, Row, Col, Image } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
 
+const DisplayCard = ({ data }) => {
+  return (
+    <Col sm={12} md={6} lg={4}>
+      <Card>
+        <Card.Img variant="top" src={data.Image} height={180} width={100} />
+        <Card.Body>
+          <Card.Title>{data.Name}</Card.Title>
+          <Card.Text>{data.Description}</Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+};
+
 const Hero = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const petDisplay = [
     {
-      Title: "Bogart",
+      Name: "Blu",
       Specie: "Dog",
       Description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      Image: "../assets/images/defaults/default-dog.jpg",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      Image: "http://localhost:3001/defaults/default-dog.jpg",
     },
     {
-      Title: "Bogart",
+      Name: "Nana",
       Specie: "Cat",
       Description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      Image: "../assets/images/defaults/default-dog.jpg",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      Image: "http://localhost:3001/defaults/default-cat.jpg",
     },
     {
-      Title: "Bogart",
+      Name: "Birdie",
       Specie: "Bird",
       Description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      Image: "../assets/images/defaults/default-dog.jpg",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      Image: "http://localhost:3001/defaults/default-bird.jpg",
     },
   ];
   return (
@@ -65,31 +79,9 @@ const Hero = () => {
             )}
           </div>
           <Row>
-            <div className="d-flex justify-content-center">
-              <Card className="mx-2">
-                <Card.Img variant="top" src="" height={180} width={100} />
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              <Card className="mx-2">
-                <Card.Img variant="top" src="" height={180} width={100} />
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              
-            </div>
+              {petDisplay.map((card, index) => (
+                <DisplayCard key={index} data={card} />
+              ))}
           </Row>
         </Card>
       </Container>

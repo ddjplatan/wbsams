@@ -26,6 +26,7 @@ const DashboardScreen = () => {
       if (response) {
         const petArray = response.data.pets;
         const updatedPets = petArray.map((pet) => ({
+          petId: pet._id,
           name: pet.name,
           species: pet.species,
           age: pet.age,
@@ -86,8 +87,8 @@ const DashboardScreen = () => {
         </Row>
         <Row>
           {limitedPetData.map((pet, index) => (
-            <Col sm={12} md={4}>
-              <PetCard key={index} pet={pet} />
+            <Col  key={pet.petId} sm={12} md={4}>
+              <PetCard pet={pet} />
             </Col>
           ))}
         </Row>

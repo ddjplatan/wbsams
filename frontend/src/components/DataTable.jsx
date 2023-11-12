@@ -1,4 +1,4 @@
-import React from "react";
+import { CDBContainer, CDBCard, CDBCardBody, CDBDataTable } from "cdbreact";
 
 const DataTable = ({ data }) => {
   return (
@@ -9,11 +9,8 @@ const DataTable = ({ data }) => {
             striped
             bordered
             hover
-            scrollY
-            maxHeight="50vh"
             entriesOptions={[5, 10, 20]}
             entries={5}
-            pagesAmount={4}
             data={data}
             searching={false}
           />

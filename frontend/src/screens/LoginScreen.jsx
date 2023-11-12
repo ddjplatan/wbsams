@@ -1,7 +1,7 @@
 import { Form, Button, Row, Col, Card, Image } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import RegistrationBG from "../assets/images/defaults/registration.jpg";
+import LoginBG from "../assets/images/defaults/login.jpg";
 import PetCareImg from "../assets/images/defaults/pet-care.png";
 
 import { useState, useEffect } from "react";
@@ -42,7 +42,7 @@ const LoginScreen = () => {
     <Card className="p-4 mt-3">
       <Row>
         <Col sm={0} md={8}>
-          <Card.Img src={RegistrationBG} height={"100%"} />
+          <Card.Img src={LoginBG} height={"100%"} />
         </Col>
         <Col className="d-flex align-items-center">
           <Card className="w-100 h-100">

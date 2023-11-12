@@ -1,7 +1,6 @@
 import { Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
@@ -9,13 +8,6 @@ import { useEffect } from "react";
 const ViewPetModal = (props) => {
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (userInfo.user.userType !== "admin") {
-      navigate("/");
-    }
-  }, []);
 
   const { data, onHide } = props;
 
