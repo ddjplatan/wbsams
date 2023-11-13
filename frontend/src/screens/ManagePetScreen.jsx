@@ -98,7 +98,7 @@ const ManagePetScreen = (props) => {
         const petArray = response.data.pets;
         const updatedPets = petArray.map((pet) => ({
           name: pet.name,
-          // species: pet.species,
+          species: pet.species,
           age: pet.age,
           gender: pet.gender,
           breed: pet.breed,
