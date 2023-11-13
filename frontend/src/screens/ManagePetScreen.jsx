@@ -159,18 +159,22 @@ const ManagePetScreen = (props) => {
       {
         label: "Image",
         field: "image",
+        sort: "disabled",
       },
       {
         label: "Name",
         field: "name",
+        sort: "disabled",
       },
       {
         label: "Description",
         field: "description",
+        sort: "disabled",
       },
       {
         label: "Age",
         field: "age",
+        sort: "disabled",
       },
       {
         label: "For Adoption",
@@ -192,13 +196,13 @@ const ManagePetScreen = (props) => {
                 <Card.Header className="d-flex justify-content-between">
                   <h4 className="fw-bold">Manage Pets</h4>
                   <Button
-                    variant="primary"
+                    variant="success"
                     onClick={() => {
                       setPetModalShow(true);
                       setSelectedPet(null);
                     }}
                   >
-                    Add a Pet
+                    Register a Pet
                   </Button>
                 </Card.Header>
                 <Card.Body>
