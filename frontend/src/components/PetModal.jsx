@@ -59,6 +59,23 @@ const PetModal = (props) => {
     });
   };
 
+  const clearForm = (e) => {
+    if (window.confirm(`Are you sure you want to clear the form?`)) {
+      setPetInfo({
+        name: "",
+        specie: "",
+        age: "",
+        gender: "",
+        breed: "",
+        description: "",
+        image: "",
+      });
+      setSelectedFile(null);
+    } else {
+      return;
+    }
+  };
+
   const addPetHandler = async (e) => {
     e.preventDefault();
     console.log("Add Pet");
@@ -108,6 +125,22 @@ const PetModal = (props) => {
     }
   };
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        setSelectedFile(e.target.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -115,6 +148,9 @@ const PetModal = (props) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        onExited={() => {
+          setSelectedFile(null);
+        }}
       >
         <Form onSubmit={data ? updatePetHandler : addPetHandler}>
           <Modal.Header closeButton>
@@ -124,16 +160,39 @@ const PetModal = (props) => {
           </Modal.Header>
           <Modal.Body className="px-5">
             <Row>
-              <Col>
-                <Image
-                  height={300}
-                  className="shadow-lg p-3 mb-5 bg-white rounded"
-                  src="http://localhost:3001/defaults/default-questionmark.jpg"
-                />
+              <Col className="d-flex justify-content-center">
+                {selectedFile ? (
+                  <Image
+                    src={selectedFile}
+                    alt="Preview"
+                    rounded
+                    height={350}
+                    width={350}
+                  />
+                ) : (
+                  <Image
+                    src="http://localhost:3001/defaults/default-questionmark.jpg"
+                    rounded
+                    height={350}
+                    width={350}
+                  />
+                )}
               </Col>
               <Col>
                 <FloatingLabel
-                  className="mb-1"
+                  className="mb-2"
+                  controlId="image"
+                  label="Pet image"
+                >
+                  <Form.Control
+                    type="file"
+                    name="image"
+                    value={""}
+                    onChange={handleFileChange}
+                  />
+                </FloatingLabel>
+                <FloatingLabel
+                  className="mb-2"
                   controlId="name"
                   label="Pet name"
                 >
@@ -143,9 +202,9 @@ const PetModal = (props) => {
                     placeholder="Pet name"
                     value={petInfo.name}
                     onChange={handleChange}
-                  ></Form.Control>
+                  />
                 </FloatingLabel>
-                <Row className="mb-1">
+                <Row className="mb-2">
                   <Col sm={12} md={4}>
                     <FloatingLabel controlId="specie" label="Pet specie">
                       <Form.Control
@@ -154,7 +213,7 @@ const PetModal = (props) => {
                         placeholder="Pet specie"
                         value={petInfo.specie}
                         onChange={handleChange}
-                      ></Form.Control>
+                      />
                     </FloatingLabel>
                   </Col>
                   <Col sm={12} md={4}>
@@ -166,12 +225,12 @@ const PetModal = (props) => {
                         placeholder="Pet age"
                         value={petInfo.age ? parseInt(petInfo.age) : 1}
                         onChange={handleChange}
-                      ></Form.Control>
+                      />
                     </FloatingLabel>
                   </Col>
                 </Row>
                 <FloatingLabel
-                  className="mb-1"
+                  className="mb-2"
                   controlId="gender"
                   label="Pet gender"
                 >
@@ -186,7 +245,7 @@ const PetModal = (props) => {
                   </Form.Select>
                 </FloatingLabel>
                 <FloatingLabel
-                  className="mb-1"
+                  className="mb-2"
                   controlId="breed"
                   label="Pet breed"
                 >
@@ -196,17 +255,18 @@ const PetModal = (props) => {
                     placeholder="Pet breed"
                     value={petInfo.breed}
                     onChange={handleChange}
-                  ></Form.Control>
+                  />
                 </FloatingLabel>
                 <FloatingLabel controlId="description" label="Pet description">
                   <Form.Control
                     as="textarea"
-                    rows={10}
+                    type="text"
+                    rows={5}
                     name="description"
                     placeholder="Pet description"
                     value={petInfo.description}
                     onChange={handleChange}
-                  ></Form.Control>
+                  />
                 </FloatingLabel>
               </Col>
             </Row>
@@ -222,10 +282,13 @@ const PetModal = (props) => {
                 </Button>
               </Col>
             ) : (
-              <Button type="submit" variant="primary" className="mt-3">
+              <Button type="submit" variant="primary">
                 Register Pet
               </Button>
             )}
+            <Button onClick={clearForm} variant="secondary">
+              Clear
+            </Button>
           </Modal.Footer>
         </Form>
       </Modal>

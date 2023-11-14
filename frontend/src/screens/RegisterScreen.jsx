@@ -85,11 +85,11 @@ const RegisterScreen = () => {
   return (
     <Card className="p-4 mt-3">
       <Row>
-        <Col sm={12} lg={7}>
+        <Col sm={12} lg={8}>
           <Card.Img src={RegistrationBG} height={"100%"} style={{ backgroundSize: "cover" }} />
         </Col>
         <Col className="d-flex align-items-center">
-          <Card className="w-100 h-100">
+          <Card className="w-100" style={{maxHeight: "80vh", overflowY: "auto"}}>
             <Card.Body>
               <Card.Title className="fw-bold">Sign up</Card.Title>
               <Form onSubmit={submitHandler} encType="multipart/form-data">
