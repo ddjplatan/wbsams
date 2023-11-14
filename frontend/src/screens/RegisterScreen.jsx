@@ -72,6 +72,7 @@ const RegisterScreen = () => {
           lastName: lastname,
           phoneNumber: phonenumber,
           gender: gender,
+          userType: userType,
           birthday: birthday,
           address: address,
         }).unwrap();
