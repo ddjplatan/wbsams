@@ -1,20 +1,20 @@
 const User = require("../models/User");
-const multer = require("multer");
-const path = require("path");
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-const upload = multer({
-  storage: storage,
-});
+// const multer = require("multer");
+// const path = require("path");
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./public/uploads");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
+// const upload = multer({
+//   storage: storage,
+// });
 
 const getUsers = async (req, res, next) => {
   const filter = {};
@@ -195,6 +195,8 @@ const logout = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
+    // console.log("create user", req.body);
+    // console.log("file", req.file);
     const {
       email,
       password,
@@ -208,39 +210,64 @@ const createUser = async (req, res, next) => {
       userType,
       address,
     } = req.body;
-
-    upload.single("img")(req, res, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: "File upload failed" });
-      }
-      console.log("body", req.body);
-      console.log("file", req.file);
-
-      const imgPath = req.file ? req.file.path : "defaults/default-profile.png";
-
-      User.create({
-        email,
-        password,
-        username,
-        firstName,
-        middleName,
-        lastName,
-        phoneNumber,
-        gender,
-        birthday,
-        userType,
-        address,
-        img: imgPath,
+    const imgPath = req.file
+      ? req.file.path.replace("backend/public/", "")
+      : "defaults/default-profile.png";
+    console.log("imgPath: ", imgPath);
+    User.create({
+      email,
+      password,
+      username,
+      firstName,
+      middleName,
+      lastName,
+      phoneNumber,
+      gender,
+      birthday,
+      userType,
+      address,
+      img: imgPath,
+    })
+      .then((user) => {
+        sendTokenResponse(user, 201, res);
       })
-        .then((user) => {
-          sendTokenResponse(user, 201, res);
-        })
-        .catch((dbError) => {
-          console.error(dbError);
-          res.status(500).json({ error: "Database Error" });
-        });
-    });
+      .catch((dbError) => {
+        console.error(dbError);
+        res.status(500).json({ error: "Database Error" });
+      });
+    // upload.single("img")(req, res, (err) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return res.status(500).json({ error: "File upload failed" });
+    //   }
+    //   console.log("body", req.body);
+    //   console.log("file", req.file);
+    //   const imgPath = req.file
+    //     ? req.file.path.replace("backend/public/", "")
+    //     : "defaults/default-profile.png";
+    //   console.log("imgPath: ", imgPath);
+    //   User.create({
+    //     email,
+    //     password,
+    //     username,
+    //     firstName,
+    //     middleName,
+    //     lastName,
+    //     phoneNumber,
+    //     gender,
+    //     birthday,
+    //     userType,
+    //     address,
+    //     img: imgPath,
+    //   })
+    //     .then((user) => {
+    //       sendTokenResponse(user, 201, res);
+    //     })
+    //     .catch((dbError) => {
+    //       console.error(dbError);
+    //       res.status(500).json({ error: "Database Error" });
+    //     });
+    // });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
