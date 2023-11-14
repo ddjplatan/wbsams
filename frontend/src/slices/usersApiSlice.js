@@ -10,12 +10,34 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    // register: builder.mutation({
+    //   query: (data) => ({
+    //     url: `${USERS_URL}`,
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    // }),
     register: builder.mutation({
-      query: (data) => ({
-        url: `${USERS_URL}`,
-        method: "POST",
-        body: data,
-      }),
+      query: (data) => {
+        const formData = new FormData();
+
+        Object.keys(data).forEach((key) => {
+          if (key !== "img") {
+            formData.append(key, data[key]);
+          }
+          if (key === "img") {
+            formData.append("img", data.img);
+          }
+        });
+
+        console.log(formData.values("img"));
+
+        return {
+          url: `${USERS_URL}`,
+          method: "POST",
+          body: formData,
+        };
+      },
     }),
     logout: builder.mutation({
       query: () => ({
