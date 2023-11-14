@@ -211,7 +211,7 @@ const createUser = async (req, res, next) => {
       address,
     } = req.body;
     const imgPath = req.file
-      ? req.file.path.replace("backend/public/", "")
+      ? req.file.path.replace("backend/public/" || "backend\\public\\", "")
       : "defaults/default-profile.png";
     console.log("imgPath: ", imgPath);
     User.create({
