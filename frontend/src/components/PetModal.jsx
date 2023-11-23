@@ -19,7 +19,7 @@ const PetModal = (props) => {
 
   const [petInfo, setPetInfo] = useState({
     name: "",
-    specie: "",
+    SpeechSynthesisEvent: "",
     age: "",
     gender: "",
     breed: "",
@@ -31,7 +31,7 @@ const PetModal = (props) => {
     if (data) {
       setPetInfo({
         name: data.name,
-        specie: data.species,
+        species: data.species,
         age: data.age,
         gender: data.gender,
         breed: data.breed,
@@ -41,7 +41,7 @@ const PetModal = (props) => {
     } else {
       setPetInfo({
         name: "",
-        specie: "",
+        species: "",
         age: "",
         gender: "",
         breed: "",
@@ -62,7 +62,7 @@ const PetModal = (props) => {
     if (window.confirm(`Are you sure you want to clear the form?`)) {
       setPetInfo({
         name: "",
-        specie: "",
+        species: "",
         age: "",
         gender: "",
         breed: "",
@@ -85,6 +85,24 @@ const PetModal = (props) => {
     console.log("Update Pet");
   };
 
+  // Register PET
+  const registerPet = async (e) => {
+    e.preventDefault();
+    try {
+      const petUrl = "http://localhost:3001/api/pet";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      await axios.post(petUrl, petInfo, { headers }).then((response) => {
+        console.log(response.data);
+        toast.success("Successfully registered pet.");
+      });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   //! delete pet
   const deletePet = async (id) => {
     try {
@@ -93,23 +111,11 @@ const PetModal = (props) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
-      await axios
-        .delete(petUrl, { headers })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log("Error", error.message);
-          }
-          console.log(error.config);
-        });
+      await axios.delete(petUrl, { headers }).then((response) => {
+        console.log(response.data);
+        location.reload();
+      });
+      toast.success("Successfully deleted pet.");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -119,7 +125,6 @@ const PetModal = (props) => {
     console.log(data._id);
     if (window.confirm(`Are you sure you want to delete ${data.name}?`)) {
       deletePet(data._id);
-      // console.log(data._id);
       onHide();
     }
   };
@@ -224,7 +229,7 @@ const PetModal = (props) => {
                         min={1}
                         name="age"
                         placeholder="Pet age"
-                        value={petInfo.age ? parseInt(petInfo.age) : 1}
+                        value={parseInt(petInfo.age) || 1}
                         onChange={handleChange}
                       />
                     </FloatingLabel>
@@ -283,7 +288,7 @@ const PetModal = (props) => {
                 </Button>
               </Col>
             ) : (
-              <Button type="submit" variant="primary">
+              <Button onClick={registerPet} type="submit" variant="primary">
                 Register Pet
               </Button>
             )}
