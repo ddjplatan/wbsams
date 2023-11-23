@@ -6,7 +6,7 @@ const DisplayCard = ({ data }) => {
   return (
     <Col sm={12} md={6} lg={4}>
       <Card>
-        <Card.Img variant="top" src={data.Image} height={180} width={100} />
+        <Card.Img variant="top" src={data.Image} height={250} />
         <Card.Body>
           <Card.Title>{data.Name}</Card.Title>
           <Card.Text>{data.Description}</Card.Text>

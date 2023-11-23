@@ -7,7 +7,6 @@ import {
   Col,
   Form,
   FloatingLabel,
-  Stack,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -132,11 +131,9 @@ const PetModal = (props) => {
 
     if (file) {
       const reader = new FileReader();
-
       reader.onload = (e) => {
         setSelectedFile(e.target.result);
       };
-
       reader.readAsDataURL(file);
     }
   };
@@ -155,6 +152,7 @@ const PetModal = (props) => {
         <Form onSubmit={data ? updatePetHandler : addPetHandler}>
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-center">
+              {!data && "Register "}
               Pet Details
             </Modal.Title>
           </Modal.Header>
@@ -207,13 +205,16 @@ const PetModal = (props) => {
                 <Row className="mb-2">
                   <Col sm={12} md={4}>
                     <FloatingLabel controlId="specie" label="Pet specie">
-                      <Form.Control
-                        type="text"
+                      <Form.Select
                         name="specie"
-                        placeholder="Pet specie"
                         value={petInfo.specie}
                         onChange={handleChange}
-                      />
+                      >
+                        <option value="">Select specie</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Bird">Bird</option>
+                      </Form.Select>
                     </FloatingLabel>
                   </Col>
                   <Col sm={12} md={4}>
