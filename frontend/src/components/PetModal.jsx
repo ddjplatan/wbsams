@@ -19,7 +19,7 @@ const PetModal = (props) => {
 
   const [petInfo, setPetInfo] = useState({
     name: "",
-    SpeechSynthesisEvent: "",
+    species: "",
     age: "",
     gender: "",
     breed: "",
@@ -52,6 +52,8 @@ const PetModal = (props) => {
   }, [data]);
 
   const handleChange = (e) => {
+    // console.log(e.target.name)
+    // console.log(e.target.value)
     setPetInfo({
       ...petInfo,
       [e.target.name]: e.target.value,
@@ -77,6 +79,7 @@ const PetModal = (props) => {
 
   const addPetHandler = async (e) => {
     e.preventDefault();
+    // console.log(petInfo);
     console.log("Add Pet");
   };
 
@@ -91,7 +94,7 @@ const PetModal = (props) => {
     try {
       const petUrl = "http://localhost:3001/api/pet";
       const headers = {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
       await axios.post(petUrl, petInfo, { headers }).then((response) => {
@@ -140,6 +143,10 @@ const PetModal = (props) => {
         setSelectedFile(e.target.result);
       };
       reader.readAsDataURL(file);
+      setPetInfo(prevPetInfo => ({
+        ...prevPetInfo,
+        image: file,
+      }))
     }
   };
 
@@ -211,8 +218,8 @@ const PetModal = (props) => {
                   <Col sm={12} md={4}>
                     <FloatingLabel controlId="specie" label="Pet specie">
                       <Form.Select
-                        name="specie"
-                        value={petInfo.specie}
+                        name="species"
+                        value={petInfo.species}
                         onChange={handleChange}
                       >
                         <option value="">Select specie</option>
@@ -225,11 +232,11 @@ const PetModal = (props) => {
                   <Col sm={12} md={4}>
                     <FloatingLabel controlId="age" label="Pet age">
                       <Form.Control
-                        type="number"
-                        min={1}
+                        type="text"
+                        // min={1}
                         name="age"
                         placeholder="Pet age"
-                        value={parseInt(petInfo.age) || 1}
+                        value={petInfo.age}
                         onChange={handleChange}
                       />
                     </FloatingLabel>
