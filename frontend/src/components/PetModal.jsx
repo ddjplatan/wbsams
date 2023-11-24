@@ -42,7 +42,7 @@ const PetModal = (props) => {
       setPetInfo({
         name: "",
         species: "",
-        age: "",
+        age: 1,
         gender: "",
         breed: "",
         description: "",
@@ -96,6 +96,7 @@ const PetModal = (props) => {
       };
       await axios.post(petUrl, petInfo, { headers }).then((response) => {
         console.log(response.data);
+        onHide();
         toast.success("Successfully registered pet.");
       });
     } catch (err) {
@@ -211,8 +212,8 @@ const PetModal = (props) => {
                   <Col sm={12} md={4}>
                     <FloatingLabel controlId="specie" label="Pet specie">
                       <Form.Select
-                        name="specie"
-                        value={petInfo.specie}
+                        name="species"
+                        value={petInfo.species}
                         onChange={handleChange}
                       >
                         <option value="">Select specie</option>
