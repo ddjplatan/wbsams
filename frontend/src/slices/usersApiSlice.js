@@ -30,8 +30,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           }
         });
 
-        console.log(formData.values("img"));
-
         return {
           url: `${USERS_URL}`,
           method: "POST",

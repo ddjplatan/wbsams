@@ -233,39 +233,6 @@ const createUser = async (req, res, next) => {
         console.error(dbError);
         res.status(500).json({ error: "Database Error" });
       });
-    // upload.single("img")(req, res, (err) => {
-    //   if (err) {
-    //     console.error(err);
-    //     return res.status(500).json({ error: "File upload failed" });
-    //   }
-    //   console.log("body", req.body);
-    //   console.log("file", req.file);
-    //   const imgPath = req.file
-    //     ? req.file.path.replace("backend/public/", "")
-    //     : "defaults/default-profile.png";
-    //   console.log("imgPath: ", imgPath);
-    //   User.create({
-    //     email,
-    //     password,
-    //     username,
-    //     firstName,
-    //     middleName,
-    //     lastName,
-    //     phoneNumber,
-    //     gender,
-    //     birthday,
-    //     userType,
-    //     address,
-    //     img: imgPath,
-    //   })
-    //     .then((user) => {
-    //       sendTokenResponse(user, 201, res);
-    //     })
-    //     .catch((dbError) => {
-    //       console.error(dbError);
-    //       res.status(500).json({ error: "Database Error" });
-    //     });
-    // });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
