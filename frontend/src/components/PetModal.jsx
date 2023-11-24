@@ -123,6 +123,14 @@ const PetModal = (props) => {
       };
       await axios.post(petUrl, formData, { headers }).then((response) => {
         console.log(response.data);
+        setPetInfo({
+        name: "",
+        species: "",
+        age: "",
+        gender: "",
+        breed: "",
+        description: "",
+        image: "",})
         onHide();
         toast.success("Successfully registered pet.");
       });

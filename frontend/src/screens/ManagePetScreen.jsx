@@ -109,35 +109,13 @@ const ManagePetScreen = (props) => {
             setPetModalShow(true);
           },
           image:
-            pet.species === "Cat" ? (
-              <div className="d-flex justify-content-center">
-                <Image
+          <>
+          <Image
                   height={150}
-                  src="http://localhost:3001/defaults/default-cat.jpg"
+                  width={150}
+                  src={`http://localhost:3001/${pet.imgPath}`}
                 />
-              </div>
-            ) : pet.species === "Dog" ? (
-              <div className="d-flex justify-content-center">
-                <Image
-                  height={150}
-                  src="http://localhost:3001/defaults/default-dog.jpg"
-                />
-              </div>
-            ) : pet.species === "Bird" ? (
-              <div className="d-flex justify-content-center">
-                <Image
-                  height={150}
-                  src="http://localhost:3001/defaults/default-bird.jpg"
-                />
-              </div>
-            ) : (
-              <div className="d-flex justify-content-center">
-                <Image
-                  height={150}
-                  src="http://localhost:3001/defaults/default-questionmark.jpg"
-                />
-              </div>
-            ),
+          </>
         }));
 
         // Update the state with all petDetails objects after the map loop
