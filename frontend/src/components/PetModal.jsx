@@ -18,6 +18,7 @@ const PetModal = (props) => {
   const token = userInfo.token;
 
   const [petInfo, setPetInfo] = useState({
+    _id: "",
     name: "",
     species: "",
     age: "",
@@ -30,6 +31,7 @@ const PetModal = (props) => {
   useEffect(() => {
     if (data) {
       setPetInfo({
+        id: data._id,
         name: data.name,
         species: data.species,
         age: data.age,
@@ -40,6 +42,7 @@ const PetModal = (props) => {
       });
     } else {
       setPetInfo({
+        id: "",
         name: "",
         species: "",
         age: 1,
@@ -77,9 +80,23 @@ const PetModal = (props) => {
     }
   };
 
-  const updatePet = async (e) => {
+  const updatePet = async (e, id) => {
     e.preventDefault();
     console.log("Update Pet");
+    try {
+      const petUrl = `http://localhost:3001/api/pet/${id}`;
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      };
+      await axios.put(petUrl, petInfo, { headers }).then((response) => {
+        console.log(response.data);
+        onHide();
+        toast.success("Successfully registered pet.");
+      });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   // Register PET
