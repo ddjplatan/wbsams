@@ -114,23 +114,24 @@ const PetModal = (props) => {
 
   // Register PET
   const registerPet = async (e) => {
+    // console.log('register pet clicked')
     e.preventDefault();
     try {
-
       const formData = new FormData();
 
         Object.keys(petInfo).forEach((key) => {
           if (key !== "image") {
-            formData.append(key, data[key]);
+            formData.append(key, petInfo[key]);
           }
           if (key === "image") {
-            formData.append("image", data.image);
+            formData.append("image", petInfo.image);
           }
         });
 
+
       const petUrl = "http://localhost:3001/api/pet";
       const headers = {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
       await axios.post(petUrl, formData, { headers }).then((response) => {
