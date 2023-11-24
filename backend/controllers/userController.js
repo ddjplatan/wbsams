@@ -196,7 +196,6 @@ const logout = async (req, res, next) => {
 const createUser = async (req, res, next) => {
   try {
     // console.log("create user", req.body);
-    // console.log("file", req.file);
     const {
       email,
       password,
@@ -211,9 +210,8 @@ const createUser = async (req, res, next) => {
       address,
     } = req.body;
     const imgPath = req.file
-      ? req.file.path.replace("backend/public/" && "backend\\public\\", "")
+      ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "")
       : "defaults/default-profile.png";
-    console.log("imgPath: ", imgPath);
     User.create({
       email,
       password,

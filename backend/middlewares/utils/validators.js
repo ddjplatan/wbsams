@@ -21,7 +21,7 @@ const userValidator = async (req, res, next) => {
     res
       .status(400)
       .setHeader("Content-Type", "text/plain")
-      .end("Missing required fields");
+      .json({ success: false, msg: "Missing required fields" });
     return;
   }
 
@@ -33,7 +33,7 @@ const userValidator = async (req, res, next) => {
     res
       .status(400)
       .setHeader("Content-Type", "text/plain")
-      .end("Invalid name fields");
+      .json({ success: false, msg: "Invalid name fields" });
     return;
   }
   next();
