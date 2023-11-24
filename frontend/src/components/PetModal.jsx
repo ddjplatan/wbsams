@@ -80,7 +80,31 @@ const PetModal = (props) => {
   const addPetHandler = async (e) => {
     e.preventDefault();
     // console.log(petInfo);
-    console.log("Add Pet");
+    try {
+
+      const formData = new FormData();
+
+        Object.keys(petInfo).forEach((key) => {
+          if (key !== "image") {
+            formData.append(key, data[key]);
+          }
+          if (key === "image") {
+            formData.append("image", data.image);
+          }
+        });
+
+      const petUrl = "http://localhost:3001/api/pet";
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      };
+      await axios.post(petUrl, formData, { headers }).then((response) => {
+        console.log(response.data);
+        toast.success("Successfully registered pet.");
+      });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   const updatePetHandler = async (e) => {
@@ -92,12 +116,24 @@ const PetModal = (props) => {
   const registerPet = async (e) => {
     e.preventDefault();
     try {
+
+      const formData = new FormData();
+
+        Object.keys(petInfo).forEach((key) => {
+          if (key !== "image") {
+            formData.append(key, data[key]);
+          }
+          if (key === "image") {
+            formData.append("image", data.image);
+          }
+        });
+
       const petUrl = "http://localhost:3001/api/pet";
       const headers = {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
-      await axios.post(petUrl, petInfo, { headers }).then((response) => {
+      await axios.post(petUrl, formData, { headers }).then((response) => {
         console.log(response.data);
         toast.success("Successfully registered pet.");
       });
@@ -161,7 +197,7 @@ const PetModal = (props) => {
           setSelectedFile(null);
         }}
       >
-        <Form onSubmit={data ? updatePetHandler : addPetHandler}>
+        <Form>
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-center">
               {!data && "Register "}
