@@ -42,7 +42,7 @@ const PetModal = (props) => {
       setPetInfo({
         name: "",
         species: "",
-        age: "",
+        age: 1,
         gender: "",
         breed: "",
         description: "",
@@ -135,6 +135,7 @@ const PetModal = (props) => {
       };
       await axios.post(petUrl, formData, { headers }).then((response) => {
         console.log(response.data);
+        onHide();
         toast.success("Successfully registered pet.");
       });
     } catch (err) {
@@ -179,10 +180,10 @@ const PetModal = (props) => {
         setSelectedFile(e.target.result);
       };
       reader.readAsDataURL(file);
-      setPetInfo(prevPetInfo => ({
+      setPetInfo((prevPetInfo) => ({
         ...prevPetInfo,
         image: file,
-      }))
+      }));
     }
   };
 
@@ -269,7 +270,6 @@ const PetModal = (props) => {
                     <FloatingLabel controlId="age" label="Pet age">
                       <Form.Control
                         type="text"
-                        // min={1}
                         name="age"
                         placeholder="Pet age"
                         value={petInfo.age}
@@ -321,20 +321,19 @@ const PetModal = (props) => {
             </Row>
           </Modal.Body>
           <Modal.Footer>
-            {data ? (
-              <Col className="d-flex justify-content-between">
-                <Button onClick={handleDelete} variant="danger">
-                  Delete Pet
-                </Button>
-                <Button className="ms-auto" type="submit" variant="warning">
-                  Update Pet
-                </Button>
-              </Col>
-            ) : (
-              <Button onClick={registerPet} type="submit" variant="primary">
-                Register Pet
+            <Col className="d-flex justify-content-between">
+              <Button onClick={handleDelete} variant="danger">
+                Delete Pet
               </Button>
-            )}
+              <Button
+                onClick={data ? updatePet : registerPet}
+                className="ms-auto"
+                type="submit"
+                variant={data ? "warning" : "primary"}
+              >
+                {data ? "Update Pet" : "Register Pet"}
+              </Button>
+            </Col>
             <Button onClick={clearForm} variant="secondary">
               Clear
             </Button>
