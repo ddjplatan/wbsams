@@ -42,9 +42,9 @@ router
   .route("/")
   .post(
     reqReceived,
+    upload.single("img"),
     userValidator,
     usernameValidator,
-    upload.single("img"),
     createUser
   )
   .get(reqReceived, protectedRoute, adminValidator, getUsers)
