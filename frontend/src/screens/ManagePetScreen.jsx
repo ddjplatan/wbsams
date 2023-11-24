@@ -36,49 +36,6 @@ const ManagePetScreen = (props) => {
 
   // auth user token
   const token = userInfo.token;
-
-  // for image preview
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const filePreview = URL.createObjectURL(file);
-      setImage(file);
-      setSelectedFile(file);
-      setImagePreview(filePreview);
-    }
-  };
-  // Create PET
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      const petUrl = "http://localhost:3001/api/pet";
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-      const petDetails = {
-        name: name,
-        species: specie,
-        age: age,
-        gender: gender,
-        breed: breed,
-        description: description,
-        file: image,
-      };
-      const response = await axios.post(petUrl, petDetails, { headers });
-      if (response) {
-        setModalShow(false);
-        toast.success("Successfully added pet details.");
-        setPets([...pets, ...petDetails]);
-        console.log(response);
-      }
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
-
   // view pet modal
   const [viewPetModal, setViewPetModal] = useState(false);
   // select pet state
@@ -96,41 +53,44 @@ const ManagePetScreen = (props) => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const petArray = response.data.pets;
-        const updatedPets = petArray.map(
-          (pet) => (
-            console.log(pet),
-            {
-              name: pet.name,
-              species: pet.species,
-              age: pet.age,
-              gender: pet.gender,
-              breed: pet.breed,
-              description: pet.description,
-              adopted: pet.isAdopted ? "No" : "Yes",
-              clickEvent: () => {
-                setSelectedPet(pet);
-                setPetModalShow(true);
-              },
-              image: pet.imgPath ? (
-                <div className="d-flex justify-content-center">
-                  <Image
-                    height={200}
-                    width={200}
-                    src={`http://localhost:3001/${pet.imgPath}`}
-                  />
-                </div>
-              ) : (
-                <div className="d-flex justify-content-center">
-                  <Image
-                    height={200}
-                    width={200}
-                    src={`http://localhost:3001/defaults/default-questionmark.jpg`}
-                  />
-                </div>
-              ),
-            }
-          )
-        );
+        const updatedPets = petArray.map((pet) => ({
+          name: pet.name,
+          species: pet.species,
+          age: pet.age,
+          gender: pet.gender,
+          breed: pet.breed,
+          description: pet.description,
+          adopted: pet.isAdopted ? "No" : "Yes",
+          clickEvent: () => {
+            setSelectedPet(pet);
+            setPetModalShow(true);
+          },
+          image: pet.imgPath ? (
+            <div className="d-flex justify-content-center">
+              <Image
+                height={200}
+                width={200}
+                src={`http://localhost:3001/${pet.imgPath}`}
+              />
+            </div>
+          ) : (
+            <div className="d-flex justify-content-center">
+              <Image
+                height={200}
+                width={200}
+                src={
+                  pet.species === "Dog"
+                    ? `http://localhost:3001/defaults/default-dog.jpg`
+                    : pet.species === "Cat"
+                    ? `http://localhost:3001/defaults/default-cat.jpg`
+                    : pet.species === "Bird"
+                    ? `http://localhost:3001/defaults/default-bird.jpg`
+                    : `http://localhost:3001/defaults/default-questionmark.jpg`
+                }
+              />
+            </div>
+          ),
+        }));
 
         // Update the state with all petDetails objects after the map loop
         setPets([...pets, ...updatedPets]);

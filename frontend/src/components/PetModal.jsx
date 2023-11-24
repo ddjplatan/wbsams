@@ -106,15 +106,14 @@ const PetModal = (props) => {
     try {
       const formData = new FormData();
 
-        Object.keys(petInfo).forEach((key) => {
-          if (key !== "image") {
-            formData.append(key, petInfo[key]);
-          }
-          if (key === "image") {
-            formData.append("image", petInfo.image);
-          }
-        });
-
+      Object.keys(petInfo).forEach((key) => {
+        if (key !== "image") {
+          formData.append(key, petInfo[key]);
+        }
+        if (key === "image") {
+          formData.append("image", petInfo.image);
+        }
+      });
 
       const petUrl = "http://localhost:3001/api/pet";
       const headers = {
@@ -124,13 +123,14 @@ const PetModal = (props) => {
       await axios.post(petUrl, formData, { headers }).then((response) => {
         console.log(response.data);
         setPetInfo({
-        name: "",
-        species: "",
-        age: "",
-        gender: "",
-        breed: "",
-        description: "",
-        image: "",})
+          name: "",
+          species: "",
+          age: "",
+          gender: "",
+          breed: "",
+          description: "",
+          image: "",
+        });
         onHide();
         toast.success("Successfully registered pet.");
       });
@@ -212,6 +212,18 @@ const PetModal = (props) => {
                     height={350}
                     width={350}
                   />
+                ) : data ? (
+                  <Image
+                    src={
+                      data.imgPath
+                        ? `http://localhost:3001/${data.imgPath}`
+                        : "http://localhost:3001/defaults/default-questionmark.jpg"
+                    }
+                    alt="Preview"
+                    rounded
+                    height={350}
+                    width={350}
+                  />
                 ) : (
                   <Image
                     src="http://localhost:3001/defaults/default-questionmark.jpg"
@@ -225,11 +237,12 @@ const PetModal = (props) => {
                 <FloatingLabel
                   className="mb-2"
                   controlId="image"
-                  label="Pet image"
+                  label="image"
                 >
                   <Form.Control
                     type="file"
                     name="image"
+                    placeholder={selectedFile}
                     value={""}
                     onChange={handleFileChange}
                   />
