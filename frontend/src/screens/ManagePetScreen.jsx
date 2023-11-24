@@ -96,27 +96,41 @@ const ManagePetScreen = (props) => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const petArray = response.data.pets;
-        const updatedPets = petArray.map((pet) => ({
-          name: pet.name,
-          species: pet.species,
-          age: pet.age,
-          gender: pet.gender,
-          breed: pet.breed,
-          description: pet.description,
-          adopted: pet.isAdopted ? "No" : "Yes",
-          clickEvent: () => {
-            setSelectedPet(pet);
-            setPetModalShow(true);
-          },
-          image:
-          <>
-          <Image
-                  height={150}
-                  width={150}
-                  src={`http://localhost:3001/${pet.imgPath}`}
-                />
-          </>
-        }));
+        const updatedPets = petArray.map(
+          (pet) => (
+            console.log(pet),
+            {
+              name: pet.name,
+              species: pet.species,
+              age: pet.age,
+              gender: pet.gender,
+              breed: pet.breed,
+              description: pet.description,
+              adopted: pet.isAdopted ? "No" : "Yes",
+              clickEvent: () => {
+                setSelectedPet(pet);
+                setPetModalShow(true);
+              },
+              image: pet.imgPath ? (
+                <div className="d-flex justify-content-center">
+                  <Image
+                    height={200}
+                    width={200}
+                    src={`http://localhost:3001/${pet.imgPath}`}
+                  />
+                </div>
+              ) : (
+                <div className="d-flex justify-content-center">
+                  <Image
+                    height={200}
+                    width={200}
+                    src={`http://localhost:3001/defaults/default-questionmark.jpg`}
+                  />
+                </div>
+              ),
+            }
+          )
+        );
 
         // Update the state with all petDetails objects after the map loop
         setPets([...pets, ...updatedPets]);
