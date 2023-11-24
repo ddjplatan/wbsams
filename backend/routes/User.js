@@ -42,8 +42,8 @@ router
   .route("/")
   .post(
     reqReceived,
-    // userValidator,
-    // usernameValidator,
+    userValidator,
+    usernameValidator,
     upload.single("img"),
     createUser
   )

@@ -178,33 +178,38 @@ const updatePet = async (req, res, next) => {
 
 const createPet = async (req, res, next) => {
   try {
-    upload.single("image")(req, res, async function (err) {
-      if (err) {
-        throw new Error(`Error uploading attachment: ${err.message}`);
-      } else {
-        // if (!req.file) {
-        //   throw new Error("No file uploaded");
-        // }
-        const { name, species, age, breed, description, gender } = req.body;
-        // const { path } = req.file;
-        // const path = `uploads/` + req.file.filename;
+    console.log("body", req.body);
+    console.log("file", req.file);
+    // upload.single("image")(req, res, async function (err) {
+    //   if (err) {
+    //     throw new Error(`Error uploading attachment: ${err.message}`);
+    //   } else {
+    //     // if (!req.file) {
+    //     //   throw new Error("No file uploaded");
+    //     // }
+    //     // const { name, species, age, breed, description, gender } = req.body;
+    //     console.log("body", req.body);
+    //     console.log("file", req.file);
 
-        const pet = await Pet.create({
-          name,
-          species,
-          age,
-          breed,
-          description,
-          gender,
-          // imgPath: path,
-        });
+    //     // const { path } = req.file;
+    //     // const path = `uploads/` + req.file.filename;
 
-        res
-          .status(201)
-          .setHeader("Content-Type", "application/json")
-          .json({ success: true, message: "Created new pet", pet });
-      }
-    });
+    //     // const pet = await Pet.create({
+    //     //   name,
+    //     //   species,
+    //     //   age,
+    //     //   breed,
+    //     //   description,
+    //     //   gender,
+    //     //   // imgPath: path,
+    //     // });
+
+    //     res
+    //       .status(201)
+    //       .setHeader("Content-Type", "application/json")
+    //       .json({ success: true, message: "Created new pet", pet });
+    //   }
+    // });
     // console.log("req.file", req.file);
   } catch (err) {
     console.error(err);
