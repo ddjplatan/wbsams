@@ -32,6 +32,7 @@ const DashboardScreen = () => {
           age: pet.age,
           gender: pet.gender,
           breed: pet.breed,
+          image: pet.imgPath,
           description: pet.description,
           adopted: pet.isAdopted ? "No" : "Yes",
           file: pet.image ? pet.image : "No Image",

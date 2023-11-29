@@ -12,47 +12,65 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const PetModal = (props) => {
+const UserModal = (props) => {
   const { data, onHide } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
-
+  console.log(data);
   const [petInfo, setPetInfo] = useState({
     _id: "",
-    name: "",
-    species: "",
-    age: "",
+    username: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    birthday: "",
+    address: "",
+    email: "",
     gender: "",
-    breed: "",
-    description: "",
+    phoneNumber: "",
+    userType: "",
     image: "",
+    createdAt: "",
+    updatedAt: "",
   });
 
   useEffect(() => {
     if (data) {
       setPetInfo({
-        id: data._id,
-        name: data.name,
-        species: data.species,
-        age: data.age,
+        _id: data._id,
+        username: data.username,
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        birthday: data.birthday,
+        address: data.address,
+        email: data.email,
         gender: data.gender,
-        breed: data.breed,
-        description: data.description,
-        image: data.image,
+        phoneNumber: data.phoneNumber,
+        userType: data.userType,
+        image: data.img,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
       });
     } else {
       setPetInfo({
-        id: "",
-        name: "",
-        species: "",
-        age: 1,
+        _id: "",
+        username: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        birthday: "",
+        address: "",
+        email: "",
         gender: "",
-        breed: "",
-        description: "",
+        phoneNumber: "",
+        userType: "",
         image: "",
+        createdAt: "",
+        updatedAt: "",
       });
     }
-  }, [data]);
+  }, []);
 
   const handleChange = (e) => {
     setPetInfo({
@@ -347,4 +365,4 @@ const PetModal = (props) => {
   );
 };
 
-export default PetModal;
+export default UserModal;
