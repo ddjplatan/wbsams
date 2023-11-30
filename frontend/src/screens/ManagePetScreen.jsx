@@ -17,12 +17,6 @@ const ManagePetScreen = (props) => {
   
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userInfo.user.userType !== "admin") {
-      navigate("/");
-    }
-  }, []);
-
   // modal state (open/close)
   const [petModalShow, setPetModalShow] = useState(false);
   // select pet state
@@ -90,6 +84,9 @@ const ManagePetScreen = (props) => {
   };
 
   useEffect(() => {
+    if (userInfo.user.userType !== "admin") {
+      navigate("/");
+    }
     getPets();
   }, []);
 

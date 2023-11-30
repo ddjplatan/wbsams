@@ -17,13 +17,6 @@ const ManageUserScreen = (props) => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userInfo.user.userType !== "admin") {
-      navigate("/");
-    }
-    getUsers();
-  }, []);
-
   // modal state (open/close)
   const [userModalShow, setUserModalShow] = useState(false);
   // select pet state
@@ -33,20 +26,23 @@ const ManageUserScreen = (props) => {
   const [users, setUsers] = useState([]);
   const getUsers = async () => {
     try {
-      const petUrl = "http://localhost:3001/api/user";
+      const userUrl = "http://localhost:3001/api/user";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
-      const response = await axios.get(petUrl, { headers });
+      const response = await axios.get(userUrl, { headers });
       if (response) {
         const usersArray = response.data;
-        console.log(usersArray);
         const updatedUsers = usersArray.map((user) => ({
           name: `${user.firstName} ${user.lastName}`,
           phoneNumber: `${user.phoneNumber}`,
           email: `${user.email}`,
           userType: `${user.userType}`,
+          clickEvent: () => {
+            setSelectedUser(user);
+            setUserModalShow(true);
+          },
           image: (
             <div className="d-flex justify-content-center">
               <Image
@@ -56,11 +52,6 @@ const ManageUserScreen = (props) => {
               />
             </div>
           ),
-
-          clickEvent: () => {
-            setSelectedUser(user);
-            setUserModalShow(true);
-          },
         }));
 
         // Update the state with all userDetails objects after the map loop
@@ -72,10 +63,15 @@ const ManageUserScreen = (props) => {
       toast.error(err?.data?.message || err.error);
     }
   };
+  
+  useEffect(() => {
+    if (userInfo.user.userType !== "admin") {
+      navigate("/");
+    }
+    getUsers();
+  }, []);
 
-  useEffect(() => {}, []);
-
-  const petList = {
+  const userList = {
     columns: [
       {
         label: "Image",
@@ -127,7 +123,7 @@ const ManageUserScreen = (props) => {
                   </Button>
                 </Card.Header>
                 <Card.Body>
-                  <DataTable data={petList} />
+                  <DataTable data={userList} />
                 </Card.Body>
               </Card>
             </Col>

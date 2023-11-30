@@ -16,9 +16,8 @@ const UserModal = (props) => {
   const { data, onHide } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
-  console.log(data);
-  const [petInfo, setPetInfo] = useState({
-    _id: "",
+
+  const [userData, setUserData] = useState({
     username: "",
     firstName: "",
     middleName: "",
@@ -36,8 +35,8 @@ const UserModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      setPetInfo({
-        _id: data._id,
+      console.log(data);
+      setUserData({
         username: data.username,
         firstName: data.firstName,
         middleName: data.middleName,
@@ -53,8 +52,8 @@ const UserModal = (props) => {
         updatedAt: data.updatedAt,
       });
     } else {
-      setPetInfo({
-        _id: "",
+      console.log("wala yawa");
+      setUserData({
         username: "",
         firstName: "",
         middleName: "",
@@ -73,8 +72,8 @@ const UserModal = (props) => {
   }, []);
 
   const handleChange = (e) => {
-    setPetInfo({
-      ...petInfo,
+    setUserData({
+      ...userData,
       [e.target.name]: e.target.value,
     });
   };
@@ -82,13 +81,17 @@ const UserModal = (props) => {
   const clearForm = (e) => {
     e.preventDefault();
     if (window.confirm(`Are you sure you want to clear the form?`)) {
-      setPetInfo({
-        name: "",
-        species: "",
-        age: "",
+      setUserData({
+        username: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        birthday: "",
+        address: "",
+        email: "",
         gender: "",
-        breed: "",
-        description: "",
+        phoneNumber: "",
+        userType: "",
         image: "",
       });
       setSelectedFile(null);
@@ -97,103 +100,102 @@ const UserModal = (props) => {
     }
   };
 
-  // Register PET
-  const registerPet = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
+  // // Register PET
+  // const registerPet = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const formData = new FormData();
 
-      Object.keys(petInfo).forEach((key) => {
-        if (key !== "image") {
-          formData.append(key, petInfo[key]);
-        }
-        if (key === "image") {
-          formData.append("image", petInfo.image);
-        }
-      });
+  //     Object.keys(petInfo).forEach((key) => {
+  //       if (key !== "image") {
+  //         formData.append(key, petInfo[key]);
+  //       }
+  //       if (key === "image") {
+  //         formData.append("image", petInfo.image);
+  //       }
+  //     });
 
-      const petUrl = "http://localhost:3001/api/pet";
-      const headers = {
-        // "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.post(petUrl, formData, { headers }).then((response) => {
-        console.log(response.data);
-        setPetInfo({
-          name: "",
-          species: "",
-          age: "",
-          gender: "",
-          breed: "",
-          description: "",
-          image: "",
-        });
-        onHide();
-        toast.success("Successfully registered pet.");
-      });
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
+  //     const petUrl = "http://localhost:3001/api/pet";
+  //     const headers = {
+  //       // "Content-Type": "multipart/form-data",
+  //       Authorization: `Bearer ${token}`,
+  //     };
+  //     await axios.post(petUrl, formData, { headers }).then((response) => {
+  //       console.log(response.data);
+  //       setPetInfo({
+  //         name: "",
+  //         species: "",
+  //         age: "",
+  //         gender: "",
+  //         breed: "",
+  //         description: "",
+  //         image: "",
+  //       });
+  //       onHide();
+  //       toast.success("Successfully registered pet.");
+  //     });
+  //   } catch (err) {
+  //     toast.error(err?.data?.message || err.error);
+  //   }
+  // };
 
-  const updatePet = async (e) => {
-    e.preventDefault();
-    try {
-      const petUrl = `http://localhost:3001/api/pet/${petInfo.id}`;
-      const headers = {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      };
-      console.log(petInfo);
-      await axios.put(petUrl, petInfo, { headers }).then((response) => {
-        onHide();
-        toast.success("Successfully updated pet.");
-      });
-      console.log("UPDATE");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
+  // const updatePet = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const petUrl = `http://localhost:3001/api/pet/${petInfo.id}`;
+  //     const headers = {
+  //       "Content-Type": "multipart/form-data",
+  //       Authorization: `Bearer ${token}`,
+  //     };
+  //     console.log(petInfo);
+  //     await axios.put(petUrl, petInfo, { headers }).then((response) => {
+  //       onHide();
+  //       toast.success("Successfully updated pet.");
+  //     });
+  //     console.log("UPDATE");
+  //   } catch (err) {
+  //     toast.error(err?.data?.message || err.error);
+  //   }
+  // };
 
-  //! delete pet
-  const deletePet = async (id) => {
-    try {
-      const petUrl = `http://localhost:3001/api/pet/${id}`;
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.delete(petUrl, { headers }).then((response) => {
-        console.log(response.data);
-        location.reload();
-      });
-      toast.success("Successfully deleted pet.");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
+  // // delete pet
+  // const deletePet = async (id) => {
+  //   try {
+  //     const petUrl = `http://localhost:3001/api/pet/${id}`;
+  //     const headers = {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     };
+  //     await axios.delete(petUrl, { headers }).then((response) => {
+  //       console.log(response.data);
+  //       location.reload();
+  //     });
+  //     toast.success("Successfully deleted pet.");
+  //   } catch (err) {
+  //     toast.error(err?.data?.message || err.error);
+  //   }
+  // };
 
-  const handleDelete = () => {
-    console.log(data._id);
-    if (window.confirm(`Are you sure you want to delete ${data.name}?`)) {
-      deletePet(data._id);
-      onHide();
-    }
-  };
+  // const handleDelete = () => {
+  //   console.log(data._id);
+  //   if (window.confirm(`Are you sure you want to delete ${data.name}?`)) {
+  //     deletePet(data._id);
+  //     onHide();
+  //   }
+  // };
 
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedFile(e.target.result);
       };
       reader.readAsDataURL(file);
-      setPetInfo((prevPetInfo) => ({
-        ...prevPetInfo,
+      setUserData((prevUserData) => ({
+        ...prevUserData,
         image: file,
       }));
     }
@@ -214,7 +216,7 @@ const UserModal = (props) => {
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-center">
               {!data && "Register "}
-              Pet Details
+              User Details
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="px-5">
@@ -231,8 +233,8 @@ const UserModal = (props) => {
                 ) : data ? (
                   <Image
                     src={
-                      data.imgPath
-                        ? `http://localhost:3001/${data.imgPath}`
+                      data.img
+                        ? `http://localhost:3001/${data.img}`
                         : "http://localhost:3001/defaults/default-questionmark.jpg"
                     }
                     alt="Preview"
@@ -261,52 +263,52 @@ const UserModal = (props) => {
                 </FloatingLabel>
                 <FloatingLabel
                   className="mb-2"
-                  controlId="name"
-                  label="Pet name"
+                  controlId="username"
+                  label="Username"
                 >
                   <Form.Control
                     type="text"
-                    name="name"
-                    placeholder="Pet name"
-                    value={petInfo.name}
+                    name="username"
+                    placeholder="Username"
+                    value={userData.username}
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <Row className="mb-2">
-                  <Col sm={12} md={4}>
-                    <FloatingLabel controlId="specie" label="Pet specie">
-                      <Form.Select
-                        name="species"
-                        value={petInfo.species}
-                        onChange={handleChange}
-                      >
-                        <option value="">Select specie</option>
-                        <option value="Dog">Dog</option>
-                        <option value="Cat">Cat</option>
-                        <option value="Bird">Bird</option>
-                      </Form.Select>
-                    </FloatingLabel>
-                  </Col>
-                  <Col sm={12} md={4}>
-                    <FloatingLabel controlId="age" label="Pet age">
-                      <Form.Control
-                        type="text"
-                        name="age"
-                        placeholder="Pet age"
-                        value={petInfo.age}
-                        onChange={handleChange}
-                      />
-                    </FloatingLabel>
-                  </Col>
-                </Row>
+                <FloatingLabel controlId="firstName" label="First Name">
+                  <Form.Control
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={userData.firstName}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+                <FloatingLabel controlId="middleName" label="Middle Name">
+                  <Form.Control
+                    type="text"
+                    name="middleName"
+                    placeholder="Middle Name"
+                    value={userData.middleName}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+                <FloatingLabel controlId="lastName" label="Last Name">
+                  <Form.Control
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={userData.lastName}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
                 <FloatingLabel
                   className="mb-2"
                   controlId="gender"
-                  label="Pet gender"
+                  label="Gender"
                 >
                   <Form.Select
                     name="gender"
-                    value={petInfo.gender}
+                    value={userData.gender}
                     onChange={handleChange}
                   >
                     <option value="">Select gender</option>
@@ -316,43 +318,79 @@ const UserModal = (props) => {
                 </FloatingLabel>
                 <FloatingLabel
                   className="mb-2"
-                  controlId="breed"
-                  label="Pet breed"
+                  controlId="birthday"
+                  label="Date of Birth"
                 >
                   <Form.Control
-                    type="text"
-                    name="breed"
-                    placeholder="Pet breed"
-                    value={petInfo.breed}
+                    type="date"
+                    name="birthday"
+                    placeholder="Date of Birth"
+                    // value={userData.birthday}
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <FloatingLabel controlId="description" label="Pet description">
+                <FloatingLabel controlId="phoneNumber" label="Phone Number">
                   <Form.Control
-                    as="textarea"
                     type="text"
-                    rows={5}
-                    name="description"
-                    placeholder="Pet description"
-                    value={petInfo.description}
+                    name="phoneNumber"
+                    placeholder="Phone Number"
+                    value={userData.phoneNumber}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+                <FloatingLabel controlId="email" label="Email Address">
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    value={userData.email}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+                <FloatingLabel controlId="address" label="Permanent Address">
+                  <Form.Control
+                    type="text"
+                    name="address"
+                    placeholder="Permanent Address"
+                    value={userData.address}
                     onChange={handleChange}
                   />
                 </FloatingLabel>
               </Col>
             </Row>
           </Modal.Body>
+          {/* phoneNumber: "",
+              userType: "", */}
           <Modal.Footer>
             <Col className="d-flex justify-content-between">
-              <Button onClick={handleDelete} variant="danger">
-                Delete Pet
-              </Button>
+              {data && (
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log("Delete User");
+                  }}
+                  variant="danger"
+                >
+                  Delete User
+                </Button>
+              )}
               <Button
-                onClick={data ? updatePet : registerPet}
+                onClick={
+                  data
+                    ? (e) => {
+                        e.preventDefault();
+                        console.log("Update User");
+                      }
+                    : (e) => {
+                        e.preventDefault();
+                        console.log("Register User");
+                      }
+                }
                 className="ms-auto"
                 type="submit"
                 variant={data ? "warning" : "primary"}
               >
-                {data ? "Update Pet" : "Register Pet"}
+                {data ? "Update User" : "Register User"}
               </Button>
             </Col>
             <Button onClick={clearForm} variant="secondary">

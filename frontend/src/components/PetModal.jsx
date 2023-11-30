@@ -18,7 +18,6 @@ const PetModal = (props) => {
   const token = userInfo.token;
 
   const [petInfo, setPetInfo] = useState({
-    _id: "",
     name: "",
     species: "",
     age: "",
@@ -30,8 +29,8 @@ const PetModal = (props) => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setPetInfo({
-        id: data._id,
         name: data.name,
         species: data.species,
         age: data.age,
@@ -42,7 +41,6 @@ const PetModal = (props) => {
       });
     } else {
       setPetInfo({
-        id: "",
         name: "",
         species: "",
         age: 1,
