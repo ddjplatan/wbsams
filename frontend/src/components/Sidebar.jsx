@@ -44,12 +44,30 @@ const Sidebar = () => {
                   Donations
                 </CDBSidebarMenuItem>
               </LinkContainer>
+              <LinkContainer to="/requests">
+                <CDBSidebarMenuItem icon="th-large">
+                  Pending Requests
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+            </>
+          ) : userInfo.user.userType === "staff" ? (
+            <>
+              <LinkContainer to="/donations">
+                <CDBSidebarMenuItem icon="th-large">
+                  Donations
+                </CDBSidebarMenuItem>
+              </LinkContainer>
             </>
           ) : (
             <>
-              <LinkContainer to="/view/pets">
+              <LinkContainer to="/donations">
                 <CDBSidebarMenuItem icon="th-large">
                   Donations
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/pets">
+                <CDBSidebarMenuItem icon="th-large">
+                  View Pets
                 </CDBSidebarMenuItem>
               </LinkContainer>
             </>

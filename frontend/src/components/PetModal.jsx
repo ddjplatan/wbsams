@@ -16,6 +16,8 @@ const PetModal = (props) => {
   const { data, onHide } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
+  const userType = userInfo.user.userType;
+  console.log(data);
 
   const [petInfo, setPetInfo] = useState({
     name: "",
@@ -29,7 +31,6 @@ const PetModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setPetInfo({
         name: data.name,
         species: data.species,
@@ -118,7 +119,6 @@ const PetModal = (props) => {
   const updatePet = async (e) => {
     e.preventDefault();
     try {
-
       const formData = new FormData();
 
       Object.keys(petInfo).forEach((key) => {
@@ -190,6 +190,11 @@ const PetModal = (props) => {
     }
   };
 
+  const adoptNow = (e) => {
+    e.preventDefault();
+    console.log("Adopt Now");
+  };
+
   return (
     <>
       <Modal
@@ -241,15 +246,23 @@ const PetModal = (props) => {
                 )}
               </Col>
               <Col>
-                <FloatingLabel className="mb-2" controlId="image" label="image">
-                  <Form.Control
-                    type="file"
-                    name="image"
-                    placeholder={selectedFile}
-                    value={""}
-                    onChange={handleFileChange}
-                  />
-                </FloatingLabel>
+                {userType !== "user" && (
+                  <FloatingLabel
+                    className="mb-2"
+                    controlId="image"
+                    label="image"
+                  >
+                    <Form.Control
+                      type="file"
+                      name="image"
+                      placeholder={selectedFile}
+                      value={""}
+                      onChange={handleFileChange}
+                      disabled={userType === "user"}
+                    />
+                  </FloatingLabel>
+                )}
+
                 <FloatingLabel
                   className="mb-2"
                   controlId="name"
@@ -261,6 +274,7 @@ const PetModal = (props) => {
                     placeholder="Pet name"
                     value={petInfo.name}
                     onChange={handleChange}
+                    disabled={userType === "user"}
                   />
                 </FloatingLabel>
                 <Row className="mb-2">
@@ -270,6 +284,7 @@ const PetModal = (props) => {
                         name="species"
                         value={petInfo.species}
                         onChange={handleChange}
+                        disabled={userType === "user"}
                       >
                         <option value="">Select specie</option>
                         <option value="Dog">Dog</option>
@@ -286,6 +301,7 @@ const PetModal = (props) => {
                         placeholder="Pet age"
                         value={petInfo.age}
                         onChange={handleChange}
+                        disabled={userType === "user"}
                       />
                     </FloatingLabel>
                   </Col>
@@ -299,6 +315,7 @@ const PetModal = (props) => {
                     name="gender"
                     value={petInfo.gender}
                     onChange={handleChange}
+                    disabled={userType === "user"}
                   >
                     <option value="">Select gender</option>
                     <option value="Male">Male</option>
@@ -316,6 +333,7 @@ const PetModal = (props) => {
                     placeholder="Pet breed"
                     value={petInfo.breed}
                     onChange={handleChange}
+                    disabled={userType === "user"}
                   />
                 </FloatingLabel>
                 <FloatingLabel controlId="description" label="Pet description">
@@ -327,28 +345,44 @@ const PetModal = (props) => {
                     placeholder="Pet description"
                     value={petInfo.description}
                     onChange={handleChange}
+                    disabled={userType === "user"}
                   />
                 </FloatingLabel>
               </Col>
             </Row>
           </Modal.Body>
           <Modal.Footer>
-            <Col className="d-flex justify-content-between">
-              <Button onClick={handleDelete} variant="danger">
-                Delete Pet
-              </Button>
-              <Button
-                onClick={data ? updatePet : registerPet}
-                className="ms-auto"
-                type="submit"
-                variant={data ? "warning" : "primary"}
-              >
-                {data ? "Update Pet" : "Register Pet"}
-              </Button>
-            </Col>
-            <Button onClick={clearForm} variant="secondary">
-              Clear
-            </Button>
+            {userType !== "user" ? (
+              <>
+                <Col className="d-flex justify-content-between">
+                  <Button onClick={handleDelete} variant="danger">
+                    Delete Pet
+                  </Button>
+                  <Button
+                    onClick={data ? updatePet : registerPet}
+                    className="ms-auto"
+                    type="submit"
+                    variant={data ? "warning" : "primary"}
+                  >
+                    {data ? "Update Pet" : "Register Pet"}
+                  </Button>
+                </Col>
+                <Button onClick={clearForm} variant="secondary">
+                  Clear
+                </Button>
+              </>
+            ) : (
+              <>
+                <Col className="d-flex justify-content-between">
+                  <Button onClick={adoptNow} variant="success">
+                    Adopt
+                  </Button>
+                  <Button onClick={onHide} variant="secondary">
+                    Close
+                  </Button>
+                </Col>
+              </>
+            )}
           </Modal.Footer>
         </Form>
       </Modal>

@@ -21,6 +21,8 @@ import ManagePetScreen from "./screens/ManagePetScreen.jsx";
 import MonitorPetScreen from "./screens/MonitorPetScreen.jsx";
 import ManageUserScreen from "./screens/ManageUserScreen.jsx";
 import DonationScreen from "./screens/DonationScreen.jsx";
+import ViewPetsScreen from "./screens/ViewPetsScreen.jsx";
+import RequestScreen from "./screens/RequestScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +37,8 @@ const router = createBrowserRouter(
         <Route path="/users" element={<ManageUserScreen />} />
         <Route path="/donations" element={<DonationScreen />} />
         <Route path="/manage/pets" element={<ManagePetScreen />} />
+        <Route path="/pets" element={<ViewPetsScreen />} />
+        <Route path="/requests" element={<RequestScreen />} />
         <Route path="/monitor/pets" element={<MonitorPetScreen />} />
       </Route>
     </Route>
