@@ -96,7 +96,6 @@ const PetModal = (props) => {
 
       const petUrl = "http://localhost:3001/api/pet";
       const headers = {
-        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
       await axios.post(petUrl, formData, { headers }).then((response) => {
@@ -121,13 +120,25 @@ const PetModal = (props) => {
   const updatePet = async (e) => {
     e.preventDefault();
     try {
+
+      const formData = new FormData();
+
+      Object.keys(petInfo).forEach((key) => {
+        if (key !== "image") {
+          formData.append(key, petInfo[key]);
+        }
+        if (key === "image") {
+          formData.append("image", petInfo.image);
+        }
+      });
+
       const petUrl = `http://localhost:3001/api/pet/${petInfo.id}`;
       const headers = {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
       console.log(petInfo);
-      await axios.put(petUrl, petInfo, { headers }).then((response) => {
+      await axios.put(petUrl, formData, { headers }).then((response) => {
         onHide();
         toast.success("Successfully updated pet.");
       });

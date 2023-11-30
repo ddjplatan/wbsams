@@ -49,7 +49,13 @@ router
 router
   .route("/:petId")
   .get(reqReceived, getPet)
-  .put(reqReceived, protectedRoute, staffValidator, updatePet)
+  .put(
+    reqReceived,
+    protectedRoute,
+    staffValidator,
+    upload.single("image"),
+    updatePet
+  )
   .delete(reqReceived, protectedRoute, staffValidator, deletePet);
 
 module.exports = router;
