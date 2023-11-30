@@ -47,23 +47,16 @@ const ManageUserScreen = (props) => {
           phoneNumber: `${user.phoneNumber}`,
           email: `${user.email}`,
           userType: `${user.userType}`,
-          image: user.imgPath ? (
+          image: (
             <div className="d-flex justify-content-center">
               <Image
                 height={200}
                 width={200}
-                src={`http://localhost:3001/${user.imgPath}`}
-              />
-            </div>
-          ) : (
-            <div className="d-flex justify-content-center">
-              <Image
-                height={200}
-                width={200}
-                src={`http://localhost:3001/defaults/default-profile.png`}
+                src={`http://localhost:3001/${user.img}`}
               />
             </div>
           ),
+
           clickEvent: () => {
             setSelectedUser(user);
             setUserModalShow(true);
@@ -80,8 +73,7 @@ const ManageUserScreen = (props) => {
     }
   };
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const petList = {
     columns: [
