@@ -156,13 +156,20 @@ const deletePet = async (req, res, next) => {
 
 const updatePet = async (req, res, next) => {
   try {
-    // const user = await Pet.findById(req.params.petId);
-    // const user = await User.findOne({ email: req.body.email });
-
     const update = { ...req.body };
-    const updated = await Pet.findByIdAndUpdate(req.params.petId, update, {
-      new: true,
+    const dynamicUpdate = {};
+
+    Object.keys(update).forEach((key) => {
+      if (update[key] !== undefined) {
+        dynamicUpdate[key] = update[key];
+      }
     });
+
+    const updated = await Pet.findByIdAndUpdate(
+      req.params.petId,
+      dynamicUpdate,
+      { new: true }
+    );
     await updated.save();
 
     res
