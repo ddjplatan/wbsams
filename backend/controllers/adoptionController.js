@@ -3,7 +3,7 @@ const Pet = require("../models/Pet");
 
 const postAdoption = async (req, res, next) => {
   const adopter = req.user._id;
-  const adoptee = req.body.petId;
+  const adoptee = req.body._id;
   const date = new Date(Date.now());
 
   const { reason, parentJob } = req.body;

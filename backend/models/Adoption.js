@@ -40,6 +40,10 @@ const AdoptionSchema = new Schema(
       type: String,
       required: [true, "Please indicate the furparent's job"],
     },
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
     checkups: [CheckupSchema],
   },
   {

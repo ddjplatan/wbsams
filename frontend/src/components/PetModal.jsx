@@ -192,7 +192,17 @@ const PetModal = (props) => {
 
   const adoptNow = (e) => {
     e.preventDefault();
-    console.log("Adopt Now");
+    const petUrl = `http://localhost:3001/api/pet/${data._id}/adopt`;
+    console.log(token)
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    if (window.confirm(`Are you sure you want to adopt ${data.name}?`)) {
+      const res = axios.post(petUrl, data, {headers})
+      console.log(res.data)
+      onHide();
+    }
   };
 
   return (

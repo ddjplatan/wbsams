@@ -35,6 +35,7 @@ const {
   createPet,
   getAdoptedPets,
 } = require("../controllers/petController");
+const { postAdoption } = require("../controllers/adoptionController");
 
 router
   .route("/")
@@ -57,5 +58,7 @@ router
     updatePet
   )
   .delete(reqReceived, protectedRoute, staffValidator, deletePet);
+
+router.route("/:petId/adopt").post(reqReceived, protectedRoute, postAdoption);
 
 module.exports = router;
