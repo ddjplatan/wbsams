@@ -17,7 +17,7 @@ const PetModal = (props) => {
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
-  console.log(data);
+  // console.log(data);
 
   const [petInfo, setPetInfo] = useState({
     name: "",

@@ -1,42 +1,35 @@
 import {
-  BarChart,
-  Bar,
-  Rectangle,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from "recharts";
 
-const Chart = ({data}) => {
-
+const Chart = ({ data }) => {
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]; // Define colors for different segments
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar
+    <ResponsiveContainer width="100%" height={400}>
+      <PieChart>
+        <Pie
+          data={data}
           dataKey="qty"
-          fill="#82ca9d"
-          activeBar={<Rectangle fill="gold" stroke="purple" />}
-        />
-      </BarChart>
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={200}
+          fill="#8884d8"
+          label
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend layout="vertical" align="right" verticalAlign="middle" />
+      </PieChart>
     </ResponsiveContainer>
   );
 };

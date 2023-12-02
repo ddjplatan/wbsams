@@ -57,15 +57,15 @@ const Hero = () => {
             {!userInfo && (
               <div>
                 <LinkContainer to="/login">
-                  <Button variant="primary" className="me-3">
+                  <Button size="lg" variant="primary" className="me-3">
                     Sign in
                   </Button>
                 </LinkContainer>
-                <LinkContainer to="/register">
+                {/* <LinkContainer to="/register">
                   <Button variant="secondary" href="/register">
                     Sign up
                   </Button>
-                </LinkContainer>
+                </LinkContainer> */}
               </div>
             )}
             {userInfo && (

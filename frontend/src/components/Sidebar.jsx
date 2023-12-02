@@ -14,10 +14,10 @@ const Sidebar = () => {
 
   return (
     <CDBSidebar
-      textColor="#333"
-      backgroundColor="#f0f0f0"
+      textColor="#ffffff"
+      backgroundColor="#545454"
       className="mr-2 h-auto"
-      style={{ marginRight: "20px" }}
+      style={{ marginRight: "20px"}}
     >
       <CDBSidebarHeader prefix={<i className="fa fa-bars" />}>
         Dashboard
@@ -31,30 +31,35 @@ const Sidebar = () => {
             <>
               <LinkContainer to="/manage/pets">
                 <CDBSidebarMenuItem icon="th-large">
-                  Manage Pets
+                  Adopt a Pet
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/monitor/pets">
+              <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
-                  Monitor Adopted Pets
+                  Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/donations">
+              <LinkContainer to="/spay-and-neuter">
                 <CDBSidebarMenuItem icon="th-large">
-                  Donations
+                  Spay and Neuter
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/requests">
+              <LinkContainer to="/events">
                 <CDBSidebarMenuItem icon="th-large">
-                  Pending Requests
+                  Events
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/about-us">
+                <CDBSidebarMenuItem icon="th-large">
+                  About Us
                 </CDBSidebarMenuItem>
               </LinkContainer>
             </>
           ) : userInfo.user.userType === "staff" ? (
             <>
-              <LinkContainer to="/donations">
+              <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
-                  Donations
+                  Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
             </>

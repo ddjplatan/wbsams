@@ -14,10 +14,12 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 
+import CawsLogo from "../assets/images/png/caws.png";
+
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
   // console.log(userInfo)
-  const baseUrl = 'http://localhost:3001'
+  const baseUrl = "http://localhost:3001";
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,10 +37,20 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar variant="light" bg="light" expand="lg" collapseOnSelect>
+      <Navbar
+        style={{ backgroundColor: "#545454" }}
+        expand="lg"
+        variant="dark"
+        collapseOnSelect
+      >
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>CDO Animal Shelter</Navbar.Brand>
+            <Image src={CawsLogo} roundedCircle width={75} height={75} />
+          </LinkContainer>
+          <LinkContainer to="/" className="m-3">
+            <Navbar.Brand className="text-white">
+              CDO Animal Welfare Society Inc.
+            </Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -49,7 +61,12 @@ const Header = () => {
                   {userInfo.user.userType === "admin" && (
                     <LinkContainer to="/users">
                       <Nav.Link>
-                        <div style={{ marginRight: "20px" }}>Manage Users</div>
+                        <div
+                          style={{ marginRight: "20px" }}
+                          className="text-white"
+                        >
+                          Manage Users
+                        </div>
                       </Nav.Link>
                     </LinkContainer>
                   )}
@@ -93,11 +110,11 @@ const Header = () => {
                       <FaSignInAlt /> Sign in
                     </Nav.Link>
                   </LinkContainer>
-                  <LinkContainer to="/register">
+                  {/* <LinkContainer to="/register">
                     <Nav.Link>
                       <FaUserPlus /> Sign up
                     </Nav.Link>
-                  </LinkContainer>
+                  </LinkContainer> */}
                 </>
               )}
             </Nav>

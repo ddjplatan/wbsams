@@ -1,8 +1,8 @@
 import { Form, Button, Row, Col, Card, Image } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import LoginBG from "../assets/images/defaults/login.jpg";
-import PetCareImg from "../assets/images/defaults/pet-care.png";
+import CAWS from "../assets/images/png/caws.png";
+import LoginPets from "../assets/images/jpg/login-pets.jpg";
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,11 +42,11 @@ const LoginScreen = () => {
     <Card className="p-4 mt-3">
       <Row>
         <Col sm={0} md={8}>
-          <Card.Img src={LoginBG} height={"100%"} />
+          <Card.Img src={LoginPets} height={"100%"} />
         </Col>
         <Col className="d-flex align-items-center">
           <Card className="w-100 h-100">
-          <Card.Img src={PetCareImg} height={"100%"} />
+            <Card.Img src={CAWS} height={"100%"} />
             <Card.Body>
               <Card.Title className="fw-bold">Sign in</Card.Title>
               <Form onSubmit={submitHandler}>
@@ -71,14 +71,19 @@ const LoginScreen = () => {
 
                 {isLoading && <Loader />}
 
-                <Button type="submit" variant="primary" className="mt-3">
+                <Button
+                  size="lg"
+                  type="submit"
+                  variant="primary"
+                  className="mt-3 w-100"
+                >
                   Sign in
                 </Button>
-                <Row className="py-3">
+                {/* <Row className="py-3">
                   <Col>
                     New User? <Link to="/register">Register</Link>
                   </Col>
-                </Row>
+                </Row> */}
               </Form>
             </Card.Body>
           </Card>

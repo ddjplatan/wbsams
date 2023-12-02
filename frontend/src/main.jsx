@@ -35,7 +35,7 @@ const router = createBrowserRouter(
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/dashboard" element={<DashboardScreen />} />
         <Route path="/users" element={<ManageUserScreen />} />
-        <Route path="/donations" element={<DonationScreen />} />
+        <Route path="/donation" element={<DonationScreen />} />
         <Route path="/manage/pets" element={<ManagePetScreen />} />
         <Route path="/pets" element={<ViewPetsScreen />} />
         <Route path="/requests" element={<RequestScreen />} />
