@@ -34,7 +34,12 @@ const postAdoption = async (req, res, next) => {
 const getAdoptions = async (req, res, next) => {
   const { skip, limit } = req.query;
   const count = await Adoption.countDocuments();
-  const adoptions = await Adoption.find().skip(skip).limit(limit);
+  const adoptions = await Adoption.find()
+    .skip(skip)
+    .limit(limit)
+    .populate("adopter")
+    .populate("adoptee");
+
   res
     .status(200)
     .setHeader("Content-Type", "application/json")

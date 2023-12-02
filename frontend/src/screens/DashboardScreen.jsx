@@ -27,6 +27,7 @@ const DashboardScreen = () => {
   const [selectedPet, setSelectedPet] = useState(null);
   //! FETCH PETS
   const [pets, setPets] = useState([]);
+  const [requests, setRequests] = useState([]);
   const getPets = async () => {
     try {
       const petUrl = "http://localhost:3001/api/pet";
@@ -85,9 +86,26 @@ const DashboardScreen = () => {
       toast.error(err?.data?.message || err.error);
     }
   };
+  const getAdoptionRequests = async() => {
+    try {
+      const petUrl = "http://localhost:3001/api/adoption";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(petUrl, { headers });
+      if(response){
+        console.log(response.data)
+        // setRequests(response.data)
+      }
+    } catch (error) {
+      
+    }
+  }
 
   useEffect(() => {
     getPets();
+    getAdoptionRequests();
   }, []);
 
   // Initialize an object to store the quantities of each species
@@ -145,7 +163,7 @@ const DashboardScreen = () => {
         sort: "disabled",
       },
     ],
-    rows: [],
+    rows: requests,
   };
 
   return (
