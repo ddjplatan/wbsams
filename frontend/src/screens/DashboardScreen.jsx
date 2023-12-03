@@ -176,7 +176,13 @@ const DashboardScreen = () => {
                   variant="success"
                   size="sm"
                   className="w-100 my-1"
-                  onClick={() => console.log("Approve")}
+                  onClick={async() => {
+                    const data = {
+                      adoptee: adoptionRequest.adoptee,
+                      adopter: adoptionRequest.adopter
+                    }
+                    const response = await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data, {headers})
+                  }}
                 >
                   Approve
                 </Button>

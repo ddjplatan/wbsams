@@ -16,6 +16,7 @@ const {
   deleteAdoption,
   deleteAdoptions,
   postCheckup,
+  confirmAdoption,
 } = require("../controllers/adoptionController");
 
 router
@@ -31,6 +32,10 @@ router
   .delete(reqReceived, protectedRoute, staffValidator, deleteAdoption);
 
 router
-  .route("/:adpotionId")
+  .route("/:adoptionId/confirm")
+  .post(reqReceived, protectedRoute, staffValidator, confirmAdoption);
+
+router
+  .route("/:adoptionId/checkup")
   .post(reqReceived, protectedRoute, staffValidator, postCheckup);
 module.exports = router;

@@ -7,11 +7,6 @@ const postAdoption = async (req, res, next) => {
   const date = new Date(Date.now());
 
   const { reason, parentJob } = req.body;
-  await Pet.findOneAndUpdate(
-    { _id: adoptee },
-    { $set: { adopted: true } },
-    { new: true }
-  );
 
   try {
     await Adoption.create({
@@ -29,6 +24,22 @@ const postAdoption = async (req, res, next) => {
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
+};
+
+const confirmAdoption = async (req, res, next) => {
+  const adoptionId = req.params;
+  const { adoptee, adopter } = req.body;
+  await Pet.findOneAndUpdate(
+    { _id: adoptee },
+    { $set: { adopted: true, owner: adopter } },
+    { new: true }
+  );
+
+  await Adoption.findOneAndUpdate(
+    { _id: adoptionId },
+    { $set: { isApproved: true } },
+    { new: true }
+  );
 };
 
 const getAdoptions = async (req, res, next) => {
@@ -123,4 +134,5 @@ module.exports = {
   deleteAdoption,
   deleteAdoptions,
   postCheckup,
+  confirmAdoption,
 };
