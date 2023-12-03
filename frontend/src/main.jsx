@@ -23,6 +23,7 @@ import ManageUserScreen from "./screens/ManageUserScreen.jsx";
 import DonationScreen from "./screens/DonationScreen.jsx";
 import ViewPetsScreen from "./screens/ViewPetsScreen.jsx";
 import RequestScreen from "./screens/RequestScreen.jsx";
+import SpayNeuterScreen from "./screens/SpayNeuterScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,6 +41,8 @@ const router = createBrowserRouter(
         <Route path="/pets" element={<ViewPetsScreen />} />
         <Route path="/requests" element={<RequestScreen />} />
         <Route path="/monitor/pets" element={<MonitorPetScreen />} />
+        <Route path="/spay-and-neuter" element={<SpayNeuterScreen />} />
+
       </Route>
     </Route>
   )
@@ -47,8 +50,6 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    {/* <React.StrictMode> */}
       <RouterProvider router={router} />
-    {/* </React.StrictMode> */}
   </Provider>
 );
