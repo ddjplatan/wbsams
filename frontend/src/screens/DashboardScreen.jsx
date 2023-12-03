@@ -17,6 +17,7 @@ import axios from "axios";
 
 const DashboardScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const userType = userInfo.userType
   const token = userInfo.token;
 
   const navigate = useNavigate();
@@ -27,6 +28,71 @@ const DashboardScreen = () => {
   const [selectedPet, setSelectedPet] = useState(null);
   //! FETCH PETS
   const [pets, setPets] = useState([]);
+  const [adoptions, setAdoptions] = useState([]);
+  const [volunteers, setVolunteers] = useState([]);
+  const [donations, setDonations] = useState([]);
+  const [spayAndNeuters, setSpayAndNeuters] = useState([]);
+
+  const getAdoptions = async() => {
+    try {
+      const url = "http://localhost:3001/api/adoption";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(url, { headers });
+      const approvedAdoptions = response.data.filter((adoptions)=>{
+        return adoptions.isApproved === true
+      })
+      setAdoptions(approvedAdoptions)
+    } catch (error) {
+      toast.error(err?.data?.message || err.error);
+    }
+  }
+
+  const getVolunteers = async() => {
+    try {
+      const url = "http://localhost:3001/api/volunteer";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(url, { headers });
+      setVolunteers(response.data)
+    } catch (error) {
+      toast.error(err?.data?.message || err.error);
+    }
+  }
+
+  const getDonations = async() => {
+    try {
+      const url = "http://localhost:3001/api/donation";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(url, { headers });
+      setDonations(response.data)
+    } catch (error) {
+      toast.error(err?.data?.message || err.error);
+    }
+  }
+
+  const getSpayAndNeuters = async() => {
+    try {
+      const url = "http://localhost:3001/api/spay-and-neuter";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(url, { headers });
+      setSpayAndNeuters(response.data)
+    } catch (error) {
+      toast.error(err?.data?.message || err.error);
+    }
+  }
+
+
   const getPets = async () => {
     try {
       const petUrl = "http://localhost:3001/api/pet";
@@ -136,8 +202,12 @@ const DashboardScreen = () => {
   };
 
   useEffect(() => {
-    getPets();
+    // getPets();
     getAdoptionRequests();
+    getAdoptions();
+    getVolunteers();
+    getDonations();
+    getSpayAndNeuters();
   }, []);
 
   // Initialize an object to store the quantities of each species
