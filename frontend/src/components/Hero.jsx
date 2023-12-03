@@ -43,8 +43,8 @@ const Hero = () => {
   ];
   return (
     <div className="py-2">
-      <Container className="d-flex justify-content-center" id="style-container">
-        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-75">
+      <div className="d-flex justify-content-center" id="style-container">
+        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-100">
           <h1 className="text-center fw-bold">Cagayan de Oro City</h1>
           <h1 className="text-center mb-4 fw-bold">Animal Shelter</h1>
           <p className="text-center mb-4 font-monospace">
@@ -84,7 +84,7 @@ const Hero = () => {
               ))}
           </Row>
         </Card>
-      </Container>
+      </div>
     </div>
   );
 };

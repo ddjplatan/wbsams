@@ -8,7 +8,7 @@ import { Form, Button, Row, Col, Image, Card } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import RegistrationBG from "../assets/images/png/caws.png";
+import RegistrationBG from "../assets/images/caws/png/caws-logo.png";
 
 const RegisterScreen = () => {
   const [file, setFile] = useState();

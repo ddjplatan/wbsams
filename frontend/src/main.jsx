@@ -17,12 +17,12 @@ import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
 import DashboardScreen from "./screens/DashboardScreen.jsx";
-import ManagePetScreen from "./screens/ManagePetScreen.jsx";
+import AdoptScreen from "./screens/AdoptScreen.jsx";
 import MonitorPetScreen from "./screens/MonitorPetScreen.jsx";
 import ManageUserScreen from "./screens/ManageUserScreen.jsx";
 import DonationScreen from "./screens/DonationScreen.jsx";
 import ViewPetsScreen from "./screens/ViewPetsScreen.jsx";
-import RequestScreen from "./screens/RequestScreen.jsx";
+import AboutScreen from "./screens/AboutScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,9 +36,9 @@ const router = createBrowserRouter(
         <Route path="/dashboard" element={<DashboardScreen />} />
         <Route path="/users" element={<ManageUserScreen />} />
         <Route path="/donation" element={<DonationScreen />} />
-        <Route path="/manage/pets" element={<ManagePetScreen />} />
+        <Route path="/adopt" element={<AdoptScreen />} />
         <Route path="/pets" element={<ViewPetsScreen />} />
-        <Route path="/requests" element={<RequestScreen />} />
+        <Route path="/about-us" element={<AboutScreen />} />
         <Route path="/monitor/pets" element={<MonitorPetScreen />} />
       </Route>
     </Route>

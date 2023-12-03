@@ -29,9 +29,9 @@ const Sidebar = () => {
           </LinkContainer>
           {userInfo.user.userType === "admin" ? (
             <>
-              <LinkContainer to="/manage/pets">
+              <LinkContainer to="/adopt">
                 <CDBSidebarMenuItem icon="th-large">
-                  Adopt a Pet
+                  Adopt
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/donation">

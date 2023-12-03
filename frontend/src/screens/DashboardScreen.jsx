@@ -5,7 +5,7 @@ import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import PetCard from "../components/PetCard";
-import DashboardImg from "../assets/images/png/caws.png";
+import DashboardImg from "../assets/images/caws/png/caws-logo.png";
 
 import { useNavigate } from "react-router-dom";
 
@@ -106,12 +106,20 @@ const DashboardScreen = () => {
             createdAt: adoptionRequest.createdAt,
             action: (
               <>
-                <Button variant="success" size="sm" className="w-100 my-1"
-                onClick={() => console.log("Approve")}>
+                <Button
+                  variant="success"
+                  size="sm"
+                  className="w-100 my-1"
+                  onClick={() => console.log("Approve")}
+                >
                   Approve
                 </Button>
-                <Button variant="warning" size="sm" className="w-100 my-1"
-                onClick={() => console.log("Reject")}>
+                <Button
+                  variant="warning"
+                  size="sm"
+                  className="w-100 my-1"
+                  onClick={() => console.log("Reject")}
+                >
                   Reject
                 </Button>
               </>
@@ -190,7 +198,7 @@ const DashboardScreen = () => {
     <div className="d-flex">
       <Sidebar />
       <Card
-        className="p-3 d-flex hero-card w-100 border-0"
+        className="d-flex hero-card w-100 border-0"
         style={{ backgroundColor: "#93B8C1" }}
       >
         <Row className="mb-4">

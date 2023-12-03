@@ -1,8 +1,8 @@
 import { Form, Button, Row, Col, Card, Image } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import CAWS from "../assets/images/png/caws.png";
-import LoginPets from "../assets/images/jpg/login-pets.jpg";
+import CAWS from "../assets/images/caws/png/caws-logo.png";
+import LoginPets from "../assets/images/caws/jpg/login-pets.jpg";
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
