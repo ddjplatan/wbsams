@@ -27,7 +27,6 @@ const DashboardScreen = () => {
   const [selectedPet, setSelectedPet] = useState(null);
   //! FETCH PETS
   const [pets, setPets] = useState([]);
-  const [requests, setRequests] = useState([]);
   const getPets = async () => {
     try {
       const petUrl = "http://localhost:3001/api/pet";
@@ -86,7 +85,9 @@ const DashboardScreen = () => {
       toast.error(err?.data?.message || err.error);
     }
   };
-  const getAdoptionRequests = async() => {
+
+  const [adoptionRequests, setAdoptionRequests] = useState([]);
+  const getAdoptionRequests = async () => {
     try {
       const petUrl = "http://localhost:3001/api/adoption";
       const headers = {
@@ -94,14 +95,37 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(petUrl, { headers });
-      if(response){
-        console.log(response.data)
-        // setRequests(response.data)
+      if (response) {
+        const adoptionRequest = response.data;
+        const updatedAdoptionRequest = adoptionRequest.map(
+          (adoptionRequest) => ({
+            adopter: adoptionRequest.adopter,
+            adoptee: adoptionRequest.adoptee,
+            parentJob: adoptionRequest.parentJob,
+            reason: adoptionRequest.reason,
+            createdAt: adoptionRequest.createdAt,
+            action: (
+              <>
+                <Button variant="success" size="sm" className="w-100 my-1"
+                onClick={() => console.log("Approve")}>
+                  Approve
+                </Button>
+                <Button variant="warning" size="sm" className="w-100 my-1"
+                onClick={() => console.log("Reject")}>
+                  Reject
+                </Button>
+              </>
+            ),
+          })
+        );
+        setAdoptionRequests([...adoptionRequests, ...updatedAdoptionRequest]);
+
+        return response;
       }
-    } catch (error) {
-      
+    } catch (err) {
+      console.log("Error on getting adoption requests.");
     }
-  }
+  };
 
   useEffect(() => {
     getPets();
@@ -129,22 +153,13 @@ const DashboardScreen = () => {
   const adoptionRequestList = {
     columns: [
       {
-        label: "Image",
-        field: "image",
+        label: "Furr Parent",
+        field: "adopter",
         sort: "disabled",
       },
       {
-        label: "Name",
-        field: "name",
-        sort: "disabled",
-        attributes: {
-          "aria-controls": "DataTable",
-          "aria-label": "Name",
-        },
-      },
-      {
-        label: "Work",
-        field: "work",
+        label: "Parent's Job",
+        field: "parentJob",
         sort: "disabled",
       },
       {
@@ -158,29 +173,37 @@ const DashboardScreen = () => {
         sort: "disabled",
       },
       {
+        label: "Date of Request",
+        field: "createdAt",
+        sort: "disabled",
+      },
+      {
         label: "Action",
         field: "action",
         sort: "disabled",
       },
     ],
-    rows: requests,
+    rows: adoptionRequests,
   };
 
   return (
     <div className="d-flex">
       <Sidebar />
-      <Card className="p-3 d-flex hero-card w-100">
+      <Card
+        className="p-3 d-flex hero-card w-100 border-0"
+        style={{ backgroundColor: "#93B8C1" }}
+      >
         <Row className="mb-4">
           <Col lg={8}>
-            <Card border="default" className=" h-100">
+            <Card border="default" className="h-100">
               <Card.Header>Data Visualization</Card.Header>
               <Card.Body>
                 <Chart data={chartData} />
               </Card.Body>
             </Card>
           </Col>
-          <Col lg={4} className="">
-            <Card>
+          <Col lg={4}>
+            <Card className="h-100">
               <Card.Img variant="top" src={DashboardImg} />
               <ListGroup className="list-group-flush">
                 <ListGroup.Item>
