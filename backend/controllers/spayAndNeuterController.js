@@ -1,4 +1,5 @@
 const SpayAndNeuter = require("../models/SpayAndNeuter");
+const Pet = require("../models/Pet");
 
 const postInstance = async (req, res, next) => {
   const { location, date, slots, otherDetails } = req.body;
@@ -12,7 +13,7 @@ const postInstance = async (req, res, next) => {
     });
 
     res
-      .status(200)
+      .status(201)
       .setHeader("Content-Type", "application/json")
       .json({ success: true, message: "Instance created" });
   } catch (err) {
@@ -35,7 +36,10 @@ const getInstance = async (req, res, next) => {
 const getInstances = async (req, res, next) => {
   const { skip, limit } = req.query;
   const count = await SpayAndNeuter.countDocuments();
-  const instances = await SpayAndNeuter.find().skip(skip).limit(limit);
+  const instances = await SpayAndNeuter.find()
+    .skip(skip)
+    .limit(limit)
+    .populate("registeredPets");
   res
     .status(200)
     .setHeader("Content-Type", "application/json")
