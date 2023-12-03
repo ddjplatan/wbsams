@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
 import { Card, Row, Col, Button, Table, Modal, Form } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import '../assets/SpayNeuterScreen.css'; 
 const SpayNeuterScreen = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const token = userInfo.token;
+  const [reload,setReload] = useState(false)
   const [events, setEvents] = useState([]);
 
   const [showAddEventModal, setShowAddEventModal] = useState(false);
   const [newEventDetails, setNewEventDetails] = useState({
     location: '',
     date: '',
-    availableSlots: 0,
-    details: '',
+    slots: 0,
+    otherDetails: '',
   });
 
   const [selectedEventId, setSelectedEventId] = useState(null);
 
-  const handleShowAddEventModal = (eventId) => {
+  const handleShowAddEventModal = async(eventId) => {
     setShowAddEventModal(true);
     setSelectedEventId(eventId);
     if (eventId) {
-      const selectedEvent = events.find((event) => event.id === eventId);
-      setNewEventDetails(selectedEvent);
+      try {
+      const url = `http://localhost:3001/api/spay-and-neuter/${eventId}`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.put(url, newEventDetails, { headers });
+      if (response.status===200) {
+        setReload(!reload)
+      }
+    } catch (err) {
+      console.log("Error posting spay and neuter event: ", err);
+    }
     } else {
       setNewEventDetails({
         location: '',
         date: '',
-        availableSlots: 0,
-        details: '',
+        slots: 0,
+        otherDetails: '',
       });
     }
   };
@@ -36,26 +52,72 @@ const SpayNeuterScreen = () => {
     setSelectedEventId(null);
   };
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async() => {
     if (selectedEventId) {
       const updatedEvents = events.map((event) =>
         event.id === selectedEventId ? { ...newEventDetails, id: event.id } : event
       );
       setEvents(updatedEvents);
     } else {
-    
-      setEvents((prevEvents) => [
-        ...prevEvents,
-        { ...newEventDetails, id: prevEvents.length + 1 },
-      ]);
+      try {
+        const url = "http://localhost:3001/api/spay-and-neuter";
+        const headers = {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        };
+        const response = await axios.post(url, newEventDetails, { headers });
+        if (response.status===201) {
+          setReload(!reload)
+        }
+      } catch (err) {
+        console.log("Error posting spay and neuter event: ", err);
+      }
     }
     handleCloseAddEventModal();
   };
 
-  const handleDeleteEvent = (id) => {
-    const updatedEvents = events.filter((event) => event.id !== id);
-    setEvents(updatedEvents);
+  const handleDeleteEvent = async(id) => {
+    try {
+      const url = `http://localhost:3001/api/spay-and-neuter/${id}`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.delete(url, { headers });
+      if (response.status===200) {
+        setReload(!reload)
+      }
+    } catch (err) {
+      console.log("Error deleting spay and neuter event: ", err);
+    }
   };
+
+  const fetchSpayNeuter = async() => {
+    try {
+      const url = "http://localhost:3001/api/spay-and-neuter";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(url, { headers });
+      if (response.status===200) {
+        const spayNeuters = response.data;
+        const convertedData = spayNeuters.map((spayNeuter)=>{
+          const date = new Date(spayNeuter.date)
+          spayNeuter.date = date.toLocaleDateString();
+
+    return spayNeuter;
+        })
+        setEvents(spayNeuters);
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  }
+
+  useEffect(() => {
+    fetchSpayNeuter();
+  }, [reload]);
 
   return (
     <div className="d-flex">
@@ -87,23 +149,23 @@ const SpayNeuterScreen = () => {
                   </thead>
                   <tbody>
                     {events.map((event) => (
-                      <tr key={event.id}>
+                      <tr key={event._id}>
                         <td>{event.location}</td>
                         <td>{event.date}</td>
-                        <td>{event.availableSlots}</td>
-                        <td>{event.details}</td>
+                        <td>{event.slots}</td>
+                        <td>{event.otherDetails}</td>
                         <td>
                           <Button
                             variant="outline-success"
                             className="spay-neuter-btn add-btn"
-                            onClick={() => handleShowAddEventModal(event.id)}
+                            onClick={() => handleShowAddEventModal(event._id)}
                           >
                             <i className="fas fa-pencil-alt"></i> Update
                           </Button>
                           <Button
                             variant="outline-danger"
                             className="spay-neuter-btn delete-btn"
-                            onClick={() => handleDeleteEvent(event.id)}
+                            onClick={() => handleDeleteEvent(event._id)}
                           >
                             <i className="fas fa-trash"></i> Delete
                           </Button>
@@ -152,9 +214,9 @@ const SpayNeuterScreen = () => {
               <Form.Label>Available Slots</Form.Label>
               <Form.Control
                 type="number"
-                value={newEventDetails.availableSlots}
+                value={newEventDetails.slots}
                 onChange={(e) =>
-                  setNewEventDetails({ ...newEventDetails, availableSlots: e.target.value })
+                  setNewEventDetails({ ...newEventDetails, slots: e.target.value })
                 }
               />
             </Form.Group>
@@ -163,9 +225,9 @@ const SpayNeuterScreen = () => {
               <Form.Control
                 as="textarea"
                 rows={3}
-                value={newEventDetails.details}
+                value={newEventDetails.otherDetails}
                 onChange={(e) =>
-                  setNewEventDetails({ ...newEventDetails, details: e.target.value })
+                  setNewEventDetails({ ...newEventDetails, otherDetails: e.target.value })
                 }
               />
             </Form.Group>
