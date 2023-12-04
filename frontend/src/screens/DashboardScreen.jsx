@@ -163,14 +163,13 @@ const DashboardScreen = () => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const adoptionRequest = response.data;
-        console.log(adoptionRequest)
         const updatedAdoptionRequest = adoptionRequest.map(
           (adoptionRequest) => ({
             adopter: adoptionRequest.adopter.firstName,
             adoptee: adoptionRequest.adoptee.name,
             parentJob: adoptionRequest.parentJob,
             reason: adoptionRequest.reason,
-            createdAt: adoptionRequest.createdAt,
+            createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
             action: (
               <>
                 <Button
@@ -178,11 +177,11 @@ const DashboardScreen = () => {
                   size="sm"
                   className="w-100 my-1"
                   onClick={async() => {
-                    // const data = {
-                    //   adoptee: adoptionRequest.adoptee,
-                    //   adopter: adoptionRequest.adopter
-                    // }
-                    // const response = await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data, {headers})
+                    const data = {
+                      adoptee: adoptionRequest.adoptee,
+                      adopter: adoptionRequest.adopter
+                    }
+                    const response = await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data, {headers})
                   }}
                 >
                   Approve
@@ -254,7 +253,7 @@ const DashboardScreen = () => {
       },
       {
         label: "Pet to Adopt",
-        field: "toAdopt",
+        field: "adoptee",
         sort: "disabled",
       },
       {
