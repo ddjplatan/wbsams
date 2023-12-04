@@ -19,7 +19,7 @@ const Chart = ({ data }) => {
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={200}
+          outerRadius={170}
           fill="#8884d8"
           label
         >

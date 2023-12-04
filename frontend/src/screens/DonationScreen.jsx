@@ -10,7 +10,9 @@ const DonationScreen = () => {
         <Row>
           <Col>
             <Card border="default">
-              <Card.Header>Donations</Card.Header>
+              <Card.Header>
+                <h3>Donation Acknowledgements</h3>
+              </Card.Header>
               <Card.Body>
                 <DataTable />
               </Card.Body>
