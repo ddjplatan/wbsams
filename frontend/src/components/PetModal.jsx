@@ -53,7 +53,7 @@ const PetModal = (props) => {
     }
   }, [data]);
 
-  const handleChange = (e) => {
+  const petHandleChange = (e) => {
     setPetInfo({
       ...petInfo,
       [e.target.name]: e.target.value,
@@ -205,7 +205,18 @@ const PetModal = (props) => {
     }
   };
 
-  const [toUpdate, setToUpdate] = useState(true);
+  const [toUpdate, setToUpdate] = useState(false);
+
+  const [adoptForm, setAdoptForm] = useState({
+    reason: "",
+    parentJob: ""
+  })
+  const adoptHandleChange = (e) => {
+    setAdoptForm({
+      ...adoptForm,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <>
@@ -218,215 +229,234 @@ const PetModal = (props) => {
           setSelectedFile(null);
         }}
       >
-        <Form>
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-center">
-              {!data && "Register "}
-              Pet Details
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="px-5">
-            <Row>
-              <Col className="d-flex justify-content-center">
-                {selectedFile ? (
-                  <Image
-                    src={selectedFile}
-                    alt="Preview"
-                    rounded
-                    height={350}
-                    width={350}
-                  />
-                ) : data ? (
-                  <Image
-                    src={
-                      data.imgPath
-                        ? `http://localhost:3001/${data.imgPath}`
-                        : "http://localhost:3001/defaults/default-questionmark.jpg"
-                    }
-                    alt="Preview"
-                    rounded
-                    height={350}
-                    width={350}
-                  />
-                ) : (
-                  <Image
-                    src="http://localhost:3001/defaults/default-questionmark.jpg"
-                    rounded
-                    height={350}
-                    width={350}
-                  />
-                )}
-              </Col>
-              <Col>
-                {userType !== "user" && (
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-center">
+            {!data && "Register "}
+            Pet Details
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="px-5">
+          <Row>
+            <Col className="d-flex justify-content-center">
+              {selectedFile ? (
+                <Image
+                  src={selectedFile}
+                  alt="Preview"
+                  rounded
+                  height={350}
+                  width={350}
+                />
+              ) : data ? (
+                <Image
+                  src={
+                    data.imgPath
+                      ? `http://localhost:3001/${data.imgPath}`
+                      : "http://localhost:3001/defaults/default-questionmark.jpg"
+                  }
+                  alt="Preview"
+                  rounded
+                  height={350}
+                  width={350}
+                />
+              ) : (
+                <Image
+                  src="http://localhost:3001/defaults/default-questionmark.jpg"
+                  rounded
+                  height={350}
+                  width={350}
+                />
+              )}
+            </Col>
+            <Col>
+              {toUpdate ? (
+                <Form>
                   <FloatingLabel
                     className="mb-2"
-                    controlId="image"
-                    label="image"
+                    controlId="reason"
+                    label="Reason"
                   >
                     <Form.Control
-                      type="file"
-                      name="image"
-                      placeholder={selectedFile}
-                      value={""}
-                      onChange={handleFileChange}
+                      as="textarea"
+                      type="text"
+                      rows={5}
+                      name="reason"
+                      value={adoptForm.reason}
+                      onChange={adoptHandleChange}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel
+                    className="mb-2"
+                    controlId="parentJob"
+                    label="Parent's Job"
+                  >
+                    <Form.Control
+                      type="text"
+                      name="parentJob"
+                      value={adoptForm.parentJob}
+                      onChange={adoptHandleChange}
+                    />
+                  </FloatingLabel>
+                </Form>
+              ) : (
+                <Form>
+                  {userType !== "user" && (
+                    <FloatingLabel
+                      className="mb-2"
+                      controlId="image"
+                      label="image"
+                    >
+                      <Form.Control
+                        type="file"
+                        name="image"
+                        placeholder={selectedFile}
+                        value={""}
+                        onChange={handleFileChange}
+                        disabled={userType === "user"}
+                      />
+                    </FloatingLabel>
+                  )}
+
+                  <FloatingLabel
+                    className="mb-2"
+                    controlId="name"
+                    label="Pet name"
+                  >
+                    <Form.Control
+                      type="text"
+                      name="name"
+                      placeholder="Pet name"
+                      value={petInfo.name}
+                      onChange={petHandleChange}
                       disabled={userType === "user"}
                     />
                   </FloatingLabel>
-                )}
-
+                  <Row className="mb-2">
+                    <Col sm={12} md={4}>
+                      <FloatingLabel controlId="specie" label="Pet specie">
+                        <Form.Select
+                          name="species"
+                          value={petInfo.species}
+                          onChange={petHandleChange}
+                          disabled={userType === "user"}
+                        >
+                          <option value="">Select specie</option>
+                          <option value="Dog">Dog</option>
+                          <option value="Cat">Cat</option>
+                          <option value="Bird">Bird</option>
+                        </Form.Select>
+                      </FloatingLabel>
+                    </Col>
+                    <Col sm={12} md={4}>
+                      <FloatingLabel controlId="age" label="Pet age">
+                        <Form.Control
+                          type="text"
+                          name="age"
+                          placeholder="Pet age"
+                          value={petInfo.age}
+                          onChange={petHandleChange}
+                          disabled={userType === "user"}
+                        />
+                      </FloatingLabel>
+                    </Col>
+                  </Row>
+                  <FloatingLabel
+                    className="mb-2"
+                    controlId="gender"
+                    label="Pet gender"
+                  >
+                    <Form.Select
+                      name="gender"
+                      value={petInfo.gender}
+                      onChange={petHandleChange}
+                      disabled={userType === "user"}
+                    >
+                      <option value="">Select gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </Form.Select>
+                  </FloatingLabel>
+                  <FloatingLabel
+                    className="mb-2"
+                    controlId="breed"
+                    label="Pet breed"
+                  >
+                    <Form.Control
+                      type="text"
+                      name="breed"
+                      placeholder="Pet breed"
+                      value={petInfo.breed}
+                      onChange={petHandleChange}
+                      disabled={userType === "user"}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel
+                    controlId="description"
+                    label="Pet description"
+                  >
+                    <Form.Control
+                      as="textarea"
+                      type="text"
+                      rows={5}
+                      name="description"
+                      placeholder="Pet description"
+                      value={petInfo.description}
+                      onChange={petHandleChange}
+                      disabled={userType === "user"}
+                    />
+                  </FloatingLabel>
+                </Form>
+              )}
+            </Col>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          {userType !== "user" ? (
+            <>
+              <Col className="d-flex justify-content-between">
+                <Button onClick={handleDelete} variant="danger">
+                  Delete Pet
+                </Button>
+                <Button
+                  onClick={data ? updatePet : registerPet}
+                  className="ms-auto"
+                  type="submit"
+                  variant={data ? "warning" : "primary"}
+                >
+                  {data ? "Update Pet" : "Register Pet"}
+                </Button>
+              </Col>
+              <Button onClick={clearForm} variant="secondary">
+                Clear
+              </Button>
+            </>
+          ) : (
+            <>
+              <Col className="d-flex justify-content-end">
                 {toUpdate ? (
                   <>
-                    <FloatingLabel
-                      className="mb-2"
-                      controlId="name"
-                      label="Pet name"
+                    <Button
+                      onClick={adoptNow}
+                      variant="success"
+                      className="me-2"
                     >
-                      <Form.Control
-                        type="text"
-                        name="name"
-                        placeholder="Pet name"
-                        value={petInfo.name}
-                        onChange={handleChange}
-                        disabled={userType === "user"}
-                      />
-                    </FloatingLabel>
-                  </>
-                ) : (
-                  <>
-                    <FloatingLabel
-                      className="mb-2"
-                      controlId="name"
-                      label="Pet name"
-                    >
-                      <Form.Control
-                        type="text"
-                        name="name"
-                        placeholder="Pet name"
-                        value={petInfo.name}
-                        onChange={handleChange}
-                        disabled={userType === "user"}
-                      />
-                    </FloatingLabel>
-                    <Row className="mb-2">
-                      <Col sm={12} md={4}>
-                        <FloatingLabel controlId="specie" label="Pet specie">
-                          <Form.Select
-                            name="species"
-                            value={petInfo.species}
-                            onChange={handleChange}
-                            disabled={userType === "user"}
-                          >
-                            <option value="">Select specie</option>
-                            <option value="Dog">Dog</option>
-                            <option value="Cat">Cat</option>
-                            <option value="Bird">Bird</option>
-                          </Form.Select>
-                        </FloatingLabel>
-                      </Col>
-                      <Col sm={12} md={4}>
-                        <FloatingLabel controlId="age" label="Pet age">
-                          <Form.Control
-                            type="text"
-                            name="age"
-                            placeholder="Pet age"
-                            value={petInfo.age}
-                            onChange={handleChange}
-                            disabled={userType === "user"}
-                          />
-                        </FloatingLabel>
-                      </Col>
-                    </Row>
-                    <FloatingLabel
-                      className="mb-2"
-                      controlId="gender"
-                      label="Pet gender"
-                    >
-                      <Form.Select
-                        name="gender"
-                        value={petInfo.gender}
-                        onChange={handleChange}
-                        disabled={userType === "user"}
-                      >
-                        <option value="">Select gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                      </Form.Select>
-                    </FloatingLabel>
-                    <FloatingLabel
-                      className="mb-2"
-                      controlId="breed"
-                      label="Pet breed"
-                    >
-                      <Form.Control
-                        type="text"
-                        name="breed"
-                        placeholder="Pet breed"
-                        value={petInfo.breed}
-                        onChange={handleChange}
-                        disabled={userType === "user"}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel
-                      controlId="description"
-                      label="Pet description"
-                    >
-                      <Form.Control
-                        as="textarea"
-                        type="text"
-                        rows={5}
-                        name="description"
-                        placeholder="Pet description"
-                        value={petInfo.description}
-                        onChange={handleChange}
-                        disabled={userType === "user"}
-                      />
-                    </FloatingLabel>
-                  </>
-                )}
-              </Col>
-            </Row>
-          </Modal.Body>
-          <Modal.Footer>
-            {userType !== "user" ? (
-              <>
-                <Col className="d-flex justify-content-between">
-                  <Button onClick={handleDelete} variant="danger">
-                    Delete Pet
-                  </Button>
-                  <Button
-                    onClick={data ? updatePet : registerPet}
-                    className="ms-auto"
-                    type="submit"
-                    variant={data ? "warning" : "primary"}
-                  >
-                    {data ? "Update Pet" : "Register Pet"}
-                  </Button>
-                </Col>
-                <Button onClick={clearForm} variant="secondary">
-                  Clear
-                </Button>
-              </>
-            ) : (
-              <>
-                <Col className="d-flex justify-content-between">
-                  {toUpdate ? (
-                    <Button onClick={adoptNow} variant="success">
                       Confirm
                     </Button>
-                  ) : (
-                    <Button onClick={setToUpdate(true)} variant="success">
-                      Adopt this Pet
+                    <Button
+                      onClick={() => setToUpdate(false)}
+                      variant="secondary"
+                    >
+                      Cancel
                     </Button>
-                  )}
-                  <Button onClick={onHide} variant="secondary">
-                    Close
+                  </>
+                ) : (
+                  <Button onClick={() => setToUpdate(true)} variant="success">
+                    Adopt this Pet
                   </Button>
-                </Col>
-              </>
-            )}
-          </Modal.Footer>
-        </Form>
+                )}
+              </Col>
+            </>
+          )}
+        </Modal.Footer>
       </Modal>
     </>
   );

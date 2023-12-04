@@ -106,17 +106,17 @@ const getPet = async (req, res, next) => {
   }
 };
 
-// const deletePets = async (req, res, next) => {
-//   try {
-//     await Pet.deleteMany();
-//     res
-//       .status(200)
-//       .setHeader("Content-Type", "application/json")
-//       .json({ success: true, msg: "Deleted all pets" });
-//   } catch (err) {
-//     throw new Error(`Error retrieving User:${err.message}`);
-//   }
-// };
+const deletePets = async (req, res, next) => {
+  try {
+    await Pet.deleteMany();
+    res
+      .status(200)
+      .setHeader("Content-Type", "application/json")
+      .json({ success: true, msg: "Deleted all pets" });
+  } catch (err) {
+    throw new Error(`Error retrieving User:${err.message}`);
+  }
+};
 
 const deletePet = async (req, res, next) => {
   try {
@@ -217,7 +217,7 @@ const createPet = async (req, res, next) => {
 module.exports = {
   getPets,
   getPet,
-  // deletePets,
+  deletePets,
   deletePet,
   updatePet,
   createPet,

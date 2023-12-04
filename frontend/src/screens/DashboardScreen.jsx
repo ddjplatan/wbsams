@@ -21,7 +21,7 @@ const DashboardScreen = () => {
 
   //! FETCH adoptions
   const [adoptions, setAdoptions] = useState([]);
-  const getAdoptions = async() => {
+  const getAdoptions = async () => {
     try {
       const url = "http://localhost:3001/api/adoption";
       const headers = {
@@ -29,17 +29,17 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      const approvedAdoptions = response.data.filter((adoptions)=>{
-        return adoptions.isApproved === true
-      })
-      setAdoptions(approvedAdoptions)
+      const approvedAdoptions = response.data.filter((adoptions) => {
+        return adoptions.isApproved === true;
+      });
+      setAdoptions(approvedAdoptions);
     } catch (error) {
       toast.error(err?.data?.message || err.error);
     }
-  }
+  };
 
   const [volunteers, setVolunteers] = useState([]);
-  const getVolunteers = async() => {
+  const getVolunteers = async () => {
     try {
       const url = "http://localhost:3001/api/volunteer";
       const headers = {
@@ -47,14 +47,14 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      setVolunteers(response.data)
+      setVolunteers(response.data);
     } catch (error) {
       toast.error(err?.data?.message || err.error);
     }
-  }
+  };
 
   const [donations, setDonations] = useState([]);
-  const getDonations = async() => {
+  const getDonations = async () => {
     try {
       const url = "http://localhost:3001/api/donation";
       const headers = {
@@ -62,14 +62,14 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      setDonations(response.data)
+      setDonations(response.data);
     } catch (error) {
       toast.error(err?.data?.message || err.error);
     }
-  }
+  };
 
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
-  const getSpayAndNeuters = async() => {
+  const getSpayAndNeuters = async () => {
     try {
       const url = "http://localhost:3001/api/spay-and-neuter";
       const headers = {
@@ -77,11 +77,11 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      setSpayAndNeuters(response.data)
+      setSpayAndNeuters(response.data);
     } catch (error) {
       toast.error(err?.data?.message || err.error);
     }
-  }
+  };
 
   const [adoptionRequests, setAdoptionRequests] = useState([]);
   const getAdoptionRequests = async () => {
@@ -94,25 +94,35 @@ const DashboardScreen = () => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const adoptionRequest = response.data;
-        const updatedAdoptionRequest = adoptionRequest.map(
+
+        const unApprovedRequests = adoptionRequest.filter((request) => {
+          return !request.isApproved;
+        });
+
+        const updatedAdoptionRequest = unApprovedRequests.map(
           (adoptionRequest) => ({
             adopter: adoptionRequest.adopter.firstName,
             adoptee: adoptionRequest.adoptee.name,
             parentJob: adoptionRequest.parentJob,
             reason: adoptionRequest.reason,
-            createdAt: adoptionRequest.createdAt,
+            createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
             action: (
               <>
                 <Button
                   variant="success"
                   size="sm"
                   className="w-100 my-1"
-                  onClick={async() => {
-                    // const data = {
-                    //   adoptee: adoptionRequest.adoptee,
-                    //   adopter: adoptionRequest.adopter
-                    // }
-                    // const response = await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data, {headers})
+                  onClick={async () => {
+                    const data = {
+                      adoptee: adoptionRequest.adoptee,
+                      adopter: adoptionRequest.adopter,
+                    };
+                    console.log(data);
+                    const response = await axios.post(
+                      `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
+                      data,
+                      { headers }
+                    );
                   }}
                 >
                   Approve
@@ -147,7 +157,6 @@ const DashboardScreen = () => {
     getSpayAndNeuters();
   }, []);
 
-
   const adoptionRequestList = {
     columns: [
       {
@@ -167,7 +176,7 @@ const DashboardScreen = () => {
       },
       {
         label: "Pet to Adopt",
-        field: "toAdopt",
+        field: "adoptee",
         sort: "disabled",
       },
       {
@@ -196,12 +205,14 @@ const DashboardScreen = () => {
             <Card border="default" className="h-100">
               <Card.Header>Data Visualization</Card.Header>
               <Card.Body>
-                <Chart data={[
-                  {name: "Adoptions", qty: adoptions.length},
-                  {name: "Donations", qty: donations.length},
-                  {name: "Volunteers", qty: volunteers.length},
-                  {name: "Spay and Neuters", qty: spayAndNeuters.length},
-                ]} />
+                <Chart
+                  data={[
+                    { name: "Adoptions", qty: adoptions.length },
+                    { name: "Donations", qty: donations.length },
+                    { name: "Volunteers", qty: volunteers.length },
+                    { name: "Spay and Neuters", qty: spayAndNeuters.length },
+                  ]}
+                />
               </Card.Body>
             </Card>
           </Col>
