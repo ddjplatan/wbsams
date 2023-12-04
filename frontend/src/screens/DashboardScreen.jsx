@@ -163,7 +163,10 @@ const DashboardScreen = () => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const adoptionRequest = response.data;
-        const updatedAdoptionRequest = adoptionRequest.map(
+        const unApprovedRequests = adoptionRequest.filter((request)=> {
+          return !request.isApproved
+        })
+        const updatedAdoptionRequest = unApprovedRequests.map(
           (adoptionRequest) => ({
             adopter: adoptionRequest.adopter.firstName,
             adoptee: adoptionRequest.adoptee.name,
@@ -181,6 +184,7 @@ const DashboardScreen = () => {
                       adoptee: adoptionRequest.adoptee,
                       adopter: adoptionRequest.adopter
                     }
+                    console.log(data)
                     const response = await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data, {headers})
                   }}
                 >
