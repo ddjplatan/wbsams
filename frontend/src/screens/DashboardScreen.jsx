@@ -184,7 +184,7 @@ const DashboardScreen = () => {
                       adoptee: adoptionRequest.adoptee,
                       adopter: adoptionRequest.adopter
                     }
-                    console.log(data)
+                    
                     const response = await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data, {headers})
                   }}
                 >
@@ -194,7 +194,14 @@ const DashboardScreen = () => {
                   variant="warning"
                   size="sm"
                   className="w-100 my-1"
-                  onClick={() => console.log("Reject")}
+                  onClick={async() => {
+                    
+                    const headers = {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    };
+                    const response = await axios.delete(`http://localhost:3001/api/adoption/${adoptionRequest._id}`, {headers})
+                  }}
                 >
                   Reject
                 </Button>
