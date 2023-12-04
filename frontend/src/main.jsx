@@ -24,6 +24,7 @@ import DonationScreen from "./screens/DonationScreen.jsx";
 import ViewPetsScreen from "./screens/ViewPetsScreen.jsx";
 import AboutScreen from "./screens/AboutScreen.jsx";
 import SpayNeuterScreen from "./screens/SpayNeuterScreen.jsx";
+import EventScreen from "./screens/EventScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +43,8 @@ const router = createBrowserRouter(
         <Route path="/about-us" element={<AboutScreen />} />
         <Route path="/monitor/pets" element={<MonitorPetScreen />} />
         <Route path="/spay-and-neuter" element={<SpayNeuterScreen />} />
+        <Route path="/events" element={<EventScreen />} />
+
 
       </Route>
     </Route>
