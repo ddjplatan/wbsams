@@ -40,8 +40,8 @@ const { postAdoption } = require("../controllers/adoptionController");
 router
   .route("/")
   .post(reqReceived, protectedRoute, upload.single("image"), createPet)
-  .get(reqReceived, getPets);
-// .delete(reqReceived, protectedRoute, adminValidator, deletePets);
+  .get(reqReceived, getPets)
+  .delete(reqReceived, protectedRoute, adminValidator, deletePets);
 
 router
   .route("/adoptedPets")
