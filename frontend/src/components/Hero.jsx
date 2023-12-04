@@ -53,9 +53,9 @@ const Hero = () => {
     },
   ];
   return (
-    <div className="py-2">
+    <div className="w-100">
       <div className="d-flex justify-content-center" id="style-container">
-        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-100">
+        <Card className="p-3 d-flex flex-column align-items-center hero-card bg-light w-100">
           <Carousel className="w-100 mb-3">
             <Carousel.Item interval={1000}>
               <Image

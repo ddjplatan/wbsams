@@ -1,10 +1,8 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useState } from "react";
-import PetModal from "./PetModal";
 
 const AcknowledgementCard = ({ data }) => {
-  const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  
   return (
     <>
       <Card>
@@ -27,21 +25,15 @@ const AcknowledgementCard = ({ data }) => {
           </Card.Text>
           <hr />
           <div className="d-flex justify-content-between">
-            <Button variant="primary" onClick={handleShow}>
-              View Details
+            <Button variant="primary" onClick={() => console.log("Edit Donation")}> 
+              Edit
             </Button>
-            <Button variant="primary" onClick={handleShow}>
-              View Details
+            <Button variant="primary" onClick={() => console.log("Delete Donation")}>
+              Delete
             </Button>
           </div>
         </Card.Body>
       </Card>
-
-      <PetModal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        data={pet}
-      />
     </>
   );
 };

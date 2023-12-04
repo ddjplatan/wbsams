@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import PetCard from "../components/PetCard";
 import DashboardImg from "../assets/images/caws/png/caws-logo.png";
+import StaffDashboardImg from "../assets/images/caws/jpg/staff-dashboard.jpg";
 
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,7 @@ import axios from "axios";
 
 const DashboardScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const userType = userInfo.user.userType;
   const token = userInfo.token;
 
   //! FETCH adoptions
@@ -77,7 +79,7 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      console.log('spay and neuters', response)
+      console.log("spay and neuters", response);
       setSpayAndNeuters(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -158,13 +160,20 @@ const DashboardScreen = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (userType === "user") {
+      navigate("/")
+    }
     // getPets();
+    if (userType === "admin") {
+      getAdoptions();
+      getVolunteers();
+      getDonations();
+      getSpayAndNeuters();
+    }
     getAdoptionRequests();
-    getAdoptions();
-    getVolunteers();
-    getDonations();
-    getSpayAndNeuters();
   }, []);
 
   const adoptionRequestList = {
@@ -210,83 +219,122 @@ const DashboardScreen = () => {
         className="d-flex hero-card w-100 border-0"
         style={{ backgroundColor: "#93B8C1" }}
       >
-        <Row className="mb-4">
-          <Col lg={8}>
-            <Card border="default" className="h-100">
-              <Card.Header>Data Visualization</Card.Header>
-              <Card.Body>
-                <Chart
-                  data={[
-                    { name: "Adoptions", qty: adoptions.length },
-                    { name: "Donations", qty: donations.length },
-                    { name: "Volunteers", qty: volunteers.length },
-                    { name: "Spay and Neuters", qty: spayAndNeuters.length },
-                  ]}
-                />
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col lg={4}>
-            <Card className="h-100">
-              <Card.Img variant="top" src={DashboardImg} />
-              <ListGroup className="list-group-flush">
-                <ListGroup.Item>
-                  <Button
-                    href="#"
-                    variant="info"
-                    className="w-100 text-white fw-bold"
-                  >
-                    Volunteer
-                  </Button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Button
-                    href="#"
-                    variant="info"
-                    className="w-100 text-white fw-bold"
-                  >
-                    Donor
-                  </Button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Button
-                    href="#"
-                    variant="info"
-                    className="w-100 text-white fw-bold"
-                  >
-                    Adoption
-                  </Button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Button
-                    href="#"
-                    variant="info"
-                    className="w-100 text-white fw-bold"
-                  >
-                    Spay and Neuter
-                  </Button>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Card border="default">
-              <Card.Header>
-                <h2 className="fw-bold">Adoption Requests</h2>
-              </Card.Header>
-              <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
-                <DataTable data={adoptionRequestList} />
-              </Card.Body>
-            </Card>
-          </Col>
-          {/* {limitedPetData.map((pet, index) => (
+        {/* ADMIN */}
+        {userType === "admin" && (
+          <>
+            <Row className="mb-4">
+              <Col lg={8}>
+                <Card border="default" className="h-100">
+                  <Card.Header>Data Visualization</Card.Header>
+                  <Card.Body>
+                    <Chart
+                      data={[
+                        { name: "Adoptions", qty: adoptions.length },
+                        { name: "Donations", qty: donations.length },
+                        { name: "Volunteers", qty: volunteers.length },
+                        {
+                          name: "Spay and Neuters",
+                          qty: spayAndNeuters.length,
+                        },
+                      ]}
+                    />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col lg={4}>
+                <Card className="h-100">
+                  <Card.Img variant="top" src={DashboardImg} />
+                  <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                      <Button
+                        href="#"
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Volunteer
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button
+                        href="#"
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Donor
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button
+                        href="#"
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Adoption
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button
+                        href="#"
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Spay and Neuter
+                      </Button>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Card border="default">
+                  <Card.Header>
+                    <h2 className="fw-bold">Adoption Requests</h2>
+                  </Card.Header>
+                  <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
+                    <DataTable data={adoptionRequestList} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              {/* {limitedPetData.map((pet, index) => (
             <Col key={pet.petId} sm={12} md={4}>
               <PetCard pet={pet} />
             </Col>
           ))} */}
-        </Row>
+            </Row>
+          </>
+        )}
+
+        {/* STAFF */}
+        {userType === "staff" && (
+          <>
+            <Row
+              className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
+              style={{
+                backgroundImage: `url(${StaffDashboardImg})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                height: "280px",
+              }}
+            >
+              <h1 className="mb-0">Hi! Welcome to CDO Animal Welfare Society.</h1>
+            </Row>
+            <Row>
+              <Col>
+                <Card border="default">
+                  <Card.Header>
+                    <h2 className="fw-bold">Adoption Requests</h2>
+                  </Card.Header>
+                  <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
+                    <DataTable data={adoptionRequestList} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </>
+        )}
+        {/* USER */}
+        {userType === "user" && <>user</>}
       </Card>
     </div>
   );

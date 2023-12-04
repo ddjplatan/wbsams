@@ -8,8 +8,6 @@ import { Card, Row, Col, Button } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import DataTable from "../components/DataTable";
 
-
-
 const DonationScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
@@ -18,53 +16,60 @@ const DonationScreen = () => {
     Authorization: `Bearer ${token}`,
   };
   const [reload, setReload] = useState(false);
-  const [donations, setDonations] = useState([])
+  const [donations, setDonations] = useState([]);
   const donationData = useState({
     donor: "",
-    donationType: ""
-  })
-  
-  const postDonation = async() => {
+    donationType: "",
+  });
+
+  const postDonation = async () => {
     try {
-      const res = await axios.post("http://localhost:3001/api/donation", donationData, {headers})
-      if(res.status === 201){
-        toast.success("Successfully added donation")
+      const res = await axios.post(
+        "http://localhost:3001/api/donation",
+        donationData,
+        { headers }
+      );
+      if (res.status === 201) {
+        toast.success("Successfully added donation");
         setReload(!reload);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
-    }
-  }
-
-  const getDonations = async () => {
-    try {
-      const res = await axios.get("http://localhost:3001/api/donation", {headers})
-    if(res.status === 201){
-      setDonations(res.data);
-    }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
-    }
-  }
-
-  const updateDonation = async(id) => {
-    try {
-      const url = `http://localhost:3001/api/donation/${id}`;
-      const response = await axios.put(url, donationData, { headers });
-      if (response.status===200) {
-        setReload(!reload)
       }
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
   };
 
-  const deleteDonation = async(id) => {
+  const getDonations = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/donation", {
+        headers,
+      });
+      if (res.status === 201) {
+        setDonations(res.data);
+        console.log(res);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const updateDonation = async (id) => {
+    try {
+      const url = `http://localhost:3001/api/donation/${id}`;
+      const response = await axios.put(url, donationData, { headers });
+      if (response.status === 200) {
+        setReload(!reload);
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
+
+  const deleteDonation = async (id) => {
     try {
       const url = `http://localhost:3001/api/donation/${id}`;
       const response = await axios.delete(url, { headers });
-      if (response.status===200) {
-        setReload(!reload)
+      if (response.status === 200) {
+        setReload(!reload);
       }
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -84,9 +89,7 @@ const DonationScreen = () => {
               <Card.Header>
                 <h3>Donation Acknowledgements</h3>
               </Card.Header>
-              <Card.Body>
-                <DataTable />
-              </Card.Body>
+              <Card.Body>{/* <DataTable /> */}</Card.Body>
             </Card>
           </Col>
         </Row>

@@ -17,22 +17,22 @@ const Sidebar = () => {
       textColor="#ffffff"
       backgroundColor="#545454"
       className="mr-2 h-auto"
-      style={{ marginRight: "20px"}}
+      style={{ marginRight: "20px" }}
     >
       <CDBSidebarHeader prefix={<i className="fa fa-bars" />}>
         Dashboard
       </CDBSidebarHeader>
       <CDBSidebarContent>
         <CDBSidebarMenu>
-          <LinkContainer to="/dashboard">
-            <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
-          </LinkContainer>
           {userInfo.user.userType === "admin" ? (
             <>
-              <LinkContainer to="/adopt">
+              <LinkContainer to="/dashboard">
                 <CDBSidebarMenuItem icon="th-large">
-                  Adopt
+                  Dashboard
                 </CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/adopt">
+                <CDBSidebarMenuItem icon="th-large">Adopt</CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
@@ -45,9 +45,7 @@ const Sidebar = () => {
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/events">
-                <CDBSidebarMenuItem icon="th-large">
-                  Events
-                </CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="th-large">Events</CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/about-us">
                 <CDBSidebarMenuItem icon="th-large">
@@ -65,14 +63,30 @@ const Sidebar = () => {
             </>
           ) : (
             <>
+              <LinkContainer to="/">
+                <CDBSidebarMenuItem icon="th-large">Home</CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/pets">
+                <CDBSidebarMenuItem icon="th-large">
+                  Adopt a Pet
+                </CDBSidebarMenuItem>
+              </LinkContainer>
               <LinkContainer to="/donations">
                 <CDBSidebarMenuItem icon="th-large">
                   Donations
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/pets">
+              <LinkContainer to="/spay-and-neuter">
                 <CDBSidebarMenuItem icon="th-large">
-                  View Pets
+                  Spay and Neuter
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/events">
+                <CDBSidebarMenuItem icon="th-large">Events</CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/about-us">
+                <CDBSidebarMenuItem icon="th-large">
+                  About Us
                 </CDBSidebarMenuItem>
               </LinkContainer>
             </>
