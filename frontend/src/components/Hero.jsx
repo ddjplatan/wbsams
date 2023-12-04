@@ -1,14 +1,23 @@
-import { Button, Container, Card, Row, Col, Image } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import {
+  Card,
+  Row,
+  Col,
+  Image,
+  Carousel,
+} from "react-bootstrap";
+import Dashboard1 from "../assets/images/caws/jpg/dashboard1.jpg";
+import Dashboard2 from "../assets/images/caws/jpg/dashboard2.jpg";
+import Dashboard3 from "../assets/images/caws/jpg/dashboard3.jpg";
+import Dashboard4 from "../assets/images/caws/jpg/dashboard4.jpg";
+import DashboardCarousel from "../assets/images/caws/jpg/dashboard-carousel.jpg";
 
 const DisplayCard = ({ data }) => {
   return (
-    <Col sm={12} md={6} lg={4}>
+    <Col sm={12} md={3} lg={3}>
       <Card>
         <Card.Img variant="top" src={data.Image} height={250} />
         <Card.Body>
-          <Card.Title>{data.Name}</Card.Title>
+          <Card.Title>{data.Title}</Card.Title>
           <Card.Text>{data.Description}</Card.Text>
         </Card.Body>
       </Card>
@@ -17,71 +26,56 @@ const DisplayCard = ({ data }) => {
 };
 
 const Hero = () => {
-  const { userInfo } = useSelector((state) => state.auth);
   const petDisplay = [
     {
-      Name: "Blu",
-      Specie: "Dog",
+      Title: "Adopt a Pet",
       Description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      Image: "http://localhost:3001/defaults/default-dog.jpg",
+      Image: Dashboard1,
     },
     {
-      Name: "Nana",
-      Specie: "Cat",
+      Title: "Donate",
       Description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      Image: "http://localhost:3001/defaults/default-cat.jpg",
+      Image: Dashboard2,
     },
     {
-      Name: "Birdie",
-      Specie: "Bird",
+      Title: "Spay and Neuter",
       Description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      Image: "http://localhost:3001/defaults/default-bird.jpg",
+      Image: Dashboard3,
+    },
+    {
+      Title: "Events",
+      Description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      Image: Dashboard4,
     },
   ];
   return (
     <div className="py-2">
       <div className="d-flex justify-content-center" id="style-container">
         <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-100">
-          <h1 className="text-center fw-bold">Cagayan de Oro City</h1>
-          <h1 className="text-center mb-4 fw-bold">Animal Shelter</h1>
-          <p className="text-center mb-4 font-monospace">
-            Welcome to Cagayan de Oro City (CDO) Animal Shelter, where tails wag
-            and hearts purr! Step into a world of compassion, where furry
-            friends find their forever homes and humans discover the
-            unconditional love of a loyal companion.
-          </p>
-          <div className="d-flex mb-4">
-            {!userInfo && (
-              <div>
-                <LinkContainer to="/login">
-                  <Button size="lg" variant="primary" className="me-3">
-                    Sign in
-                  </Button>
-                </LinkContainer>
-                {/* <LinkContainer to="/register">
-                  <Button variant="secondary" href="/register">
-                    Sign up
-                  </Button>
-                </LinkContainer> */}
-              </div>
-            )}
-            {userInfo && (
-              <div>
-                <LinkContainer to="/dashboard">
-                  <Button variant="primary" className="me-3" size="lg">
-                    Go to Dashboard
-                  </Button>
-                </LinkContainer>
-              </div>
-            )}
-          </div>
+          <Carousel className="w-100 mb-3">
+            <Carousel.Item interval={1000}>
+              <Image
+                className="w-100"
+                style={{ maxHeight: "300px" }}
+                src={DashboardCarousel}
+                text="First slide"
+              />
+              <Carousel.Caption>
+                <h2 className="fw-bold">Adopt a Pet</h2>
+                <h1 className="fw-bold">
+                  Save a Life
+                </h1>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
           <Row>
-              {petDisplay.map((card, index) => (
-                <DisplayCard key={index} data={card} />
-              ))}
+            {petDisplay.map((card, index) => (
+              <DisplayCard key={index} data={card} />
+            ))}
           </Row>
         </Card>
       </div>

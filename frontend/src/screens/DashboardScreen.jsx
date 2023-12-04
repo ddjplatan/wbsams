@@ -17,22 +17,10 @@ import axios from "axios";
 
 const DashboardScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const userType = userInfo.userType
   const token = userInfo.token;
 
-  const navigate = useNavigate();
-
-  // modal state (open/close)
-  const [petModalShow, setPetModalShow] = useState(false);
-  // select pet state
-  const [selectedPet, setSelectedPet] = useState(null);
-  //! FETCH PETS
-  const [pets, setPets] = useState([]);
+  //! FETCH adoptions
   const [adoptions, setAdoptions] = useState([]);
-  const [volunteers, setVolunteers] = useState([]);
-  const [donations, setDonations] = useState([]);
-  const [spayAndNeuters, setSpayAndNeuters] = useState([]);
-
   const getAdoptions = async() => {
     try {
       const url = "http://localhost:3001/api/adoption";
@@ -50,6 +38,7 @@ const DashboardScreen = () => {
     }
   }
 
+  const [volunteers, setVolunteers] = useState([]);
   const getVolunteers = async() => {
     try {
       const url = "http://localhost:3001/api/volunteer";
@@ -64,6 +53,7 @@ const DashboardScreen = () => {
     }
   }
 
+  const [donations, setDonations] = useState([]);
   const getDonations = async() => {
     try {
       const url = "http://localhost:3001/api/donation";
@@ -78,6 +68,7 @@ const DashboardScreen = () => {
     }
   }
 
+  const [spayAndNeuters, setSpayAndNeuters] = useState([]);
   const getSpayAndNeuters = async() => {
     try {
       const url = "http://localhost:3001/api/spay-and-neuter";
@@ -92,66 +83,6 @@ const DashboardScreen = () => {
     }
   }
 
-
-  const getPets = async () => {
-    try {
-      const petUrl = "http://localhost:3001/api/pet";
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get(petUrl, { headers });
-      if (response) {
-        const petArray = response.data.pets;
-        const updatedPets = petArray.map((pet) => ({
-          name: pet.name,
-          species: pet.species,
-          age: pet.age,
-          gender: pet.gender,
-          breed: pet.breed,
-          description: pet.description,
-          adopted: pet.isAdopted ? "No" : "Yes",
-          clickEvent: () => {
-            setSelectedPet(pet);
-            setPetModalShow(true);
-          },
-          image: pet.imgPath ? (
-            <div className="d-flex justify-content-center">
-              <Image
-                height={200}
-                width={200}
-                src={`http://localhost:3001/${pet.imgPath}`}
-              />
-            </div>
-          ) : (
-            <div className="d-flex justify-content-center">
-              <Image
-                height={200}
-                width={200}
-                src={
-                  pet.species === "Dog"
-                    ? `http://localhost:3001/defaults/default-dog.jpg`
-                    : pet.species === "Cat"
-                    ? `http://localhost:3001/defaults/default-cat.jpg`
-                    : pet.species === "Bird"
-                    ? `http://localhost:3001/defaults/default-bird.jpg`
-                    : `http://localhost:3001/defaults/default-questionmark.jpg`
-                }
-              />
-            </div>
-          ),
-        }));
-
-        // Update the state with all petDetails objects after the map loop
-        setPets([...pets, ...updatedPets]);
-
-        return response;
-      }
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
-
   const [adoptionRequests, setAdoptionRequests] = useState([]);
   const getAdoptionRequests = async () => {
     try {
@@ -163,7 +94,6 @@ const DashboardScreen = () => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const adoptionRequest = response.data;
-        console.log(adoptionRequest)
         const updatedAdoptionRequest = adoptionRequest.map(
           (adoptionRequest) => ({
             adopter: adoptionRequest.adopter.firstName,
@@ -217,23 +147,6 @@ const DashboardScreen = () => {
     getSpayAndNeuters();
   }, []);
 
-  // Initialize an object to store the quantities of each species
-  const speciesQty = {};
-
-  pets.forEach((pet) => {
-    const species = pet.species;
-    if (speciesQty[species]) {
-      speciesQty[species]++;
-    } else {
-      speciesQty[species] = 1;
-    }
-  });
-
-  // Convert the speciesQty object into an array of objects
-  const chartData = Object.keys(speciesQty).map((species) => ({
-    name: species,
-    qty: speciesQty[species],
-  }));
 
   const adoptionRequestList = {
     columns: [
@@ -283,7 +196,12 @@ const DashboardScreen = () => {
             <Card border="default" className="h-100">
               <Card.Header>Data Visualization</Card.Header>
               <Card.Body>
-                <Chart data={chartData} />
+                <Chart data={[
+                  {name: "Adoptions", qty: adoptions.length},
+                  {name: "Donations", qty: donations.length},
+                  {name: "Volunteers", qty: volunteers.length},
+                  {name: "Spay and Neuters", qty: spayAndNeuters.length},
+                ]} />
               </Card.Body>
             </Card>
           </Col>

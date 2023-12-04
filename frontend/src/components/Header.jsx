@@ -109,11 +109,11 @@ const Header = () => {
                       <FaSignInAlt /> Sign in
                     </Nav.Link>
                   </LinkContainer>
-                  {/* <LinkContainer to="/register">
+                  <LinkContainer to="/register">
                     <Nav.Link>
                       <FaUserPlus /> Sign up
                     </Nav.Link>
-                  </LinkContainer> */}
+                  </LinkContainer>
                 </>
               )}
             </Nav>
