@@ -2,7 +2,7 @@ import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import PetModal from "./PetModal";
 
-const PetCard = ({ pet }) => {
+const PetCard = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
   return (
@@ -11,29 +11,30 @@ const PetCard = ({ pet }) => {
         <Card.Img
           variant="top"
           height={300}
-          src={`http://localhost:3001/${pet.imgPath}`}
+          src={`${data.imgPath}`}
+          style={{ objectFit: "cover" }}
         />
         <Card.Body>
-          <Card.Title>{pet.name}</Card.Title>
+          <Card.Title>{data.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            {pet.species}
+            {data.species}
           </Card.Subtitle>
           <hr />
-          <Card.Text className="h6 fw-bold">
-            Age: <span className="text-muted">{pet.age}</span>
+          <Card.Text className="fw-bold m-0">
+            Age: <span className="text-muted">{data.age}</span>
           </Card.Text>
-          <Card.Text className="h6 fw-bold">
-            Gender: <span className="text-muted">{pet.gender}</span>
+          <Card.Text className="fw-bold m-0">
+            Gender: <span className="text-muted">{data.gender}</span>
           </Card.Text>
-          <Card.Text className="h6 fw-bold">
-            Breed: <span className="text-muted">{pet.breed}</span>
+          <Card.Text className="fw-bold m-0">
+            Breed: <span className="text-muted">{data.breed}</span>
           </Card.Text>
-          <Card.Text className="h6 fw-bold">
-            Adopted: <span className="text-muted">{pet.adopted}</span>
+          <Card.Text className="fw-bold m-0">
+            Adopted: <span className="text-muted">{data.adopted}</span>
           </Card.Text>
-          <Card.Text className="h6 fw-bold">
+          <Card.Text className="fw-bold m-0">
             Description: <br />{" "}
-            <span className="text-muted">{pet.description}</span>
+            <span className="text-muted">{data.description}</span>
           </Card.Text>
 
           <hr />
@@ -48,7 +49,7 @@ const PetCard = ({ pet }) => {
       <PetModal
         show={showModal}
         onHide={() => setShowModal(false)}
-        data={pet}
+        data={data}
       />
     </>
   );

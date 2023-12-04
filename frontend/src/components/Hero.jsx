@@ -1,10 +1,4 @@
-import {
-  Card,
-  Row,
-  Col,
-  Image,
-  Carousel,
-} from "react-bootstrap";
+import { Card, Row, Col, Image, Carousel } from "react-bootstrap";
 import Dashboard1 from "../assets/images/caws/jpg/dashboard1.jpg";
 import Dashboard2 from "../assets/images/caws/jpg/dashboard2.jpg";
 import Dashboard3 from "../assets/images/caws/jpg/dashboard3.jpg";
@@ -15,7 +9,12 @@ const DisplayCard = ({ data }) => {
   return (
     <Col sm={12} md={3} lg={3}>
       <Card>
-        <Card.Img variant="top" src={data.Image} height={250} />
+        <Card.Img
+          variant="top"
+          src={data.Image}
+          height={250}
+          style={{ objectFit: "cover" }}
+        />
         <Card.Body>
           <Card.Title>{data.Title}</Card.Title>
           <Card.Text>{data.Description}</Card.Text>
@@ -60,15 +59,13 @@ const Hero = () => {
             <Carousel.Item interval={1000}>
               <Image
                 className="w-100"
-                style={{ maxHeight: "300px" }}
+                style={{ maxHeight: "400px", objectFit: "cover" }}
                 src={DashboardCarousel}
                 text="First slide"
               />
               <Carousel.Caption>
                 <h2 className="fw-bold">Adopt a Pet</h2>
-                <h1 className="fw-bold">
-                  Save a Life
-                </h1>
+                <h1 className="fw-bold">Save a Life</h1>
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>

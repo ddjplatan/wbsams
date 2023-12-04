@@ -32,7 +32,7 @@ const Sidebar = () => {
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/adopt">
-                <CDBSidebarMenuItem icon="th-large">Adopt</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="th-large">Adopt a Pet</CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
