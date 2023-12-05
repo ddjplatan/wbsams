@@ -63,7 +63,7 @@ const ViewPetsScreen = () => {
         <Sidebar />
         <Card className="p-3 d-flex hero-card bg-light w-100">
           <Card.Header className="d-flex justify-content-center">
-            <h4 className="fw-bold">Adopt a Pet</h4>{" "}
+            <h4 className="fw-bold">Adopt a Pet</h4>
             <BsFillHeartFill className="ms-2" size={25} />
           </Card.Header>
           <Card.Body>
