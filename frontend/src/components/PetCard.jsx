@@ -1,10 +1,13 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PetModal from "./PetModal";
 
 const PetCard = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
+  useEffect(() => {
+    console.log(data.imgPath);
+  }, [])
   return (
     <>
       <Card>

@@ -64,36 +64,6 @@ const AdoptScreen = (props) => {
     getPets();
   }, []);
 
-  const petList = {
-    columns: [
-      {
-        label: "Image",
-        field: "image",
-        sort: "disabled",
-      },
-      {
-        label: "Name",
-        field: "name",
-        sort: "disabled",
-      },
-      {
-        label: "Description",
-        field: "description",
-        sort: "disabled",
-      },
-      {
-        label: "Age",
-        field: "age",
-        sort: "disabled",
-      },
-      {
-        label: "For Adoption",
-        field: "adopted",
-        sort: "disabled",
-      },
-    ],
-    rows: pets,
-  };
 
   return (
     <>
