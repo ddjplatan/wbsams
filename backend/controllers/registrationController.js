@@ -3,7 +3,8 @@ const SpayNeuterAppointment = require("../models/SpayNeuterAppointment");
 
 const registerToSpayAndNeuter = async () => {
   try {
-    const pet = req.body.petId;
+    const { petName, petAge, petGender, petSpecies, petBreed, petDescription } =
+      req.body;
     const owner = req.user._id;
     const spayNeuterInstanceId = req.params.instanceId;
     const instance = await SpayAndNeuter.findById(req.params.instanceId);
@@ -11,7 +12,12 @@ const registerToSpayAndNeuter = async () => {
       throw new Error("Slots are full");
     } else {
       await SpayNeuterAppointment.create({
-        pet,
+        petName,
+        petAge,
+        petGender,
+        petSpecies,
+        petBreed,
+        petDescription,
         owner,
         spayNeuterInstanceId,
       });

@@ -20,6 +20,7 @@ const DashboardScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const userType = userInfo.user.userType;
   const token = userInfo.token;
+  const [reload, setReload] = useState(false);
 
   //! FETCH adoptions
   const [adoptions, setAdoptions] = useState([]);
@@ -126,6 +127,10 @@ const DashboardScreen = () => {
                       data,
                       { headers }
                     );
+
+                    if(response.status===200){
+                      setReload(!reload)
+                    }
                   }}
                 >
                   Approve
@@ -143,6 +148,9 @@ const DashboardScreen = () => {
                       `http://localhost:3001/api/adoption/${adoptionRequest._id}`,
                       { headers }
                     );
+                    if(response.status===200){
+                      setReload(!reload)
+                    }
                   }}
                 >
                   Reject
@@ -179,7 +187,7 @@ const DashboardScreen = () => {
   const adoptionRequestList = {
     columns: [
       {
-        label: "Furr Parent",
+        label: "Fur Parent",
         field: "adopter",
         sort: "disabled",
       },
