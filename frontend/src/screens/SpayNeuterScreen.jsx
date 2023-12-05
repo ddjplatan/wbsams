@@ -147,8 +147,9 @@ const SpayNeuterScreen = () => {
                           <th>Date</th>
                           <th>Slots</th>
                           <th>Details</th>
-        {userType === "admin" || userType === 'staff' && 
+        {userType === "admin" && 
   (
+    <>
                           <td>
                             <Button
                               variant="outline-success"
@@ -158,7 +159,9 @@ const SpayNeuterScreen = () => {
                               <i className="fas fa-plus mx-2"></i>
                               Add Event
                             </Button>
-                          </td>)}
+                          </td>
+                          </>
+                          )}
                         </tr>
                       </thead>
                       <tbody>
@@ -169,7 +172,7 @@ const SpayNeuterScreen = () => {
                             <td>{event.slots}</td>
                             <td>{event.otherDetails}</td>
                             <td>
-                              {userType === 'admin' || userType === 'staff' &&
+                              {userType === 'admin' &&
                               (
                                 <>
                               <Button
