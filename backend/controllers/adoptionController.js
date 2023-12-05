@@ -27,9 +27,21 @@ const postAdoption = async (req, res, next) => {
 };
 
 const confirmAdoption = async (req, res, next) => {
+  const { adoptee, adopter } = req.body;
+  const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
+  const authToken = "e467000215d7e68196f0e9f7d722c4cd";
+  const client = require("twilio")(accountSid, authToken);
+
+  client.messages
+    .create({
+      body: "Your adoption request has been confirmed. Congratulations",
+      // from: "+18777804236",
+      from: "+14092373119",
+      to: adopter.phoneNumber,
+    })
+    .then((message) => console.log(message.sid));
   const { adoptionId } = req.params;
 
-  const { adoptee, adopter } = req.body;
   if (adoptee.isAdopted) {
     res
       .status(400)
@@ -102,6 +114,18 @@ const updateAdoption = async (req, res, next) => {
 
 const deleteAdoption = async (req, res, next) => {
   try {
+    // const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
+    // const authToken = "e467000215d7e68196f0e9f7d722c4cd";
+    // const client = require("twilio")(accountSid, authToken);
+
+    // client.messages
+    //   .create({
+    //     body: "Your adoption request has been confirmed. Congratulations",
+    //     // from: "+18777804236",
+    //     from: "+14092373119",
+    //     to: adopter.phoneNumber,
+    //   })
+    //   .then((message) => console.log(message.sid));
     await Adoption.deleteOne({ _id: req.params.adoptionId });
     res
       .status(200)
