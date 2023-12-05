@@ -37,7 +37,7 @@ const confirmAdoption = async (req, res, next) => {
       body: "Your adoption request has been confirmed. Congratulations",
       // from: "+18777804236",
       from: "+14092373119",
-      to: adopter.phoneNumber,
+      to: "+639061783380",
     })
     .then((message) => console.log(message.sid));
   const { adoptionId } = req.params;
@@ -120,10 +120,10 @@ const deleteAdoption = async (req, res, next) => {
 
     // client.messages
     //   .create({
-    //     body: "Your adoption request has been confirmed. Congratulations",
+    //     body: "Your adoption request has been declined",
     //     // from: "+18777804236",
     //     from: "+14092373119",
-    //     to: adopter.phoneNumber,
+    //     to: "+639061783380",
     //   })
     //   .then((message) => console.log(message.sid));
     await Adoption.deleteOne({ _id: req.params.adoptionId });
