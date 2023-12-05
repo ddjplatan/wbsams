@@ -27,11 +27,13 @@ const PetModal = (props) => {
     breed: "",
     description: "",
     image: "",
+    _id:""
   });
 
   useEffect(() => {
     if (data) {
       setPetInfo({
+        _id: data._id,
         name: data.name,
         species: data.species,
         age: data.age,
@@ -42,6 +44,7 @@ const PetModal = (props) => {
       });
     } else {
       setPetInfo({
+        _id:"",
         name: "",
         species: "",
         age: 1,
@@ -71,6 +74,7 @@ const PetModal = (props) => {
         breed: "",
         description: "",
         image: "",
+        _id:""
       });
       setSelectedFile(null);
     } else {
@@ -190,16 +194,19 @@ const PetModal = (props) => {
     }
   };
 
-  const adoptNow = (e) => {
-    e.preventDefault();
-    const petUrl = `http://localhost:3001/api/pet/${data._id}/adopt`;
-    console.log(token);
+  const adoptNow = (petInfo) => {
+    // e.preventDefault();
+    const adoptionData = {
+      ...adoptForm,
+      _id: petInfo._id
+    }
+    const petUrl = `http://localhost:3001/api/pet/${petInfo._id}/adopt`;
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
-    if (window.confirm(`Are you sure you want to adopt ${data.name}?`)) {
-      const res = axios.post(petUrl, data, { headers });
+    if (window.confirm(`Are you sure you want to adopt ${petInfo.name}?`)) {
+      const res = axios.post(petUrl, adoptionData, { headers });
       console.log(res.data);
       onHide();
     }
@@ -435,7 +442,7 @@ const PetModal = (props) => {
                 {toUpdate ? (
                   <>
                     <Button
-                      onClick={adoptNow}
+                      onClick={()=>adoptNow(petInfo)}
                       variant="success"
                       className="me-2"
                     >
