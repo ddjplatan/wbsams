@@ -58,9 +58,6 @@ const AdoptScreen = (props) => {
   };
 
   useEffect(() => {
-    if (userInfo.user.userType !== "admin") {
-      navigate("/");
-    }
     getPets();
   }, []);
 

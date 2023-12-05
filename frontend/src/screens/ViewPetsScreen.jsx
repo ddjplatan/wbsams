@@ -33,16 +33,16 @@ const ViewPetsScreen = () => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const petArray = response.data.pets;
-        const updatedPets = petArray.filter((pet) => {
-          return !pet.isAdopted;
-        }).map((pet) => {
-          return {
-            ...pet,
-            imgPath: `http://localhost:3001/${pet.imgPath}`
-          };
-        });
-        
-
+        const updatedPets = petArray
+          .filter((pet) => {
+            return pet.isAdopted;
+          })
+          .map((pet) => {
+            return {
+              ...pet,
+              imgPath: `http://localhost:3001/${pet.imgPath}`,
+            };
+          });
 
         // Update the state with all petDetails objects after the map loop
         setPets([...pets, ...updatedPets]);

@@ -25,20 +25,20 @@ const DonationScreen = () => {
   const [donations, setDonations] = useState([
     {
       imgPath: "",
-      name: "Sample Name",
-      address: "Sample Address",
+      name: "Sample Name 1",
+      address: "Sample Address 1",
+      createdAt: Date(),
+    },
+    {
+      imgPath: "",
+      name: "Sample Name 2",
+      address: "Sample Address 2",
       createdAt: Date(),
     },
     {
       imgPath: "",
       name: "Sample Name",
-      address: "Sample Address",
-      createdAt: Date(),
-    },
-    {
-      imgPath: "",
-      name: "Sample Name",
-      address: "Sample Address",
+      address: "Sample Address 3",
       createdAt: Date(),
     }
   ]);
@@ -57,45 +57,7 @@ const DonationScreen = () => {
     }
   };
 
-  const postDonation = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:3001/api/donation",
-        donationData,
-        { headers }
-      );
-      if (res.status === 201) {
-        toast.success("Successfully added donation");
-        setReload(!reload);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
-    }
-  };
-
-  const updateDonation = async (id) => {
-    try {
-      const url = `http://localhost:3001/api/donation/${id}`;
-      const response = await axios.put(url, donationData, { headers });
-      if (response.status === 200) {
-        setReload(!reload);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
-    }
-  };
-
-  const deleteDonation = async (id) => {
-    try {
-      const url = `http://localhost:3001/api/donation/${id}`;
-      const response = await axios.delete(url, { headers });
-      if (response.status === 200) {
-        setReload(!reload);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
-    }
-  };
+  
 
   useEffect(() => {
     getDonations();
