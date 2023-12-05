@@ -4,6 +4,9 @@ import Dashboard2 from "../assets/images/caws/jpg/dashboard2.jpg";
 import Dashboard3 from "../assets/images/caws/jpg/dashboard3.jpg";
 import Dashboard4 from "../assets/images/caws/jpg/dashboard4.jpg";
 import DashboardCarousel from "../assets/images/caws/jpg/dashboard-carousel.jpg";
+import UserHomePageImg from "../assets/images/caws/jpg/staff-dashboard.jpg";
+
+import { useSelector } from "react-redux";
 
 const DisplayCard = ({ data }) => {
   return (
@@ -25,6 +28,10 @@ const DisplayCard = ({ data }) => {
 };
 
 const Hero = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const userType = userInfo ? userInfo.user.userType : "";
+  const token = userInfo ? userInfo.token : "";
+  console.log(userInfo);
   const petDisplay = [
     {
       Title: "Adopt a Pet",
@@ -55,20 +62,42 @@ const Hero = () => {
     <div className="w-100">
       <div className="d-flex justify-content-center" id="style-container">
         <Card className="p-3 d-flex flex-column align-items-center hero-card bg-light w-100">
-          <Carousel className="w-100 mb-3">
-            <Carousel.Item interval={1000}>
-              <Image
-                className="w-100"
-                style={{ maxHeight: "400px", objectFit: "cover" }}
-                src={DashboardCarousel}
-                text="First slide"
-              />
-              <Carousel.Caption>
-                <h2 className="fw-bold">Adopt a Pet</h2>
-                <h1 className="fw-bold">Save a Life</h1>
-              </Carousel.Caption>
-            </Carousel.Item>
-          </Carousel>
+          {userInfo ? (
+            userType === "user" && (
+              <>
+                <Row
+                  className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
+                  style={{
+                    backgroundImage: `url(${UserHomePageImg})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    height: "280px",
+                  }}
+                >
+                  <h1 className="mb-0">
+                    Hi! Welcome to CDO Animal Welfare Society.
+                  </h1>
+                </Row>
+              </>
+            )
+          ) : (
+            <>
+              <Carousel className="w-100 mb-3">
+                <Carousel.Item interval={1000}>
+                  <Image
+                    className="w-100"
+                    style={{ maxHeight: "400px", objectFit: "cover" }}
+                    src={DashboardCarousel}
+                    text="First slide"
+                  />
+                  <Carousel.Caption>
+                    <h2 className="fw-bold">Adopt a Pet</h2>
+                    <h1 className="fw-bold">Save a Life</h1>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              </Carousel>
+            </>
+          )}
           <Row>
             {petDisplay.map((card, index) => (
               <DisplayCard key={index} data={card} />

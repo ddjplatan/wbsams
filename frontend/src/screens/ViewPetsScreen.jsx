@@ -5,9 +5,10 @@ import axios from "axios";
 
 import { Button, Row, Col, Card, Image } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
-import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import PetModal from "../components/PetModal";
+import PetCard from "../components/PetCard";
+import { BsFillHeartFill } from "react-icons/bs";
 
 const ViewPetsScreen = () => {
   // authenticated user
@@ -32,6 +33,7 @@ const ViewPetsScreen = () => {
       const response = await axios.get(petUrl, { headers });
       if (response) {
         const petArray = response.data.pets;
+        console.log(petArray);
         const updatedPets = petArray.map((pet) => ({
           name: pet.name,
           species: pet.species,
@@ -40,35 +42,7 @@ const ViewPetsScreen = () => {
           breed: pet.breed,
           description: pet.description,
           adopted: pet.isAdopted ? "No" : "Yes",
-          clickEvent: () => {
-            setSelectedPet(pet);
-            setPetModalShow(true);
-          },
-          image: pet.imgPath ? (
-            <div className="d-flex justify-content-center">
-              <Image
-                height={200}
-                width={200}
-                src={`http://localhost:3001/${pet.imgPath}`}
-              />
-            </div>
-          ) : (
-            <div className="d-flex justify-content-center">
-              <Image
-                height={200}
-                width={200}
-                src={
-                  pet.species === "Dog"
-                    ? `http://localhost:3001/defaults/default-dog.jpg`
-                    : pet.species === "Cat"
-                    ? `http://localhost:3001/defaults/default-cat.jpg`
-                    : pet.species === "Bird"
-                    ? `http://localhost:3001/defaults/default-bird.jpg`
-                    : `http://localhost:3001/defaults/default-questionmark.jpg`
-                }
-              />
-            </div>
-          ),
+          imgPath: `http://localhost:3001/${pet.imgPath}`,
         }));
 
         // Update the state with all petDetails objects after the map loop
@@ -84,52 +58,31 @@ const ViewPetsScreen = () => {
     getPets();
   }, []);
 
-  const petList = {
-    columns: [
-      {
-        label: "Image",
-        field: "image",
-        sort: "disabled",
-      },
-      {
-        label: "Name",
-        field: "name",
-        sort: "disabled",
-      },
-      {
-        label: "Description",
-        field: "description",
-        sort: "disabled",
-      },
-      {
-        label: "Age",
-        field: "age",
-        sort: "disabled",
-      },
-      {
-        label: "For Adoption",
-        field: "adopted",
-        sort: "disabled",
-      },
-    ],
-    rows: pets,
-  };
-
   return (
     <>
       <div className="d-flex">
         <Sidebar />
         <Card className="p-3 d-flex hero-card bg-light w-100">
-          <Row>
-            <Col>
-              <Card border="default">
-                <Card.Header>Pet View</Card.Header>
-                <Card.Body>
-                  <DataTable data={petList} />
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+          <Card.Header className="d-flex justify-content-center">
+            <h4 className="fw-bold">Adopt a Pet</h4>{" "}
+            <BsFillHeartFill className="ms-2" size={25} />
+          </Card.Header>
+          <Card.Body>
+            <Row>
+              <div
+                className="horizontal-scroll-container"
+                style={{ maxWidth: "100%", overflowX: "auto" }}
+              >
+                <Row className="flex-nowrap">
+                  {pets.map((pet, index) => (
+                    <Col sm={5} key={index} className="pr-2">
+                      <PetCard data={pet} />
+                    </Col>
+                  ))}
+                </Row>
+              </div>
+            </Row>
+          </Card.Body>
         </Card>
       </div>
 

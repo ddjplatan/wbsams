@@ -71,9 +71,9 @@ const Sidebar = () => {
                   Adopt a Pet
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/donations">
+              <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
-                  Donations
+                  Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/spay-and-neuter">
@@ -90,7 +90,7 @@ const Sidebar = () => {
                 </CDBSidebarMenuItem>
               </LinkContainer>
             </>
-          )}
+          )} 
         </CDBSidebarMenu>
       </CDBSidebarContent>
 

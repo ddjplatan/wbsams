@@ -250,7 +250,7 @@ const PetModal = (props) => {
                 <Image
                   src={
                     data.imgPath
-                      ? `http://localhost:3001/${data.imgPath}`
+                      ? `${data.imgPath}`
                       : "http://localhost:3001/defaults/default-questionmark.jpg"
                   }
                   alt="Preview"
