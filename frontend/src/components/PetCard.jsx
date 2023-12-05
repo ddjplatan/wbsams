@@ -5,9 +5,6 @@ import PetModal from "./PetModal";
 const PetCard = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
-  useEffect(() => {
-    console.log(data.imgPath);
-  }, [])
   return (
     <>
       <Card>

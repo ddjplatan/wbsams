@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
-import DataTable from "../components/DataTable";
+import DonationCard from "../components/DonationCard";
+import { BsFillHandThumbsUpFill } from "react-icons/bs";
 
 const DonationScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -16,11 +17,45 @@ const DonationScreen = () => {
     Authorization: `Bearer ${token}`,
   };
   const [reload, setReload] = useState(false);
-  const [donations, setDonations] = useState([]);
   const donationData = useState({
     donor: "",
     donationType: "",
   });
+
+  const [donations, setDonations] = useState([
+    {
+      imgPath: "",
+      name: "Sample Name",
+      address: "Sample Address",
+      createdAt: Date(),
+    },
+    {
+      imgPath: "",
+      name: "Sample Name",
+      address: "Sample Address",
+      createdAt: Date(),
+    },
+    {
+      imgPath: "",
+      name: "Sample Name",
+      address: "Sample Address",
+      createdAt: Date(),
+    }
+  ]);
+
+  const getDonations = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/donation", {
+        headers,
+      });
+      if (res.status === 201) {
+        setDonations(res.data);
+        console.log(res);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const postDonation = async () => {
     try {
@@ -35,20 +70,6 @@ const DonationScreen = () => {
       }
     } catch (error) {
       toast.error(error?.data?.message || error.error);
-    }
-  };
-
-  const getDonations = async () => {
-    try {
-      const res = await axios.get("http://localhost:3001/api/donation", {
-        headers,
-      });
-      if (res.status === 201) {
-        setDonations(res.data);
-        console.log(res);
-      }
-    } catch (error) {
-      console.error(error.message);
     }
   };
 
@@ -78,21 +99,34 @@ const DonationScreen = () => {
 
   useEffect(() => {
     getDonations();
+    console.log(donations.length);
   }, [reload, donations]);
+
   return (
     <div className="d-flex">
       <Sidebar />
       <Card className="p-3 d-flex hero-card bg-light w-100">
-        <Row>
-          <Col>
-            <Card border="default">
-              <Card.Header>
-                <h3>Donation Acknowledgements</h3>
-              </Card.Header>
-              <Card.Body>{/* <DataTable /> */}</Card.Body>
-            </Card>
-          </Col>
-        </Row>
+        <Card.Header className="d-flex justify-content-center">
+          <h3>Donation Acknowledgements</h3>
+          <BsFillHandThumbsUpFill className="ms-2" size={25} />
+        </Card.Header>
+        <Card.Body>
+          <Row>
+            <div
+              className="p-2 horizontal-scroll-container"
+              style={{ maxWidth: "100%", overflowX: "auto" }}
+            >
+              <Row className="flex-nowrap">
+                {donations.map((donation, index) => (
+                  <Col sm={5} key={index} className="pr-2">
+                    {/* <PetCard data={donation} /> */}
+                    <DonationCard data={donation} />
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          </Row>
+        </Card.Body>
       </Card>
     </div>
   );
