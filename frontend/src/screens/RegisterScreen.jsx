@@ -11,6 +11,7 @@ import Loader from "../components/Loader";
 import RegistrationBG from "../assets/images/caws/png/caws-logo.png";
 
 const RegisterScreen = () => {
+  const [reload, setReload] = useState(false);
   const [file, setFile] = useState();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -37,7 +38,7 @@ const RegisterScreen = () => {
     if (userInfo) {
       navigate("/");
     }
-  }, [navigate, userInfo]);
+  }, [navigate, userInfo, reload]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -78,6 +79,7 @@ const RegisterScreen = () => {
         }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate("/");
+        setReload(!reload)
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
