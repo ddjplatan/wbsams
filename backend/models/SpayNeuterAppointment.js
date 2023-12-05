@@ -7,9 +7,25 @@ const SpayNeuterAppointmentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    pet: {
-      type: Schema.Types.ObjectId,
-      ref: "Pet",
+    petName: {
+      type: String,
+    },
+    petSpecies: {
+      type: String,
+      enum: ["Cat", "Dog"],
+    },
+    petAge: {
+      type: String,
+    },
+    petBreed: {
+      type: String,
+    },
+    petGender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+    },
+    petDescription: {
+      type: String,
     },
     spayNeuterInstanceId: {
       type: Schema.Types.ObjectId,
