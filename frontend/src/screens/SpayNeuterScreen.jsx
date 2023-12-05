@@ -126,7 +126,8 @@ const SpayNeuterScreen = () => {
     <div className="d-flex">
       <Sidebar />
       <Card className="p-3 d-flex hero-card bg-light w-100">
-        {userType === "admin" && (
+        {/* {userType === "admin" &&  */}
+        
           <>
             <Row>
               <Col>
@@ -146,6 +147,8 @@ const SpayNeuterScreen = () => {
                           <th>Date</th>
                           <th>Slots</th>
                           <th>Details</th>
+        {userType === "admin" || userType === 'staff' && 
+  (
                           <td>
                             <Button
                               variant="outline-success"
@@ -155,7 +158,7 @@ const SpayNeuterScreen = () => {
                               <i className="fas fa-plus mx-2"></i>
                               Add Event
                             </Button>
-                          </td>
+                          </td>)}
                         </tr>
                       </thead>
                       <tbody>
@@ -166,6 +169,9 @@ const SpayNeuterScreen = () => {
                             <td>{event.slots}</td>
                             <td>{event.otherDetails}</td>
                             <td>
+                              {userType === 'admin' || userType === 'staff' &&
+                              (
+                                <>
                               <Button
                                 variant="outline-success"
                                 className="spay-neuter-btn add-btn"
@@ -182,6 +188,9 @@ const SpayNeuterScreen = () => {
                               >
                                 <i className="fas fa-trash"></i> Delete
                               </Button>
+                              </>
+                              )
+                              }
                             </td>
                           </tr>
                         ))}
@@ -267,7 +276,8 @@ const SpayNeuterScreen = () => {
               </Modal.Footer>
             </Modal>
           </>
-        )}
+        {/* ) */}
+        {/* } */}
         {userType === "staff" && "staff"}
         {userType === "user" && <>yawa</>}
       </Card>
