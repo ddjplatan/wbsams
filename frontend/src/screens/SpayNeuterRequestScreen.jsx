@@ -10,8 +10,12 @@ const SpayNeuterRequestScreen = () => {
     const { userInfo } = useSelector((state) => state.auth);
   const userType = userInfo.user.userType;
   const token = userInfo.token;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
   const [reload, setReload] = useState(false);
-  const [events, setEvents] = useState([]);
+  const [requests, setRequests] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -24,8 +28,14 @@ const SpayNeuterRequestScreen = () => {
   };
 
   const fetchSpayNeuterRequests = async() => {
-    const res = await axios.get(`http://localhost:3001/api/`)
+    const res = await axios.get(`http://localhost:3001/api/spay-and-neuter`, {headers})
+    setRequests(res.data)
   }
+  console.log(requests)
+
+  useEffect(()=>{
+    fetchSpayNeuterRequests()
+  }, [reload])
   return userType!=='user'? (
     <>
     <div className="d-flex">
@@ -48,7 +58,7 @@ const SpayNeuterRequestScreen = () => {
                     >
                       <thead>
                         <tr>
-                          <th>Age</th>
+                          <th>Pet Age</th>
                           <th>Owner's Name</th>
                           <th>Species</th>
                           <th>Breed</th>
@@ -59,12 +69,16 @@ const SpayNeuterRequestScreen = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {events.map((event) => (
-                          <tr key={event._id}>
-                            <td>{event.location}</td>
-                            <td>{event.date}</td>
-                            <td>{event.slots}</td>
-                            <td>{event.otherDetails}</td>
+                        {requests.map((request) => (
+                          <tr key={request._id}>
+                            <td>{request.petAge}</td>
+                            <td>{request.owner.firstName} {request.owner.lastName}</td>
+                            <td>{request.petSpecies}</td>
+                            <td>{request.petBreed}</td>
+                            <td>{request.petGender}</td>
+                            <td>{request.petName}</td>
+                            <td>{request.owner.address}</td>
+
                             <td>
                               {userType === 'admin' &&
                               (
@@ -76,14 +90,14 @@ const SpayNeuterRequestScreen = () => {
                                 //   handleShowAddEventModal(event._id)
                                 // }
                               >
-                                <i className="fas fa-pencil-alt"></i> Update
+                                 Accept
                               </Button>
                               <Button
                                 variant="outline-danger"
                                 className="spay-neuter-btn delete-btn"
                                 // onClick={() => handleDeleteEvent(event._id)}
                               >
-                                <i className="fas fa-trash"></i> Delete
+                                Decline
                               </Button>
                               </>
                               )

@@ -47,7 +47,7 @@ const getInstances = async (req, res, next) => {
   const instances = await SpayNeuterAppointment.find()
     .skip(skip)
     .limit(limit)
-    .populate("registeredPets");
+    .populate("owner");
   res
     .status(200)
     .setHeader("Content-Type", "application/json")

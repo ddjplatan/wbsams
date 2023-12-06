@@ -6,7 +6,6 @@ const registerToSpayAndNeuter = async () => {
     const { petName, petAge, petGender, petSpecies, petBreed, petDescription } =
       req.body;
     const owner = req.user._id;
-    const spayNeuterInstanceId = req.params.instanceId;
     const instance = await SpayAndNeuter.findById(req.params.instanceId);
     if (instance.registeredPets.length >= instance.slots) {
       throw new Error("Slots are full");
