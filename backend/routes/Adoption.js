@@ -18,6 +18,7 @@ const {
   postCheckup,
   confirmAdoption,
   getConfirmedAdoptions,
+  getCheckups,
 } = require("../controllers/adoptionController");
 
 router
@@ -42,5 +43,6 @@ router
 
 router
   .route("/:adoptionId/checkup")
+  .get(reqReceived, protectedRoute, staffValidator, getCheckups)
   .post(reqReceived, protectedRoute, staffValidator, postCheckup);
 module.exports = router;
