@@ -6,31 +6,26 @@ import Sidebar from "../components/Sidebar";
 import PetCard from "../components/PetCard";
 import AdoptionCard from "../components/AdoptionCard";
 
-
-import DataTable from "../components/DataTable";
-
 const ManagePetScreen = () => {
   const [adoptions, setAdoptions] = useState([]);
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
 
   const getAdoptedPets = async () => {
-    const url = "http://localhost:3001/api/pet/adoptedPets";
+    const url = "http://localhost:3001/api/adoption/confirmed";
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
     const response = await axios.get(url, { headers });
-    console.log(response.data)
 
-    setAdoptions(response.data.pets)
+    setAdoptions(response.data)
   };
 
   useEffect(()=>{
     getAdoptedPets();
   },[])
 
-  console.log('adoptions', adoptions)
   
   return (
     <>

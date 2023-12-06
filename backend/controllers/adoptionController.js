@@ -150,9 +150,16 @@ const deleteAdoptions = async (req, res, next) => {
 
 const postCheckup = async (req, res, next) => {
   try {
-    const checkupDetails = req.body;
+    const { accompaniedBy, remarks } = req.body;
+    const date = new Date(Date.now());
+
     const adoption = await Adoption.findById(req.params.adoptionId);
-    adoption.checkups.push(checkupDetails);
+    adoption.checkups.push({
+      accompaniedBy,
+      remarks,
+      date,
+    });
+    adoption.save();
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
@@ -160,6 +167,52 @@ const postCheckup = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
+};
+
+const addCheckup = async (req, res) => {
+  const { petId } = req.params;
+  const { accompaniedBy, remarks } = req.body;
+
+  try {
+    const newCheckup = new Checkup({
+      accompaniedBy,
+      remarks,
+      date: new Date(),
+    });
+
+    const pet = await Pet.findById(petId);
+
+    if (!pet) {
+      return res.status(404).json({ error: "Pet not found" });
+    }
+
+    pet.checkups.push(newCheckup);
+
+    await pet.save();
+
+    res
+      .status(200)
+      .json({ checkup: newCheckup, message: "Checkup added successfully" });
+  } catch (error) {
+    console.error("Error adding checkup:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getConfirmedAdoptions = async (req, res, next) => {
+  const { skip, limit } = req.query;
+  const count = await Adoption.countDocuments();
+  const adoptions = await Adoption.find({ isApproved: true })
+    .skip(skip)
+    .limit(limit)
+    .populate("adopter")
+    .populate("adoptee");
+
+  res
+    .status(200)
+    .setHeader("Content-Type", "application/json")
+    .setHeader("X-Total-Count", `${count}`)
+    .json(adoptions);
 };
 
 module.exports = {
@@ -171,4 +224,6 @@ module.exports = {
   deleteAdoptions,
   postCheckup,
   confirmAdoption,
+  addCheckup,
+  getConfirmedAdoptions,
 };
