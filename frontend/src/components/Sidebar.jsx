@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -8,9 +9,15 @@ import {
 } from "cdbreact";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
+import DropdownPet from "./DropdownPet";
 
 const Sidebar = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   return (
     <CDBSidebar
@@ -32,8 +39,22 @@ const Sidebar = () => {
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/adopt">
-                <CDBSidebarMenuItem icon="th-large">Adopt a Pet</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem onClick={toggleDropdown} icon="th-large">Adopt a Pet</CDBSidebarMenuItem>
               </LinkContainer>
+              {
+                showDropdown && (
+                  <div className="dropdown-container">
+                  <LinkContainer to="/adopt">
+                    <CDBSidebarMenuItem>Manage Pets</CDBSidebarMenuItem>
+                  </LinkContainer>
+                  <LinkContainer to="/adoption">
+                  <CDBSidebarMenuItem>Adoption Monitoring</CDBSidebarMenuItem>
+                  </LinkContainer>
+                </div>
+                )
+              }
+              {/* <DropdownPet showDropdown={showDropdown} toggleDropdown={toggleDropdown}/> */}
+
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
                   Donation
