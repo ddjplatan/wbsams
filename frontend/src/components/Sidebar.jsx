@@ -44,6 +44,9 @@ const Sidebar = () => {
                   Spay and Neuter
                 </CDBSidebarMenuItem>
               </LinkContainer>
+              <LinkContainer to="/adoption">
+                <CDBSidebarMenuItem icon="th-large">Adoptions</CDBSidebarMenuItem>
+              </LinkContainer>
               <LinkContainer to="/events">
                 <CDBSidebarMenuItem icon="th-large">Events</CDBSidebarMenuItem>
               </LinkContainer>

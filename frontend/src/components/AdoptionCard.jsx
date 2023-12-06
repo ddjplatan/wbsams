@@ -2,7 +2,8 @@ import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import PetModal from "./PetModal";
 
-const PetCard = ({ data }) => {
+const AdoptionCard = ({ data }) => {
+    console.log(data)
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
   useEffect(() => {
@@ -13,7 +14,7 @@ const PetCard = ({ data }) => {
         <Card.Img
           variant="top"
           height={300}
-          src={`${data.imgPath}`}
+          src={`http://localhost:3001/${data.imgPath}`}
           style={{ objectFit: "cover" }}
         />
         <Card.Body>
@@ -31,13 +32,9 @@ const PetCard = ({ data }) => {
           <Card.Text className="fw-bold m-0">
             Breed: <span className="text-muted">{data.breed}</span>
           </Card.Text>
-          {/* {
-            data.isAdopted? 
             <Card.Text className="fw-bold m-0">
-            owner: <span className="text-muted">{data.adopted}</span>
-          </Card.Text> : null
-          } */}
-          
+            owner: <span className="text-muted">{data.owner.firstName} {data.owner.lastName}</span>
+          </Card.Text>
           <Card.Text className="fw-bold m-0">
             Description: <br />{" "}
             <span className="text-muted">{data.description}</span>
@@ -46,7 +43,7 @@ const PetCard = ({ data }) => {
           <hr />
           <div style={{ marginTop: "auto" }}>
             <Button variant="primary" onClick={handleShow}>
-              View Details
+              View Checkups
             </Button>
           </div>
         </Card.Body>
@@ -61,4 +58,4 @@ const PetCard = ({ data }) => {
   );
 };
 
-export default PetCard;
+export default AdoptionCard;
