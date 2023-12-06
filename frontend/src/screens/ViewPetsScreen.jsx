@@ -35,7 +35,7 @@ const ViewPetsScreen = () => {
         const petArray = response.data.pets;
         const updatedPets = petArray
           .filter((pet) => {
-            return pet.isAdopted;
+            return !pet.isAdopted;
           })
           .map((pet) => {
             return {

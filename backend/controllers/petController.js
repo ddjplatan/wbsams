@@ -84,7 +84,10 @@ const getAdoptedPets = async (req, res, next) => {
 
   try {
     const count = await Pet.countDocuments(filter);
-    const pets = await Pet.find(filter, {}, options).skip(skip).limit(limit);
+    const pets = await Pet.find(filter, {}, options)
+      .skip(skip)
+      .limit(limit)
+      .populate("owner");
     res
       .status(200)
       .setHeader("Content-Type", "application/json")

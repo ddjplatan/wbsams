@@ -8,4 +8,10 @@ const {
   staffValidator,
 } = require("../middlewares/utils/validators");
 
+router
+  .route("/")
+  .post(reqReceived, protectedRoute, staffValidator, postInstance)
+  .get(reqReceived, protectedRoute, getInstances)
+  .delete(reqReceived, protectedRoute, adminValidator, deleteInstances);
+
 router.route;

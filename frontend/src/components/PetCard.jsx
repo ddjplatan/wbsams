@@ -31,9 +31,13 @@ const PetCard = ({ data }) => {
           <Card.Text className="fw-bold m-0">
             Breed: <span className="text-muted">{data.breed}</span>
           </Card.Text>
-          {/* <Card.Text className="fw-bold m-0">
-            Adopted: <span className="text-muted">{data.adopted}</span>
-          </Card.Text> */}
+          {/* {
+            data.isAdopted? 
+            <Card.Text className="fw-bold m-0">
+            owner: <span className="text-muted">{data.adopted}</span>
+          </Card.Text> : null
+          } */}
+          
           <Card.Text className="fw-bold m-0">
             Description: <br />{" "}
             <span className="text-muted">{data.description}</span>
