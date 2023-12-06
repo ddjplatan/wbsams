@@ -82,7 +82,6 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      console.log("spay and neuters", response);
       setSpayAndNeuters(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);

@@ -172,15 +172,25 @@ const SpayNeuterRequestScreen = () => {
         {/* ) */}
         {/* } */}
         {userType === "staff" && "staff"}
-        {userType === "user" && <>yawa</>}
+        {userType === "user" && <>sdf</>}
       </Card>
     </div>
     </> 
   ): (
-  <>
-      <Sidebar />
-    USER VIEW
-  </>)
+  <div className="d-flex justify-content-center">
+  <Sidebar />
+  <Card className="p-3 d-flex hero-card bg-light w-100">
+            <Card.Body>
+              <Card.Title>Spay and Neuter</Card.Title>
+              {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
+              <Card.Text>
+                Spaying and neutering pets provides various advantages, including population management, reduced risk of reproductive-related health issues, improved behavior, and heat cycle prevention, all of which contribute to a healthier and more balanced pet population and community. Veterinarians promote these procedures as a responsible choice for pet owners to ensure the well-being of their beloved friends.
+              </Card.Text>
+              <Button variant="primary">Click me</Button>
+            </Card.Body>
+          </Card>
+      </div>
+  )
 };
 
 export default SpayNeuterRequestScreen;
