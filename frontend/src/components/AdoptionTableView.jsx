@@ -6,10 +6,9 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const AdoptionTableView = () => {
+const AdoptionTableView = ({reload, setReload}) => {
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
-  const [reload, setReload] = useState(false);
 
   const [adoptionRequests, setAdoptionRequests] = useState([]);
   const getAdoptionRequests = async () => {
@@ -72,6 +71,7 @@ const AdoptionTableView = () => {
                       { headers }
                     );
                     if (response.status === 200) {
+                      console.log('should reload')
                       setReload(!reload);
                     }
                   }}
@@ -83,7 +83,6 @@ const AdoptionTableView = () => {
           })
         );
         setAdoptionRequests([...adoptionRequests, ...updatedAdoptionRequest]);
-        // console.log(response.data);
         return response;
       }
     } catch (err) {

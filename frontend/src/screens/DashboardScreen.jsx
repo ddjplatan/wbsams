@@ -89,87 +89,6 @@ const DashboardScreen = () => {
     }
   };
 
-  // const [adoptionRequests, setAdoptionRequests] = useState([]);
-  // const getAdoptionRequests = async () => {
-  //   try {
-  //     const petUrl = "http://localhost:3001/api/adoption";
-  //     const headers = {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //     const response = await axios.get(petUrl, { headers });
-  //     if (response) {
-  //       const adoptionRequest = response.data;
-
-  //       const unApprovedRequests = adoptionRequest.filter((request) => {
-  //         return !request.isApproved;
-  //       });
-
-  //       const updatedAdoptionRequest = unApprovedRequests.map(
-  //         (adoptionRequest) => ({
-  //           adopter: adoptionRequest.adopter.firstName,
-  //           adoptee: adoptionRequest.adoptee.name,
-  //           parentJob: adoptionRequest.parentJob,
-  //           reason: adoptionRequest.reason,
-  //           createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
-  //           action: (
-  //             <>
-  //               <Button
-  //                 variant="success"
-  //                 size="sm"
-  //                 className="w-100 my-1"
-  //                 onClick={async () => {
-  //                   const data = {
-  //                     adoptee: adoptionRequest.adoptee,
-  //                     adopter: adoptionRequest.adopter,
-  //                   };
-
-  //                   const response = await axios.post(
-  //                     `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
-  //                     data,
-  //                     { headers }
-  //                   );
-
-  //                   if (response.status === 200) {
-  //                     setReload(!reload);
-  //                   }
-  //                 }}
-  //               >
-  //                 Approve
-  //               </Button>
-  //               <Button
-  //                 variant="warning"
-  //                 size="sm"
-  //                 className="w-100 my-1"
-  //                 onClick={async () => {
-  //                   const headers = {
-  //                     "Content-Type": "application/json",
-  //                     Authorization: `Bearer ${token}`,
-  //                   };
-  //                   const response = await axios.delete(
-  //                     `http://localhost:3001/api/adoption/${adoptionRequest._id}`,
-  //                     { headers }
-  //                   );
-  //                   if (response.status === 200) {
-  //                     setReload(!reload);
-  //                   }
-  //                 }}
-  //               >
-  //                 Reject
-  //               </Button>
-  //             </>
-  //           ),
-  //         })
-  //       );
-  //       setAdoptionRequests([...adoptionRequests, ...updatedAdoptionRequest]);
-
-  //       return response;
-  //     }
-  //   } catch (err) {
-  //     console.log("Error on getting adoption requests.", err.message);
-  //   }
-  // };
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -186,35 +105,6 @@ const DashboardScreen = () => {
     // getAdoptionRequests();
   }, []);
 
-  // const adoptionRequestList = {
-  //   columns: [
-  //     {
-  //       label: "Fur Parent",
-  //       field: "adopter",
-  //     },
-  //     {
-  //       label: "Parent's Job",
-  //       field: "parentJob",
-  //     },
-  //     {
-  //       label: "Reason",
-  //       field: "reason",
-  //     },
-  //     {
-  //       label: "Pet to Adopt",
-  //       field: "adoptee",
-  //     },
-  //     {
-  //       label: "Date of Request",
-  //       field: "createdAt",
-  //     },
-  //     {
-  //       label: "Action",
-  //       field: "action",
-  //     },
-  //   ],
-  //   rows: adoptionRequests,
-  // };
 
   const [tableView, setTableView] = useState("");
 
@@ -308,7 +198,7 @@ const DashboardScreen = () => {
                 ) : tableView === "Spay and Neuter" ? (
                   <>Spay and Neuter</>
                 ) : (
-                  <AdoptionTableView />
+                  <AdoptionTableView reload={reload} setReload={setReload}/>
                 )}
 
                 {/* <Card border="default">
