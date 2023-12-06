@@ -123,29 +123,7 @@ const deletePets = async (req, res, next) => {
 
 const deletePet = async (req, res, next) => {
   try {
-    // const options = {
-    //   sort: {
-    //     createdAt: -1,
-    //   },
-    // };
-
-    // const pet = await Pet.findById(req.params.petId);
-
-    // await Session.updateMany(
-    //   { learners: user._id },
-    //   { $pull: { learners: user._id } }
-    // );
-
-    // await Class.updateMany(
-    //   { instructor: user._id },
-    //   { $pull: { instructor: user._id } }
-    // );
-
     await Pet.findByIdAndDelete(req.params.petId);
-    // const users = await User.find({}, {}, options);
-    // req.action = `DELETE USER`;
-    // req.details = `deleted user: ${user.email}`;
-    // next();
     res
       .status(202)
       .setHeader("Content-Type", "application/json")

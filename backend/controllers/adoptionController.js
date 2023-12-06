@@ -26,46 +26,6 @@ const postAdoption = async (req, res, next) => {
   }
 };
 
-const confirmAdoption = async (req, res, next) => {
-  const { adoptee, adopter } = req.body;
-  const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
-  const authToken = "e467000215d7e68196f0e9f7d722c4cd";
-  const client = require("twilio")(accountSid, authToken);
-
-  client.messages
-    .create({
-      body: "Your adoption request has been confirmed. Congratulations",
-      // from: "+18777804236",
-      from: "+14092373119",
-      to: "+639061783380",
-    })
-    .then((message) => console.log(message.sid));
-  const { adoptionId } = req.params;
-
-  if (adoptee.isAdopted) {
-    res
-      .status(400)
-      .setHeader({ success: false, message: "That pet already has its owner" });
-  } else {
-    await Pet.findOneAndUpdate(
-      { _id: adoptee._id },
-      { $set: { isAdopted: true, owner: adopter._id } },
-      { new: true }
-    );
-
-    await Adoption.findOneAndUpdate(
-      { _id: adoptionId },
-      { $set: { isApproved: true } },
-      { new: true }
-    );
-
-    res
-      .status(200)
-      .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Adoption Successful" });
-  }
-};
-
 const getAdoptions = async (req, res, next) => {
   const { skip, limit } = req.query;
   const count = await Adoption.countDocuments();
@@ -112,20 +72,59 @@ const updateAdoption = async (req, res, next) => {
   }
 };
 
+const confirmAdoption = async (req, res, next) => {
+  const { adoptee, adopter } = req.body;
+  const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
+  const authToken = "e467000215d7e68196f0e9f7d722c4cd";
+  const client = require("twilio")(accountSid, authToken);
+
+  client.messages
+    .create({
+      body: "Your adoption request has been confirmed. Congratulations",
+      // from: "+18777804236",
+      from: "+14092373119",
+      to: "+639061783380",
+    })
+    .then((message) => console.log(message.sid));
+  const { adoptionId } = req.params;
+
+  if (adoptee.isAdopted) {
+    res
+      .status(400)
+      .setHeader({ success: false, message: "That pet already has its owner" });
+  } else {
+    await Pet.findOneAndUpdate(
+      { _id: adoptee._id },
+      { $set: { isAdopted: true, owner: adopter._id } },
+      { new: true }
+    );
+
+    await Adoption.findOneAndUpdate(
+      { _id: adoptionId },
+      { $set: { isApproved: true } },
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .setHeader("Content-Type", "application/json")
+      .json({ success: true, message: "Adoption Successful" });
+  }
+};
+
 const deleteAdoption = async (req, res, next) => {
   try {
-    // const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
-    // const authToken = "e467000215d7e68196f0e9f7d722c4cd";
-    // const client = require("twilio")(accountSid, authToken);
+    const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
+    const authToken = "e467000215d7e68196f0e9f7d722c4cd";
+    const client = require("twilio")(accountSid, authToken);
 
-    // client.messages
-    //   .create({
-    //     body: "Your adoption request has been declined",
-    //     // from: "+18777804236",
-    //     from: "+14092373119",
-    //     to: "+639061783380",
-    //   })
-    //   .then((message) => console.log(message.sid));
+    client.messages
+      .create({
+        body: "Your adoption request has been declined",
+        from: "+14092373119",
+        to: "+639061783380",
+      })
+      .then((message) => console.log(message.sid));
     await Adoption.deleteOne({ _id: req.params.adoptionId });
     res
       .status(200)

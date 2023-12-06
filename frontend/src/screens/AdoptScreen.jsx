@@ -37,6 +37,7 @@ const AdoptScreen = (props) => {
         const petArray = response.data.pets;
         console.log(petArray);
         const updatedPets = petArray.map((pet) => ({
+          _id:pet._id,
           name: pet.name,
           species: pet.species,
           age: pet.age,
