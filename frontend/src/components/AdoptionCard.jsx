@@ -61,7 +61,7 @@ const AdoptionCard = ({ data }) => {
           <hr />
           <div style={{ marginTop: "auto" }}>
             <Button variant="primary" onClick={handleShow}>
-              Add Checkup
+              View Checkups
             </Button>
           </div>
         </Card.Body>

@@ -215,6 +215,25 @@ const getConfirmedAdoptions = async (req, res, next) => {
     .json(adoptions);
 };
 
+const getCheckups = async (req, res) => {
+  const { adoptionId } = req.params;
+
+  try {
+    const adoption = await Adoption.findById(adoptionId);
+
+    if (!adoption) {
+      return res.status(404).json({ error: "Adoption not found" });
+    }
+
+    await adoption.populate("checkups");
+
+    res.status(200).json(adoption.checkups);
+  } catch (error) {
+    console.error("Error fetching checkups:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   postAdoption,
   getAdoptions,
@@ -226,4 +245,5 @@ module.exports = {
   confirmAdoption,
   addCheckup,
   getConfirmedAdoptions,
+  getCheckups,
 };
