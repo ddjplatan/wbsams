@@ -29,10 +29,24 @@ const SpayNeuterRequestScreen = () => {
 
   const fetchSpayNeuterRequests = async() => {
     const res = await axios.get(`http://localhost:3001/api/spay-and-neuter`, {headers})
-    setRequests(res.data)
+    const unApproved = res.data.filter(request=>!request.isApproved)
+    setRequests(unApproved)
+    
   }
-  console.log(requests)
 
+  const handleAcceptRegistration = async(id) => {
+    const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${id}/confirm`, {headers})
+    if(res.status===200){
+      setReload(!reload)
+    }
+  }
+
+  const handleDeclineRegistration = async(id) => {
+    const res = await axios.delete(`http://localhost:3001/api/spay-and-neuter/${id}/`, {headers})
+    if(res.status===200){
+      setReload(!reload)
+    }
+  }
   useEffect(()=>{
     fetchSpayNeuterRequests()
   }, [reload])
@@ -86,16 +100,16 @@ const SpayNeuterRequestScreen = () => {
                               <Button
                                 variant="outline-success"
                                 className="spay-neuter-btn add-btn"
-                                // onClick={() =>
-                                //   handleShowAddEventModal(event._id)
-                                // }
+                                onClick={() =>
+                                  handleAcceptRegistration(request._id)
+                                }
                               >
                                  Accept
                               </Button>
                               <Button
                                 variant="outline-danger"
                                 className="spay-neuter-btn delete-btn"
-                                // onClick={() => handleDeleteEvent(event._id)}
+                                onClick={() => handleDeclineRegistration(request._id)}
                               >
                                 Decline
                               </Button>

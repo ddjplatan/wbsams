@@ -97,6 +97,33 @@ const deleteInstances = async (req, res, next) => {
   }
 };
 
+const confirmRegistration = async (req, res, next) => {
+  const { instanceId } = req.params;
+  const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
+  const authToken = "e467000215d7e68196f0e9f7d722c4cd";
+  const client = require("twilio")(accountSid, authToken);
+
+  client.messages
+    .create({
+      body: "Your spay/neuter registration has been confirmed",
+      // from: "+18777804236",
+      from: "+14092373119",
+      to: "+639061783380",
+    })
+    .then((message) => console.log(message.sid));
+
+  await SpayNeuterAppointment.findOneAndUpdate(
+    { _id: instanceId },
+    { $set: { isApproved: true } },
+    { new: true }
+  );
+
+  res
+    .status(200)
+    .setHeader("Content-Type", "application/json")
+    .json({ success: true, message: "Adoption Successful" });
+};
+
 module.exports = {
   postInstance,
   getInstances,
@@ -104,4 +131,5 @@ module.exports = {
   updateInstance,
   deleteInstance,
   deleteInstances,
+  confirmRegistration,
 };

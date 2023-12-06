@@ -15,6 +15,7 @@ const {
   updateInstance,
   deleteInstance,
   deleteInstances,
+  confirmRegistration,
 } = require("../controllers/spayAndNeuterController");
 
 const {
@@ -32,6 +33,10 @@ router
   .put(reqReceived, protectedRoute, updateInstance)
   .get(reqReceived, protectedRoute, getInstance)
   .delete(reqReceived, protectedRoute, staffValidator, deleteInstance);
+
+router
+  .route("/:instanceId/confirm")
+  .get(reqReceived, protectedRoute, staffValidator, confirmRegistration);
 
 router
   .route("/:instanceId/register")
