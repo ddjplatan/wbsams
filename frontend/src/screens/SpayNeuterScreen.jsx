@@ -279,8 +279,6 @@ const SpayNeuterScreen = () => {
               </Modal.Footer>
             </Modal>
           </>
-        {/* ) */}
-        {/* } */}
         {userType === "staff" && "staff"}
         {userType === "user" && <>yawa</>}
       </Card>

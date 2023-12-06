@@ -1,6 +1,8 @@
 import { Card, Row, Col, ListGroup, Button, Image } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import Chart from "../components/Chart";
+import AdoptionTableView from "../components/AdoptionTableView";
+import VolunteerTableView from "../components/VolunteerTableView";
 import DataTable from "../components/DataTable";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
@@ -87,92 +89,92 @@ const DashboardScreen = () => {
     }
   };
 
-  const [adoptionRequests, setAdoptionRequests] = useState([]);
-  const getAdoptionRequests = async () => {
-    try {
-      const petUrl = "http://localhost:3001/api/adoption";
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get(petUrl, { headers });
-      if (response) {
-        const adoptionRequest = response.data;
+  // const [adoptionRequests, setAdoptionRequests] = useState([]);
+  // const getAdoptionRequests = async () => {
+  //   try {
+  //     const petUrl = "http://localhost:3001/api/adoption";
+  //     const headers = {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     };
+  //     const response = await axios.get(petUrl, { headers });
+  //     if (response) {
+  //       const adoptionRequest = response.data;
 
-        const unApprovedRequests = adoptionRequest.filter((request) => {
-          return !request.isApproved;
-        });
+  //       const unApprovedRequests = adoptionRequest.filter((request) => {
+  //         return !request.isApproved;
+  //       });
 
-        const updatedAdoptionRequest = unApprovedRequests.map(
-          (adoptionRequest) => ({
-            adopter: adoptionRequest.adopter.firstName,
-            adoptee: adoptionRequest.adoptee.name,
-            parentJob: adoptionRequest.parentJob,
-            reason: adoptionRequest.reason,
-            createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
-            action: (
-              <>
-                <Button
-                  variant="success"
-                  size="sm"
-                  className="w-100 my-1"
-                  onClick={async () => {
-                    const data = {
-                      adoptee: adoptionRequest.adoptee,
-                      adopter: adoptionRequest.adopter,
-                    };
+  //       const updatedAdoptionRequest = unApprovedRequests.map(
+  //         (adoptionRequest) => ({
+  //           adopter: adoptionRequest.adopter.firstName,
+  //           adoptee: adoptionRequest.adoptee.name,
+  //           parentJob: adoptionRequest.parentJob,
+  //           reason: adoptionRequest.reason,
+  //           createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
+  //           action: (
+  //             <>
+  //               <Button
+  //                 variant="success"
+  //                 size="sm"
+  //                 className="w-100 my-1"
+  //                 onClick={async () => {
+  //                   const data = {
+  //                     adoptee: adoptionRequest.adoptee,
+  //                     adopter: adoptionRequest.adopter,
+  //                   };
 
-                    const response = await axios.post(
-                      `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
-                      data,
-                      { headers }
-                    );
+  //                   const response = await axios.post(
+  //                     `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
+  //                     data,
+  //                     { headers }
+  //                   );
 
-                    if(response.status===200){
-                      setReload(!reload)
-                    }
-                  }}
-                >
-                  Approve
-                </Button>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  className="w-100 my-1"
-                  onClick={async () => {
-                    const headers = {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    };
-                    const response = await axios.delete(
-                      `http://localhost:3001/api/adoption/${adoptionRequest._id}`,
-                      { headers }
-                    );
-                    if(response.status===200){
-                      setReload(!reload)
-                    }
-                  }}
-                >
-                  Reject
-                </Button>
-              </>
-            ),
-          })
-        );
-        setAdoptionRequests([...adoptionRequests, ...updatedAdoptionRequest]);
+  //                   if (response.status === 200) {
+  //                     setReload(!reload);
+  //                   }
+  //                 }}
+  //               >
+  //                 Approve
+  //               </Button>
+  //               <Button
+  //                 variant="warning"
+  //                 size="sm"
+  //                 className="w-100 my-1"
+  //                 onClick={async () => {
+  //                   const headers = {
+  //                     "Content-Type": "application/json",
+  //                     Authorization: `Bearer ${token}`,
+  //                   };
+  //                   const response = await axios.delete(
+  //                     `http://localhost:3001/api/adoption/${adoptionRequest._id}`,
+  //                     { headers }
+  //                   );
+  //                   if (response.status === 200) {
+  //                     setReload(!reload);
+  //                   }
+  //                 }}
+  //               >
+  //                 Reject
+  //               </Button>
+  //             </>
+  //           ),
+  //         })
+  //       );
+  //       setAdoptionRequests([...adoptionRequests, ...updatedAdoptionRequest]);
 
-        return response;
-      }
-    } catch (err) {
-      console.log("Error on getting adoption requests.", err.message);
-    }
-  };
+  //       return response;
+  //     }
+  //   } catch (err) {
+  //     console.log("Error on getting adoption requests.", err.message);
+  //   }
+  // };
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (userType === "user") {
-      navigate("/")
+      navigate("/");
     }
     // getPets();
     if (userType === "admin") {
@@ -181,44 +183,40 @@ const DashboardScreen = () => {
       getDonations();
       getSpayAndNeuters();
     }
-    getAdoptionRequests();
+    // getAdoptionRequests();
   }, []);
 
-  const adoptionRequestList = {
-    columns: [
-      {
-        label: "Fur Parent",
-        field: "adopter",
-        sort: "disabled",
-      },
-      {
-        label: "Parent's Job",
-        field: "parentJob",
-        sort: "disabled",
-      },
-      {
-        label: "Reason",
-        field: "reason",
-        sort: "disabled",
-      },
-      {
-        label: "Pet to Adopt",
-        field: "adoptee",
-        sort: "disabled",
-      },
-      {
-        label: "Date of Request",
-        field: "createdAt",
-        sort: "disabled",
-      },
-      {
-        label: "Action",
-        field: "action",
-        sort: "disabled",
-      },
-    ],
-    rows: adoptionRequests,
-  };
+  // const adoptionRequestList = {
+  //   columns: [
+  //     {
+  //       label: "Fur Parent",
+  //       field: "adopter",
+  //     },
+  //     {
+  //       label: "Parent's Job",
+  //       field: "parentJob",
+  //     },
+  //     {
+  //       label: "Reason",
+  //       field: "reason",
+  //     },
+  //     {
+  //       label: "Pet to Adopt",
+  //       field: "adoptee",
+  //     },
+  //     {
+  //       label: "Date of Request",
+  //       field: "createdAt",
+  //     },
+  //     {
+  //       label: "Action",
+  //       field: "action",
+  //     },
+  //   ],
+  //   rows: adoptionRequests,
+  // };
+
+  const [tableView, setTableView] = useState("");
 
   return (
     <div className="d-flex">
@@ -255,7 +253,9 @@ const DashboardScreen = () => {
                   <ListGroup className="list-group-flush">
                     <ListGroup.Item>
                       <Button
-                        href="#"
+                        onClick={() => {
+                          setTableView("Volunteer")
+                        }}
                         variant="info"
                         className="w-100 text-white fw-bold"
                       >
@@ -264,7 +264,9 @@ const DashboardScreen = () => {
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Button
-                        href="#"
+                        onClick={() => {
+                          setTableView("Donor")
+                        }}
                         variant="info"
                         className="w-100 text-white fw-bold"
                       >
@@ -273,7 +275,9 @@ const DashboardScreen = () => {
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Button
-                        href="#"
+                        onClick={() => {
+                          setTableView("Adoption")
+                        }}
                         variant="info"
                         className="w-100 text-white fw-bold"
                       >
@@ -282,7 +286,9 @@ const DashboardScreen = () => {
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Button
-                        href="#"
+                        onClick={() => {
+                          setTableView("Spay and Neuter")
+                        }}
                         variant="info"
                         className="w-100 text-white fw-bold"
                       >
@@ -295,14 +301,24 @@ const DashboardScreen = () => {
             </Row>
             <Row>
               <Col>
-                <Card border="default">
+                {tableView === "Volunteer" ? (
+                  <VolunteerTableView />
+                ) : tableView === "Donor" ? (
+                  <>Donor</>
+                ) : tableView === "Spay and Neuter" ? (
+                  <>Spay and Neuter</>
+                ) : (
+                  <AdoptionTableView />
+                )}
+
+                {/* <Card border="default">
                   <Card.Header>
                     <h2 className="fw-bold">Adoption Requests</h2>
                   </Card.Header>
                   <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
                     <DataTable data={adoptionRequestList} />
                   </Card.Body>
-                </Card>
+                </Card> */}
               </Col>
               {/* {limitedPetData.map((pet, index) => (
             <Col key={pet.petId} sm={12} md={4}>
@@ -325,7 +341,9 @@ const DashboardScreen = () => {
                 height: "280px",
               }}
             >
-              <h1 className="mb-0">Hi! Welcome to CDO Animal Welfare Society.</h1>
+              <h1 className="mb-0">
+                Hi! Welcome to CDO Animal Welfare Society.
+              </h1>
             </Row>
             <Row>
               <Col>
