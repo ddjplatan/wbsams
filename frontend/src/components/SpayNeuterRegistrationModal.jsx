@@ -82,14 +82,19 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
           </Form.Group>
           <Form.Group controlId="petSpecies">
             <Form.Label>Pet Species</Form.Label>
-            <Form.Control
+            <Form.Select
               type="text"
               placeholder="Enter pet species"
               name="petSpecies"
               value={formData.petSpecies}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">Select species</option>
+              <option value="Cat">Cat</option>
+              <option value="Dog">Dog</option>
+
+            </Form.Select>
           </Form.Group>
           <Form.Group controlId="petBreed">
             <Form.Label>Pet Breed</Form.Label>

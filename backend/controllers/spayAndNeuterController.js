@@ -3,8 +3,11 @@ const SpayNeuterAppointment = require("../models/SpayNeuterAppointment");
 const Pet = require("../models/Pet");
 
 const postInstance = async (req, res, next) => {
+  console.log(req.body);
   const { petName, petAge, petSpecies, petBreed, petGender, petDescription } =
     req.body;
+
+  const owner = req.user._id;
 
   try {
     await SpayNeuterAppointment.create({
@@ -76,6 +79,18 @@ const updateInstance = async (req, res, next) => {
 const deleteInstance = async (req, res, next) => {
   try {
     await SpayNeuterAppointment.deleteOne({ _id: req.params.instanceId });
+    const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
+    const authToken = "135d407e33f2cadf5b3f79b9aee9970c";
+    const client = require("twilio")(accountSid, authToken);
+
+    client.messages
+      .create({
+        body: "Your spay/neuter registration has been declined",
+        // from: "+18777804236",
+        from: "+14092373119",
+        to: "+639061783380",
+      })
+      .then((message) => console.log(message.sid));
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
@@ -100,7 +115,7 @@ const deleteInstances = async (req, res, next) => {
 const confirmRegistration = async (req, res, next) => {
   const { instanceId } = req.params;
   const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
-  const authToken = "e467000215d7e68196f0e9f7d722c4cd";
+  const authToken = "135d407e33f2cadf5b3f79b9aee9970c";
   const client = require("twilio")(accountSid, authToken);
 
   client.messages
