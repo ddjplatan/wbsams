@@ -17,6 +17,8 @@ import PetModal from "../components/PetModal";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import DonationTableView from "../components/DonationTableView";
+import SpayAndNeuterTableView from "../components/SpayAndNeuterTableView";
 
 const DashboardScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -37,6 +39,7 @@ const DashboardScreen = () => {
       const approvedAdoptions = response.data.filter((adoptions) => {
         return adoptions.isApproved === true;
       });
+      console.log("Adoptions", response.data);
       setAdoptions(approvedAdoptions);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -52,6 +55,7 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
+      console.log("Volunteers", response.data);
       setVolunteers(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -67,6 +71,7 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
+      console.log("Donations", response.data);
       setDonations(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -82,7 +87,7 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      console.log(response)
+      console.log("Spay And Neuter", response.data);
       setSpayAndNeuters(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -104,7 +109,6 @@ const DashboardScreen = () => {
     }
     // getAdoptionRequests();
   }, []);
-
 
   const [tableView, setTableView] = useState("");
 
@@ -144,7 +148,7 @@ const DashboardScreen = () => {
                     <ListGroup.Item>
                       <Button
                         onClick={() => {
-                          setTableView("Volunteer")
+                          setTableView("Volunteer");
                         }}
                         variant="info"
                         className="w-100 text-white fw-bold"
@@ -155,7 +159,7 @@ const DashboardScreen = () => {
                     <ListGroup.Item>
                       <Button
                         onClick={() => {
-                          setTableView("Donor")
+                          setTableView("Donor");
                         }}
                         variant="info"
                         className="w-100 text-white fw-bold"
@@ -166,7 +170,7 @@ const DashboardScreen = () => {
                     <ListGroup.Item>
                       <Button
                         onClick={() => {
-                          setTableView("Adoption")
+                          setTableView("Adoption");
                         }}
                         variant="info"
                         className="w-100 text-white fw-bold"
@@ -177,7 +181,7 @@ const DashboardScreen = () => {
                     <ListGroup.Item>
                       <Button
                         onClick={() => {
-                          setTableView("Spay and Neuter")
+                          setTableView("Spay and Neuter");
                         }}
                         variant="info"
                         className="w-100 text-white fw-bold"
@@ -192,13 +196,25 @@ const DashboardScreen = () => {
             <Row>
               <Col>
                 {tableView === "Volunteer" ? (
-                  <VolunteerTableView />
+                  <VolunteerTableView
+                    reload={reload}
+                    setReload={setReload}
+                  />
                 ) : tableView === "Donor" ? (
-                  <>Donor</>
+                  <DonationTableView
+                    reload={reload}
+                    setReload={setReload}
+                  />
                 ) : tableView === "Spay and Neuter" ? (
-                  <>Spay and Neuter</>
+                  <SpayAndNeuterTableView
+                    reload={reload}
+                    setReload={setReload}
+                  />
                 ) : (
-                  <AdoptionTableView reload={reload} setReload={setReload}/>
+                  <AdoptionTableView
+                    reload={reload}
+                    setReload={setReload}
+                  />
                 )}
 
                 {/* <Card border="default">
