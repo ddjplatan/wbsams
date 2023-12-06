@@ -27,10 +27,6 @@ const SpayNeuterAppointmentSchema = new Schema(
     petDescription: {
       type: String,
     },
-    spayNeuterInstanceId: {
-      type: Schema.Types.ObjectId,
-      ref: "SpayAndNeuter",
-    },
     isApproved: {
       type: Boolean,
       default: false,

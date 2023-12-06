@@ -8,9 +8,13 @@ const {
   staffValidator,
 } = require("../middlewares/utils/validators");
 
+import {
+  postAppointment
+} = require ("../controllers/spayNeuterAppointment")
+
 router
   .route("/")
-  .post(reqReceived, protectedRoute, staffValidator, postInstance)
+  .post(reqReceived, protectedRoute, postAppointment)
   .get(reqReceived, protectedRoute, getInstances)
   .delete(reqReceived, protectedRoute, adminValidator, deleteInstances);
 

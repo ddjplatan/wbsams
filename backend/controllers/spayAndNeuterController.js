@@ -1,29 +1,37 @@
 const SpayAndNeuter = require("../models/SpayAndNeuter");
+const SpayNeuterAppointment = require("../models/SpayNeuterAppointment");
 const Pet = require("../models/Pet");
 
 const postInstance = async (req, res, next) => {
-  const { location, date, slots, otherDetails } = req.body;
+  const { petName, petAge, petSpecies, petBreed, petGender, petDescription } =
+    req.body;
 
   try {
-    await SpayAndNeuter.create({
-      location,
-      date,
-      slots,
-      otherDetails,
+    await SpayNeuterAppointment.create({
+      owner,
+      petName,
+      petAge,
+      petSpecies,
+      petBreed,
+      petGender,
+      petDescription,
     });
 
-    res
-      .status(201)
-      .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Instance created" });
+    res.status(201).setHeader("Content-Type", "application/json").json({
+      success: true,
+      message: "Successfully requested appointment for spay/neuter",
+    });
   } catch (err) {
-    console.error(err);
+    console.log(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
 const getInstance = async (req, res, next) => {
   try {
-    const instance = await SpayAndNeuter.findById(req.params.instanceId);
+    const instance = await SpayNeuterAppointment.findById(
+      req.params.instanceId
+    );
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
@@ -35,8 +43,8 @@ const getInstance = async (req, res, next) => {
 
 const getInstances = async (req, res, next) => {
   const { skip, limit } = req.query;
-  const count = await SpayAndNeuter.countDocuments();
-  const instances = await SpayAndNeuter.find()
+  const count = await SpayNeuterAppointment.countDocuments();
+  const instances = await SpayNeuterAppointment.find()
     .skip(skip)
     .limit(limit)
     .populate("registeredPets");
@@ -49,7 +57,7 @@ const getInstances = async (req, res, next) => {
 
 const updateInstance = async (req, res, next) => {
   try {
-    const result = await SpayAndNeuter.findByIdAndUpdate(
+    const result = await SpayNeuterAppointment.findByIdAndUpdate(
       req.params.instanceId,
       {
         $set: req.body,
@@ -67,7 +75,7 @@ const updateInstance = async (req, res, next) => {
 
 const deleteInstance = async (req, res, next) => {
   try {
-    await SpayAndNeuter.deleteOne({ _id: req.params.instanceId });
+    await SpayNeuterAppointment.deleteOne({ _id: req.params.instanceId });
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
@@ -79,7 +87,7 @@ const deleteInstance = async (req, res, next) => {
 
 const deleteInstances = async (req, res, next) => {
   try {
-    await SpayAndNeuter.deleteMany();
+    await SpayNeuterAppointment.deleteMany();
     res
       .status(200)
       .setHeader("Content-Type", "application/json")

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, Row, Col, Button, Table, Modal, Form } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import "../assets/SpayNeuterScreen.css";
+import SpayNeuterRegistrationModal from "../components/SpayNeuterRegistrationModal";
 const SpayNeuterRequestScreen = () => {
 
     const { userInfo } = useSelector((state) => state.auth);
@@ -11,6 +12,16 @@ const SpayNeuterRequestScreen = () => {
   const token = userInfo.token;
   const [reload, setReload] = useState(false);
   const [events, setEvents] = useState([]);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const fetchSpayNeuterRequests = async() => {
     const res = await axios.get(`http://localhost:3001/api/`)
@@ -186,7 +197,8 @@ const SpayNeuterRequestScreen = () => {
               <Card.Text>
                 Spaying and neutering pets provides various advantages, including population management, reduced risk of reproductive-related health issues, improved behavior, and heat cycle prevention, all of which contribute to a healthier and more balanced pet population and community. Veterinarians promote these procedures as a responsible choice for pet owners to ensure the well-being of their beloved friends.
               </Card.Text>
-              <Button variant="primary">Click me</Button>
+              <Button variant="primary" onClick={openModal} >Register</Button>
+              <SpayNeuterRegistrationModal show={showModal} onHide={closeModal} />
             </Card.Body>
           </Card>
       </div>

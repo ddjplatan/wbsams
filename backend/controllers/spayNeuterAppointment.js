@@ -4,22 +4,35 @@ const Pet = require("../models/Pet");
 
 const postAppointment = async (req, res, next) => {
   const owner = req.user._id;
-  const pet = req.body.pet;
-  const { spayNeuterEventId } = req.params.eventId;
+  const { petName, petAge, petSpecies, petBreed, petGender, petDescription } =
+    req.body;
 
-  console.log(spayNeuterEventId);
-  //   try {
-  //     await SpayNeuterAppointment.create({
-  //       owner, pet
-  //     });
+  console.log("owner", owner);
+  console.log("petName", petName);
+  console.log("petAge", petAge);
+  console.log("petSpecies", petSpecies);
+  console.log("petBreed", petBreed);
+  console.log("petGender", petGender);
+  console.log("petDescription", petDescription);
 
-  //     res
-  //       .status(201)
-  //       .setHeader("Content-Type", "application/json")
-  //       .json({ success: true, message: "Successfully requested appointment for spay/neuter" });
-  //   } catch (err) {
-  //     res.status(500).json({ message: "Server error" });
-  //   }
+  try {
+    await SpayNeuterAppointment.create({
+      owner,
+      petName,
+      petAge,
+      petSpecies,
+      petBreed,
+      petGender,
+      petDescription,
+    });
+
+    res.status(201).setHeader("Content-Type", "application/json").json({
+      success: true,
+      message: "Successfully requested appointment for spay/neuter",
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 const confirmAppointment = async (req, res, next) => {

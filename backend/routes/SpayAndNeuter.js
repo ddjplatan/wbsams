@@ -23,7 +23,7 @@ const {
 
 router
   .route("/")
-  .post(reqReceived, protectedRoute, staffValidator, postInstance)
+  .post(reqReceived, protectedRoute, postInstance)
   .get(reqReceived, protectedRoute, getInstances)
   .delete(reqReceived, protectedRoute, adminValidator, deleteInstances);
 
