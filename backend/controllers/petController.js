@@ -165,12 +165,16 @@ const updatePet = async (req, res, next) => {
 };
 
 const createPet = async (req, res, next) => {
+  console.log("creating pet");
   try {
     const { name, species, age, gender, breed, description } = req.body;
-    console.log(req.file.path);
     const imgPath = req.file
-      ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "")
+      ? req.file.path
+          .replace(/backend[\/\\]public[\/\\]/, "")
+          .replace(/\\/g, "/")
       : `defaults/default-${species}.jpg`;
+
+    console.log("path", imgPath);
 
     Pet.create({
       name,
