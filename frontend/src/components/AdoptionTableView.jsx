@@ -6,11 +6,12 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const AdoptionTableView = ({reload, setReload}) => {
+const AdoptionTableView = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
 
   const [adoptionRequests, setAdoptionRequests] = useState([]);
+  const [reload,setReload] = useState(false);
   const getAdoptionRequests = async () => {
     try {
       const petUrl = "http://localhost:3001/api/adoption";
@@ -27,7 +28,10 @@ const AdoptionTableView = ({reload, setReload}) => {
         });
         const updatedAdoptionRequest = unApprovedRequests.map(
           (adoptionRequest) => ({
-            adopter: adoptionRequest.adopter.firstName,
+            adopter: `${adoptionRequest.adopter.firstName} ${adoptionRequest.adopter.lastName}`,
+            address: adoptionRequest.adopter.address,
+            phoneNumber: adoptionRequest.adopter.phoneNumber,
+            email: adoptionRequest.adopter.email,
             adoptee: adoptionRequest.adoptee.name,
             parentJob: adoptionRequest.parentJob,
             reason: adoptionRequest.reason,
@@ -82,7 +86,7 @@ const AdoptionTableView = ({reload, setReload}) => {
             ),
           })
         );
-        setAdoptionRequests([...adoptionRequests, ...updatedAdoptionRequest]);
+        setAdoptionRequests(updatedAdoptionRequest);
         return response;
       }
     } catch (err) {
@@ -92,7 +96,7 @@ const AdoptionTableView = ({reload, setReload}) => {
 
   useEffect(() => {
     getAdoptionRequests();
-  }, []);
+  }, [reload]);
 
   const adoptionRequestList = {
     columns: [
@@ -102,23 +106,33 @@ const AdoptionTableView = ({reload, setReload}) => {
         sort: "disabled",
       },
       {
-        label: "Parent's Job",
+        label: "Address",
+        field: "address",
+        sort: "disabled",
+      },
+      {
+        label: "Contact No.",
+        field: "phoneNumber",
+        sort: "disabled",
+      },
+      {
+        label: "Email",
+        field: "email",
+        sort: "disabled",
+      },
+      {
+        label: "Parent Job",
         field: "parentJob",
         sort: "disabled",
       },
       {
-        label: "Reason",
+        label: "Reason for Adoption",
         field: "reason",
         sort: "disabled",
       },
       {
         label: "Pet to Adopt",
         field: "adoptee",
-        sort: "disabled",
-      },
-      {
-        label: "Date of Request",
-        field: "createdAt",
         sort: "disabled",
       },
       {

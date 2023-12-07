@@ -74,8 +74,8 @@ const updateAdoption = async (req, res, next) => {
 
 const confirmAdoption = async (req, res, next) => {
   const { adoptee, adopter } = req.body;
-  const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
-  const authToken = "135d407e33f2cadf5b3f79b9aee9970c";
+  const accountSid = process.env.TWILIO_ACCOUNT_SID_PET;
+  const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
   const client = require("twilio")(accountSid, authToken);
 
   client.messages
@@ -114,8 +114,8 @@ const confirmAdoption = async (req, res, next) => {
 
 const deleteAdoption = async (req, res, next) => {
   try {
-    const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
-    const authToken = "135d407e33f2cadf5b3f79b9aee9970c";
+    const accountSid = process.env.TWILIO_ACCOUNT_SID_PET;
+    const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
     const client = require("twilio")(accountSid, authToken);
 
     client.messages
