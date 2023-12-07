@@ -43,7 +43,7 @@ const router = createBrowserRouter(
         <Route path="/pets" element={<ViewPetsScreen />} />
         <Route path="/about-us" element={<AboutScreen />} />
         <Route path="/adoption" element={<MonitorPetScreen />} />
-        <Route path="/spay-and-neuter" element={<SpayNeuterRequestScreen />} />
+        <Route path="/spay-and-neuter" element={<SpayNeuterScreen />} />
         <Route path="/events" element={<EventScreen />} />
 
 

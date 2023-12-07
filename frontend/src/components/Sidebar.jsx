@@ -38,21 +38,21 @@ const Sidebar = () => {
                   Dashboard
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/adopt">
-                <CDBSidebarMenuItem onClick={toggleDropdown} icon="th-large">Adopt a Pet</CDBSidebarMenuItem>
-              </LinkContainer>
-              {
-                showDropdown && (
+              <CDBSidebarMenuItem onClick={toggleDropdown} icon="th-large">
+                Pet Adoption
+              </CDBSidebarMenuItem>
+              {showDropdown && (
                   <div className="dropdown-container">
-                  <LinkContainer to="/adopt">
-                    <CDBSidebarMenuItem>Manage Pets</CDBSidebarMenuItem>
-                  </LinkContainer>
-                  <LinkContainer to="/adoption">
-                  <CDBSidebarMenuItem>Adoption Monitoring</CDBSidebarMenuItem>
-                  </LinkContainer>
-                </div>
-                )
-              }
+                    <LinkContainer to="/adopt">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">Manage Pets</CDBSidebarMenuItem>
+                    </LinkContainer>
+                    <LinkContainer to="/adoption">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                        Adoption Monitoring
+                      </CDBSidebarMenuItem>
+                    </LinkContainer>
+                  </div>
+                )}
               {/* <DropdownPet showDropdown={showDropdown} toggleDropdown={toggleDropdown}/> */}
 
               <LinkContainer to="/donation">
@@ -66,7 +66,9 @@ const Sidebar = () => {
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/adoption">
-                <CDBSidebarMenuItem icon="th-large">Adoptions</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="th-large">
+                  Adoptions
+                </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/events">
                 <CDBSidebarMenuItem icon="th-large">Events</CDBSidebarMenuItem>
@@ -114,7 +116,7 @@ const Sidebar = () => {
                 </CDBSidebarMenuItem>
               </LinkContainer>
             </>
-          )} 
+          )}
         </CDBSidebarMenu>
       </CDBSidebarContent>
 
