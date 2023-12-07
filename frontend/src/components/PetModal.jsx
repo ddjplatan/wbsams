@@ -194,7 +194,7 @@ const PetModal = (props) => {
     }
   };
 
-  const adoptNow = (petInfo) => {
+  const adoptNow = async(petInfo) => {
     // e.preventDefault();
     const adoptionData = {
       ...adoptForm,
@@ -206,8 +206,11 @@ const PetModal = (props) => {
       Authorization: `Bearer ${token}`,
     };
     if (window.confirm(`Are you sure you want to adopt ${petInfo.name}?`)) {
-      const res = axios.post(petUrl, adoptionData, { headers });
+      const res = await axios.post(petUrl, adoptionData, { headers });
       console.log(res.data);
+      if(res.status === 201){
+        toast.success(res.data.message)
+      }
       onHide();
     }
   };

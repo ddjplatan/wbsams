@@ -79,8 +79,8 @@ const updateInstance = async (req, res, next) => {
 const deleteInstance = async (req, res, next) => {
   try {
     await SpayNeuterAppointment.deleteOne({ _id: req.params.instanceId });
-    const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
-    const authToken = "135d407e33f2cadf5b3f79b9aee9970c";
+    const accountSid = process.env.TWILIO_ACCOUNT_SID_PET;
+    const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
     const client = require("twilio")(accountSid, authToken);
 
     client.messages
@@ -114,8 +114,8 @@ const deleteInstances = async (req, res, next) => {
 
 const confirmRegistration = async (req, res, next) => {
   const { instanceId } = req.params;
-  const accountSid = "AC7c01e9a8da855422dd95dbf2be289d53";
-  const authToken = "135d407e33f2cadf5b3f79b9aee9970c";
+  const accountSid = process.env.TWILIO_ACCOUNT_SID_PET;
+  const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
   const client = require("twilio")(accountSid, authToken);
 
   client.messages

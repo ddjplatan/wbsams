@@ -53,7 +53,6 @@ const Sidebar = () => {
                 </div>
                 )
               }
-              {/* <DropdownPet showDropdown={showDropdown} toggleDropdown={toggleDropdown}/> */}
 
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
@@ -65,9 +64,9 @@ const Sidebar = () => {
                   Spay and Neuter
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/adoption">
+              {/* <LinkContainer to="/adoption">
                 <CDBSidebarMenuItem icon="th-large">Adoptions</CDBSidebarMenuItem>
-              </LinkContainer>
+              </LinkContainer> */}
               <LinkContainer to="/events">
                 <CDBSidebarMenuItem icon="th-large">Events</CDBSidebarMenuItem>
               </LinkContainer>
