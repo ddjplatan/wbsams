@@ -167,6 +167,7 @@ const updatePet = async (req, res, next) => {
 const createPet = async (req, res, next) => {
   try {
     const { name, species, age, gender, breed, description } = req.body;
+    console.log(req.file.path);
     const imgPath = req.file
       ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "")
       : `defaults/default-${species}.jpg`;
