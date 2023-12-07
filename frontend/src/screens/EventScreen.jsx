@@ -40,7 +40,7 @@ const EventScreen = () => {
   const getEvents = async () => {
     try {
       const res = await axios.get("http://localhost:3001/api/event", {headers})
-    if(res.status === 201){
+    if(res.status === 200){
       setEvents(res.data);
     }
     } catch (error) {
@@ -60,9 +60,21 @@ const EventScreen = () => {
     }
   };
 
-  const deleteDonation = async(id) => {
+  const deleteEvent = async(id) => {
     try {
       const url = `http://localhost:3001/api/event/${id}`;
+      const response = await axios.delete(url, { headers });
+      if (response.status===200) {
+        setReload(!reload)
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
+
+  const deleteEvents = async(id) => {
+    try {
+      const url = `http://localhost:3001/api/event/`;
       const response = await axios.delete(url, { headers });
       if (response.status===200) {
         setReload(!reload)
