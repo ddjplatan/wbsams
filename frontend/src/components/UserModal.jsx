@@ -14,8 +14,14 @@ import { useSelector } from "react-redux";
 
 const UserModal = (props) => {
   const { data, onHide } = props;
+  console.log(data)
+
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
 
   const [userData, setUserData] = useState({
     username: "",
@@ -33,9 +39,25 @@ const UserModal = (props) => {
     updatedAt: "",
   });
 
+  const handleDelete = async(id) => {
+    try {
+      const response = await axios.delete(`http://localhost:3001/api/user/${id}`, {headers})
+      if(response.status===200){
+        toast.success("Successfully deleted user")
+      }
+    } catch (error) {
+      toast.error("Error")
+    }
+  }
+
+  const handleUpdate=async(id)=>{
+    console.log(id)
+    console.log(userData)
+
+  }
+
   useEffect(() => {
     if (data) {
-      console.log(data);
       setUserData({
         username: data.username,
         firstName: data.firstName,
@@ -52,7 +74,6 @@ const UserModal = (props) => {
         updatedAt: data.updatedAt,
       });
     } else {
-      console.log("wala yawa");
       setUserData({
         username: "",
         firstName: "",
@@ -99,90 +120,6 @@ const UserModal = (props) => {
       return;
     }
   };
-
-  // // Register PET
-  // const registerPet = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const formData = new FormData();
-
-  //     Object.keys(petInfo).forEach((key) => {
-  //       if (key !== "image") {
-  //         formData.append(key, petInfo[key]);
-  //       }
-  //       if (key === "image") {
-  //         formData.append("image", petInfo.image);
-  //       }
-  //     });
-
-  //     const petUrl = "http://localhost:3001/api/pet";
-  //     const headers = {
-  //       // "Content-Type": "multipart/form-data",
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //     await axios.post(petUrl, formData, { headers }).then((response) => {
-  //       console.log(response.data);
-  //       setPetInfo({
-  //         name: "",
-  //         species: "",
-  //         age: "",
-  //         gender: "",
-  //         breed: "",
-  //         description: "",
-  //         image: "",
-  //       });
-  //       onHide();
-  //       toast.success("Successfully registered pet.");
-  //     });
-  //   } catch (err) {
-  //     toast.error(err?.data?.message || err.error);
-  //   }
-  // };
-
-  // const updatePet = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const petUrl = `http://localhost:3001/api/pet/${petInfo.id}`;
-  //     const headers = {
-  //       "Content-Type": "multipart/form-data",
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //     console.log(petInfo);
-  //     await axios.put(petUrl, petInfo, { headers }).then((response) => {
-  //       onHide();
-  //       toast.success("Successfully updated pet.");
-  //     });
-  //     console.log("UPDATE");
-  //   } catch (err) {
-  //     toast.error(err?.data?.message || err.error);
-  //   }
-  // };
-
-  // // delete pet
-  // const deletePet = async (id) => {
-  //   try {
-  //     const petUrl = `http://localhost:3001/api/pet/${id}`;
-  //     const headers = {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //     await axios.delete(petUrl, { headers }).then((response) => {
-  //       console.log(response.data);
-  //       location.reload();
-  //     });
-  //     toast.success("Successfully deleted pet.");
-  //   } catch (err) {
-  //     toast.error(err?.data?.message || err.error);
-  //   }
-  // };
-
-  // const handleDelete = () => {
-  //   console.log(data._id);
-  //   if (window.confirm(`Are you sure you want to delete ${data.name}?`)) {
-  //     deletePet(data._id);
-  //     onHide();
-  //   }
-  // };
 
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -356,6 +293,23 @@ const UserModal = (props) => {
                     onChange={handleChange}
                   />
                 </FloatingLabel>
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="userType"
+                  label="User Type"
+                >
+                  <Form.Select
+                    name="userType"
+                    value={userData.userType}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select user type</option>
+                    <option value="admin">Admin</option>
+                    <option value="staff">Staff</option>
+                    <option value="user">User</option>
+
+                  </Form.Select>
+                </FloatingLabel>
               </Col>
             </Row>
           </Modal.Body>
@@ -365,26 +319,16 @@ const UserModal = (props) => {
             <Col className="d-flex justify-content-between">
               {data && (
                 <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log("Delete User");
-                  }}
+                  onClick= {()=>handleDelete(data._id)}
                   variant="danger"
                 >
                   Delete User
                 </Button>
               )}
               <Button
-                onClick={
+                onClick={()=>
                   data
-                    ? (e) => {
-                        e.preventDefault();
-                        console.log("Update User");
-                      }
-                    : (e) => {
-                        e.preventDefault();
-                        console.log("Register User");
-                      }
+                    ? handleUpdate(data._id) : handleRegister()
                 }
                 className="ms-auto"
                 type="submit"
