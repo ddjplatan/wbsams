@@ -6,12 +6,6 @@ const DonationCard = ({ data }) => {
   return (
     <>
       <Card>
-        {/* <Card.Img
-          variant="top"
-          height={300}
-          src={`${data.imgPath}`}
-          style={{ objectFit: "cover" }}
-        /> */}
         <Card.Body>
           <Card.Title>{data.name}</Card.Title>
           <Card.Text className="fw-bold m-0">
