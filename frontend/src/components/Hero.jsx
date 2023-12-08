@@ -63,39 +63,53 @@ const Hero = () => {
       <div className="d-flex justify-content-center" id="style-container">
         <Card className="p-3 d-flex flex-column align-items-center hero-card bg-light w-100">
           {userInfo ? (
-            userType === "user" && (
+            userType !== "user" ? (
               <>
-                <Row
-                  className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
-                  style={{
-                    backgroundImage: `url(${UserHomePageImg})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    height: "280px",
-                  }}
-                >
-                  <h1 className="mb-0">
-                    Hi! Welcome to CDO Animal Welfare Society.
-                  </h1>
-                </Row>
+                <Carousel className="w-100 mb-3">
+                  <Carousel.Item interval={1000}>
+                    <Image
+                      className="w-100"
+                      style={{ maxHeight: "400px", objectFit: "cover" }}
+                      src={DashboardCarousel}
+                      text="First slide"
+                    />
+                    <Carousel.Caption>
+                      <h2 className="fw-bold">Adopt a Pet</h2>
+                      <h1 className="fw-bold">Save a Life</h1>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                </Carousel>
               </>
+            ) : (
+              <Row
+                className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
+                style={{
+                  backgroundImage: `url(${UserHomePageImg})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: "280px",
+                }}
+              >
+                <h1 className="mb-0">
+                  Hi! Welcome to CDO Animal Welfare Society.
+                </h1>
+              </Row>
             )
           ) : (
             <>
-              <Carousel className="w-100 mb-3">
-                <Carousel.Item interval={1000}>
-                  <Image
-                    className="w-100"
-                    style={{ maxHeight: "400px", objectFit: "cover" }}
-                    src={DashboardCarousel}
-                    text="First slide"
-                  />
-                  <Carousel.Caption>
-                    <h2 className="fw-bold">Adopt a Pet</h2>
-                    <h1 className="fw-bold">Save a Life</h1>
-                  </Carousel.Caption>
-                </Carousel.Item>
-              </Carousel>
+              <Row
+                className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
+                style={{
+                  backgroundImage: `url(${UserHomePageImg})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: "280px",
+                }}
+              >
+                <h1 className="mb-0">
+                  Hi! Welcome to CDO Animal Welfare Society.
+                </h1>
+              </Row>
             </>
           )}
           <Row>

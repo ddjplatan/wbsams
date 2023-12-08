@@ -257,7 +257,7 @@ const DashboardScreen = () => {
                     <h2 className="fw-bold">Adoption Requests</h2>
                   </Card.Header>
                   <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
-                    <DataTable data={adoptionRequestList} />
+                    {/* <DataTable data={adoptionRequestList} /> */}
                   </Card.Body>
                 </Card>
               </Col>

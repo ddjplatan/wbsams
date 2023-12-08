@@ -11,7 +11,7 @@ const AdoptionTableView = () => {
   const token = userInfo.token;
 
   const [adoptionRequests, setAdoptionRequests] = useState([]);
-  const [reload,setReload] = useState(false);
+  const [reload, setReload] = useState(false);
   const getAdoptionRequests = async () => {
     try {
       const petUrl = "http://localhost:3001/api/adoption";
@@ -55,7 +55,7 @@ const AdoptionTableView = () => {
                     );
 
                     if (response.status === 200) {
-                      toast.success("Adoption request has been approved")
+                      toast.success("Adoption request has been approved");
                       setReload(!reload);
                     }
                   }}
@@ -76,7 +76,7 @@ const AdoptionTableView = () => {
                       { headers }
                     );
                     if (response.status === 200) {
-                      toast.error("Adoption request has been declined")
+                      toast.error("Adoption request has been declined");
                       setReload(!reload);
                     }
                   }}
