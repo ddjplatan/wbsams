@@ -17,6 +17,7 @@ const DonationModal = (props) => {
   const [donation, setDonation] = useState({
     donor: "",
     donationType: "",
+    _id: ""
   });
 
   useEffect(() => {
@@ -91,6 +92,7 @@ const DonationModal = (props) => {
         donor: data.donor,
         date: data.date,
         donationType: data.donationType,
+        _id: data._id
       });
     } else {
       setDonation({
@@ -107,13 +109,37 @@ const DonationModal = (props) => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = async () => {
+
+  const handleDelete = async (id) => {
     try {
-      const url = `http://localhost:3001/api/donation`;
-      const response = await axios.post(url, donation, { headers });
-      if (response.status === 201) {
-        toast.success("Successfully added donation");
+    const url = `http://localhost:3001/api/donation/${id}`
+    const response = await axios.delete(url, {headers})
+    if(response.status === 200){
+      toast.success("Successfully deleted donation")
+      onHide()
+    }
+    } catch (error) {
+      toast.error("Error deleting donation")
+    }
+  }
+  const handleSubmit = async (id) => {
+    try {
+      let url;
+
+      if(id){
+        url =`http://localhost:3001/api/donation/${id}`
+      const response = await axios.put(url, donation, { headers });
+      if (response.status === 200) {
+        toast.success("Successfully updated donation");
         onHide();
+      }
+      }else{
+        url =`http://localhost:3001/api/donation/`
+        const response = await axios.post(url, donation, { headers });
+        if (response.status === 201) {
+          toast.success("Successfully added donation");
+          onHide();
+        }
       }
     } catch (error) {
       toast.error("Error adding donation");
@@ -164,9 +190,20 @@ const DonationModal = (props) => {
         userType!=='user' && (
           <Modal.Footer>
           <Col className="d-flex justify-content-end">
-            <Button variant="success" onClick={handleSubmit}>
+          <Button variant="success" onClick={
+            ()=>{handleSubmit(donation._id)}
+            }>
               Submit
             </Button>
+            {
+              donation._id!==undefined &&
+              (
+                <Button className="ms-2" variant="danger" onClick={() => handleDelete(donation._id)}>
+            Delete
+          </Button>
+              )
+            }
+            
             <Button className="ms-auto" variant="warning" onClick={onHide}>
               Cancel
             </Button>
