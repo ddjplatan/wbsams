@@ -8,6 +8,7 @@ import { Card, Row, Col, Button } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import DonationCard from "../components/DonationCard";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import DonationModal from "../components/DonationModal";
 
 const DonationScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -40,7 +41,7 @@ const DonationScreen = () => {
       name: "Sample Name",
       address: "Sample Address 3",
       createdAt: Date(),
-    }
+    },
   ]);
 
   const getDonations = async () => {
@@ -57,20 +58,28 @@ const DonationScreen = () => {
     }
   };
 
-  
-
   useEffect(() => {
     getDonations();
     console.log(donations.length);
   }, [reload, donations]);
 
+  const [showModal, setShowModal] = useState(false);
+  const handleShow = () => setShowModal(true);
+
   return (
     <div className="d-flex">
       <Sidebar />
       <Card className="p-3 d-flex hero-card bg-light w-100">
-        <Card.Header className="d-flex justify-content-center">
-          <h3>Donation Acknowledgements</h3>
-          <BsFillHandThumbsUpFill className="ms-2" size={25} />
+        <Card.Header className="d-flex justify-content-between">
+          <div>
+            <h3>
+              Donation Acknowledgements
+              <BsFillHandThumbsUpFill className="ms-2" size={25} />
+            </h3>
+          </div>
+          <Button variant="primary" onClick={handleShow}>
+            Add Donation
+          </Button>
         </Card.Header>
         <Card.Body>
           <Row>
@@ -90,6 +99,7 @@ const DonationScreen = () => {
           </Row>
         </Card.Body>
       </Card>
+      <DonationModal show={showModal} onHide={() => setShowModal(false)} />
     </div>
   );
 };
