@@ -31,19 +31,17 @@ const DonationScreen = () => {
       const res = await axios.get("http://localhost:3001/api/donation", {
         headers,
       });
-      if (res.status === 201) {
+      if (res.status === 200) {
         setDonations(res.data);
-        console.log(res);
       }
     } catch (error) {
       console.error(error.message);
     }
   };
-
+  console.log(donations);
   useEffect(() => {
     getDonations();
-    console.log(donations.length);
-  }, [reload, donations]);
+  }, []);
 
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);

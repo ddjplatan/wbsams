@@ -9,24 +9,24 @@ const DonationCard = ({ data }) => {
   return (
     <>
       <Card>
-        <Card.Img
+        {/* <Card.Img
           variant="top"
           height={300}
           src={`${data.imgPath}`}
           style={{ objectFit: "cover" }}
-        />
+        /> */}
         <Card.Body>
           <Card.Title>{data.name}</Card.Title>
           <Card.Text className="fw-bold m-0">
-            Name: <span className="text-muted">{data.name}</span>
+            Name: <span className="text-muted">{data.donor}</span>
           </Card.Text>
           <Card.Text className="fw-bold m-0">
-            Address: <span className="text-muted">{data.address}</span>
+            Donation: <span className="text-muted">{data.donationType}</span>
           </Card.Text>
 
           <hr />
           <Card.Text className="fw-bold m-0">
-            Donated on: <span className="text-muted">{data.createdAt}</span>
+            Donated on: <span className="text-muted">{new Date(data.date).toLocaleString()}</span>
           </Card.Text>
         </Card.Body>
         <Card.Footer className="d-flex justify-content-center">

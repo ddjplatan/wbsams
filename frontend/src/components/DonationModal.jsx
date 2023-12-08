@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Modal,
-  Image,
-  Row,
-  Col,
-  Form,
-  FloatingLabel,
-} from "react-bootstrap";
+import { Button, Modal, Form, FloatingLabel, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -17,24 +9,25 @@ const DonationModal = (props) => {
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
 
   const [donation, setDonation] = useState({
     donor: "",
-    date: "",
     donationType: "",
   });
 
   useEffect(() => {
     if (data) {
       setDonation({
-        donor: data.donor,
-        date: data.date,
-        donationType: data.donationType,
+        donor: data.donor || "",
+        donationType: data.donationType || "",
       });
     } else {
       setDonation({
         donor: "",
-        date: "",
         donationType: "",
       });
     }
@@ -114,75 +107,73 @@ const DonationModal = (props) => {
       [e.target.name]: e.target.value,
     });
   };
+  const handleSubmit = async () => {
+    try {
+      const url = `http://localhost:3001/api/donation`;
+      const response = await axios.post(url, donation, { headers });
+      if (response.status === 201) {
+        toast.success("Successfully added donation");
+        onHide();
+      }
+    } catch (error) {
+      toast.error("Error adding donation");
+    }
+  };
+
   return (
-    <>
-      <Modal
-        {...props}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-center">
-            Add Donation
-          </Modal.Title>
-        </Modal.Header>
-        <Form>
-          <Modal.Body className="px-5">
-            <Row>
-              <Col>
-                <FloatingLabel className="mb-2" controlId="donor" label="Donor">
-                  <Form.Control
-                    type="text"
-                    name="donor"
-                    value={donation.donor}
-                    onChange={donationHandleChange}
-                  />
-                </FloatingLabel>
-                <FloatingLabel
-                  className="mb-2"
-                  controlId="donationType"
-                  label="Donation Type"
-                >
-                  <Form.Control
-                    type="text"
-                    name="date"
-                    value={donation.date}
-                    onChange={donationHandleChange}
-                  />
-                </FloatingLabel>
-                <FloatingLabel
-                  className="mb-2"
-                  controlId="date"
-                  label="Date Donated"
-                >
-                  <Form.Control
-                    type="date"
-                    name="donationType"
-                    value={donation.donationType}
-                    onChange={donationHandleChange}
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-          </Modal.Body>
-          <Modal.Footer>
-            <Col className="d-flex justify-content-end">
-              <Button
-                variant="success"
-                type="submit"
-                onClick={data ? updateDonation : addDonation}
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-center">
+          {!data && "Register "}Donation
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="px-5">
+        <Row>
+          <Col>
+            <Form>
+              <FloatingLabel className="mb-2" controlId="donor" label="Donor">
+                <Form.Control
+                  type="text"
+                  name="donor"
+                  value={donation.donor}
+                  onChange={donationHandleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
+                controlId="donationType"
+                label="Donation Type"
               >
-                Submit
-              </Button>
-              <Button className="ms-auto" type="submit" variant="warning">
-                Cancel
-              </Button>
-            </Col>
-          </Modal.Footer>
-        </Form>
-      </Modal>
-    </>
+                <Form.Control
+                  type="text"
+                  name="donationType"
+                  value={donation.donationType}
+                  onChange={donationHandleChange}
+                />
+              </FloatingLabel>
+              {/* <FloatingLabel className="mb-2" controlId="date" label="Date Donated">
+                <Form.Control type="text" name="date" value={donation.date} onChange={donationHandleChange} />
+              </FloatingLabel> */}
+            </Form>
+          </Col>
+        </Row>
+      </Modal.Body>
+      <Modal.Footer>
+        <Col className="d-flex justify-content-end">
+          <Button variant="success" onClick={handleSubmit}>
+            Submit
+          </Button>
+          <Button className="ms-auto" variant="warning" onClick={onHide}>
+            Cancel
+          </Button>
+        </Col>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
