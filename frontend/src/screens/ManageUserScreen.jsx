@@ -69,7 +69,7 @@ const ManageUserScreen = (props) => {
       navigate("/");
     }
     getUsers();
-  }, []);
+  }, [userModalShow]);
 
   const userList = {
     columns: [

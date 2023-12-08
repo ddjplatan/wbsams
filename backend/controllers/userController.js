@@ -102,21 +102,14 @@ const deleteUser = async (req, res, next) => {
 
     const user = await User.findById(req.params.userId);
 
-    // await Session.updateMany(
-    //   { learners: user._id },
-    //   { $pull: { learners: user._id } }
-    // );
-
-    // await Class.updateMany(
-    //   { instructor: user._id },
-    //   { $pull: { instructor: user._id } }
-    // );
+    console.log(user);
 
     await User.findByIdAndDelete(req.params.userId);
     const users = await User.find({}, {}, options);
-    // req.action = `DELETE USER`;
-    // req.details = `deleted user: ${user.email}`;
-    // next();
+    res
+      .status(200)
+      .setHeader("Content-Type", "application/json")
+      .json({ success: true, msg: "Deleted user" });
   } catch (err) {
     throw new Error(
       `Error deleting Users with ID of: ${req.params.userId} ${err.message}`
@@ -127,10 +120,8 @@ const deleteUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
-    // const user = await User.findOne({ email: req.body.email });
-
     const update = { ...req.body };
-    const updated = await User.findByIdAndUpdate(req.user._id, update, {
+    const updated = await User.findByIdAndUpdate(req.params.userId, update, {
       new: true,
     });
     await updated.save();

@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 
 const UserModal = (props) => {
   const { data, onHide } = props;
-  console.log(data)
 
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
@@ -22,7 +21,6 @@ const UserModal = (props) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-
   const [userData, setUserData] = useState({
     username: "",
     firstName: "",
@@ -40,10 +38,14 @@ const UserModal = (props) => {
   });
 
   const handleDelete = async(id) => {
+    console.log('handleDelete called')
+    console.log(id)
+
     try {
       const response = await axios.delete(`http://localhost:3001/api/user/${id}`, {headers})
       if(response.status===200){
         toast.success("Successfully deleted user")
+        onHide();
       }
     } catch (error) {
       toast.error("Error")
@@ -51,9 +53,16 @@ const UserModal = (props) => {
   }
 
   const handleUpdate=async(id)=>{
-    console.log(id)
-    console.log(userData)
-
+    try {
+      const response = await axios.put(`http://localhost:3001/api/user/${id}`, userData, { headers })
+      if(response.status === 200){
+        toast.success("Successfully updated user")
+        onHide();
+        // setReload(!reload)
+      }
+    } catch (error) {
+      toast.error("Error")
+    }
   }
 
   useEffect(() => {
@@ -90,7 +99,7 @@ const UserModal = (props) => {
         updatedAt: "",
       });
     }
-  }, []);
+  }, [data]);
 
   const handleChange = (e) => {
     setUserData({
@@ -319,23 +328,25 @@ const UserModal = (props) => {
             <Col className="d-flex justify-content-between">
               {data && (
                 <Button
-                  onClick= {()=>handleDelete(data._id)}
+                  onClick= {(e)=>{
+                    e.preventDefault();
+                    handleDelete(data._id)}}
                   variant="danger"
                 >
                   Delete User
                 </Button>
               )}
               <Button
-                onClick={()=>
-                  data
-                    ? handleUpdate(data._id) : handleRegister()
-                }
-                className="ms-auto"
-                type="submit"
-                variant={data ? "warning" : "primary"}
-              >
-                {data ? "Update User" : "Register User"}
-              </Button>
+  onClick={(e) => {
+    e.preventDefault();
+    data ? handleUpdate(data._id) : handleRegister();
+  }}
+  className="ms-auto"
+  type="submit"
+  variant={data ? "warning" : "primary"}
+>
+  {data ? "Update User" : "Register User"}
+</Button>
             </Col>
             <Button onClick={clearForm} variant="secondary">
               Clear
