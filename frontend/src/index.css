@@ -5,7 +5,11 @@ body {
   min-height: 100vh;
   height: 100%;
   /* background-image: url("./assets/images/png/default-bg.png"); */
-  background-color: #93B8C1;
+  background-color: #93b8c1;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.custom-text-justify {
+  text-align: justify;
 }

@@ -44,7 +44,7 @@ const PetCard = ({ data }) => {
           </Card.Text>
 
           <hr />
-          <div style={{ marginTop: "auto" }}>
+          <div>
             <Button variant="primary" onClick={handleShow}>
               View Details
             </Button>

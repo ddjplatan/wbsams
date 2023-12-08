@@ -13,6 +13,7 @@ import DonationModal from "../components/DonationModal";
 const DonationScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
+  const userType = userInfo.user.userType;
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -23,26 +24,7 @@ const DonationScreen = () => {
     donationType: "",
   });
 
-  const [donations, setDonations] = useState([
-    {
-      imgPath: "",
-      name: "Sample Name 1",
-      address: "Sample Address 1",
-      createdAt: Date(),
-    },
-    {
-      imgPath: "",
-      name: "Sample Name 2",
-      address: "Sample Address 2",
-      createdAt: Date(),
-    },
-    {
-      imgPath: "",
-      name: "Sample Name",
-      address: "Sample Address 3",
-      createdAt: Date(),
-    },
-  ]);
+  const [donations, setDonations] = useState([]);
 
   const getDonations = async () => {
     try {
@@ -77,9 +59,11 @@ const DonationScreen = () => {
               <BsFillHandThumbsUpFill className="ms-2" size={25} />
             </h3>
           </div>
-          <Button variant="primary" onClick={handleShow}>
-            Add Donation
-          </Button>
+          {userType !== "user" && (
+            <Button variant="primary" onClick={handleShow}>
+              Add Donation
+            </Button>
+          )}
         </Card.Header>
         <Card.Body>
           <Row>

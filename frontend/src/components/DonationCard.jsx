@@ -1,8 +1,11 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import DonationModal from "./DonationModal";
 
 const DonationCard = ({ data }) => {
-  
+  const [showModal, setShowModal] = useState(false);
+  const handleShow = () => setShowModal(true);
+
   return (
     <>
       <Card>
@@ -26,13 +29,18 @@ const DonationCard = ({ data }) => {
             Donated on: <span className="text-muted">{data.createdAt}</span>
           </Card.Text>
         </Card.Body>
+        <Card.Footer className="d-flex justify-content-center">
+          <Button variant="success" onClick={handleShow}>
+            View Details
+          </Button>
+        </Card.Footer>
       </Card>
-      {/* 
-      <PetModal
+
+      <DonationModal
         show={showModal}
         onHide={() => setShowModal(false)}
         data={data}
-      /> */}
+      />
     </>
   );
 };
