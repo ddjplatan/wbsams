@@ -23,44 +23,23 @@ const DonationScreen = () => {
     donationType: "",
   });
 
-  const [donations, setDonations] = useState([
-    {
-      imgPath: "",
-      name: "Sample Name 1",
-      address: "Sample Address 1",
-      createdAt: Date(),
-    },
-    {
-      imgPath: "",
-      name: "Sample Name 2",
-      address: "Sample Address 2",
-      createdAt: Date(),
-    },
-    {
-      imgPath: "",
-      name: "Sample Name",
-      address: "Sample Address 3",
-      createdAt: Date(),
-    },
-  ]);
+  const [donations, setDonations] = useState([]);
 
   const getDonations = async () => {
     try {
       const res = await axios.get("http://localhost:3001/api/donation", {
         headers,
       });
-      if (res.status === 201) {
+      if (res.status === 200) {
         setDonations(res.data);
-        console.log(res);
       }
     } catch (error) {
       console.error(error.message);
     }
   };
-
+console.log(donations)
   useEffect(() => {
     getDonations();
-    console.log(donations.length);
   }, [reload, donations]);
 
   const [showModal, setShowModal] = useState(false);
