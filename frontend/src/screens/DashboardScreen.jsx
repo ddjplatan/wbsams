@@ -71,7 +71,6 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      console.log("Donations", response.data);
       setDonations(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);

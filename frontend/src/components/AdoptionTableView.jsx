@@ -55,6 +55,7 @@ const AdoptionTableView = () => {
                     );
 
                     if (response.status === 200) {
+                      toast.success("Adoption request has been approved")
                       setReload(!reload);
                     }
                   }}
@@ -75,7 +76,7 @@ const AdoptionTableView = () => {
                       { headers }
                     );
                     if (response.status === 200) {
-                      console.log('should reload')
+                      toast.error("Adoption request has been declined")
                       setReload(!reload);
                     }
                   }}
