@@ -156,23 +156,25 @@ const DonationModal = (props) => {
                   onChange={donationHandleChange}
                 />
               </FloatingLabel>
-              {/* <FloatingLabel className="mb-2" controlId="date" label="Date Donated">
-                <Form.Control type="text" name="date" value={donation.date} onChange={donationHandleChange} />
-              </FloatingLabel> */}
             </Form>
           </Col>
         </Row>
       </Modal.Body>
-      <Modal.Footer>
-        <Col className="d-flex justify-content-end">
-          <Button variant="success" onClick={handleSubmit}>
-            Submit
-          </Button>
-          <Button className="ms-auto" variant="warning" onClick={onHide}>
-            Cancel
-          </Button>
-        </Col>
-      </Modal.Footer>
+      {
+        userType!=='user' && (
+          <Modal.Footer>
+          <Col className="d-flex justify-content-end">
+            <Button variant="success" onClick={handleSubmit}>
+              Submit
+            </Button>
+            <Button className="ms-auto" variant="warning" onClick={onHide}>
+              Cancel
+            </Button>
+          </Col>
+        </Modal.Footer>
+        )
+      }
+   
     </Modal>
   );
 };

@@ -25,6 +25,8 @@ const DonationScreen = () => {
   });
 
   const [donations, setDonations] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const handleShow = () => setShowModal(true);
 
   const getDonations = async () => {
     try {
@@ -38,13 +40,11 @@ const DonationScreen = () => {
       console.error(error.message);
     }
   };
-  console.log(donations);
   useEffect(() => {
     getDonations();
-  }, []);
+  }, [showModal]);
 
-  const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+
 
   return (
     <div className="d-flex">
@@ -57,11 +57,12 @@ const DonationScreen = () => {
               <BsFillHandThumbsUpFill className="ms-2" size={25} />
             </h3>
           </div>
-          {userType !== "user" && (
-            <Button variant="primary" onClick={handleShow}>
-              Add Donation
-            </Button>
-          )}
+          {userInfo.user.userType !== 'user' && (
+      <Button variant="primary" onClick={handleShow}>
+        Add Donation
+      </Button>
+    )}
+          
         </Card.Header>
         <Card.Body>
           <Row>
@@ -72,7 +73,6 @@ const DonationScreen = () => {
               <Row className="flex-nowrap">
                 {donations.map((donation, index) => (
                   <Col sm={5} key={index} className="pr-2">
-                    {/* <PetCard data={donation} /> */}
                     <DonationCard data={donation} />
                   </Col>
                 ))}
