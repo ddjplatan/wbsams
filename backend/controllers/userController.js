@@ -121,6 +121,13 @@ const updateUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
     const update = { ...req.body };
+    if (req.file) {
+      const img = req.file.path
+        .replace(/backend[\/\\]public[\/\\]/, "")
+        .replace(/\\/g, "/");
+
+      update.img = img;
+    }
     const updated = await User.findByIdAndUpdate(req.params.userId, update, {
       new: true,
     });
