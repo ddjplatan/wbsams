@@ -53,7 +53,6 @@ const Sidebar = () => {
                     </LinkContainer>
                   </div>
                 )}
-              {/* <DropdownPet showDropdown={showDropdown} toggleDropdown={toggleDropdown}/> */}
 
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
@@ -76,9 +75,43 @@ const Sidebar = () => {
             </>
           ) : userInfo.user.userType === "staff" ? (
             <>
+            <LinkContainer to="/dashboard">
+                <CDBSidebarMenuItem icon="th-large">
+                  Dashboard
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              <CDBSidebarMenuItem onClick={toggleDropdown} icon="th-large">
+                Pet Adoption
+              </CDBSidebarMenuItem>
+              {showDropdown && (
+                  <div className="dropdown-container">
+                    <LinkContainer to="/adopt">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">Manage Pets</CDBSidebarMenuItem>
+                    </LinkContainer>
+                    <LinkContainer to="/adoption">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                        Adoption Monitoring
+                      </CDBSidebarMenuItem>
+                    </LinkContainer>
+                  </div>
+                )}
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
                   Donation
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              
+              <LinkContainer to="/spay-and-neuter">
+                <CDBSidebarMenuItem icon="th-large">
+                  Spay and Neuter
+                </CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/events">
+                <CDBSidebarMenuItem icon="th-large">Events</CDBSidebarMenuItem>
+              </LinkContainer>
+              <LinkContainer to="/about-us">
+                <CDBSidebarMenuItem icon="th-large">
+                  About Us
                 </CDBSidebarMenuItem>
               </LinkContainer>
             </>
@@ -92,6 +125,21 @@ const Sidebar = () => {
                   Adopt a Pet
                 </CDBSidebarMenuItem>
               </LinkContainer>
+              <CDBSidebarMenuItem onClick={toggleDropdown} icon="th-large">
+                Pet Adoption
+              </CDBSidebarMenuItem>
+              {showDropdown && (
+                  <div className="dropdown-container">
+                    <LinkContainer to="/adopt">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">Manage Pets</CDBSidebarMenuItem>
+                    </LinkContainer>
+                    <LinkContainer to="/adoption">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                        Adoption Monitoring
+                      </CDBSidebarMenuItem>
+                    </LinkContainer>
+                  </div>
+                )}
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
                   Donation

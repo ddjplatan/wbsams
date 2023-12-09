@@ -45,7 +45,7 @@ const DonationScreen = () => {
   }, [showModal]);
 
 
-
+console.log(userInfo.user.userType)
   return (
     <div className="d-flex">
       <Sidebar />

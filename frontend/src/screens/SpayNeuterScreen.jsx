@@ -136,7 +136,7 @@ const SpayNeuterScreen = () => {
     <div className="d-flex">
       <Sidebar />
       <Card className="d-flex hero-card bg-light w-100">
-        {userType !== "admin" ? (
+        {userType === "user" ? (
           <>
             <Card.Header className="border-0 d-flex justify-content-center align-items-center">
               <Image src={CatAndDogImg} height={120} width={120} />

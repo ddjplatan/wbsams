@@ -78,6 +78,9 @@ const confirmAdoption = async (req, res, next) => {
   const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
   const client = require("twilio")(accountSid, authToken);
 
+  console.log(accountSid);
+  console.log(authToken);
+
   client.messages
     .create({
       body: "Your adoption request has been confirmed. Congratulations",
