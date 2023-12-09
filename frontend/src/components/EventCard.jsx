@@ -9,7 +9,7 @@ const EventCard = ({ data }) => {
 
   return (
     <>
-      <Card className="w-100">
+      <Card className="w-100 h-100">
         <Card.Header>
           <Card.Title>{data.title}</Card.Title>
         </Card.Header>
@@ -17,10 +17,11 @@ const EventCard = ({ data }) => {
           <Card.Text className="fw-bold m-0">
             Details: <span className="text-muted">{data.details}</span>
           </Card.Text>
-
-          <hr />
           <Card.Text className="fw-bold m-0">
-            Event Date: <span className="text-muted">{new Date(data.date).toLocaleString()}</span>
+            Event Date:{" "}
+            <span className="text-muted">
+              {new Date(data.date).toLocaleString()}
+            </span>
           </Card.Text>
         </Card.Body>
         <Card.Footer className="d-flex justify-content-center">

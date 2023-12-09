@@ -16,6 +16,7 @@ const EventModal = (props) => {
 
   const [reload, setReload] = useState(false);
   const [eventData, setEventData] = useState({
+    id: "",
     title: "",
     details: "",
     date: "",
@@ -29,6 +30,7 @@ const EventModal = (props) => {
         { headers }
       );
       if (res.status === 200 || res.status === 201) {
+        onHide();
         toast.success("Successfully added donation");
         setReload(!reload);
       }
@@ -85,6 +87,7 @@ const EventModal = (props) => {
     } else {
       console.log("wala");
       setEventData({
+        id: "",
         title: "",
         details: "",
         date: "",
@@ -152,7 +155,22 @@ const EventModal = (props) => {
             <Col className="d-flex justify-content-end">
               {data ? (
                 <>
-                  <Button className="ms-2" variant="danger">
+                  <Button
+                    onClick={() => {
+                      updateEvent(eventData.id);
+                    }}
+                    className="ms-2"
+                    variant="warning"
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      deleteEvent(eventData.id);
+                    }}
+                    className="ms-2"
+                    variant="danger"
+                  >
                     Delete
                   </Button>
                 </>
