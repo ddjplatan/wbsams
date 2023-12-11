@@ -9,7 +9,7 @@ const EventCard = ({ data }) => {
 
   return (
     <>
-      <Card className="w-100 h-100">
+      <Card className="w-100 h-100" onClick={handleShow}>
         <Card.Header>
           <Card.Title>{data.title}</Card.Title>
         </Card.Header>
@@ -24,11 +24,6 @@ const EventCard = ({ data }) => {
             </span>
           </Card.Text>
         </Card.Body>
-        <Card.Footer className="d-flex justify-content-center">
-          <Button variant="success" onClick={handleShow}>
-            View Details
-          </Button>
-        </Card.Footer>
       </Card>
 
       <EventModal

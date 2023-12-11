@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form, FloatingLabel, Row, Col } from "react-bootstrap";
+import { Button, Modal, Form, FloatingLabel, Row, Col, Dropdown } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -13,25 +13,39 @@ const EventModal = (props) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-
+  const [img, setImg] = useState()
   const [reload, setReload] = useState(false);
   const [eventData, setEventData] = useState({
-    id: "",
+    _id: "",
     title: "",
     details: "",
-    date: "",
+    img: null
   });
 
   const postEvent = async () => {
     try {
+
+      const formData = new FormData();
+
+      Object.keys(eventData).forEach((key) => {
+          formData.append(key, eventData[key]);
+      });
+
+      if(img) {
+        formData.append("img", img);
+      }
       const res = await axios.post(
         "http://localhost:3001/api/event",
-        eventData,
-        { headers }
+
+        formData,
+        
+        { headers: {
+          Authorization: `Bearer ${token}`
+        } }
       );
       if (res.status === 200 || res.status === 201) {
         onHide();
-        toast.success("Successfully added donation");
+        toast.success("Successfully added event");
         setReload(!reload);
       }
     } catch (error) {
@@ -77,7 +91,6 @@ const EventModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data.date);
       setEventData({
         id: data._id,
         title: data.title,
@@ -118,14 +131,19 @@ const EventModal = (props) => {
         <Modal.Body className="px-5">
           <Row>
             <Col>
-              <FloatingLabel className="mb-2" controlId="title" label="Title">
-                <Form.Control
-                  type="text"
-                  name="title"
-                  value={eventData.title}
-                  onChange={eventHandleChange}
-                />
-              </FloatingLabel>
+            {/* <FloatingLabel className="mb-2" controlId="title" label="Title">
+                <Dropdown onSelect={handleTitleSelect}>
+                  <Dropdown.Toggle variant="light" id="title-dropdown">
+                    {eventData.title}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item eventKey="News">News</Dropdown.Item>
+                    <Dropdown.Item eventKey="Volunteer">Volunteer</Dropdown.Item>
+                    <Dropdown.Item eventKey="Event">Event</Dropdown.Item>
+                    <Dropdown.Item eventKey="Veterinarian">Veterinarian</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </FloatingLabel> */}
               <FloatingLabel
                 className="mb-2"
                 controlId="details"
@@ -139,14 +157,14 @@ const EventModal = (props) => {
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
-              <FloatingLabel className="mb-2" controlId="date" label="Date">
+              {/* <FloatingLabel className="mb-2" controlId="date" label="Date">
                 <Form.Control
                   type="date"
                   name="date"
                   value={eventData.date.slice(0, 10)}
                   onChange={eventHandleChange}
                 />
-              </FloatingLabel>
+              </FloatingLabel> */}
             </Col>
           </Row>
         </Modal.Body>
