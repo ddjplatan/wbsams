@@ -37,7 +37,13 @@ const {
 
 router
   .route("/")
-  .post(reqReceived, protectedRoute, staffValidator, postDonation)
+  .post(
+    reqReceived,
+    protectedRoute,
+    staffValidator,
+    upload.single("img"),
+    postDonation
+  )
   .get(reqReceived, getDonations)
   .delete(reqReceived, protectedRoute, adminValidator, deleteDonations);
 
