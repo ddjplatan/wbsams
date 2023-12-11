@@ -35,22 +35,18 @@ const ManagePetScreen = () => {
             <Col>
               <Card border="default">
                 <Card.Header>Monitor Adopted Pets</Card.Header>
-                <Card.Body>
+                <Card.Body
+                  className="flex-nowrap"
+                  style={{ maxHeight: "800px", overflowY: "auto" }}
+                >
                   <Row>
-                    <div
-                      className="horizontal-scroll-container"
-                      style={{ maxWidth: "100%", overflowX: "auto" }}
-                    >
-                      <Row className="flex-nowrap">
-                        {adoptions.length !== 0
-                          ? adoptions.map((adoption, index) => (
-                              <Col sm={5} key={index} className="pr-2">
-                                <AdoptionCard data={adoption} />
-                              </Col>
-                            ))
-                          : "Loading..."}
-                      </Row>
-                    </div>
+                    {adoptions.length !== 0
+                      ? adoptions.map((adoption, index) => (
+                          <Col sm={4} key={index} className="p-2">
+                            <AdoptionCard data={adoption} />
+                          </Col>
+                        ))
+                      : "Loading..."}
                   </Row>
                 </Card.Body>
               </Card>

@@ -66,20 +66,16 @@ const ViewPetsScreen = () => {
             <h4 className="fw-bold">Adopt a Pet</h4>
             <BsFillHeartFill className="ms-2" size={25} />
           </Card.Header>
-          <Card.Body>
+          <Card.Body
+            className="flex-nowrap"
+            style={{ maxHeight: "800px", overflowY: "auto" }}
+          >
             <Row>
-              <div
-                className="horizontal-scroll-container"
-                style={{ maxWidth: "100%", overflowX: "auto" }}
-              >
-                <Row className="flex-nowrap">
-                  {pets.map((pet, index) => (
-                    <Col sm={5} key={index} className="pr-2">
-                      <PetCard data={pet} />
-                    </Col>
-                  ))}
-                </Row>
-              </div>
+              {pets.map((pet, index) => (
+                <Col sm={4} key={index} className="p-2">
+                  <PetCard data={pet} />
+                </Col>
+              ))}
             </Row>
           </Card.Body>
         </Card>

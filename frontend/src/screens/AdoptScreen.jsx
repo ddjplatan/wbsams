@@ -37,7 +37,7 @@ const AdoptScreen = (props) => {
         const petArray = response.data.pets;
         console.log(petArray);
         const updatedPets = petArray.map((pet) => ({
-          _id:pet._id,
+          _id: pet._id,
           name: pet.name,
           species: pet.species,
           age: pet.age,
@@ -62,7 +62,6 @@ const AdoptScreen = (props) => {
     getPets();
   }, []);
 
-
   return (
     <>
       <div className="d-flex overflow-auto">
@@ -81,20 +80,16 @@ const AdoptScreen = (props) => {
               Register a Pet
             </Button>
           </Card.Header>
-          <Card.Body>
+          <Card.Body
+            className="flex-nowrap"
+            style={{ maxHeight: "800px", overflowY: "auto" }}
+          >
             <Row>
-              <div
-                className="horizontal-scroll-container"
-                style={{ maxWidth: "100%", overflowX: "auto" }}
-              >
-                <Row className="flex-nowrap">
-                  {pets.map((pet, index) => (
-                    <Col sm={5} key={index} className="pr-2">
-                      <PetCard data={pet} />
-                    </Col>
-                  ))}
-                </Row>
-              </div>
+              {pets.map((pet, index) => (
+                <Col sm={4} key={index} className="p-2">
+                  <PetCard data={pet} />
+                </Col>
+              ))}
             </Row>
           </Card.Body>
         </Card>

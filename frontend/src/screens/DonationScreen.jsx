@@ -40,7 +40,6 @@ const DonationScreen = () => {
     getDonations();
   }, [showModal]);
 
-
   return (
     <div className="d-flex">
       <Sidebar />
@@ -52,31 +51,33 @@ const DonationScreen = () => {
               <BsFillHandThumbsUpFill className="ms-2" size={25} />
             </h3>
           </div>
-          {userInfo.user.userType !== 'user' && (
-      <Button variant="primary" onClick={handleShow}>
-        Add Donation
-      </Button>
-    )}
-          
+          {userInfo.user.userType !== "user" && (
+            <Button variant="primary" onClick={handleShow}>
+              Add Donation
+            </Button>
+          )}
         </Card.Header>
-        <Card.Body>
+        <Card.Body
+          className="flex-nowrap"
+          style={{ maxHeight: "800px", overflowY: "auto" }}
+        >
           <Row>
-            <div
-              className="p-2 horizontal-scroll-container"
-              style={{ maxWidth: "100%", overflowX: "auto" }}
-            >
-              <Row className="flex-nowrap">
-                {donations.map((donation, index) => (
-                  <Col sm={5} key={index} className="pr-2">
-                    <DonationCard data={donation} toreload={()=>setReload(!reload)}/>
-                  </Col>
-                ))}
-              </Row>
-            </div>
+            {donations.map((donation, index) => (
+              <Col sm={4} key={index} className="p-2">
+                <DonationCard
+                  data={donation}
+                  toreload={() => setReload(!reload)}
+                />
+              </Col>
+            ))}
           </Row>
         </Card.Body>
       </Card>
-      <DonationModal show={showModal} onHide={() => setShowModal(false)} toReload={()=>setReload(!reload)}/>
+      <DonationModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        toReload={() => setReload(!reload)}
+      />
     </div>
   );
 };
