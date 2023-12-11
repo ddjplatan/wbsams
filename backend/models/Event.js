@@ -11,13 +11,13 @@ const EventSchema = new Schema(
     title: {
       type: String,
       required: true,
+      enum: ["Event", "News", "Volunteer", "Veterinarian"],
+    },
+    img: {
+      type: String,
     },
     details: {
       type: String,
-    },
-    date: {
-      type: Date,
-      default: Date.now(),
     },
   },
   {

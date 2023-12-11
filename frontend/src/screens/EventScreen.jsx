@@ -12,12 +12,12 @@ import EventCard from "../components/EventCard";
 
 const EventScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const userType = userInfo.user.userType
   const token = userInfo.token;
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  const [reload, setReload] = useState(false);
 
   const [events, setEvents] = useState([]);
 
@@ -27,7 +27,6 @@ const EventScreen = () => {
         headers,
       });
       if (res) {
-        console.log(res.data);
         setEvents(res.data);
       }
     } catch (error) {
@@ -48,15 +47,18 @@ const EventScreen = () => {
       <Card className="p-3 d-flex hero-card bg-light w-100">
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">Events</h4>
-          <Button
+          {
+            userType!=='user' &&
+            <Button
             variant="success"
             onClick={() => {
               setModalShow(true);
-              // setSelectedPet(null);
             }}
           >
             Add an Event
           </Button>
+          }
+          
         </Card.Header>
         <Card.Body>
           <Row>
