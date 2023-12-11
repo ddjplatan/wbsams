@@ -8,7 +8,7 @@ const DonationCard = ({ data }) => {
 
   return (
     <>
-      <Card>
+      <Card onClick={handleShow}>
         <Card.Body>
           <Card.Title>{data.name}</Card.Title>
           <Card.Text className="fw-bold m-0">
@@ -23,11 +23,6 @@ const DonationCard = ({ data }) => {
             Donated on: <span className="text-muted">{new Date(data.date).toLocaleString()}</span>
           </Card.Text>
         </Card.Body>
-        <Card.Footer className="d-flex justify-content-center">
-          <Button variant="success" onClick={handleShow}>
-            View Details
-          </Button>
-        </Card.Footer>
       </Card>
 
       <DonationModal
