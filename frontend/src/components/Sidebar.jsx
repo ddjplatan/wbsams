@@ -125,21 +125,6 @@ const Sidebar = () => {
                   Adopt a Pet
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <CDBSidebarMenuItem onClick={toggleDropdown} icon="th-large">
-                Pet Adoption
-              </CDBSidebarMenuItem>
-              {showDropdown && (
-                  <div className="dropdown-container">
-                    <LinkContainer to="/adopt">
-                      <CDBSidebarMenuItem className="ms-5" icon="th-large">Manage Pets</CDBSidebarMenuItem>
-                    </LinkContainer>
-                    <LinkContainer to="/adoption">
-                      <CDBSidebarMenuItem className="ms-5" icon="th-large">
-                        Adoption Monitoring
-                      </CDBSidebarMenuItem>
-                    </LinkContainer>
-                  </div>
-                )}
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
                   Donation
