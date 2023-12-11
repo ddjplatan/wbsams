@@ -19,10 +19,10 @@ const DonationScreen = () => {
     Authorization: `Bearer ${token}`,
   };
   const [reload, setReload] = useState(false);
-  const donationData = useState({
-    donor: "",
-    donationType: "",
-  });
+
+  const handleReload = async() => {
+    setReload(!reload)
+  }
 
   const [donations, setDonations] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -81,7 +81,7 @@ console.log(userInfo.user.userType)
           </Row>
         </Card.Body>
       </Card>
-      <DonationModal show={showModal} onHide={() => setShowModal(false)} />
+      <DonationModal show={showModal} onHide={() => setShowModal(false)} handleReload={handleReload}/>
     </div>
   );
 };

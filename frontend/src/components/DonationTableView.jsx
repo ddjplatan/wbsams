@@ -18,7 +18,6 @@ const DonationTableView = ({reload, setReload}) => {
     donor: "",
     donationType: ""
   })
-
   const [donations, setDonations] = useState([]);
   const getDonations = async () => {
     try {
@@ -86,7 +85,7 @@ const DonationTableView = ({reload, setReload}) => {
 
   useEffect(() => {
     getDonations();
-  }, []);
+  }, [reload]);
 
   const donationList = {
     columns: [

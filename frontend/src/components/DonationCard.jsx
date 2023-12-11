@@ -11,6 +11,17 @@ const DonationCard = ({ data }) => {
       <Card onClick={handleShow}>
         <Card.Body>
           <Card.Title>{data.name}</Card.Title>
+          {data.img && (
+            <Card.Img
+                    src={`http://localhost:3001/${data.img}`}
+                    alt="Image"
+                    rounded
+                    height={200}
+                    // width={300}
+                  />
+        )}
+          <hr />
+
           <Card.Text className="fw-bold m-0">
             Name: <span className="text-muted">{data.donor}</span>
           </Card.Text>
@@ -18,12 +29,22 @@ const DonationCard = ({ data }) => {
             Donation: <span className="text-muted">{data.donationType}</span>
           </Card.Text>
 
-          <hr />
           <Card.Text className="fw-bold m-0">
-            Donated on: <span className="text-muted">{new Date(data.date).toLocaleString()}</span>
+            Donated on: <span className="text-muted">{new Date(data.date).toLocaleDateString()}</span>
           </Card.Text>
+          {data.address && (
+          <Card.Text className="fw-bold m-0">
+            Address: <span className="text-muted">{data.address}</span>
+          </Card.Text>
+        )}
+        {data.remarks && (
+          <Card.Text className="fw-bold m-0">
+            Remarks: <span className="text-muted">{data.remarks}</span>
+          </Card.Text>
+        )}
         </Card.Body>
       </Card>
+     
 
       <DonationModal
         show={showModal}
