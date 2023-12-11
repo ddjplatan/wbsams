@@ -195,41 +195,18 @@ const DashboardScreen = () => {
             <Row>
               <Col>
                 {tableView === "Volunteer" ? (
-                  <VolunteerTableView
-                    reload={reload}
-                    setReload={setReload}
-                  />
+                  <VolunteerTableView reload={reload} setReload={setReload} />
                 ) : tableView === "Donor" ? (
-                  <DonationTableView
-                    reload={reload}
-                    setReload={setReload}
-                  />
+                  <DonationTableView reload={reload} setReload={setReload} />
                 ) : tableView === "Spay and Neuter" ? (
                   <SpayAndNeuterTableView
                     reload={reload}
                     setReload={setReload}
                   />
                 ) : (
-                  <AdoptionTableView
-                    reload={reload}
-                    setReload={setReload}
-                  />
+                  <AdoptionTableView reload={reload} setReload={setReload} />
                 )}
-
-                {/* <Card border="default">
-                  <Card.Header>
-                    <h2 className="fw-bold">Adoption Requests</h2>
-                  </Card.Header>
-                  <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
-                    <DataTable data={adoptionRequestList} />
-                  </Card.Body>
-                </Card> */}
               </Col>
-              {/* {limitedPetData.map((pet, index) => (
-            <Col key={pet.petId} sm={12} md={4}>
-              <PetCard pet={pet} />
-            </Col>
-          ))} */}
             </Row>
           </>
         )}
@@ -252,14 +229,18 @@ const DashboardScreen = () => {
             </Row>
             <Row>
               <Col>
-                <Card border="default">
-                  <Card.Header>
-                    <h2 className="fw-bold">Adoption Requests</h2>
-                  </Card.Header>
-                  <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
-                    {/* <DataTable data={adoptionRequestList} /> */}
-                  </Card.Body>
-                </Card>
+                {tableView === "Volunteer" ? (
+                  <VolunteerTableView reload={reload} setReload={setReload} />
+                ) : tableView === "Donor" ? (
+                  <DonationTableView reload={reload} setReload={setReload} />
+                ) : tableView === "Spay and Neuter" ? (
+                  <SpayAndNeuterTableView
+                    reload={reload}
+                    setReload={setReload}
+                  />
+                ) : (
+                  <AdoptionTableView reload={reload} setReload={setReload} />
+                )}
               </Col>
             </Row>
           </>
