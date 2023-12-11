@@ -67,7 +67,7 @@ const SpayAndNeuterTableView = () => {
       { headers }
     );
     if (res.status === 200) {
-      toast.success("Successfully approved the requests.");
+      toast.success("Successfully approved the request.");
       // setReload(!reload)
     }
   };
@@ -78,7 +78,7 @@ const SpayAndNeuterTableView = () => {
       { headers }
     );
     if (res.status === 200) {
-      toast.success("Successfully approved the requests.");
+      toast.success("Successfully declined the request.");
       // setReload(!reload)
     }
   };
