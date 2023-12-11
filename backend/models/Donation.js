@@ -15,6 +15,16 @@ const DonationSchema = new Schema(
       type: String,
       required: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
+    remarks: {
+      type: String,
+    },
+    img: {
+      type: String,
+    },
   },
   {
     timestamps: true,

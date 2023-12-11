@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const DonationModal = (props) => {
-  const { data, onHide } = props;
+  const { data, onHide, toreload } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
@@ -14,62 +14,31 @@ const DonationModal = (props) => {
     Authorization: `Bearer ${token}`,
   };
 
+  const [img, setImg] = useState();
+
   const [donation, setDonation] = useState({
     donor: "",
     donationType: "",
-    _id: ""
+    remarks: "",
+    address: "",
+    _id: "",
+    img: null
   });
 
-  useEffect(() => {
-    if (data) {
-      setDonation({
-        donor: data.donor || "",
-        donationType: data.donationType || "",
-      });
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setImg(selectedFile);
+
+    if (selectedFile) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+      };
+
+      reader.readAsDataURL(selectedFile);
     } else {
-      setDonation({
-        donor: "",
-        donationType: "",
-      });
-    }
-  }, []);
-
-  const addDonation = async () => {
-    try {
-      const url = "http://localhost:3001/api/donation";
-
-      const response = await axios.post(url, donationData, { headers });
-      if (response.status === 201) {
-        toast.success(response.data.message);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
-    }
-  };
-
-  const updateDonation = async (id) => {
-    try {
-      const url = `http://localhost:3001/api/donation/${id}`;
-
-      const response = await axios.post(url, donationData, { headers });
-      if (response.status === 200) {
-        toast.success(response.data.message);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
-    }
-  };
-
-  const deleteDonation = async (id) => {
-    try {
-      const url = `http://localhost:3001/api/donation/${id}`;
-
-      const response = await axios.delete(url, { headers });
-      if (response.status === 200) {
-        toast.success(response.data.message);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      setImagePreview(null);
     }
   };
 
@@ -92,14 +61,19 @@ const DonationModal = (props) => {
         donor: data.donor,
         date: data.date,
         donationType: data.donationType,
-        _id: data._id
+        _id: data._id,
+        remarks:data.remarks,
+        address:data.address,
       });
     } else {
       setDonation({
         donor: "",
-        date: "",
         donationType: "",
+        _id:"",
+        remarks:"",
+        address:"",
       });
+      setImg(null);
     }
   }, []);
 
@@ -117,9 +91,10 @@ const DonationModal = (props) => {
     if(response.status === 200){
       toast.success("Successfully deleted donation")
       onHide()
+      toreload();
     }
     } catch (error) {
-      toast.error("Error deleting donation")
+      toast.error("Error deleting donation", error.message)
     }
   }
   const handleSubmit = async (id) => {
@@ -128,21 +103,50 @@ const DonationModal = (props) => {
 
       if(id){
         url =`http://localhost:3001/api/donation/${id}`
-      const response = await axios.put(url, donation, { headers });
+      const response = await axios.put(url, donation, {headers: {
+        Authorization: `Bearer ${token}`
+      }});
       if (response.status === 200) {
+        console.log('status is 200')
         toast.success("Successfully updated donation");
         onHide();
+        toreload();
       }
       }else{
+        console.log('sa else nisulod')
+
         url =`http://localhost:3001/api/donation/`
-        const response = await axios.post(url, donation, { headers });
-        if (response.status === 201) {
-          toast.success("Successfully added donation");
+
+        const formData = new FormData();
+
+      Object.keys(donation).forEach((key) => {
+          formData.append(key, donation[key]);
+      });
+
+      if(img) {
+        formData.append("img", img);
+      }
+
+        await axios.post(url, formData, {headers: {
+          Authorization: `Bearer ${token}`
+        }}).then((response) => {
+          setDonation({
+            donor: "",
+            donationType: "",
+            remarks: "",
+            address: "",
+            _id: "",
+            description: "",
+          });
+          setImg(null)
           onHide();
-        }
+          toreload();
+          toast.success("Successfully added donation.");
+        });
       }
     } catch (error) {
-      toast.error("Error adding donation");
+      console.log(error.message)
+      toast.error("Error ", error.message);
     }
   };
 
@@ -182,6 +186,39 @@ const DonationModal = (props) => {
                   onChange={donationHandleChange}
                 />
               </FloatingLabel>
+              <FloatingLabel
+            className="mb-2"
+            controlId="address"
+            label="Address"
+          >
+            <Form.Control
+              type="text"
+              name="address"
+              value={donation.address}
+              onChange={donationHandleChange}
+            />
+          </FloatingLabel>
+          <FloatingLabel
+            className="mb-2"
+            controlId="remarks"
+            label="Remarks"
+          >
+            <Form.Control
+              as="textarea"
+              name="remarks"
+              value={donation.remarks}
+              onChange={donationHandleChange}
+            />
+          </FloatingLabel>
+          <Form.Group className="mb-2" controlId="img">
+            <Form.Label>Upload Image</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              name="img"
+              onChange={handleFileChange}
+            />
+          </Form.Group>
             </Form>
           </Col>
         </Row>

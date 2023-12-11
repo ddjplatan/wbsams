@@ -19,10 +19,6 @@ const DonationScreen = () => {
     Authorization: `Bearer ${token}`,
   };
   const [reload, setReload] = useState(false);
-  const donationData = useState({
-    donor: "",
-    donationType: "",
-  });
 
   const [donations, setDonations] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -43,7 +39,6 @@ const DonationScreen = () => {
   useEffect(() => {
     getDonations();
   }, [showModal]);
-
 
 
   return (
@@ -73,7 +68,7 @@ const DonationScreen = () => {
               <Row className="flex-nowrap">
                 {donations.map((donation, index) => (
                   <Col sm={5} key={index} className="pr-2">
-                    <DonationCard data={donation} />
+                    <DonationCard data={donation} toreload={()=>setReload(!reload)}/>
                   </Col>
                 ))}
               </Row>
@@ -81,7 +76,7 @@ const DonationScreen = () => {
           </Row>
         </Card.Body>
       </Card>
-      <DonationModal show={showModal} onHide={() => setShowModal(false)} />
+      <DonationModal show={showModal} onHide={() => setShowModal(false)} toReload={()=>setReload(!reload)}/>
     </div>
   );
 };

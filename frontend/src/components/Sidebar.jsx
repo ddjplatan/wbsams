@@ -42,6 +42,7 @@ const Sidebar = () => {
                 Pet Adoption
               </CDBSidebarMenuItem>
               {showDropdown && (
+<<<<<<< HEAD
                 <div className="dropdown-container">
                   <LinkContainer to="/adopt">
                     <CDBSidebarMenuItem className="ms-5" icon="th-large">
@@ -55,6 +56,20 @@ const Sidebar = () => {
                   </LinkContainer>
                 </div>
               )}
+=======
+                  <div className="dropdown-container">
+                    <LinkContainer to="/adopt">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">Manage Pets</CDBSidebarMenuItem>
+                    </LinkContainer>
+                    <LinkContainer to="/adoption">
+                      <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                        Adoption Monitoring
+                      </CDBSidebarMenuItem>
+                    </LinkContainer>
+                  </div>
+                )}
+
+>>>>>>> e6867326c24d3eac80b3e7092bb1f962143adac8
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem icon="th-large">
                   Donation
@@ -103,6 +118,7 @@ const Sidebar = () => {
                   Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
+              
               <LinkContainer to="/spay-and-neuter">
                 <CDBSidebarMenuItem icon="th-large">
                   Spay and Neuter

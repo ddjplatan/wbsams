@@ -8,16 +8,19 @@ const EventSchema = new Schema(
       ref: "User",
       required: true,
     },
-    title: {
+    category: {
       type: String,
       required: true,
+      enum: ["Event", "News", "Volunteer", "Veterinarian"],
+    },
+    title: {
+      type: String,
+    },
+    img: {
+      type: String,
     },
     details: {
       type: String,
-    },
-    date: {
-      type: Date,
-      default: Date.now(),
     },
   },
   {

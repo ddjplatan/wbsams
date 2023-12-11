@@ -13,7 +13,7 @@ const SpayAndNeuterTableView = () => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-
+  const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
   const getSpayAndNeuters = async () => {
     try {
@@ -21,7 +21,6 @@ const SpayAndNeuterTableView = () => {
       const response = await axios.get(url, { headers });
       const spayAndNeuterArray = response.data;
       const updatedSpayAndNeuters = spayAndNeuterArray.map((spayAndNeuter) => {
-        // console.log(spayAndNeuter._id);
         return {
           // id: spayAndNeuter._id,
           owner: `${spayAndNeuter.owner.firstName} ${spayAndNeuter.owner.lastName}`,
@@ -67,8 +66,8 @@ const SpayAndNeuterTableView = () => {
       { headers }
     );
     if (res.status === 200) {
-      toast.success("Successfully approved the requests.");
-      // setReload(!reload)
+      toast.success("Successfully approved the request.");
+      setReload(!reload)
     }
   };
 
@@ -78,8 +77,8 @@ const SpayAndNeuterTableView = () => {
       { headers }
     );
     if (res.status === 200) {
-      toast.success("Successfully approved the requests.");
-      // setReload(!reload)
+      toast.success("Successfully declined the request.");
+      setReload(!reload)
     }
   };
 
@@ -109,10 +108,6 @@ const SpayAndNeuterTableView = () => {
         label: "Pet Age",
         field: "petAge",
       },
-      // {
-      //   label: "Pet Breed",
-      //   field: "petBreed",
-      // },
       {
         label: "Pet Specie",
         field: "petSpecies",

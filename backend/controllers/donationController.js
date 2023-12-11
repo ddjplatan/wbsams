@@ -1,14 +1,21 @@
 const Donation = require("../models/Donation");
 
 const postDonation = async (req, res, next) => {
-  const { donor, donationType } = req.body;
+  const { donor, donationType, address, remarks } = req.body;
   const date = new Date(Date.now());
+
+  const img = req.file
+    ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
+    : "defaults/default-profile.png";
 
   try {
     await Donation.create({
       donor,
       date,
       donationType,
+      address,
+      remarks,
+      img,
     });
 
     res

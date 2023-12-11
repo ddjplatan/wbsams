@@ -139,12 +139,10 @@ const PetModal = (props) => {
         // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
-      console.log(petInfo);
       await axios.put(petUrl, formData, { headers }).then((response) => {
         onHide();
         toast.success("Successfully updated pet.");
       });
-      console.log("UPDATE");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
