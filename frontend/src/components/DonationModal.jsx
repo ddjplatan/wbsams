@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const DonationModal = (props) => {
-  const { data, onHide, handleReload } = props;
+  const { data, onHide, toreload } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
@@ -39,19 +39,6 @@ const DonationModal = (props) => {
       reader.readAsDataURL(selectedFile);
     } else {
       setImagePreview(null);
-    }
-  };
-
-  const deleteDonation = async (id) => {
-    try {
-      const url = `http://localhost:3001/api/donation/${id}`;
-
-      const response = await axios.delete(url, { headers });
-      if (response.status === 200) {
-        toast.success(response.data.message);
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || error.error);
     }
   };
 
@@ -104,7 +91,7 @@ const DonationModal = (props) => {
     if(response.status === 200){
       toast.success("Successfully deleted donation")
       onHide()
-      handleReload();
+      toreload();
     }
     } catch (error) {
       toast.error("Error deleting donation", error.message)
@@ -120,11 +107,14 @@ const DonationModal = (props) => {
         Authorization: `Bearer ${token}`
       }});
       if (response.status === 200) {
+        console.log('status is 200')
         toast.success("Successfully updated donation");
-        handleReload();
         onHide();
+        toreload();
       }
       }else{
+        console.log('sa else nisulod')
+
         url =`http://localhost:3001/api/donation/`
 
         const formData = new FormData();
@@ -148,13 +138,15 @@ const DonationModal = (props) => {
             _id: "",
             description: "",
           });
+          setImg(null)
           onHide();
-          handleReload();
+          toreload();
           toast.success("Successfully added donation.");
         });
       }
     } catch (error) {
-      toast.error("Error adding donation", error.message);
+      console.log(error.message)
+      toast.error("Error ", error.message);
     }
   };
 

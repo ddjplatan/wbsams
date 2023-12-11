@@ -20,10 +20,6 @@ const DonationScreen = () => {
   };
   const [reload, setReload] = useState(false);
 
-  const handleReload = async() => {
-    setReload(!reload)
-  }
-
   const [donations, setDonations] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
@@ -45,7 +41,6 @@ const DonationScreen = () => {
   }, [showModal]);
 
 
-console.log(userInfo.user.userType)
   return (
     <div className="d-flex">
       <Sidebar />
@@ -73,7 +68,7 @@ console.log(userInfo.user.userType)
               <Row className="flex-nowrap">
                 {donations.map((donation, index) => (
                   <Col sm={5} key={index} className="pr-2">
-                    <DonationCard data={donation} />
+                    <DonationCard data={donation} toreload={()=>setReload(!reload)}/>
                   </Col>
                 ))}
               </Row>
@@ -81,7 +76,7 @@ console.log(userInfo.user.userType)
           </Row>
         </Card.Body>
       </Card>
-      <DonationModal show={showModal} onHide={() => setShowModal(false)} handleReload={handleReload}/>
+      <DonationModal show={showModal} onHide={() => setShowModal(false)} toReload={()=>setReload(!reload)}/>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import DonationModal from "./DonationModal";
 
-const DonationCard = ({ data }) => {
+const DonationCard = ({ data, toreload }) => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
 
@@ -15,7 +15,6 @@ const DonationCard = ({ data }) => {
             <Card.Img
                     src={`http://localhost:3001/${data.img}`}
                     alt="Image"
-                    rounded
                     height={200}
                     // width={300}
                   />
@@ -48,7 +47,10 @@ const DonationCard = ({ data }) => {
 
       <DonationModal
         show={showModal}
-        onHide={() => setShowModal(false)}
+        onHide={() => {
+          setShowModal(false)
+        }}
+        toreload={toreload}
         data={data}
       />
     </>
