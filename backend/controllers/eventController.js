@@ -3,12 +3,13 @@ const Event = require("../models/Event");
 
 const postEvent = async (req, res, next) => {
   const postedBy = req.user._id;
-  const { title, details } = req.body;
+  const { title, details, category } = req.body;
   const img = req.file
     ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
     : "defaults/default-profile.png";
   try {
     await Event.create({
+      category,
       postedBy,
       title,
       details,
