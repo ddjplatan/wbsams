@@ -20,12 +20,15 @@ const EventScreen = () => {
   };
 
   const [events, setEvents] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/Event", {
+      const res = await axios.get("http://localhost:3001/api/event", {
         headers,
       });
+      console.log(res)
       if (res) {
         setEvents(res.data);
       }
@@ -33,13 +36,12 @@ const EventScreen = () => {
       toast.error(error?.data?.message || error.error);
     }
   };
+  console.log(events)
 
   useEffect(() => {
     getEvents();
-  }, []);
+  }, [modalShow]);
 
-  const [modalShow, setModalShow] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
 
   return (
     <div className="d-flex">

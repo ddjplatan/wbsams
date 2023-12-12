@@ -33,25 +33,6 @@ const EventModal = (props) => {
   });
 
   const postEvent = async () => {
-    console.log('clicked')
-
-//     const formData = new FormData();
-
-//       Object.keys(eventData).forEach((key) => {
-//         formData.append(key, eventData[key]);
-//       });
-
-//       if (eventData.img) {
-//         formData.append("img", eventData.img);
-//       }
-
-//       const formDataObject = {};
-// formData.forEach((value, key) => {
-//   formDataObject[key] = value;
-// });
-
-// // Log the plain object
-// console.log(formDataObject);
     try {
       const formData = new FormData();
 
@@ -91,6 +72,8 @@ const EventModal = (props) => {
       const url = `http://localhost:3001/api/event/${id}`;
       const response = await axios.put(url, eventData, { headers });
       if (response.status === 200) {
+        onHide();
+        toast.success("Successfully updated event")
         setReload(!reload);
       }
     } catch (error) {
@@ -103,6 +86,8 @@ const EventModal = (props) => {
       const url = `http://localhost:3001/api/event/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
+        onHide();
+        toast.success("Successfully deleted event")
         setReload(!reload);
       }
     } catch (error) {
