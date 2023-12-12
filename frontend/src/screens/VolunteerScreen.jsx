@@ -23,7 +23,7 @@ const VolunteerScreen = () => {
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/event/?category=volunteer", {
+      const res = await axios.get("http://localhost:3001/api/event/?category=Volunteer", {
         headers,
       });
       if (res) {

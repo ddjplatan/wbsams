@@ -23,7 +23,7 @@ const EventScreen = () => {
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/event", {
+      const res = await axios.get("http://localhost:3001/api/Event", {
         headers,
       });
       if (res) {

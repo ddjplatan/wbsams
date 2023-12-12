@@ -23,7 +23,7 @@ const VeterinarianScreen = () => {
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/event", {
+      const res = await axios.get("http://localhost:3001/api/event/?category=Veterinarian", {
         headers,
       });
       if (res) {

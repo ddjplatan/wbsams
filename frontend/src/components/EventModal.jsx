@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form, FloatingLabel, Row, Col, Dropdown } from "react-bootstrap";
+import {
+  Button,
+  Modal,
+  Form,
+  FloatingLabel,
+  Row,
+  Col,
+  Image,
+} from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -13,35 +21,38 @@ const EventModal = (props) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  const [img, setImg] = useState()
+
   const [reload, setReload] = useState(false);
+
   const [eventData, setEventData] = useState({
     _id: "",
+    category: "",
     title: "",
     details: "",
-    img: null
+    img: null,
   });
 
   const postEvent = async () => {
     try {
-
       const formData = new FormData();
 
       Object.keys(eventData).forEach((key) => {
-          formData.append(key, eventData[key]);
+        formData.append(key, eventData[key]);
       });
 
-      if(img) {
+      if (img) {
         formData.append("img", img);
       }
       const res = await axios.post(
         "http://localhost:3001/api/event",
 
         formData,
-        
-        { headers: {
-          Authorization: `Bearer ${token}`
-        } }
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (res.status === 200 || res.status === 201) {
         onHide();
@@ -115,6 +126,24 @@ const EventModal = (props) => {
     });
   };
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedFile(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      setEventData((prevEventData) => ({
+        ...prevEventData,
+        image: file,
+      }));
+    }
+  };
+
   return (
     <Modal
       {...props}
@@ -131,19 +160,72 @@ const EventModal = (props) => {
         <Modal.Body className="px-5">
           <Row>
             <Col>
-            {/* <FloatingLabel className="mb-2" controlId="title" label="Title">
-                <Dropdown onSelect={handleTitleSelect}>
-                  <Dropdown.Toggle variant="light" id="title-dropdown">
-                    {eventData.title}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item eventKey="News">News</Dropdown.Item>
-                    <Dropdown.Item eventKey="Volunteer">Volunteer</Dropdown.Item>
-                    <Dropdown.Item eventKey="Event">Event</Dropdown.Item>
-                    <Dropdown.Item eventKey="Veterinarian">Veterinarian</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </FloatingLabel> */}
+              <div className="d-flex justify-content-center align-items-center mb-4">
+                {selectedFile ? (
+                  <Image
+                    src={selectedFile}
+                    alt="Preview"
+                    rounded
+                    height={350}
+                    width={350}
+                  />
+                ) : data ? (
+                  <Image
+                    src={
+                      data.imgPath
+                        ? `${data.imgPath}`
+                        : "http://localhost:3001/defaults/default-questionmark.jpg"
+                    }
+                    alt="Preview"
+                    rounded
+                    height={350}
+                    width={350}
+                  />
+                ) : (
+                  <Image
+                    src="http://localhost:3001/defaults/default-questionmark.jpg"
+                    rounded
+                    height={350}
+                    width={350}
+                  />
+                )}
+              </div>
+
+              <FloatingLabel className="mb-2" controlId="image" label="image">
+                <Form.Control
+                  type="file"
+                  name="image"
+                  placeholder={selectedFile}
+                  value={""}
+                  onChange={handleFileChange}
+                  disabled={userType === "user"}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
+                controlId="category"
+                label="Category"
+              >
+                <Form.Select
+                  name="category"
+                  value={eventData.category}
+                  onSelect={eventHandleChange}
+                  disabled={userType === "user"}
+                >
+                  <option value="News">News</option>
+                  <option value="Volunteer">Volunteer</option>
+                  <option value="Event">Event</option>
+                  <option value="Veterinarian">Veterinarian</option>
+                </Form.Select>
+              </FloatingLabel>
+              <FloatingLabel className="mb-2" controlId="title" label="Title">
+                <Form.Control
+                  type="text"
+                  name="title"
+                  value={eventData.title}
+                  onChange={eventHandleChange}
+                />
+              </FloatingLabel>
               <FloatingLabel
                 className="mb-2"
                 controlId="details"
