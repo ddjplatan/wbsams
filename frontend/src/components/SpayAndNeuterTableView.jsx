@@ -133,7 +133,7 @@ const SpayAndNeuterTableView = () => {
       <Card.Header>
         <h2 className="fw-bold">Spay and Neuter Requests</h2>
       </Card.Header>
-      <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
+      <Card.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
         <DataTable data={spayAndNeuterList} />
       </Card.Body>
     </Card>

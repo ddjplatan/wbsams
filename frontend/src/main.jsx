@@ -24,8 +24,10 @@ import DonationScreen from "./screens/DonationScreen.jsx";
 import ViewPetsScreen from "./screens/ViewPetsScreen.jsx";
 import AboutScreen from "./screens/AboutScreen.jsx";
 import SpayNeuterScreen from "./screens/SpayNeuterScreen.jsx";
-import SpayNeuterRequestScreen from "./screens/SpayNeuterRequestScreen.jsx";
 import EventScreen from "./screens/EventScreen.jsx";
+import NewsScreen from "./screens/NewsScreen.jsx";
+import VolunteerScreen from "./screens/VolunteerScreen.jsx";
+import VeterinarianScreen from "./screens/VeterinarianScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,8 +47,9 @@ const router = createBrowserRouter(
         <Route path="/adoption" element={<MonitorPetScreen />} />
         <Route path="/spay-and-neuter" element={<SpayNeuterScreen />} />
         <Route path="/events" element={<EventScreen />} />
-
-
+        <Route path="/news" element={<NewsScreen />} />
+        <Route path="/volunteer" element={<VolunteerScreen />} />
+        <Route path="/veterinarian" element={<VeterinarianScreen />} />
       </Route>
     </Route>
   )
@@ -54,6 +57,6 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </Provider>
 );
