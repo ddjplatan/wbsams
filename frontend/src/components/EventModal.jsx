@@ -33,33 +33,55 @@ const EventModal = (props) => {
   });
 
   const postEvent = async () => {
+    console.log('clicked')
+
+//     const formData = new FormData();
+
+//       Object.keys(eventData).forEach((key) => {
+//         formData.append(key, eventData[key]);
+//       });
+
+//       if (eventData.img) {
+//         formData.append("img", eventData.img);
+//       }
+
+//       const formDataObject = {};
+// formData.forEach((value, key) => {
+//   formDataObject[key] = value;
+// });
+
+// // Log the plain object
+// console.log(formDataObject);
     try {
       const formData = new FormData();
 
       Object.keys(eventData).forEach((key) => {
-        formData.append(key, eventData[key]);
+        if (key !== "img") {
+          formData.append(key, eventData[key]);
+        }
+        if (key === "img") {
+          formData.append("img", eventData.img);
+        }
       });
 
-      if (img) {
-        formData.append("img", img);
-      }
-      const res = await axios.post(
-        "http://localhost:3001/api/event",
-
-        formData,
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (res.status === 200 || res.status === 201) {
+      const url = "http://localhost:3001/api/event";
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      await axios.post(url, formData, { headers }).then((response) => {
+        console.log(response.data);
+        setEventData({
+          _id: "",
+    category: "",
+    title: "",
+    details: "",
+    img: null,
+        });
         onHide();
-        toast.success("Successfully added event");
-        setReload(!reload);
-      }
+        toast.success("Successfully added event.");
+      });
     } catch (error) {
+      console.log(error.message)
       toast.error(error?.data?.message || error.error);
     }
   };
@@ -103,21 +125,21 @@ const EventModal = (props) => {
   useEffect(() => {
     if (data) {
       setEventData({
-        id: data._id,
+        _id: data._id,
         title: data.title,
         details: data.details,
-        date: data.date,
+        category: data.category || "News",
       });
     } else {
-      console.log("wala");
       setEventData({
-        id: "",
+        _id: "",
         title: "",
         details: "",
-        date: "",
+        category: "News",
+        img: null
       });
     }
-  }, []);
+  }, [data]);
 
   const eventHandleChange = (e) => {
     setEventData({
@@ -139,7 +161,7 @@ const EventModal = (props) => {
       reader.readAsDataURL(file);
       setEventData((prevEventData) => ({
         ...prevEventData,
-        image: file,
+        img: file,
       }));
     }
   };
@@ -172,8 +194,8 @@ const EventModal = (props) => {
                 ) : data ? (
                   <Image
                     src={
-                      data.imgPath
-                        ? `${data.imgPath}`
+                      data.img
+                        ? `${data.img}`
                         : "http://localhost:3001/defaults/default-questionmark.jpg"
                     }
                     alt="Preview"
@@ -191,10 +213,10 @@ const EventModal = (props) => {
                 )}
               </div>
 
-              <FloatingLabel className="mb-2" controlId="image" label="image">
+              <FloatingLabel className="mb-2" controlId="img" label="Image">
                 <Form.Control
                   type="file"
-                  name="image"
+                  name="img"
                   placeholder={selectedFile}
                   value={""}
                   onChange={handleFileChange}
@@ -209,7 +231,7 @@ const EventModal = (props) => {
                 <Form.Select
                   name="category"
                   value={eventData.category}
-                  onSelect={eventHandleChange}
+                  onChange={eventHandleChange}
                   disabled={userType === "user"}
                 >
                   <option value="News">News</option>
@@ -239,14 +261,6 @@ const EventModal = (props) => {
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
-              {/* <FloatingLabel className="mb-2" controlId="date" label="Date">
-                <Form.Control
-                  type="date"
-                  name="date"
-                  value={eventData.date.slice(0, 10)}
-                  onChange={eventHandleChange}
-                />
-              </FloatingLabel> */}
             </Col>
           </Row>
         </Modal.Body>
@@ -257,7 +271,7 @@ const EventModal = (props) => {
                 <>
                   <Button
                     onClick={() => {
-                      updateEvent(eventData.id);
+                      updateEvent(eventData._id);
                     }}
                     className="ms-2"
                     variant="warning"
@@ -266,7 +280,7 @@ const EventModal = (props) => {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteEvent(eventData.id);
+                      deleteEvent(eventData._id);
                     }}
                     className="ms-2"
                     variant="danger"

@@ -7,6 +7,7 @@ const postEvent = async (req, res, next) => {
   const img = req.file
     ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
     : "defaults/default-profile.png";
+
   try {
     await Event.create({
       category,

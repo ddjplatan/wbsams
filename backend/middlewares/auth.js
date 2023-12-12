@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const protectedRoute = async (req, res, next) => {
   console.log("reached protected route");
+
   let token;
   if (
     req.headers.authorization &&
