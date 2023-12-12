@@ -35,7 +35,7 @@ const getEvent = async (req, res, next) => {
 };
 
 const getEvents = async (req, res, next) => {
-  const { skip, limit } = req.query;
+  const { skip, limit, category } = req.query;
   const count = await Event.countDocuments();
   const events = await Event.find().skip(skip).limit(limit);
   res
