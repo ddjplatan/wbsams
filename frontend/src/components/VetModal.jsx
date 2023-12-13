@@ -75,8 +75,21 @@ const VetModal = (props) => {
 
   const updateVet = async (id) => {
     try {
+      const formData = new FormData();
+
+      Object.keys(vetData).forEach((key) => {
+        if (key !== "img") {
+          formData.append(key, vetData[key]);
+        }
+        if (key === "img") {
+          formData.append("img", vetData.img);
+        }
+      });
       const url = `http://localhost:3001/api/vet/${id}`;
-      const response = await axios.put(url, vetData, { headers });
+      const response = await axios.put(url, formData, { headers:{
+    Authorization: `Bearer ${token}`,
+        
+      } });
       if (response.status === 200) {
         onHide();
         toast.success("Successfully updated vet")

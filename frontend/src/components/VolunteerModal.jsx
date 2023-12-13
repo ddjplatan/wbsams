@@ -75,8 +75,21 @@ const VolunteerModal = (props) => {
 
   const updateVolunteer = async (id) => {
     try {
+      const formData = new FormData();
+
+      Object.keys(volunteerData).forEach((key) => {
+        if (key !== "img") {
+          formData.append(key, volunteerData[key]);
+        }
+        if (key === "img") {
+          formData.append("img", volunteerData.img);
+        }
+      });
       const url = `http://localhost:3001/api/volunteer/${id}`;
-      const response = await axios.put(url, volunteerData, { headers });
+      const response = await axios.put(url, formData, { headers:{
+    Authorization: `Bearer ${token}`,
+
+      } });
       if (response.status === 200) {
         onHide();
         toast.success("Successfully updated volunteer")

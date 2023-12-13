@@ -50,7 +50,7 @@ router
 router
   .route("/:vetId")
   .get(reqReceived, getVet)
-  .put(reqReceived, protectedRoute, staffValidator, updateVet)
+  .put(reqReceived, protectedRoute, upload.single("img"), updateVet)
   .delete(reqReceived, protectedRoute, staffValidator, deleteVet);
 
 module.exports = router;

@@ -54,18 +54,29 @@ const getVolunteers = async (req, res, next) => {
 
 const updateVolunteer = async (req, res, next) => {
   try {
+    let updateFields = { ...req.body };
+
+    if (req.file) {
+      updateFields.img = req.file.path
+        .replace(/backend[\/\\]public[\/\\]/, "")
+        .replace(/\\/g, "/");
+    }
+
     const result = await Volunteer.findByIdAndUpdate(
       req.params.volunteerId,
       {
-        $set: req.body,
+        $set: updateFields,
       },
       { new: true }
     );
-    res
-      .status(200)
-      .setHeader("Content-Type", "application/json")
-      .json({ success: true, result });
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully updated volunteer",
+      updatedVet: result,
+    });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
