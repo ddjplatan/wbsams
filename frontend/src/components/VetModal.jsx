@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const VolunteerModal = (props) => {
+const VetModal = (props) => {
   const { data, onHide } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
@@ -24,7 +24,7 @@ const VolunteerModal = (props) => {
 
   const [reload, setReload] = useState(false);
 
-  const [volunteerData, setVolunteerData] = useState({
+  const [vetData, setVetData] = useState({
     _id: "",
     email: "",
     firstName: "",
@@ -35,26 +35,26 @@ const VolunteerModal = (props) => {
     img: null,
   });
 
-  const postVolunteer = async () => {
+  const postVet = async () => {
     try {
       const formData = new FormData();
 
-      Object.keys(volunteerData).forEach((key) => {
+      Object.keys(vetData).forEach((key) => {
         if (key !== "img") {
-          formData.append(key, volunteerData[key]);
+          formData.append(key, vetData[key]);
         }
         if (key === "img") {
-          formData.append("img", volunteerData.img);
+          formData.append("img", vetData.img);
         }
       });
 
-      const url = "http://localhost:3001/api/volunteer";
+      const url = "http://localhost:3001/api/vet";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
       await axios.post(url, formData, { headers }).then((response) => {
         console.log(response.data);
-        setVolunteerData({
+        setVetData({
           _id: "",
           email: "",
           firstName: "",
@@ -65,7 +65,7 @@ const VolunteerModal = (props) => {
           img: null,
         });
         onHide();
-        toast.success("Successfully added volunteer.");
+        toast.success("Successfully added vet.");
       });
     } catch (error) {
       console.log(error.message)
@@ -73,13 +73,13 @@ const VolunteerModal = (props) => {
     }
   };
 
-  const updateVolunteer = async (id) => {
+  const updateVet = async (id) => {
     try {
-      const url = `http://localhost:3001/api/volunteer/${id}`;
-      const response = await axios.put(url, volunteerData, { headers });
+      const url = `http://localhost:3001/api/vet/${id}`;
+      const response = await axios.put(url, vetData, { headers });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully updated volunteer")
+        toast.success("Successfully updated vet")
         setReload(!reload);
       }
     } catch (error) {
@@ -87,13 +87,14 @@ const VolunteerModal = (props) => {
     }
   };
 
-  const deleteVolunteer = async (id) => {
+  const deleteVet = async (id) => {
+    console.log('delete client')
     try {
-      const url = `http://localhost:3001/api/volunteer/${id}`;
+      const url = `http://localhost:3001/api/vet/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully deleted volunteer")
+        toast.success("Successfully deleted vet")
         setReload(!reload);
       }
     } catch (error) {
@@ -101,9 +102,9 @@ const VolunteerModal = (props) => {
     }
   };
 
-  const deleteVolunteers = async (id) => {
+  const deleteVets = async (id) => {
     try {
-      const url = `http://localhost:3001/api/volunteer/`;
+      const url = `http://localhost:3001/api/vet/`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         setReload(!reload);
@@ -115,7 +116,7 @@ const VolunteerModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      setVolunteerData({
+      setVetData({
         _id: data._id,
         email: data.email,
         firstName: data.firstName,
@@ -125,7 +126,7 @@ const VolunteerModal = (props) => {
         workExperience: data.workExperience,
       });
     } else {
-      setVolunteerData({
+      setVetData({
         _id: "",
         email: "",
         firstName: "",
@@ -139,8 +140,8 @@ const VolunteerModal = (props) => {
   }, [data]);
 
   const eventHandleChange = (e) => {
-    setVolunteerData({
-      ...volunteerData,
+    setVetData({
+      ...vetData,
       [e.target.name]: e.target.value,
     });
   };
@@ -156,7 +157,7 @@ const VolunteerModal = (props) => {
         setSelectedFile(e.target.result);
       };
       reader.readAsDataURL(file);
-      setVolunteerData((prevEventData) => ({
+      setVetData((prevEventData) => ({
         ...prevEventData,
         img: file,
       }));
@@ -172,7 +173,7 @@ const VolunteerModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-center">
-          {!data && "Add "}Volunteer
+          {!data && "Add "}Vet
         </Modal.Title>
       </Modal.Header>
       <Form>
@@ -224,7 +225,7 @@ const VolunteerModal = (props) => {
                 <Form.Control
                   type="text"
                   name="email"
-                  value={volunteerData.email}
+                  value={vetData.email}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
@@ -237,7 +238,7 @@ const VolunteerModal = (props) => {
                   as="textarea"
                   type="text"
                   name="firstName"
-                  value={volunteerData.firstName}
+                  value={vetData.firstName}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
@@ -250,7 +251,7 @@ const VolunteerModal = (props) => {
                   as="textarea"
                   type="text"
                   name="lastName"
-                  value={volunteerData.lastName}
+                  value={vetData.lastName}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
@@ -263,7 +264,7 @@ const VolunteerModal = (props) => {
                   as="textarea"
                   type="text"
                   name="phoneNumber"
-                  value={volunteerData.phoneNumber}
+                  value={vetData.phoneNumber}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
@@ -276,7 +277,7 @@ const VolunteerModal = (props) => {
                   as="textarea"
                   type="text"
                   name="address"
-                  value={volunteerData.address}
+                  value={vetData.address}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
@@ -289,7 +290,7 @@ const VolunteerModal = (props) => {
                   as="textarea"
                   type="text"
                   name="workExperience"
-                  value={volunteerData.workExperience}
+                  value={vetData.workExperience}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
@@ -303,7 +304,7 @@ const VolunteerModal = (props) => {
                 <>
                   <Button
                     onClick={() => {
-                      updateVolunteer(volunteerData._id);
+                      updateVet(vetData._id);
                     }}
                     className="ms-2"
                     variant="warning"
@@ -312,7 +313,7 @@ const VolunteerModal = (props) => {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteVolunteer(volunteerData._id);
+                      deleteVet(vetData._id);
                     }}
                     className="ms-2"
                     variant="danger"
@@ -322,7 +323,7 @@ const VolunteerModal = (props) => {
                 </>
               ) : (
                 <>
-                  <Button onClick={postVolunteer} variant="success">
+                  <Button onClick={postVet} variant="success">
                     Submit
                   </Button>
                 </>
@@ -335,4 +336,4 @@ const VolunteerModal = (props) => {
   );
 };
 
-export default VolunteerModal;
+export default VetModal;

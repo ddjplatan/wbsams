@@ -1,17 +1,22 @@
 const Vet = require("../models/Vet");
 
 const postVet = async (req, res, next) => {
-  const { name, address, phoneNumber, skills, education, experience } =
+  const { email, firstName, lastName, address, phoneNumber, workExperience } =
     req.body;
+
+  const img = req.file
+    ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
+    : "defaults/default-profile.png";
 
   try {
     await Vet.create({
-      name,
+      email,
+      firstName,
+      lastName,
       address,
       phoneNumber,
-      skills,
-      education,
-      experience,
+      workExperience,
+      img,
     });
 
     res
@@ -19,6 +24,7 @@ const postVet = async (req, res, next) => {
       .setHeader("Content-Type", "application/json")
       .json({ success: true, message: "Vet posted" });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -62,6 +68,7 @@ const updateVet = async (req, res, next) => {
 };
 
 const deleteVet = async (req, res, next) => {
+  console.log("delete delete");
   try {
     await Vet.deleteOne({ _id: req.params.vetId });
     res
