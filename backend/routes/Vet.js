@@ -33,7 +33,7 @@ const {
   updateVet,
   deleteVet,
   deleteVets,
-} = require("../controllers/VetController");
+} = require("../controllers/vetController");
 
 router
   .route("/")

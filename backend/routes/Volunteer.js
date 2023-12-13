@@ -33,7 +33,7 @@ const {
   updateVolunteer,
   deleteVolunteer,
   deleteVolunteers,
-} = require("../controllers/VolunteerController");
+} = require("../controllers/volunteerController");
 
 router
   .route("/")
