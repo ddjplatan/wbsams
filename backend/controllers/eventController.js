@@ -37,7 +37,6 @@ const getEvent = async (req, res, next) => {
 
 const getEvents = async (req, res, next) => {
   const { skip, limit, category } = req.query;
-  console.log(category);
   const count = await Event.countDocuments();
   let events;
   if (category === undefined) {
@@ -45,7 +44,6 @@ const getEvents = async (req, res, next) => {
   } else {
     events = await Event.find({ category }).skip(skip).limit(limit);
   }
-  console.log("events", events);
   res
     .status(200)
     .setHeader("Content-Type", "application/json")

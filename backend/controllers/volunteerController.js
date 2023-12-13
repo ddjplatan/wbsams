@@ -4,6 +4,10 @@ const postVolunteer = async (req, res, next) => {
   const { email, firstName, lastName, phoneNumber, address, workExperience } =
     req.body;
 
+  const img = req.file
+    ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
+    : "defaults/default-profile.png";
+
   try {
     await Volunteer.create({
       email,
@@ -12,6 +16,7 @@ const postVolunteer = async (req, res, next) => {
       phoneNumber,
       address,
       workExperience,
+      img,
     });
 
     res
@@ -19,6 +24,7 @@ const postVolunteer = async (req, res, next) => {
       .setHeader("Content-Type", "application/json")
       .json({ success: true, message: "Volunteer posted" });
   } catch (err) {
+    console.error(err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
