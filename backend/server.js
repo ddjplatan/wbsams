@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const user = require("./routes/user");
 const event = require("./routes/event");
+const news = require("./routes/news");
 const donation = require("./routes/donation");
 const vet = require("./routes/vet");
 const volunteer = require("./routes/Volunteer");
@@ -85,6 +86,7 @@ app.use("/api/volunteer", volunteer);
 app.use("/api/pet", pet);
 app.use("/api/adoption", adoption);
 app.use("/api/spay-and-neuter", spayAndNeuter);
+app.use("/api/news", news);
 
 const server = app.listen(PORT, () => {
   console.log(`Server is listening on PORT: ${PORT}`);

@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const EventModal = (props) => {
+const NewsModal = (props) => {
   const { data, onHide } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
@@ -24,40 +24,40 @@ const EventModal = (props) => {
 
   const [reload, setReload] = useState(false);
 
-  const [eventData, setEventData] = useState({
+  const [newsData, setNewsData] = useState({
     _id: "",
     title: "",
     details: "",
     img: null,
   });
 
-  const postEvent = async () => {
+  const postNews = async () => {
     try {
       const formData = new FormData();
 
-      Object.keys(eventData).forEach((key) => {
+      Object.keys(newsData).forEach((key) => {
         if (key !== "img") {
-          formData.append(key, eventData[key]);
+          formData.append(key, newsData[key]);
         }
         if (key === "img") {
-          formData.append("img", eventData.img);
+          formData.append("img", newsData.img);
         }
       });
 
-      const url = "http://localhost:3001/api/event";
+      const url = "http://localhost:3001/api/news";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
       await axios.post(url, formData, { headers }).then((response) => {
         console.log(response.data);
-        setEventData({
+        setNewsData({
           _id: "",
     title: "",
     details: "",
     img: null,
         });
         onHide();
-        toast.success("Successfully added event.");
+        toast.success("Successfully added news.");
       });
     } catch (error) {
       console.log(error.message)
@@ -65,13 +65,13 @@ const EventModal = (props) => {
     }
   };
 
-  const updateEvent = async (id) => {
+  const updateNews = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/${id}`;
-      const response = await axios.put(url, eventData, { headers });
+      const url = `http://localhost:3001/api/news/${id}`;
+      const response = await axios.put(url, newsData, { headers });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully updated event")
+        toast.success("Successfully updated news")
         setReload(!reload);
       }
     } catch (error) {
@@ -79,13 +79,13 @@ const EventModal = (props) => {
     }
   };
 
-  const deleteEvent = async (id) => {
+  const deleteNews = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/${id}`;
+      const url = `http://localhost:3001/api/news/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully deleted event")
+        toast.success("Successfully deleted news")
         setReload(!reload);
       }
     } catch (error) {
@@ -93,9 +93,9 @@ const EventModal = (props) => {
     }
   };
 
-  const deleteEvents = async (id) => {
+  const deleteNewss = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/`;
+      const url = `http://localhost:3001/api/news/`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         setReload(!reload);
@@ -107,13 +107,13 @@ const EventModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      setEventData({
+      setNewsData({
         _id: data._id,
         title: data.title,
         details: data.details,
       });
     } else {
-      setEventData({
+      setNewsData({
         _id: "",
         title: "",
         details: "",
@@ -122,9 +122,9 @@ const EventModal = (props) => {
     }
   }, [data]);
 
-  const eventHandleChange = (e) => {
-    setEventData({
-      ...eventData,
+  const newsHandleChange = (e) => {
+    setNewsData({
+      ...newsData,
       [e.target.name]: e.target.value,
     });
   };
@@ -140,8 +140,8 @@ const EventModal = (props) => {
         setSelectedFile(e.target.result);
       };
       reader.readAsDataURL(file);
-      setEventData((prevEventData) => ({
-        ...prevEventData,
+      setNewsData((prevNewsData) => ({
+        ...prevNewsData,
         img: file,
       }));
     }
@@ -156,7 +156,7 @@ const EventModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-center">
-          {!data && "Add "}Event
+          {!data && "Add "}News
         </Modal.Title>
       </Modal.Header>
       <Form>
@@ -208,8 +208,8 @@ const EventModal = (props) => {
                 <Form.Control
                   type="text"
                   name="title"
-                  value={eventData.title}
-                  onChange={eventHandleChange}
+                  value={newsData.title}
+                  onChange={newsHandleChange}
                 />
               </FloatingLabel>
               <FloatingLabel
@@ -221,8 +221,8 @@ const EventModal = (props) => {
                   as="textarea"
                   type="text"
                   name="details"
-                  value={eventData.details}
-                  onChange={eventHandleChange}
+                  value={newsData.details}
+                  onChange={newsHandleChange}
                 />
               </FloatingLabel>
             </Col>
@@ -235,7 +235,7 @@ const EventModal = (props) => {
                 <>
                   <Button
                     onClick={() => {
-                      updateEvent(eventData._id);
+                      updateNews(newsData._id);
                     }}
                     className="ms-2"
                     variant="warning"
@@ -244,7 +244,7 @@ const EventModal = (props) => {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteEvent(eventData._id);
+                      deleteNews(newsData._id);
                     }}
                     className="ms-2"
                     variant="danger"
@@ -254,7 +254,7 @@ const EventModal = (props) => {
                 </>
               ) : (
                 <>
-                  <Button onClick={postEvent} variant="success">
+                  <Button onClick={postNews} variant="success">
                     Submit
                   </Button>
                 </>
@@ -267,4 +267,4 @@ const EventModal = (props) => {
   );
 };
 
-export default EventModal;
+export default NewsModal;
