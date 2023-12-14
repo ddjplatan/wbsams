@@ -25,6 +25,14 @@ const AdoptScreen = (props) => {
 
   //! FETCH PETS
   const [pets, setPets] = useState([]);
+  const handleDownloadCsv = async() => {
+    try {
+      const res = await axios.get(`http://localhost:3001/api/pet/toCsv`);
+      console.log(res)
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
   const getPets = async () => {
     try {
       const petUrl = "http://localhost:3001/api/pet";
@@ -78,6 +86,10 @@ const AdoptScreen = (props) => {
               }}
             >
               Register a Pet
+            </Button>
+
+            <Button onClick={handleDownloadCsv}>
+              Download CSV
             </Button>
           </Card.Header>
           <Card.Body

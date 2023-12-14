@@ -1,86 +1,158 @@
 const fs = require("fs");
+const path = require("path");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 const Adoption = require("../models/Adoption");
+const Pet = require("../models/Pet");
 
 const convertAdoption = async (req, res, next) => {
+  //   try {
+  //     const adoptions = await Adoption.find()
+  //       .populate("adopter")
+  //       .populate("adoptee");
+  //     const csvFilePath = "adoption.csv";
+  //     await convertAdoptionToCSV(adoptions, csvFilePath);
+  //     // Send the CSV file as a response
+  //     res
+  //       .status(200)
+  //       .setHeader("Content-Disposition", "attachment; filename=adoption.csv")
+  //       .setHeader("Content-Type", "text/csv")
+  //       .download(csvFilePath, "adoption.csv", (err) => {
+  //         if (err) {
+  //           console.error("Error downloading CSV file:", err);
+  //           res.status(500).send("Internal Server Error");
+  //         } else {
+  //           fs.unlinkSync(csvFilePath);
+  //         }
+  //       });
+  //   } catch (error) {
+  //     console.error("Error converting to CSV:", error);
+  //     res.status(500).send("Internal Server Error");
+  //   }
+};
+
+const convertPets = async (req, res, next) => {
   try {
-    const adoptions = await Adoption.find()
-      .populate("adopter")
-      .populate("adoptee");
+    const pets = await Pet.find();
+    const currentDate = Date.now();
+    const csvFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `Pet-${currentDate}.csv`
+    );
+    const csvWriter = createCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "name", title: "Pet Name" },
+        { id: "age", title: "Age" },
+        { id: "gender", title: "Gender" },
+        { id: "breed", title: "Breed" },
+        { id: "description", title: "Description" },
+        { id: "species", title: "Species" },
+      ],
+    });
 
-    const csvFilePath = "adoption.csv";
-    await convertToCSV(adoptions, csvFilePath);
+    const records = pets.map((doc) => ({
+      name: doc.name,
+      age: doc.age,
+      gender: doc.gender,
+      breed: doc.breed,
+      description: doc.description,
+      species: doc.species,
+    }));
 
-    // Send the CSV file as a response
-    res
-      .status(200)
-      .setHeader("Content-Disposition", "attachment; filename=adoption.csv")
-      .setHeader("Content-Type", "text/csv")
-      .download(csvFilePath, "adoption.csv", (err) => {
-        if (err) {
-          console.error("Error downloading CSV file:", err);
-          res.status(500).send("Internal Server Error");
-        } else {
-          fs.unlinkSync(csvFilePath);
-        }
-      });
+    await csvWriter.writeRecords(records).then(() => {
+      console.log("CSV file generated successfully");
+      res.status(200).send("CSV file generated successfully");
+    });
   } catch (error) {
     console.error("Error converting to CSV:", error);
     res.status(500).send("Internal Server Error");
   }
 };
 
-async function convertToCSV(documents, csvFilePath) {
+// async function convertAdoptionToCSV(documents, csvFilePath) {
+//   console.log("patthhhhhh", csvFilePath);
+//   const csvWriter = createCsvWriter({
+//     path: csvFilePath,
+//     header: [
+//       { id: "adopter", title: "Parent" },
+//       { id: "email", title: "Email" },
+//       { id: "phoneNumber", title: "Phone Number" },
+//       { id: "adoptee", title: "Pet" },
+//       { id: "reason", title: "Reason" },
+//       { id: "date", title: "Adoption Date" },
+//       { id: "parentJob", title: "Parent Job" },
+//       { id: "isApproved", title: "Is Approved" },
+//     ],
+//   });
+
+//   const records = documents.map((doc) => ({
+//     adopter: doc.adopter.firstName + " " + doc.adopter.lastName,
+//     email: doc.adopter.email,
+//     phoneNumber: doc.adopter.phoneNumber,
+//     adoptee: doc.adoptee.name,
+//     reason: doc.reason,
+//     date: doc.date,
+//     parentJob: doc.parentJob,
+//     isApproved: doc.isApproved,
+//   }));
+
+//   await csvWriter.writeRecords(records);
+// }
+
+async function convertPetsToCSV(documents, csvFilePath) {
+  const currentDate = Date.now();
   const csvWriter = createCsvWriter({
-    path: csvFilePath,
+    path: `${csvFilePath}-${currentDate}`,
     header: [
-      { id: "adopter", title: "Parent" },
-      { id: "email", title: "Email" },
-      { id: "phoneNumber", title: "Phone Number" },
-      { id: "adoptee", title: "Pet" },
-      { id: "reason", title: "Reason" },
-      { id: "date", title: "Adoption Date" },
-      { id: "parentJob", title: "Parent Job" },
-      { id: "isApproved", title: "Is Approved" },
+      { id: "name", title: "Pet Name" },
+      { id: "age", title: "Age" },
+      { id: "gender", title: "Gender" },
+      { id: "breed", title: "Breed" },
+      { id: "description", title: "Description" },
+      { id: "species", title: "Species" },
     ],
   });
 
   const records = documents.map((doc) => ({
-    adopter: doc.adopter.firstName + " " + doc.adopter.lastName,
-    email: doc.adopter.email,
-    phoneNumber: doc.adopter.phoneNumber,
-    adoptee: doc.adoptee.name,
-    reason: doc.reason,
-    date: doc.date,
-    parentJob: doc.parentJob,
-    isApproved: doc.isApproved,
+    name: doc.name,
+    age: doc.age,
+    gender: doc.gender,
+    breed: doc.breed,
+    description: doc.description,
+    species: doc.species,
   }));
 
-  await csvWriter.writeRecords(records);
+  await csvWriter.writeRecords(records).then(() => {
+    console.log("CSV file generated successfully");
+    res.status(200).send("CSV file generated successfully");
+  });
 }
 
 // Function to convert documents to PDF
-function convertToPDF(documents, pdfFilePath) {
-  const doc = new PDFDocument();
-  const stream = fs.createWriteStream(pdfFilePath);
+// function convertToPDF(documents, pdfFilePath) {
+//   const doc = new PDFDocument();
+//   const stream = fs.createWriteStream(pdfFilePath);
 
-  doc.pipe(stream);
+//   doc.pipe(stream);
 
-  documents.forEach((doc) => {
-    doc.checkups.forEach((checkup) => {
-      doc.text(`Checkup Date: ${checkup.date}`, { align: "left" });
-      doc.text(`Accompanied By: ${checkup.accompaniedBy}`, { align: "left" });
-      doc.text(`Remarks: ${checkup.remarks || "N/A"}`, { align: "left" });
-      doc.moveDown();
-    });
+//   documents.forEach((doc) => {
+//     doc.checkups.forEach((checkup) => {
+//       doc.text(`Checkup Date: ${checkup.date}`, { align: "left" });
+//       doc.text(`Accompanied By: ${checkup.accompaniedBy}`, { align: "left" });
+//       doc.text(`Remarks: ${checkup.remarks || "N/A"}`, { align: "left" });
+//       doc.moveDown();
+//     });
 
-    doc.moveDown();
-    doc.text("=====================================");
-    doc.moveDown();
-  });
+//     doc.moveDown();
+//     doc.text("=====================================");
+//     doc.moveDown();
+//   });
 
-  doc.end();
-}
+//   doc.end();
+// }
 
 // convertAdoption();
 
@@ -92,4 +164,5 @@ function convertToPDF(documents, pdfFilePath) {
 
 module.exports = {
   convertAdoption,
+  convertPets,
 };
