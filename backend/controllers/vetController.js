@@ -1,17 +1,22 @@
 const Vet = require("../models/Vet");
 
 const postVet = async (req, res, next) => {
-  const { name, address, phoneNumber, skills, education, experience } =
+  const { email, firstName, lastName, address, phoneNumber, workExperience } =
     req.body;
+
+  const img = req.file
+    ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
+    : "defaults/default-profile.png";
 
   try {
     await Vet.create({
-      name,
+      email,
+      firstName,
+      lastName,
       address,
       phoneNumber,
-      skills,
-      education,
-      experience,
+      workExperience,
+      img,
     });
 
     res
@@ -19,6 +24,7 @@ const postVet = async (req, res, next) => {
       .setHeader("Content-Type", "application/json")
       .json({ success: true, message: "Vet posted" });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -45,23 +51,37 @@ const getVets = async (req, res, next) => {
 
 const updateVet = async (req, res, next) => {
   try {
+    let updateFields = { ...req.body };
+
+    if (req.file) {
+      updateFields.img = req.file.path
+        .replace(/backend[\/\\]public[\/\\]/, "")
+        .replace(/\\/g, "/");
+    }
+
+    console.log(updateFields);
+
     const result = await Vet.findByIdAndUpdate(
       req.params.vetId,
       {
-        $set: req.body,
+        $set: updateFields,
       },
       { new: true }
     );
-    res
-      .status(200)
-      .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully updated vet" });
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully updated vet",
+      updatedVet: result,
+    });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
 
 const deleteVet = async (req, res, next) => {
+  console.log("delete delete");
   try {
     await Vet.deleteOne({ _id: req.params.vetId });
     res

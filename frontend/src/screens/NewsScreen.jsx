@@ -23,7 +23,7 @@ const NewsScreen = () => {
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/event/?category=News", {
+      const res = await axios.get("http://localhost:3001/api/news", {
         headers,
       });
       if (res) {
@@ -55,7 +55,7 @@ const NewsScreen = () => {
               setModalShow(true);
             }}
           >
-            Add an Event
+            Add News
           </Button>
           }
           

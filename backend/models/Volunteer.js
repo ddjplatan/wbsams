@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const validator = require("validator");
 
 const VolunteerSchema = new Schema(
   {
@@ -38,6 +39,9 @@ const VolunteerSchema = new Schema(
       type: String,
     },
     workExperience: {
+      type: String,
+    },
+    img: {
       type: String,
     },
   },

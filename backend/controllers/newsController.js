@@ -1,7 +1,7 @@
 // const User = require("../models/User");
-const Event = require("../models/Event");
+const News = require("../models/News");
 
-const postEvent = async (req, res, next) => {
+const postNews = async (req, res, next) => {
   const postedBy = req.user._id;
   const { title, details } = req.body;
   const img = req.file
@@ -9,7 +9,7 @@ const postEvent = async (req, res, next) => {
     : "defaults/default-profile.png";
 
   try {
-    await Event.create({
+    await News.create({
       postedBy,
       title,
       details,
@@ -19,41 +19,41 @@ const postEvent = async (req, res, next) => {
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Event posted" });
+      .json({ success: true, message: "News posted" });
   } catch (err) {
     console.error(err);
   }
 };
 
-const getEvent = async (req, res, next) => {
+const getNews = async (req, res, next) => {
   try {
-    const event = await Event.findById(req.params.eventId);
-    res.status(200).setHeader("Content-Type", "application/json").json(event);
+    const news = await News.findById(req.params.newsId);
+    res.status(200).setHeader("Content-Type", "application/json").json(news);
   } catch (err) {
     console.error(err);
   }
 };
 
-const getEvents = async (req, res, next) => {
+const getNewss = async (req, res, next) => {
   const { skip, limit, category } = req.query;
-  const count = await Event.countDocuments();
-  let events;
+  const count = await News.countDocuments();
+  let newss;
   if (category === undefined) {
-    events = await Event.find().skip(skip).limit(limit);
+    newss = await News.find().skip(skip).limit(limit);
   } else {
-    events = await Event.find({ category }).skip(skip).limit(limit);
+    newss = await News.find({ category }).skip(skip).limit(limit);
   }
   res
     .status(200)
     .setHeader("Content-Type", "application/json")
     .setHeader("X-Total-Count", `${count}`)
-    .json(events);
+    .json(newss);
 };
 
-const updateEvent = async (req, res, next) => {
+const updateNews = async (req, res, next) => {
   try {
-    const result = await Event.findByIdAndUpdate(
-      req.params.eventId,
+    const result = await News.findByIdAndUpdate(
+      req.params.newsId,
       {
         $set: req.body,
       },
@@ -62,41 +62,41 @@ const updateEvent = async (req, res, next) => {
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully updated event" });
+      .json({ success: true, message: "Successfully updated news" });
   } catch (err) {
     console.error(err);
   }
 };
 
-const deleteEvent = async (req, res, next) => {
+const deleteNews = async (req, res, next) => {
   try {
-    await Event.deleteOne({ _id: req.params.eventId });
+    await News.deleteOne({ _id: req.params.newsId });
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully deleted one event" });
+      .json({ success: true, message: "Successfully deleted one news" });
   } catch (err) {
     console.error(err);
   }
 };
 
-const deleteEvents = async (req, res, next) => {
+const deleteNewss = async (req, res, next) => {
   try {
-    await Event.deleteMany();
+    await News.deleteMany();
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Deleted all events" });
+      .json({ success: true, message: "Deleted all newss" });
   } catch (err) {
     console.error(err);
   }
 };
 
 module.exports = {
-  postEvent,
-  getEvents,
-  getEvent,
-  updateEvent,
-  deleteEvent,
-  deleteEvents,
+  postNews,
+  getNewss,
+  getNews,
+  updateNews,
+  deleteNews,
+  deleteNewss,
 };

@@ -27,13 +27,13 @@ const {
 } = require("../middlewares/utils/validators");
 
 const {
-  postVet,
-  getVets,
-  getVet,
-  updateVet,
-  deleteVet,
-  deleteVets,
-} = require("../controllers/vetController");
+  postNews,
+  getNewss,
+  getNews,
+  updateNews,
+  deleteNews,
+  deleteNewss,
+} = require("../controllers/newsController");
 
 router
   .route("/")
@@ -42,15 +42,15 @@ router
     protectedRoute,
     staffValidator,
     upload.single("img"),
-    postVet
+    postNews
   )
-  .get(reqReceived, getVets)
-  .delete(reqReceived, protectedRoute, adminValidator, deleteVets);
+  .get(reqReceived, getNewss)
+  .delete(reqReceived, protectedRoute, adminValidator, deleteNewss);
 
 router
-  .route("/:vetId")
-  .get(reqReceived, getVet)
-  .put(reqReceived, protectedRoute, upload.single("img"), updateVet)
-  .delete(reqReceived, protectedRoute, staffValidator, deleteVet);
+  .route("/:newsId")
+  .get(reqReceived, getNews)
+  .put(reqReceived, protectedRoute, staffValidator, updateNews)
+  .delete(reqReceived, protectedRoute, staffValidator, deleteNews);
 
 module.exports = router;

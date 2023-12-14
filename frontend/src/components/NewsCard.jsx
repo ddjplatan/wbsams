@@ -1,9 +1,8 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import DonationModal from "./DonationModal";
-import EventModal from "./EventModal";
+import NewsModal from "./NewsModal";
 
-const EventCard = ({ data }) => {
+const NewsCard = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
 
@@ -11,12 +10,14 @@ const EventCard = ({ data }) => {
     <>
       <Card className="w-100 h-100" onClick={handleShow}>
         <Card.Header>
-          <Card.Title>{data.title}</Card.Title>
+          <Card.Title>{data.category}</Card.Title>
         </Card.Header>
+        <Card.Title>{data.title}</Card.Title>
+
         <Card.Body>
         <Image
               src={`http://localhost:3001/${data.img}`}
-              alt="Event Image"
+              alt="News Image"
               className="mb-3"
               rounded
               fluid
@@ -27,7 +28,7 @@ const EventCard = ({ data }) => {
         </Card.Body>
       </Card>
 
-      <EventModal
+      <NewsModal
         show={showModal}
         onHide={() => setShowModal(false)}
         data={data}
@@ -36,4 +37,4 @@ const EventCard = ({ data }) => {
   );
 };
 
-export default EventCard;
+export default NewsCard;

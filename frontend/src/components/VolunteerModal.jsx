@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const EventModal = (props) => {
+const VolunteerModal = (props) => {
   const { data, onHide } = props;
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
@@ -24,40 +24,48 @@ const EventModal = (props) => {
 
   const [reload, setReload] = useState(false);
 
-  const [eventData, setEventData] = useState({
+  const [volunteerData, setVolunteerData] = useState({
     _id: "",
-    title: "",
-    details: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    workExperience: "",
     img: null,
   });
 
-  const postEvent = async () => {
+  const postVolunteer = async () => {
     try {
       const formData = new FormData();
 
-      Object.keys(eventData).forEach((key) => {
+      Object.keys(volunteerData).forEach((key) => {
         if (key !== "img") {
-          formData.append(key, eventData[key]);
+          formData.append(key, volunteerData[key]);
         }
         if (key === "img") {
-          formData.append("img", eventData.img);
+          formData.append("img", volunteerData.img);
         }
       });
 
-      const url = "http://localhost:3001/api/event";
+      const url = "http://localhost:3001/api/volunteer";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
       await axios.post(url, formData, { headers }).then((response) => {
         console.log(response.data);
-        setEventData({
+        setVolunteerData({
           _id: "",
-    title: "",
-    details: "",
-    img: null,
+          email: "",
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          address: "",
+          workExperience: "",
+          img: null,
         });
         onHide();
-        toast.success("Successfully added event.");
+        toast.success("Successfully added volunteer.");
       });
     } catch (error) {
       console.log(error.message)
@@ -65,13 +73,26 @@ const EventModal = (props) => {
     }
   };
 
-  const updateEvent = async (id) => {
+  const updateVolunteer = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/${id}`;
-      const response = await axios.put(url, eventData, { headers });
+      const formData = new FormData();
+
+      Object.keys(volunteerData).forEach((key) => {
+        if (key !== "img") {
+          formData.append(key, volunteerData[key]);
+        }
+        if (key === "img") {
+          formData.append("img", volunteerData.img);
+        }
+      });
+      const url = `http://localhost:3001/api/volunteer/${id}`;
+      const response = await axios.put(url, formData, { headers:{
+    Authorization: `Bearer ${token}`,
+
+      } });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully updated event")
+        toast.success("Successfully updated volunteer")
         setReload(!reload);
       }
     } catch (error) {
@@ -79,13 +100,13 @@ const EventModal = (props) => {
     }
   };
 
-  const deleteEvent = async (id) => {
+  const deleteVolunteer = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/${id}`;
+      const url = `http://localhost:3001/api/volunteer/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully deleted event")
+        toast.success("Successfully deleted volunteer")
         setReload(!reload);
       }
     } catch (error) {
@@ -93,9 +114,9 @@ const EventModal = (props) => {
     }
   };
 
-  const deleteEvents = async (id) => {
+  const deleteVolunteers = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/`;
+      const url = `http://localhost:3001/api/volunteer/`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         setReload(!reload);
@@ -107,24 +128,32 @@ const EventModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      setEventData({
+      setVolunteerData({
         _id: data._id,
-        title: data.title,
-        details: data.details,
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        workExperience: data.workExperience,
       });
     } else {
-      setEventData({
+      setVolunteerData({
         _id: "",
-        title: "",
-        details: "",
-        img: null
+        email: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        address: "",
+        workExperience: "",
+        img: null,
       });
     }
   }, [data]);
 
   const eventHandleChange = (e) => {
-    setEventData({
-      ...eventData,
+    setVolunteerData({
+      ...volunteerData,
       [e.target.name]: e.target.value,
     });
   };
@@ -140,7 +169,7 @@ const EventModal = (props) => {
         setSelectedFile(e.target.result);
       };
       reader.readAsDataURL(file);
-      setEventData((prevEventData) => ({
+      setVolunteerData((prevEventData) => ({
         ...prevEventData,
         img: file,
       }));
@@ -156,7 +185,7 @@ const EventModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-center">
-          {!data && "Add "}Event
+          {!data && "Add "}Volunteer
         </Modal.Title>
       </Modal.Header>
       <Form>
@@ -176,7 +205,7 @@ const EventModal = (props) => {
                   <Image
                     src={
                       data.img
-                        ? `${data.img}`
+                        ? `http://localhost:3001/${data.img}`
                         : "http://localhost:3001/defaults/default-questionmark.jpg"
                     }
                     alt="Preview"
@@ -204,24 +233,76 @@ const EventModal = (props) => {
                   disabled={userType === "user"}
                 />
               </FloatingLabel>
-              <FloatingLabel className="mb-2" controlId="title" label="Title">
+              <FloatingLabel className="mb-2" controlId="email" label="Email">
                 <Form.Control
                   type="text"
-                  name="title"
-                  value={eventData.title}
+                  name="email"
+                  value={volunteerData.email}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
               <FloatingLabel
                 className="mb-2"
-                controlId="details"
-                label="Details"
+                controlId="firstName"
+                label="First Name"
               >
                 <Form.Control
                   as="textarea"
                   type="text"
-                  name="details"
-                  value={eventData.details}
+                  name="firstName"
+                  value={volunteerData.firstName}
+                  onChange={eventHandleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
+                controlId="lastName"
+                label="Last Name"
+              >
+                <Form.Control
+                  as="textarea"
+                  type="text"
+                  name="lastName"
+                  value={volunteerData.lastName}
+                  onChange={eventHandleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
+                controlId="phoneNumber"
+                label="Phone Number"
+              >
+                <Form.Control
+                  as="textarea"
+                  type="text"
+                  name="phoneNumber"
+                  value={volunteerData.phoneNumber}
+                  onChange={eventHandleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
+                controlId="address"
+                label="Address"
+              >
+                <Form.Control
+                  as="textarea"
+                  type="text"
+                  name="address"
+                  value={volunteerData.address}
+                  onChange={eventHandleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
+                controlId="workExperience"
+                label="Work Experience"
+              >
+                <Form.Control
+                  as="textarea"
+                  type="text"
+                  name="workExperience"
+                  value={volunteerData.workExperience}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
@@ -235,7 +316,7 @@ const EventModal = (props) => {
                 <>
                   <Button
                     onClick={() => {
-                      updateEvent(eventData._id);
+                      updateVolunteer(volunteerData._id);
                     }}
                     className="ms-2"
                     variant="warning"
@@ -244,7 +325,7 @@ const EventModal = (props) => {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteEvent(eventData._id);
+                      deleteVolunteer(volunteerData._id);
                     }}
                     className="ms-2"
                     variant="danger"
@@ -254,7 +335,7 @@ const EventModal = (props) => {
                 </>
               ) : (
                 <>
-                  <Button onClick={postEvent} variant="success">
+                  <Button onClick={postVolunteer} variant="success">
                     Submit
                   </Button>
                 </>
@@ -267,4 +348,4 @@ const EventModal = (props) => {
   );
 };
 
-export default EventModal;
+export default VolunteerModal;

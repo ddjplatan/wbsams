@@ -3,9 +3,14 @@ const Schema = mongoose.Schema;
 
 const VetSchema = new Schema(
   {
-    name: {
+    email: {
       type: String,
-      required: [true, "Enter vet name"],
+    },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
     },
     address: {
       type: String,
@@ -13,13 +18,10 @@ const VetSchema = new Schema(
     phoneNumber: {
       type: String,
     },
-    skills: {
+    workExperience: {
       type: String,
     },
-    education: {
-      type: String,
-    },
-    experience: {
+    img: {
       type: String,
     },
   },
