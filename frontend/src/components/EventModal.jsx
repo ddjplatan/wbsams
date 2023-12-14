@@ -26,7 +26,6 @@ const EventModal = (props) => {
 
   const [eventData, setEventData] = useState({
     _id: "",
-    category: "",
     title: "",
     details: "",
     img: null,
@@ -53,7 +52,6 @@ const EventModal = (props) => {
         console.log(response.data);
         setEventData({
           _id: "",
-    category: "",
     title: "",
     details: "",
     img: null,
@@ -113,14 +111,12 @@ const EventModal = (props) => {
         _id: data._id,
         title: data.title,
         details: data.details,
-        category: data.category || "News",
       });
     } else {
       setEventData({
         _id: "",
         title: "",
         details: "",
-        category: "News",
         img: null
       });
     }
@@ -208,7 +204,7 @@ const EventModal = (props) => {
                   disabled={userType === "user"}
                 />
               </FloatingLabel>
-              <FloatingLabel
+              {/* <FloatingLabel
                 className="mb-2"
                 controlId="category"
                 label="Category"
@@ -224,7 +220,7 @@ const EventModal = (props) => {
                   <option value="Event">Event</option>
                   <option value="Veterinarian">Veterinarian</option>
                 </Form.Select>
-              </FloatingLabel>
+              </FloatingLabel> */}
               <FloatingLabel className="mb-2" controlId="title" label="Title">
                 <Form.Control
                   type="text"
