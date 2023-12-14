@@ -14,6 +14,7 @@ const EventCard = ({ data }) => {
           <Card.Title>{data.title}</Card.Title>
         </Card.Header>
         <Card.Body>
+          <Image src={data.I} />
           <Card.Text className="fw-bold m-0">
             Details: <span className="text-muted">{data.details}</span>
           </Card.Text>

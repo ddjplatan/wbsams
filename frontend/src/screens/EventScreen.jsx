@@ -27,6 +27,7 @@ const EventScreen = () => {
         headers,
       });
       if (res) {
+        console.log(res.data)
         setEvents(res.data);
       }
     } catch (error) {
