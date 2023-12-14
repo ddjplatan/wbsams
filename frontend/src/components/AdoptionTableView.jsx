@@ -12,6 +12,17 @@ const AdoptionTableView = () => {
 
   const [adoptionRequests, setAdoptionRequests] = useState([]);
   const [reload, setReload] = useState(false);
+
+  const handleDownloadCsv = async() => {
+    try {
+      const res = await axios.get(`http://localhost:3001/api/adoption/toCsv`);
+      if(res.status === 200) {
+        toast.success("Successfully downloaded csv")
+      }
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
   const getAdoptionRequests = async () => {
     try {
       const petUrl = "http://localhost:3001/api/adoption";
@@ -146,8 +157,11 @@ const AdoptionTableView = () => {
   };
   return (
     <Card border="default">
-      <Card.Header>
+      <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Adoption Requests</h2>
+        <Button onClick={handleDownloadCsv}>
+          Download CSV
+        </Button>
       </Card.Header>
       <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
         <DataTable data={adoptionRequestList} />

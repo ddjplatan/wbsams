@@ -48,7 +48,7 @@ const ManagePetScreen = () => {
               <Card border="default" >
                 <Card.Header className="d-flex justify-content-between">
                   <h4>Monitor Adopted Pets</h4>
-                <Button onClick={handleDownloadCSV}>Download CSV</Button>
+                
 
                 </Card.Header>
 

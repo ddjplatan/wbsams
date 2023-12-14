@@ -19,6 +19,18 @@ const DonationTableView = ({reload, setReload}) => {
     donationType: ""
   })
   const [donations, setDonations] = useState([]);
+
+  const handleDownloadCsv = async() => {
+    try {
+      const res = await axios.get('http://localhost:3001/api/donation/toCsv')
+      if(res.status === 200) {
+        toast.success("Successfully downloaded CSV file")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
   const getDonations = async () => {
     try {
       const url = "http://localhost:3001/api/donation";
@@ -106,8 +118,9 @@ const DonationTableView = ({reload, setReload}) => {
   };
   return (
     <Card border="default">
-      <Card.Header>
+      <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Donations</h2>
+        <Button onClick={handleDownloadCsv}>Download CSV</Button>
       </Card.Header>
       <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
         <DataTable data={donationList} />

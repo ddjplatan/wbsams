@@ -4,6 +4,7 @@ const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 const Adoption = require("../models/Adoption");
 const Pet = require("../models/Pet");
 const Donation = require("../models/Donation");
+const Volunteer = require("../models/Volunteer");
 const SpayNeuterAppointment = require("../models/SpayNeuterAppointment");
 
 const convertAdoption = async (req, res, next) => {
@@ -186,6 +187,49 @@ const convertSpayAndNeuter = async (req, res, next) => {
   }
 };
 
+const convertVolunteer = async (req, res, next) => {
+  try {
+    const volunteers = await Volunteer.find();
+    const currentDate = Date.now();
+    const csvFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `Volunteer-${currentDate}.csv`
+    );
+
+    const csvWriter = createCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "firstName", title: "First Name" },
+        { id: "lastName", title: "Last Name" },
+        { id: "email", title: "Email" },
+        { id: "phoneNumber", title: "Phone Number" },
+        { id: "address", title: "Address" },
+        { id: "workExperience", title: "Work Experience" },
+      ],
+    });
+
+    const records = volunteers.map((doc) => ({
+      firstName: doc.firstName,
+      lastName: doc.lastName,
+      email: doc.email,
+      phoneNumber: doc.phoneNumber,
+      address: doc.address,
+      workExperience: doc.workExperience,
+    }));
+
+    await csvWriter.writeRecords(records).then(() => {
+      console.log("CSV file generated successfully");
+      res.status(200).send("CSV file generated successfully");
+    });
+  } catch (error) {
+    console.error("Error converting to CSV:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 // Function to convert documents to PDF
 // function convertToPDF(documents, pdfFilePath) {
 //   const doc = new PDFDocument();
@@ -221,5 +265,6 @@ module.exports = {
   convertAdoption,
   convertPets,
   convertDonation,
+  convertVolunteer,
   convertSpayAndNeuter,
 };

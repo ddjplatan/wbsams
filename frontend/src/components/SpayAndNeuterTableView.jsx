@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const SpayAndNeuterTableView = () => {
+  console.log(window.location.pathname)
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const headers = {
@@ -143,7 +144,12 @@ const SpayAndNeuterTableView = () => {
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Spay and Neuter Requests</h2>
+        {
+          window.location.pathname!== '/spay-and-neuter' && (
         <Button onClick={handleDownloadCsv}>Download CSV</Button>
+
+          )
+        }
       </Card.Header>
       <Card.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
         <DataTable data={spayAndNeuterList} />

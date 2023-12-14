@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {toast} from "react-toastify"
 
 import { Button, Row, Col, Card, Image, Carousel } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
@@ -89,10 +88,6 @@ const AdoptScreen = (props) => {
               }}
             >
               Register a Pet
-            </Button>
-
-            <Button onClick={handleDownloadCsv}>
-              Download CSV
             </Button>
           </Card.Header>
           <Card.Body

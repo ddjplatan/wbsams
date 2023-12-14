@@ -67,9 +67,6 @@ const DonationScreen = () => {
             <Button variant="primary" onClick={handleShow}>
               Add Donation
             </Button>
-            <Button variant="primary" onClick={handleDownloadCsv}>
-              Download CSV
-          </Button>
           </>
           )}
         </Card.Header>
