@@ -21,12 +21,7 @@ const AdoptionTableView = () => {
       const response = await axios.get(url, { headers });
       if (response) {
         const volunteerArray = response.data;
-        const updatedVolunteers = volunteerArray.map((volunteer) => ({
-          ...volunteer,
-          name: `${volunteer.firstName} ${volunteer.lastName}`
-
-        }))
-        setVolunteers([...volunteers, updatedVolunteers]);
+        setVolunteers(volunteerArray);
       }
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -37,11 +32,17 @@ const AdoptionTableView = () => {
     getVolunteers();
   }, []);
 
+  console.log(volunteers)
+
   const volunteerList = {
     columns: [
       {
-        label: "Full Name",
-        field: "name",
+        label: "First Name",
+        field: "firstName",
+      },
+      {
+        label: "Last Name",
+        field: "lastName",
       },
       {
         label: "Email",
@@ -58,11 +59,6 @@ const AdoptionTableView = () => {
       {
         label: "Work Experience",
         field: "workExperience",
-      },
-      {
-        label: "Action",
-        field: "action",
-        sort: "disabled",
       },
     ],
     rows: volunteers,
