@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {toast} from "react-toastify"
 
 import { Button, Row, Col, Card, Image, Carousel } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
@@ -28,7 +29,9 @@ const AdoptScreen = (props) => {
   const handleDownloadCsv = async() => {
     try {
       const res = await axios.get(`http://localhost:3001/api/pet/toCsv`);
-      console.log(res)
+      if(res.status === 200) {
+        toast.success("Successfully downloaded csv")
+      }
     } catch (error) {
       console.error(error.message)
     }
