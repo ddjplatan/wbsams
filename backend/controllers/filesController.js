@@ -3,6 +3,8 @@ const path = require("path");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 const Adoption = require("../models/Adoption");
 const Pet = require("../models/Pet");
+const Donation = require("../models/Donation");
+const SpayNeuterAppointment = require("../models/SpayNeuterAppointment");
 
 const convertAdoption = async (req, res, next) => {
   try {
@@ -98,6 +100,92 @@ const convertPets = async (req, res, next) => {
   }
 };
 
+const convertDonation = async (req, res, next) => {
+  try {
+    const donations = await Donation.find();
+    const currentDate = Date.now();
+    const csvFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `Donations-${currentDate}.csv`
+    );
+
+    const csvWriter = createCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "donor", title: "Donor" },
+        { id: "donationType", title: "Donation" },
+        { id: "address", title: "Address" },
+        { id: "remarks", title: "Remarks" },
+        { id: "date", title: "Date" },
+      ],
+    });
+
+    const records = donations.map((doc) => ({
+      donor: doc.donor,
+      donationType: doc.donationType,
+      address: doc.address,
+      remarks: doc.remarks,
+      date: new Date(doc.date),
+    }));
+
+    await csvWriter.writeRecords(records).then(() => {
+      console.log("CSV file generated successfully");
+      res.status(200).send("CSV file generated successfully");
+    });
+  } catch (error) {
+    console.error("Error converting to CSV:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const convertSpayAndNeuter = async (req, res, next) => {
+  try {
+    const appointments = await SpayNeuterAppointment.find().populate("owner");
+    const currentDate = Date.now();
+    const csvFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `SpayAndNeuter-${currentDate}.csv`
+    );
+
+    const csvWriter = createCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "owner", title: "Owner" },
+        { id: "phoneNumber", title: "Phone Number" },
+        { id: "petName", title: "Pet" },
+        { id: "species", title: "Species" },
+        { id: "age", title: "Pet Age" },
+        { id: "petGender", title: "Pet Gender" },
+        { id: "isApproved", title: "Is Approved?" },
+      ],
+    });
+
+    const records = appointments.map((doc) => ({
+      owner: doc.owner.firstName + " " + doc.owner.lastName,
+      phoneNumber: doc.owner.phoneNumber,
+      petName: doc.petName,
+      species: doc.petSpecies,
+      age: doc.petAge,
+      petGender: doc.petGender,
+      isApproved: doc.isApproved,
+    }));
+
+    await csvWriter.writeRecords(records).then(() => {
+      console.log("CSV file generated successfully");
+      res.status(200).send("CSV file generated successfully");
+    });
+  } catch (error) {
+    console.error("Error converting to CSV:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 // Function to convert documents to PDF
 // function convertToPDF(documents, pdfFilePath) {
 //   const doc = new PDFDocument();
@@ -132,4 +220,6 @@ const convertPets = async (req, res, next) => {
 module.exports = {
   convertAdoption,
   convertPets,
+  convertDonation,
+  convertSpayAndNeuter,
 };

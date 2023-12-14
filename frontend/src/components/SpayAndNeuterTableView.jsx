@@ -15,6 +15,17 @@ const SpayAndNeuterTableView = () => {
   };
   const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
+
+  const handleDownloadCsv = async() => {
+    try {
+      const res = await axios.get('http://localhost:3001/api/spay-and-neuter/toCsv')
+      if(res.status === 200) {
+        toast.success("Successfully downloaded CSV file")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const getSpayAndNeuters = async () => {
     try {
       const url = "http://localhost:3001/api/spay-and-neuter";
@@ -130,8 +141,9 @@ const SpayAndNeuterTableView = () => {
 
   return (
     <Card border="default">
-      <Card.Header>
+      <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Spay and Neuter Requests</h2>
+        <Button onClick={handleDownloadCsv}>Download CSV</Button>
       </Card.Header>
       <Card.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
         <DataTable data={spayAndNeuterList} />

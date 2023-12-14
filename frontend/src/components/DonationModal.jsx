@@ -140,7 +140,7 @@ const DonationModal = (props) => {
           });
           setImg(null)
           onHide();
-          toreload();
+          // toreload();
           toast.success("Successfully added donation.");
         });
       }
