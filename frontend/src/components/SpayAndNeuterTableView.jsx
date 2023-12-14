@@ -41,10 +41,10 @@ const SpayAndNeuterTableView = () => {
           petName: spayAndNeuter.petName,
           petGender: spayAndNeuter.petGender,
           petAge: spayAndNeuter.petAge,
-          // petBreed: spayAndNeuter.petBreed,
+          petBreed: spayAndNeuter.petBreed,
           petSpecies: spayAndNeuter.petSpecies,
           createdAt: new Date(spayAndNeuter.createdAt).toDateString(),
-          action: (
+          action: spayAndNeuter.isApproved ? 'APPROVED' : (
             <>
               <Button
                 variant="success"
