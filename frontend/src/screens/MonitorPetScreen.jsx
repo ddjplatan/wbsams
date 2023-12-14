@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify"
 import { useSelector } from "react-redux";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
@@ -22,6 +23,17 @@ const ManagePetScreen = () => {
     setAdoptions(response.data);
   };
 
+  const handleDownloadCSV = async()=> {
+    try {
+      const res = await axios.get(`http://localhost:3001/api/adoption/toCsv`)
+      if(res.status === 200) {
+        toast.success("Successfully downloaded CSV file")
+      }
+    } catch (error) { 
+      console.error(error.message)
+    }
+  }
+
   useEffect(() => {
     getAdoptedPets();
   }, []);
@@ -33,8 +45,13 @@ const ManagePetScreen = () => {
         <Card className="p-3 d-flex hero-card bg-light w-100">
           <Row>
             <Col>
-              <Card border="default">
-                <Card.Header>Monitor Adopted Pets</Card.Header>
+              <Card border="default" >
+                <Card.Header className="d-flex justify-content-between">
+                  <h4>Monitor Adopted Pets</h4>
+                <Button onClick={handleDownloadCSV}>Download CSV</Button>
+
+                </Card.Header>
+
                 <Card.Body
                   className="flex-nowrap"
                   style={{ maxHeight: "800px", overflowY: "auto" }}

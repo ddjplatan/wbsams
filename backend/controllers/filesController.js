@@ -5,29 +5,56 @@ const Adoption = require("../models/Adoption");
 const Pet = require("../models/Pet");
 
 const convertAdoption = async (req, res, next) => {
-  //   try {
-  //     const adoptions = await Adoption.find()
-  //       .populate("adopter")
-  //       .populate("adoptee");
-  //     const csvFilePath = "adoption.csv";
-  //     await convertAdoptionToCSV(adoptions, csvFilePath);
-  //     // Send the CSV file as a response
-  //     res
-  //       .status(200)
-  //       .setHeader("Content-Disposition", "attachment; filename=adoption.csv")
-  //       .setHeader("Content-Type", "text/csv")
-  //       .download(csvFilePath, "adoption.csv", (err) => {
-  //         if (err) {
-  //           console.error("Error downloading CSV file:", err);
-  //           res.status(500).send("Internal Server Error");
-  //         } else {
-  //           fs.unlinkSync(csvFilePath);
-  //         }
-  //       });
-  //   } catch (error) {
-  //     console.error("Error converting to CSV:", error);
-  //     res.status(500).send("Internal Server Error");
-  //   }
+  try {
+    const adoptions = await Adoption.find()
+      .populate("adopter")
+      .populate("adoptee");
+    const currentDate = Date.now();
+    const csvFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `Adoptions-${currentDate}.csv`
+    );
+
+    const csvWriter = createCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "adopter", title: "Parent" },
+        { id: "email", title: "Email" },
+        { id: "phoneNumber", title: "Phone Number" },
+        { id: "adoptee", title: "Pet" },
+        { id: "species", title: "Species" },
+        { id: "breed", title: "Breed" },
+        { id: "reason", title: "Reason" },
+        { id: "date", title: "Adoption Date" },
+        { id: "parentJob", title: "Parent Job" },
+        { id: "isApproved", title: "Is Approved" },
+      ],
+    });
+
+    const records = adoptions.map((doc) => ({
+      adopter: doc.adopter.firstName + " " + doc.adopter.lastName,
+      email: doc.adopter.email,
+      phoneNumber: doc.adopter.phoneNumber,
+      adoptee: doc.adoptee.name,
+      species: doc.adoptee.species,
+      breed: doc.adoptee.breed,
+      reason: doc.reason,
+      date: doc.date,
+      parentJob: doc.parentJob,
+      isApproved: doc.isApproved,
+    }));
+
+    await csvWriter.writeRecords(records).then(() => {
+      console.log("CSV file generated successfully");
+      res.status(200).send("CSV file generated successfully");
+    });
+  } catch (error) {
+    console.error("Error converting to CSV:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 const convertPets = async (req, res, next) => {
@@ -63,7 +90,6 @@ const convertPets = async (req, res, next) => {
     }));
 
     await csvWriter.writeRecords(records).then(() => {
-      console.log("CSV file generated successfully");
       res.status(200).send("CSV file generated successfully");
     });
   } catch (error) {
@@ -71,65 +97,6 @@ const convertPets = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
-// async function convertAdoptionToCSV(documents, csvFilePath) {
-//   console.log("patthhhhhh", csvFilePath);
-//   const csvWriter = createCsvWriter({
-//     path: csvFilePath,
-//     header: [
-//       { id: "adopter", title: "Parent" },
-//       { id: "email", title: "Email" },
-//       { id: "phoneNumber", title: "Phone Number" },
-//       { id: "adoptee", title: "Pet" },
-//       { id: "reason", title: "Reason" },
-//       { id: "date", title: "Adoption Date" },
-//       { id: "parentJob", title: "Parent Job" },
-//       { id: "isApproved", title: "Is Approved" },
-//     ],
-//   });
-
-//   const records = documents.map((doc) => ({
-//     adopter: doc.adopter.firstName + " " + doc.adopter.lastName,
-//     email: doc.adopter.email,
-//     phoneNumber: doc.adopter.phoneNumber,
-//     adoptee: doc.adoptee.name,
-//     reason: doc.reason,
-//     date: doc.date,
-//     parentJob: doc.parentJob,
-//     isApproved: doc.isApproved,
-//   }));
-
-//   await csvWriter.writeRecords(records);
-// }
-
-async function convertPetsToCSV(documents, csvFilePath) {
-  const currentDate = Date.now();
-  const csvWriter = createCsvWriter({
-    path: `${csvFilePath}-${currentDate}`,
-    header: [
-      { id: "name", title: "Pet Name" },
-      { id: "age", title: "Age" },
-      { id: "gender", title: "Gender" },
-      { id: "breed", title: "Breed" },
-      { id: "description", title: "Description" },
-      { id: "species", title: "Species" },
-    ],
-  });
-
-  const records = documents.map((doc) => ({
-    name: doc.name,
-    age: doc.age,
-    gender: doc.gender,
-    breed: doc.breed,
-    description: doc.description,
-    species: doc.species,
-  }));
-
-  await csvWriter.writeRecords(records).then(() => {
-    console.log("CSV file generated successfully");
-    res.status(200).send("CSV file generated successfully");
-  });
-}
 
 // Function to convert documents to PDF
 // function convertToPDF(documents, pdfFilePath) {
