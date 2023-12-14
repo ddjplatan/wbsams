@@ -8,7 +8,7 @@ const NewsCard = ({ data }) => {
 
   return (
     <>
-      <Card className="w-100 h-100" onClick={handleShow}>
+      <Card className="w-50 mx-auto" onClick={handleShow}>
         <Card.Header>
           <Card.Title>{data.category}</Card.Title>
         </Card.Header>
@@ -18,7 +18,7 @@ const NewsCard = ({ data }) => {
         <Image
               src={`http://localhost:3001/${data.img}`}
               alt="News Image"
-              className="mb-3"
+              className="mb-3 img-fluid"
               rounded
               fluid
             />
