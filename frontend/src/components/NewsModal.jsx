@@ -49,7 +49,6 @@ const NewsModal = (props) => {
         Authorization: `Bearer ${token}`,
       };
       await axios.post(url, formData, { headers }).then((response) => {
-        console.log(response.data);
         setNewsData({
           _id: "",
     title: "",
@@ -58,6 +57,7 @@ const NewsModal = (props) => {
         });
         onHide();
         toast.success("Successfully added news.");
+        location.reload();
       });
     } catch (error) {
       console.log(error.message)
@@ -66,12 +66,14 @@ const NewsModal = (props) => {
   };
 
   const updateNews = async (id) => {
+    console.log('updateNews client')
     try {
       const url = `http://localhost:3001/api/news/${id}`;
       const response = await axios.put(url, newsData, { headers });
       if (response.status === 200) {
         onHide();
         toast.success("Successfully updated news")
+        location.reload();
         setReload(!reload);
       }
     } catch (error) {
@@ -86,6 +88,7 @@ const NewsModal = (props) => {
       if (response.status === 200) {
         onHide();
         toast.success("Successfully deleted news")
+        location.reload();
         setReload(!reload);
       }
     } catch (error) {
@@ -176,7 +179,7 @@ const NewsModal = (props) => {
                   <Image
                     src={
                       data.img
-                        ? `${data.img}`
+                        ? `http://localhost:3001/${data.img}`
                         : "http://localhost:3001/defaults/default-questionmark.jpg"
                     }
                     alt="Preview"

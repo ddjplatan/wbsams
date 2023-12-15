@@ -6,9 +6,12 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
-import EventModal from "../components/EventModal";
+import NewsModal from "../components/NewsModal";
+
 import DataTable from "../components/DataTable";
 import EventCard from "../components/EventCard";
+import NewsCard from "../components/NewsCard";
+
 
 const NewsScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -68,7 +71,7 @@ const NewsScreen = () => {
               {events.map((event, index) => (
                 <Row key={index}>
                   <Col className="m-2">
-                    <EventCard data={event} />
+                    <NewsCard data={event} />
                   </Col>
                 </Row>
               ))}
@@ -76,7 +79,7 @@ const NewsScreen = () => {
           </Row>
         </Card.Body>
       </Card>
-      <EventModal
+      <NewsModal
         show={modalShow}
         onHide={() => {
           setModalShow(false);
