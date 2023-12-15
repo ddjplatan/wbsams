@@ -89,8 +89,9 @@ const DonationModal = (props) => {
     const url = `http://localhost:3001/api/donation/${id}`
     const response = await axios.delete(url, {headers})
     if(response.status === 200){
+      onHide();
       toast.success("Successfully deleted donation")
-      onHide()
+      location.reload();
       toreload();
     }
     } catch (error) {
@@ -117,6 +118,7 @@ const DonationModal = (props) => {
           setImg(null)
           onHide();
           toast.success("Successfully updated donation");
+          location.reload();
            
       })
       }else{
@@ -146,6 +148,7 @@ const DonationModal = (props) => {
           setImg(null)
           onHide();
           toast.success("Successfully added donation.");
+          location.reload();
         });
       }
     } catch (error) {
