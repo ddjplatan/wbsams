@@ -66,6 +66,7 @@ const VolunteerModal = (props) => {
         });
         onHide();
         toast.success("Successfully added volunteer.");
+        location.reload();
       });
     } catch (error) {
       console.log(error.message)
@@ -93,6 +94,7 @@ const VolunteerModal = (props) => {
       if (response.status === 200) {
         onHide();
         toast.success("Successfully updated volunteer")
+        location.reload();
         setReload(!reload);
       }
     } catch (error) {
@@ -107,6 +109,7 @@ const VolunteerModal = (props) => {
       if (response.status === 200) {
         onHide();
         toast.success("Successfully deleted volunteer")
+        location.reload();
         setReload(!reload);
       }
     } catch (error) {
