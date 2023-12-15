@@ -26,6 +26,8 @@ const {
   petOwnerValidator,
 } = require("../middlewares/utils/validators");
 
+const { convertPets } = require("../controllers/filesController");
+
 const {
   getPets,
   getPet,
@@ -42,6 +44,8 @@ router
   .post(reqReceived, protectedRoute, upload.single("image"), createPet)
   .get(reqReceived, getPets)
   .delete(reqReceived, protectedRoute, adminValidator, deletePets);
+
+router.route("/toCsv").get(reqReceived, convertPets);
 
 router
   .route("/adoptedPets")

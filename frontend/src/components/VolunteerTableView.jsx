@@ -11,6 +11,17 @@ const AdoptionTableView = () => {
   const token = userInfo.token;
 
   const [volunteers, setVolunteers] = useState([]);
+
+  const handleDownloadCsv = async() => {
+    try {
+      const res = await axios.get(`http://localhost:3001/api/volunteer/toCsv`);
+      if(res.status === 200) {
+        toast.success("Successfully downloaded csv")
+      }
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
   const getVolunteers = async () => {
     try {
       const url = "http://localhost:3001/api/volunteer";
@@ -21,12 +32,7 @@ const AdoptionTableView = () => {
       const response = await axios.get(url, { headers });
       if (response) {
         const volunteerArray = response.data;
-        const updatedVolunteers = volunteerArray.map((volunteer) => ({
-          ...volunteer,
-          name: `${volunteer.firstName} ${volunteer.lastName}`
-
-        }))
-        setVolunteers([...volunteers, updatedVolunteers]);
+        setVolunteers(volunteerArray);
       }
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -37,11 +43,17 @@ const AdoptionTableView = () => {
     getVolunteers();
   }, []);
 
+  console.log(volunteers)
+
   const volunteerList = {
     columns: [
       {
-        label: "Full Name",
-        field: "name",
+        label: "First Name",
+        field: "firstName",
+      },
+      {
+        label: "Last Name",
+        field: "lastName",
       },
       {
         label: "Email",
@@ -59,18 +71,14 @@ const AdoptionTableView = () => {
         label: "Work Experience",
         field: "workExperience",
       },
-      {
-        label: "Action",
-        field: "action",
-        sort: "disabled",
-      },
     ],
     rows: volunteers,
   };
   return (
     <Card border="default">
-      <Card.Header>
+      <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Volunteers</h2>
+        <Button onClick={handleDownloadCsv}>Download CSV</Button>
       </Card.Header>
       <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
         <DataTable data={volunteerList} />

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const SpayAndNeuterTableView = () => {
+  console.log(window.location.pathname)
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const headers = {
@@ -15,6 +16,17 @@ const SpayAndNeuterTableView = () => {
   };
   const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
+
+  const handleDownloadCsv = async() => {
+    try {
+      const res = await axios.get('http://localhost:3001/api/spay-and-neuter/toCsv')
+      if(res.status === 200) {
+        toast.success("Successfully downloaded CSV file")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const getSpayAndNeuters = async () => {
     try {
       const url = "http://localhost:3001/api/spay-and-neuter";
@@ -29,10 +41,10 @@ const SpayAndNeuterTableView = () => {
           petName: spayAndNeuter.petName,
           petGender: spayAndNeuter.petGender,
           petAge: spayAndNeuter.petAge,
-          // petBreed: spayAndNeuter.petBreed,
+          petBreed: spayAndNeuter.petBreed,
           petSpecies: spayAndNeuter.petSpecies,
           createdAt: new Date(spayAndNeuter.createdAt).toDateString(),
-          action: (
+          action: spayAndNeuter.isApproved ? 'APPROVED' : (
             <>
               <Button
                 variant="success"
@@ -130,8 +142,14 @@ const SpayAndNeuterTableView = () => {
 
   return (
     <Card border="default">
-      <Card.Header>
+      <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Spay and Neuter Requests</h2>
+        {
+          window.location.pathname!== '/spay-and-neuter' && (
+        <Button onClick={handleDownloadCsv}>Download CSV</Button>
+
+          )
+        }
       </Card.Header>
       <Card.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
         <DataTable data={spayAndNeuterList} />

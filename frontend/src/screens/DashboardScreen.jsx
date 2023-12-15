@@ -158,12 +158,12 @@ const DashboardScreen = () => {
                     <ListGroup.Item>
                       <Button
                         onClick={() => {
-                          setTableView("Donor");
+                          setTableView("Donation");
                         }}
                         variant="info"
                         className="w-100 text-white fw-bold"
                       >
-                        Donor
+                        Donation
                       </Button>
                     </ListGroup.Item>
                     <ListGroup.Item>
@@ -196,7 +196,7 @@ const DashboardScreen = () => {
               <Col>
                 {tableView === "Volunteer" ? (
                   <VolunteerTableView reload={reload} setReload={setReload} />
-                ) : tableView === "Donor" ? (
+                ) : tableView === "Donation" ? (
                   <DonationTableView reload={reload} setReload={setReload} />
                 ) : tableView === "Spay and Neuter" ? (
                   <SpayAndNeuterTableView
@@ -231,7 +231,7 @@ const DashboardScreen = () => {
               <Col>
                 {tableView === "Volunteer" ? (
                   <VolunteerTableView reload={reload} setReload={setReload} />
-                ) : tableView === "Donor" ? (
+                ) : tableView === "Donation" ? (
                   <DonationTableView reload={reload} setReload={setReload} />
                 ) : tableView === "Spay and Neuter" ? (
                   <SpayAndNeuterTableView

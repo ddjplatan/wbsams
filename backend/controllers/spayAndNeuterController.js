@@ -121,7 +121,6 @@ const confirmRegistration = async (req, res, next) => {
   client.messages
     .create({
       body: "Your spay/neuter registration has been confirmed",
-      // from: "+18777804236",
       from: "+14092373119",
       to: "+639061783380",
     })

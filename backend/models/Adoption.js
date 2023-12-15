@@ -29,7 +29,6 @@ const AdoptionSchema = new Schema(
     },
     reason: {
       type: String,
-      // required: [true, "Please input reason for adoption"],
     },
     date: {
       type: Date,
@@ -38,7 +37,6 @@ const AdoptionSchema = new Schema(
     },
     parentJob: {
       type: String,
-      // required: [true, "Please indicate the furparent's job"],
     },
     isApproved: {
       type: Boolean,

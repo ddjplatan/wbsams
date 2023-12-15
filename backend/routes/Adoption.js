@@ -8,6 +8,8 @@ const {
   staffValidator,
 } = require("../middlewares/utils/validators");
 
+const { convertAdoption } = require("../controllers/filesController");
+
 const {
   postAdoption,
   getAdoptions,
@@ -26,6 +28,12 @@ router
   .post(reqReceived, protectedRoute, postAdoption)
   .get(reqReceived, protectedRoute, staffValidator, getAdoptions)
   .delete(reqReceived, protectedRoute, adminValidator, deleteAdoptions);
+
+router.route("/toCsv").get(
+  reqReceived,
+  // , protectedRoute, adminValidator
+  convertAdoption
+);
 
 router
   .route("/confirmed")

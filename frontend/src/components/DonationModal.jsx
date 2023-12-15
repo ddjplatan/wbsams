@@ -89,8 +89,9 @@ const DonationModal = (props) => {
     const url = `http://localhost:3001/api/donation/${id}`
     const response = await axios.delete(url, {headers})
     if(response.status === 200){
+      onHide();
       toast.success("Successfully deleted donation")
-      onHide()
+      location.reload();
       toreload();
     }
     } catch (error) {
@@ -103,18 +104,24 @@ const DonationModal = (props) => {
 
       if(id){
         url =`http://localhost:3001/api/donation/${id}`
-      const response = await axios.put(url, donation, {headers: {
+      await axios.put(url, donation, {headers: {
         Authorization: `Bearer ${token}`
-      }});
-      if (response.status === 200) {
-        console.log('status is 200')
-        toast.success("Successfully updated donation");
-        onHide();
-        toreload();
-      }
+      }}).then((response)=>{
+          setDonation({
+            donor: "",
+            donationType: "",
+            remarks: "",
+            address: "",
+            _id: "",
+            description: "",
+          })
+          setImg(null)
+          onHide();
+          toast.success("Successfully updated donation");
+          location.reload();
+           
+      })
       }else{
-        console.log('sa else nisulod')
-
         url =`http://localhost:3001/api/donation/`
 
         const formData = new FormData();
@@ -140,8 +147,8 @@ const DonationModal = (props) => {
           });
           setImg(null)
           onHide();
-          toreload();
           toast.success("Successfully added donation.");
+          location.reload();
         });
       }
     } catch (error) {

@@ -60,19 +60,19 @@ const VolunteerScreen = () => {
           }
           
         </Card.Header>
-        <Card.Body>
+        <Card.Body className="flex-nowrap"
+                  style={{ maxHeight: "800px", overflowY: "auto" }}>
           <Row>
-            <div
-              className="p-2"
-            >
+            
+                <Row >
               {volunteers.map((volunteer, index) => (
-                <Row key={index}>
-                  <Col className="m-2">
+                  <Col className="p-2" sm={4} key = {index}>
                     <VolunteerCard data={volunteer} />
                   </Col>
-                </Row>
               ))}
-            </div>
+
+                </Row>
+           
           </Row>
         </Card.Body>
       </Card>

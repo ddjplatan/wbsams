@@ -24,6 +24,17 @@ const DonationScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
 
+  const handleDownloadCsv = async() => {
+    try {
+      const res = await axios.get('http://localhost:3001/api/donation/toCsv')
+      if(res.status === 200) {
+        toast.success("Successfully downloaded CSV file")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const getDonations = async () => {
     try {
       const res = await axios.get("http://localhost:3001/api/donation", {
@@ -52,9 +63,11 @@ const DonationScreen = () => {
             </h3>
           </div>
           {userInfo.user.userType !== "user" && (
+            <>
             <Button variant="primary" onClick={handleShow}>
               Add Donation
             </Button>
+          </>
           )}
         </Card.Header>
         <Card.Body
