@@ -102,7 +102,6 @@ const PetModal = (props) => {
         Authorization: `Bearer ${token}`,
       };
       await axios.post(petUrl, formData, { headers }).then((response) => {
-        console.log(response.data);
         setPetInfo({
           name: "",
           species: "",
@@ -113,6 +112,7 @@ const PetModal = (props) => {
           image: "",
         });
         onHide();
+        location.reload();
         toast.success("Successfully registered pet.");
       });
     } catch (err) {
@@ -134,13 +134,14 @@ const PetModal = (props) => {
         }
       });
 
-      const petUrl = `http://localhost:3001/api/pet/${petInfo.id}`;
+      const petUrl = `http://localhost:3001/api/pet/${petInfo._id}`;
       const headers = {
         // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
       await axios.put(petUrl, formData, { headers }).then((response) => {
         onHide();
+        location.reload();
         toast.success("Successfully updated pet.");
       });
     } catch (err) {
@@ -157,7 +158,6 @@ const PetModal = (props) => {
         Authorization: `Bearer ${token}`,
       };
       await axios.delete(petUrl, { headers }).then((response) => {
-        console.log(response.data);
         location.reload();
       });
       toast.success("Successfully deleted pet.");
