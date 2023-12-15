@@ -41,7 +41,7 @@ const EventScreen = () => {
 
   useEffect(() => {
     getEvents();
-  }, [modalShow]);
+  }, []);
 
 
   return (
