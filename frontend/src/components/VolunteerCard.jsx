@@ -9,7 +9,7 @@ const VolunteerCard = ({ data }) => {
 
   return (
     <>
-      <Card className="w-50 mx-auto" onClick={handleShow}>
+      <Card onClick={handleShow}>
   <Card.Header>
     <Card.Title>{data.firstName} {data.lastName}</Card.Title>
   </Card.Header>

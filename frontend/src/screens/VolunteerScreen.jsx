@@ -65,13 +65,14 @@ const VolunteerScreen = () => {
             <div
               className="p-2"
             >
+                <Row >
               {volunteers.map((volunteer, index) => (
-                <Row key={index}>
-                  <Col className="m-2">
+                  <Col className="p-2" sm={4} key = {index}>
                     <VolunteerCard data={volunteer} />
                   </Col>
-                </Row>
               ))}
+
+                </Row>
             </div>
           </Row>
         </Card.Body>
