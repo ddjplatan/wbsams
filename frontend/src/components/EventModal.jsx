@@ -150,7 +150,7 @@ const EventModal = (props) => {
   return (
     <Modal
       {...props}
-      size="md"
+      size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >

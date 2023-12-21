@@ -5,7 +5,6 @@ import { useRegisterMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 
 import { Form, Button, Row, Col, Image, Card } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import RegistrationBG from "../assets/images/caws/png/caws-logo.png";
@@ -79,7 +78,7 @@ const RegisterScreen = () => {
         }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate("/");
-        setReload(!reload)
+        setReload(!reload);
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
@@ -101,12 +100,11 @@ const RegisterScreen = () => {
             style={{ maxHeight: "80vh", overflowY: "auto" }}
           >
             <Card.Body>
-              <Card.Title className="fw-bold">Sign up</Card.Title>
+              <Card.Title className="d-flex justify-content-center">
+                <h3 className="fw-bold">Register User</h3>
+              </Card.Title>
               <Form onSubmit={submitHandler} encType="multipart/form-data">
                 <Row>
-                  <Col>
-                    <h1>User Registration</h1>
-                  </Col>
                   <Col>
                     <Col className="d-flex justify-content-center">
                       <Form.Group className=" " controlId="formFile">
