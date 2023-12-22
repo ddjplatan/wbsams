@@ -29,7 +29,7 @@ const Sidebar = () => {
     <CDBSidebar
       textColor="#ffffff"
       backgroundColor="#545454"
-      className="mr-2 h-auto"
+      className="mr-2 h-auto custom-sticky-sidebar"
       style={{ marginRight: "20px" }}
     >
       <CDBSidebarHeader prefix={<i className="fa fa-bars" />}>
