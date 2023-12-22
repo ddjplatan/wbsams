@@ -156,7 +156,7 @@ const EventModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-center">
-          {!data && "Add "}Event
+          {!data && "Add "}Activity
         </Modal.Title>
       </Modal.Header>
       <Form>

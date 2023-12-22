@@ -78,7 +78,7 @@ const Sidebar = () => {
                 <div className="dropdown-container">
                   <LinkContainer to="/events">
                     <CDBSidebarMenuItem className="ms-5" icon="th-large">
-                      Events
+                      Activity
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">

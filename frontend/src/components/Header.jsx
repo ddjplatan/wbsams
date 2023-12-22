@@ -48,7 +48,7 @@ const Header = () => {
           </LinkContainer>
           <LinkContainer to="/" className="m-3">
             <Navbar.Brand className="text-white">
-              CDO Animal Welfare Society Inc.
+              CDO Animal Welfare Society
             </Navbar.Brand>
           </LinkContainer>
 
@@ -106,7 +106,7 @@ const Header = () => {
                 <>
                   <LinkContainer to="/login">
                     <Nav.Link>
-                      <FaSignInAlt /> Sign in
+                      <FaSignInAlt /> Log in
                     </Nav.Link>
                   </LinkContainer>
                   <LinkContainer to="/register">

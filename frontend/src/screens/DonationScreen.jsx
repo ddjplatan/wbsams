@@ -56,16 +56,16 @@ const DonationScreen = () => {
       <Sidebar />
       <Card className="p-3 d-flex hero-card bg-light w-100">
         <Card.Header className="d-flex justify-content-between">
-          <div>
+          <div> 
             <h3>
-              Donation Acknowledgements
+               Acknowledgements
               <BsFillHandThumbsUpFill className="ms-2" size={25} />
             </h3>
           </div>
           {userInfo.user.userType !== "user" && (
             <>
             <Button variant="primary" onClick={handleShow}>
-              Add Donation
+              Add Donor
             </Button>
           </>
           )}
