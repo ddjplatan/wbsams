@@ -2,8 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 const puppeteer = require("puppeteer");
-const pdfMakePrinter = require("pdfmake");
-const { vfsFonts } = require("pdfmake/build/vfs_fonts");
+const PDFDocument = require("pdfkit");
 const Adoption = require("../models/Adoption");
 const Pet = require("../models/Pet");
 const Donation = require("../models/Donation");
@@ -372,36 +371,130 @@ const convertVolunteerToPdf = async (req, res, next) => {
   }
 };
 
-// Function to convert documents to PDF
-// function convertToPDF(documents, pdfFilePath) {
-//   const doc = new PDFDocument();
-//   const stream = fs.createWriteStream(pdfFilePath);
+const convertCheckupsToCsv = async (req, res, next) => {
+  const { adoptionId } = req.params;
 
-//   doc.pipe(stream);
+  try {
+    const adoption = await Adoption.findById(adoptionId)
+      .populate("checkups")
+      .populate("adopter")
+      .populate("adoptee");
 
-//   documents.forEach((doc) => {
-//     doc.checkups.forEach((checkup) => {
-//       doc.text(`Checkup Date: ${checkup.date}`, { align: "left" });
-//       doc.text(`Accompanied By: ${checkup.accompaniedBy}`, { align: "left" });
-//       doc.text(`Remarks: ${checkup.remarks || "N/A"}`, { align: "left" });
-//       doc.moveDown();
-//     });
+    if (!adoption) {
+      throw new Error("Adoption not found");
+    }
 
-//     doc.moveDown();
-//     doc.text("=====================================");
-//     doc.moveDown();
-//   });
+    const currentDate = Date.now();
+    const csvFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `Checkups-${adoptionId}-${currentDate}.csv`
+    );
 
-//   doc.end();
-// }
+    const csvWriter = createCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "adopterEmail", title: "Adopter Email" },
+        { id: "adopterFullName", title: "Adopter Name" },
+        { id: "adopterPhoneNumber", title: "Adopter Phone Number" },
+        { id: "petName", title: "Pet Name" },
+        { id: "petSpecies", title: "Pet Species" },
+        { id: "petBreed", title: "Pet Breed" },
+        { id: "petGender", title: "Pet Gender" },
+        { id: "checkupDate", title: "Checkup Date" },
+        { id: "accompaniedBy", title: "Accompanied By" },
+        { id: "remarks", title: "Remarks" },
+      ],
+    });
 
-// convertAdoption();
+    const records = adoption.checkups.map((checkup) => ({
+      adopterEmail: adoption.adopter.email,
+      adopterFullName: `${adoption.adopter.firstName} ${adoption.adopter.lastName}`,
+      adopterPhoneNumber: adoption.adopter.phoneNumber,
+      petName: adoption.adoptee.name,
+      petSpecies: adoption.adoptee.species,
+      petBreed: adoption.adoptee.breed,
+      petGender: adoption.adoptee.gender,
+      checkupDate: checkup.date,
+      accompaniedBy: checkup.accompaniedBy,
+      remarks: checkup.remarks,
+    }));
 
-// Usage example:
-// Assuming you have an array of Adoption documents, you can call these functions like:
-// const documents = await Adoption.find({}); // Fetch documents from MongoDB
-// convertToCSV(documents, 'adoption.csv');
-// convertToPDF(documents, 'adoption.pdf');
+    await csvWriter.writeRecords(records);
+
+    console.log("CSV file generated successfully:", csvFilePath);
+    res.status(200).send("CSV file generated successfully");
+  } catch (error) {
+    console.error("Error generating CSV file:", error);
+    throw error; // Rethrow the error to be handled by the calling code
+  }
+};
+
+const convertCheckupsToPdf = async (req, res, next) => {
+  const { adoptionId } = req.params;
+  try {
+    const adoption = await Adoption.findById(adoptionId)
+      .populate("adopter")
+      .populate("adoptee")
+      .populate("checkups");
+
+    if (!adoption) {
+      throw new Error("Adoption not found");
+    }
+
+    const currentDate = Date.now();
+    const pdfFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `Checkups-${adoptionId}-${currentDate}.pdf`
+    );
+
+    const doc = new PDFDocument();
+    const stream = fs.createWriteStream(pdfFilePath);
+
+    doc.pipe(stream);
+
+    // Header
+    doc.fontSize(18).text("Checkups Report", { align: "center" });
+    doc.moveDown();
+
+    // Adopter Info (Avoid repetition)
+    const adopterInfo = `${adoption.adopter.firstName} ${adoption.adopter.lastName} (${adoption.adopter.email}, ${adoption.adopter.phoneNumber})`;
+    doc.fontSize(14).text("Adopter Information:", { underline: true });
+    doc.fontSize(12).text(adopterInfo);
+
+    // Adoptee Info (Avoid repetition)
+    const adopteeInfo = `${adoption.adoptee.name} (${adoption.adoptee.species}, ${adoption.adoptee.breed}, ${adoption.adoptee.gender})`;
+    doc
+      .moveDown()
+      .fontSize(14)
+      .text("Adoptee Information:", { underline: true });
+    doc.fontSize(12).text(adopteeInfo);
+
+    // Checkup Table
+    doc.moveDown().fontSize(14).text("Checkups:", { underline: true });
+    doc.moveDown().fontSize(12);
+
+    adoption.checkups.forEach((checkup, index) => {
+      doc.text(`Checkup ${index + 1}:`);
+      doc.text(`- Accompanied By: ${checkup.accompaniedBy}`);
+      doc.text(`- Remarks: ${checkup.remarks}`);
+      doc.text(`- Date: ${new Date(checkup.date).toLocaleString()}`);
+      doc.moveDown();
+    });
+
+    doc.end();
+
+    res.status(200).send("PDF file generated successfully");
+  } catch (error) {
+    console.error("Error generating PDF file:", error.message);
+    throw error; // Rethrow the error to be handled by the calling code
+  }
+};
 
 function generateHtmlForDonations(donations) {
   const formattedDonations = donations.map((donation) => ({
@@ -773,4 +866,6 @@ module.exports = {
   convertDonationToPdf,
   convertVolunteerToPdf,
   convertSpayAndNeuterToPdf,
+  convertCheckupsToCsv,
+  convertCheckupsToPdf,
 };

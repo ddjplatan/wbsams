@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
+import { Modal, Button, Form, ListGroup, Dropdown, DropdownButton} from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import {toast} from 'react-toastify'
 
 const CheckupModal = ({ show, onHide, data }) => {
     const { userInfo } = useSelector((state) => state.auth);
@@ -13,11 +14,22 @@ const CheckupModal = ({ show, onHide, data }) => {
   });
 
   useEffect(() => {
-    // Fetch checkups when the modal is shown
     if (show) {
       fetchCheckups();
     }
   }, [show]);
+
+
+  const handleDownload = async(fileType) => {
+    try {
+      const res = await axios.get(`http://localhost:3001/api/adoption/${data._id}/checkup/${fileType}`)
+      if(res.status === 200) {
+        toast.success("Successfully downloaded file")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  };
 
   const fetchCheckups = async () => {
     try {
@@ -57,7 +69,14 @@ const CheckupModal = ({ show, onHide, data }) => {
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Checkups</Modal.Title>
+      <Modal.Title className="d-flex justify-content-between align-items-center w-100">
+      Checkups
+      <DropdownButton title="Download" variant="primary" className="ms-auto">
+        <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
+      </DropdownButton>
+    </Modal.Title>
+        
       </Modal.Header>
       <Modal.Body>
         <ListGroup>
