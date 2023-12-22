@@ -6,11 +6,10 @@ const DataTable = ({ data }) => {
       <CDBCard>
         <CDBCardBody>
           <CDBDataTable
-            striped
             bordered
             hover
+            scrollY
             entriesOptions={[5, 10, 20]}
-            entries={5}
             data={data}
             searching={false}
           />
@@ -19,5 +18,5 @@ const DataTable = ({ data }) => {
     </CDBContainer>
   );
 };
- 
+
 export default DataTable;
