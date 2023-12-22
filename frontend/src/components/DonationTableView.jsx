@@ -1,4 +1,4 @@
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import DataTable from "./DataTable";
 import { toast } from "react-toastify";
 
@@ -20,11 +20,11 @@ const DonationTableView = ({reload, setReload}) => {
   })
   const [donations, setDonations] = useState([]);
 
-  const handleDownloadCsv = async() => {
+  const handleDownload = async(fileType) => {
     try {
-      const res = await axios.get('http://localhost:3001/api/donation/toCsv')
+      const res = await axios.get(`http://localhost:3001/api/donation/${fileType}`)
       if(res.status === 200) {
-        toast.success("Successfully downloaded CSV file")
+        toast.success("Successfully downloaded file")
       }
     } catch (error) {
       console.error(error)
@@ -120,7 +120,10 @@ const DonationTableView = ({reload, setReload}) => {
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Donations</h2>
-        <Button onClick={handleDownloadCsv}>Download CSV</Button>
+        <DropdownButton title="Download" variant="primary">
+    <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
+  </DropdownButton>
       </Card.Header>
       <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
         <DataTable data={donationList} />

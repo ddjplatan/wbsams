@@ -8,7 +8,10 @@ const {
   staffValidator,
 } = require("../middlewares/utils/validators");
 
-const { convertAdoption } = require("../controllers/filesController");
+const {
+  convertAdoption,
+  convertAdoptionToPdf,
+} = require("../controllers/filesController");
 
 const {
   postAdoption,
@@ -34,6 +37,8 @@ router.route("/toCsv").get(
   // , protectedRoute, adminValidator
   convertAdoption
 );
+
+router.route("/toPdf").get(reqReceived, convertAdoptionToPdf);
 
 router
   .route("/confirmed")
