@@ -9,7 +9,9 @@ const App = () => {
     <>
       <Header />
       <ToastContainer />
+      <Container className="m-4">
       <Outlet />
+      </Container>
     </>
   );
 };

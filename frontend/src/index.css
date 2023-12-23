@@ -20,3 +20,8 @@ body {
   overflow-y: auto !important; /* Add vertical scrolling if the content overflows */
   position: sticky !important;
 }
+
+.active {
+  background-color: #007bff; /* Highlight color */
+  cursor: pointer; /* Change cursor on hover */
+}

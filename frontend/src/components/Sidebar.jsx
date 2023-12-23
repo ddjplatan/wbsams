@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -11,7 +12,10 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
 import DropdownPet from "./DropdownPet";
 
+import "../../src/index.css";
+
 const Sidebar = () => {
+  const location = useLocation();
   const { userInfo } = useSelector((state) => state.auth);
   const [showPetDropdown, setShowPetDropdown] = useState(false);
 
@@ -40,7 +44,7 @@ const Sidebar = () => {
           {userInfo.user.userType === "admin" ? (
             <>
               <LinkContainer to="/dashboard">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem  className={location.pathname === "/dashboard" ? "active" : ""} icon="th-large">
                   Dashboard
                 </CDBSidebarMenuItem>
               </LinkContainer>
@@ -71,7 +75,7 @@ const Sidebar = () => {
                   Spay and Neuter
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <CDBSidebarMenuItem onClick={toggleEventDropdown} icon="th-large">
+              <CDBSidebarMenuItem onClick={toggleEventDropdown} className={showEventDropdown ? "active" : ""} icon="th-large">
                 Events
               </CDBSidebarMenuItem>
               {showEventDropdown && (
