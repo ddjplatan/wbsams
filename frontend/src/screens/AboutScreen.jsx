@@ -17,8 +17,8 @@ const AboutScreen = () => {
   };
   const pStyle = {
     textIndent: "50px",
-    lineHeight: "1.66em",
-    margin: 0,
+    lineHeight: "2.0em",
+    marginTop: "1",
     fontFamily: "Lato",
     fontSize: "24px"
   }
@@ -53,13 +53,11 @@ const AboutScreen = () => {
             <p style={pStyle}>
             <FontAwesomeIcon icon={faEnvelope} /> cdoanimalrescueorg@gmail.com <br/></p>
             <p style={pStyle}>
-              <FontAwesomeIcon icon={faPhone} /> 0936 556 6200 </p><br/>
-            <p style={pStyle}>
-              A non-government funded, volunteer rescue group; upholding animal rights 
-              and Campaign for awareness</p><br/>
-              <br/>
-            <p style={pStyle}>
-                Animal shelters are the compassionate cornerstone of our
+              <FontAwesomeIcon icon={faPhone} /> 0936 556 6200 </p><br/><br/>
+
+            <p style={pStyle} className="d-flex justify-content-center mb-5">
+                   A non-government funded, volunteer rescue group; upholding animal rights 
+                and Campaign for awareness. Animal shelters are the compassionate cornerstone of our
                 communities, offering solace and care to countless animals in
                 need. These havens of hope provide a lifeline for abandoned and
                 neglected pets, giving them a chance for a brighter, loving
@@ -67,8 +65,14 @@ const AboutScreen = () => {
                 an act of kindness; it's a pledge to create a world where every
                 furry friend receives the love and care they deserve.
             </p>
+
             </Row>
           </Col>
+
+          <Row>
+
+          </Row>
+          
         </Row>
       </Card>
     </div>
