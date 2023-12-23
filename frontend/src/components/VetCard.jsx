@@ -18,6 +18,7 @@ const VetCard = ({ data }) => {
         <Image
               src={`http://localhost:3001/${data.img}`}
               alt="Vet Image"
+              height={300}
               className="mb-3 img-fluid"
               rounded
               fluid
