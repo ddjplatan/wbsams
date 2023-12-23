@@ -68,17 +68,10 @@ const DonationScreen = () => {
           </div>
           {userInfo.user.userType !== "user" && (
             <>
-<<<<<<< HEAD
-            <Button variant="primary" onClick={handleShow}>
-              Add Donor
-            </Button>
-          </>
-=======
               <Button variant="primary" onClick={handleShow}>
                 Add Donation
               </Button>
             </>
->>>>>>> 831181de007e781c2ca4a4ac0561d8bd89956a87
           )}
         </Card.Header>
         <Card.Body

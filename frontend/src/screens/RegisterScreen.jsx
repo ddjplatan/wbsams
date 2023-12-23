@@ -100,22 +100,12 @@ const RegisterScreen = () => {
             style={{ maxHeight: "100vh", overflowY: "auto" }}
           >
             <Card.Body>
-<<<<<<< HEAD
-              <Card.Title className="fw-bold text-center">Sign up</Card.Title>
-              <Form onSubmit={submitHandler} encType="multipart/form-data">
-                <Row>
-                  <Col>
-                    <h2 className="fw-bold text-center">User Registration</h2>
-                  </Col>
-                  <Col>
-=======
               <Card.Title className="d-flex justify-content-center">
                 <h3 className="fw-bold">Register User</h3>
               </Card.Title>
               <Form onSubmit={submitHandler} encType="multipart/form-data">
                 <Row>
                   <Col>
->>>>>>> 831181de007e781c2ca4a4ac0561d8bd89956a87
                     <Col className="d-flex justify-content-center">
                       <Form.Group className=" " controlId="formFile">
                         <label htmlFor="fileInput" className="text-center">

@@ -158,11 +158,7 @@ const EventModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-center">
-<<<<<<< HEAD
-          {!data && "Add "}Activity
-=======
           {!data && "Add "} 
->>>>>>> 831181de007e781c2ca4a4ac0561d8bd89956a87
         </Modal.Title>
       </Modal.Header>
       <Form>
