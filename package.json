@@ -35,6 +35,8 @@
     "multer": "^1.4.5-lts.1",
     "path": "^0.12.7",
     "pdfkit": "^0.14.0",
+    "pdfmake": "^0.2.8",
+    "puppeteer": "^21.6.1",
     "twilio": "^4.20.0",
     "validator": "^13.9.0",
     "xss-clean": "^0.1.4"

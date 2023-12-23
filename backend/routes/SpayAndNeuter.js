@@ -22,7 +22,10 @@ const {
   registerToSpayAndNeuter,
 } = require("../controllers/registrationController");
 
-const { convertSpayAndNeuter } = require("../controllers/filesController");
+const {
+  convertSpayAndNeuter,
+  convertSpayAndNeuterToPdf,
+} = require("../controllers/filesController");
 
 router
   .route("/")
@@ -31,6 +34,7 @@ router
   .delete(reqReceived, protectedRoute, adminValidator, deleteInstances);
 
 router.route("/toCsv").get(reqReceived, convertSpayAndNeuter);
+router.route("/toPdf").get(reqReceived, convertSpayAndNeuterToPdf);
 
 router
   .route("/:instanceId")
