@@ -145,7 +145,7 @@ const Sidebar = () => {
                 <div className="dropdown-container">
                   <LinkContainer to="/events">
                     <CDBSidebarMenuItem className="ms-5" icon="th-large">
-                      Events
+                      Activity
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
@@ -198,7 +198,7 @@ const Sidebar = () => {
                 <div className="dropdown-container">
                   <LinkContainer to="/events">
                     <CDBSidebarMenuItem className="ms-5" icon="th-large">
-                      Events
+                      Activity
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
@@ -234,11 +234,11 @@ const Sidebar = () => {
       >
         <div className="sidebar-btn-wrapper">
           © 2023 Copyright:
-          <a className="ml-2">Animal Welfare</a>
+          <a className="ml-2"> CDO Animal Welfare Society</a>
         </div>
       </CDBSidebarFooter>
     </CDBSidebar>
-  );
+  );  
 };
 
 export default Sidebar;

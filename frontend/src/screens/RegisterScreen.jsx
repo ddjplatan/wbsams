@@ -85,7 +85,7 @@ const RegisterScreen = () => {
     }
   };
   return (
-    <Card className="p-3 mt-3">
+    <Card className="p-2 mt-3">
       <Row>
         <Col sm={11} lg={8}>
           <Card.Img
@@ -113,13 +113,13 @@ const RegisterScreen = () => {
                             <img
                               src={imagePreview}
                               alt="Image Preview"
-                              height={150}
-                              width={150}
+                              height={120}
+                              width={120}
                             />
                           ) : (
                             <div
                               className="d-flex justify-content-center text-center border border-primary p-2"
-                              style={{ height: "150px", width: "150px" }}
+                              style={{ height: "100px", width: "100px" }}
                             >
                               Upload Image
                             </div>

@@ -85,7 +85,7 @@ const DonationScreen = () => {
                 style={{ objectFit: "cover" }}
                 alt="Gcash"
                 rounded
-                height={150}
+                height={110}
                 width={150}
               />
             </Col>
@@ -95,7 +95,7 @@ const DonationScreen = () => {
                 style={{ objectFit: "cover" }}
                 alt="Maya"
                 rounded
-                height={150}
+                height={110}
                 width={150}
               />
             </Col>
@@ -105,9 +105,9 @@ const DonationScreen = () => {
                 style={{ objectFit: "cover" }}
                 alt="Cash"
                 rounded
-                height={150}
+                height={110}
                 width={150}
-              />
+                 />
             </Col>
           </Row>
           <Row>
