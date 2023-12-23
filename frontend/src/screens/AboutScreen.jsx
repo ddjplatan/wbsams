@@ -65,8 +65,14 @@ const AboutScreen = () => {
                 an act of kindness; it's a pledge to create a world where every
                 furry friend receives the love and care they deserve.
             </p>
+
             </Row>
           </Col>
+
+          <Row>
+
+          </Row>
+          
         </Row>
       </Card>
     </div>
