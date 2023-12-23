@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -7,9 +8,10 @@ import {
   CDBSidebarMenuItem,
   CDBSidebarFooter,
 } from "cdbreact";
-import { useLocation } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
+
+import "../../src/index.css";
 
 const Sidebar = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -33,7 +35,7 @@ const Sidebar = () => {
     <CDBSidebar
       textColor="#ffffff"
       backgroundColor="#545454"
-      className="mr-2 h-auto"
+      className="mr-2 h-auto custom-sticky-sidebar"
       style={{ marginRight: "20px" }}
     >
       <CDBSidebarHeader prefix={<i className="fa fa-bars" />}>
@@ -47,9 +49,7 @@ const Sidebar = () => {
                 <CDBSidebarMenuItem
                   icon="th-large"
                   active={currentUrl === "/dashboard"}
-                >
-                  Dashboard
-                </CDBSidebarMenuItem>
+                ></CDBSidebarMenuItem>
               </LinkContainer>
               <CDBSidebarMenuItem
                 onClick={togglePetDropdown}
@@ -106,7 +106,7 @@ const Sidebar = () => {
                   currentUrl === "/veterinarian"
                 }
               >
-                Events
+                Activity
               </CDBSidebarMenuItem>
               {showEventDropdown && (
                 <div className="dropdown-container">
@@ -116,7 +116,7 @@ const Sidebar = () => {
                       icon="th-large"
                       active={currentUrl === "/events"}
                     >
-                      Events
+                      Activity{" "}
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
@@ -225,7 +225,7 @@ const Sidebar = () => {
                       icon="th-large"
                       active={currentUrl === "/events"}
                     >
-                      Events
+                      Activity
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
@@ -317,7 +317,7 @@ const Sidebar = () => {
                       icon="th-large"
                       active={currentUrl === "/events"}
                     >
-                      Events
+                      Activity
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
@@ -368,7 +368,7 @@ const Sidebar = () => {
       >
         <div className="sidebar-btn-wrapper">
           © 2023 Copyright:
-          <a className="ml-2">Animal Welfare</a>
+          <a className="ml-2"> CDO Animal Welfare Society</a>
         </div>
       </CDBSidebarFooter>
     </CDBSidebar>

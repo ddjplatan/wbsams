@@ -60,9 +60,9 @@ const DonationScreen = () => {
       <Sidebar />
       <Card className="p-3 d-flex hero-card bg-light w-100">
         <Card.Header className="d-flex justify-content-between">
-          <div>
+          <div> 
             <h3>
-              Donation Acknowledgements
+               Acknowledgements
               <BsFillHandThumbsUpFill className="ms-2" size={25} />
             </h3>
           </div>
@@ -78,15 +78,15 @@ const DonationScreen = () => {
           className="flex-nowrap"
           style={{ maxHeight: "800px", overflowY: "auto" }}
         >
-          <Row width={300} className="mb-2">
+          <Row width={300} className="mb-2 p-2">
             <Col className="d-flex justify-content-center">
               <Image
                 src={GCash}
                 style={{ objectFit: "cover" }}
                 alt="Gcash"
                 rounded
-                height={150}
-                width={150}
+                height={70}
+                width={70}
               />
             </Col>
             <Col className="d-flex justify-content-center">
@@ -95,8 +95,8 @@ const DonationScreen = () => {
                 style={{ objectFit: "cover" }}
                 alt="Maya"
                 rounded
-                height={150}
-                width={150}
+                height={70}
+                width={70}
               />
             </Col>
             <Col className="d-flex justify-content-center">
@@ -105,11 +105,28 @@ const DonationScreen = () => {
                 style={{ objectFit: "cover" }}
                 alt="Cash"
                 rounded
-                height={150}
-                width={150}
-              />
+                height={70}
+                width={70}
+                 />
             </Col>
           </Row>
+        
+          <Row width={300} className="mb-2 p-1">
+            <Col className="d-flex justify-content-center">
+              <p className="fw-bold">0935 8008 047 <br/>
+              Israel Emata</p>
+            </Col>
+            <Col className="d-flex justify-content-center">
+              <p className="fw-bold">0935 8008 047 <br/>
+              Israel Emata</p>
+            </Col>
+            <Col className="d-flex justify-content-center">
+              <p className="fw-bold">Visit CAWS Office <br/>
+              Carmen CDO City</p>
+            </Col>
+          </Row>
+          
+
           <Row>
             {donations.map((donation, index) => (
               <Col sm={4} key={index} className="p-2">

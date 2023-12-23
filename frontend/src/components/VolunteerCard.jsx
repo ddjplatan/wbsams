@@ -11,7 +11,7 @@ const VolunteerCard = ({ data }) => {
     <>
       <Card onClick={handleShow}>
   <Card.Header>
-    <Card.Title>{data.firstName} {data.lastName}</Card.Title>
+    <Card.Title className="fw-bold">{data.firstName} {data.lastName}</Card.Title>
   </Card.Header>
   <Card.Body>
     <Image

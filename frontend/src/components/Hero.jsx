@@ -36,25 +36,25 @@ const Hero = () => {
     {
       Title: "Adopt a Pet",
       Description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Find your perfect companion and give them a forever home.",
       Image: Dashboard1,
     },
     {
       Title: "Donate",
       Description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Support our cause and make a donation to help animals in need.",
       Image: Dashboard2,
     },
     {
       Title: "Spay and Neuter",
       Description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Spay and Neuter control population, prevent disease, be responsible.",
       Image: Dashboard3,
     },
     {
       Title: "Events",
       Description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Stay updated with our upcoming pet adoption events and fundraiser.",
       Image: Dashboard4,
     },
   ];
@@ -98,12 +98,12 @@ const Hero = () => {
           ) : (
             <>
               <Row
-                className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
+                className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end w-100"
                 style={{
                   backgroundImage: `url(${UserHomePageImg})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "280px",
+                  height: "400px",
                 }}
               >
                 <h1 className="mb-0">

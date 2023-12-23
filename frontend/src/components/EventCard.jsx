@@ -11,19 +11,28 @@ const EventCard = ({ data }) => {
     <>
       <Card className="w-75 mx-auto" onClick={handleShow}>
         <Card.Header>
-          <Card.Title>{data.title}</Card.Title>
+          <Card.Title className="fw-bold">{data.title}</Card.Title>
         </Card.Header>
         <Card.Body>
-        <Image
-              src={`http://localhost:3001/${data.img}`}
-              alt="Event Image"
-              className="mb-3 img-fluid"
-              rounded
-              fluid
-            />
-          <Card.Text className="fw-bold m-0">
-            Details: <span className="text-muted">{data.details}</span>
-          </Card.Text>
+          <Row>
+            <Col sm={4}>
+              <Image
+                src={`http://localhost:3001/${data.img}`}
+                style={{ opacity: "80%", maxHeight: "200px" }}
+                width={300}
+                alt="Event Image"
+                className="mb-3"
+                rounded
+                fluid
+              />
+            </Col>
+            <Col>
+              <Card.Text className="fw-bold m-0">Details:</Card.Text>
+              <Card.Text>
+                <span className="text-muted">{data.details}</span>
+              </Card.Text>
+            </Col>
+          </Row>
         </Card.Body>
       </Card>
 

@@ -1,4 +1,4 @@
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import DataTable from "./DataTable";
 import { toast } from "react-toastify";
 
@@ -12,11 +12,11 @@ const AdoptionTableView = () => {
 
   const [volunteers, setVolunteers] = useState([]);
 
-  const handleDownloadCsv = async() => {
+  const handleDownload = async(fileType) => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/volunteer/toCsv`);
+      const res = await axios.get(`http://localhost:3001/api/volunteer/${fileType}`);
       if(res.status === 200) {
-        toast.success("Successfully downloaded csv")
+        toast.success("Successfully downloaded file")
       }
     } catch (error) {
       console.error(error.message)
@@ -78,7 +78,11 @@ const AdoptionTableView = () => {
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Volunteers</h2>
-        <Button onClick={handleDownloadCsv}>Download CSV</Button>
+        {/* <Button onClick={handleDownload}>Download CSV</Button> */}
+        <DropdownButton title="Download" variant="primary">
+    <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
+  </DropdownButton>
       </Card.Header>
       <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
         <DataTable data={volunteerList} />

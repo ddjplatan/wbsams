@@ -28,7 +28,7 @@ const EventModal = (props) => {
     _id: "",
     title: "",
     details: "",
-    img: null,
+    img: "",
   });
 
   const postEvent = async () => {
@@ -52,15 +52,15 @@ const EventModal = (props) => {
         console.log(response.data);
         setEventData({
           _id: "",
-    title: "",
-    details: "",
-    img: null,
+          title: "",
+          details: "",
+          img: null,
         });
         onHide();
         toast.success("Successfully added event.");
       });
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       toast.error(error?.data?.message || error.error);
     }
   };
@@ -71,7 +71,7 @@ const EventModal = (props) => {
       const response = await axios.put(url, eventData, { headers });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully updated event")
+        toast.success("Successfully updated event");
         setReload(!reload);
       }
     } catch (error) {
@@ -85,7 +85,7 @@ const EventModal = (props) => {
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
-        toast.success("Successfully deleted event")
+        toast.success("Successfully deleted event");
         setReload(!reload);
       }
     } catch (error) {
@@ -107,17 +107,19 @@ const EventModal = (props) => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setEventData({
         _id: data._id,
         title: data.title,
         details: data.details,
+        img: data.img,
       });
     } else {
       setEventData({
         _id: "",
         title: "",
         details: "",
-        img: null
+        img: null,
       });
     }
   }, [data]);
@@ -156,7 +158,7 @@ const EventModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-center">
-          {!data && "Add "}Event
+          {!data && "Add "} 
         </Modal.Title>
       </Modal.Header>
       <Form>
@@ -170,40 +172,39 @@ const EventModal = (props) => {
                     alt="Preview"
                     rounded
                     height={350}
-                    width={350}
+                    className="w-100"
                   />
                 ) : data ? (
                   <Image
                     src={
                       data.img
-                        ? `${data.img}`
+                        ? `http://localhost:3001/${data.img}`
                         : "http://localhost:3001/defaults/default-questionmark.jpg"
                     }
                     alt="Preview"
                     rounded
                     height={350}
-                    width={350}
+                    className="w-100"
                   />
                 ) : (
                   <Image
                     src="http://localhost:3001/defaults/default-questionmark.jpg"
                     rounded
                     height={350}
-                    width={350}
+                    className="w-100"
                   />
                 )}
               </div>
 
-              <FloatingLabel className="mb-2" controlId="img" label="Image">
-                <Form.Control
-                  type="file"
-                  name="img"
-                  placeholder={selectedFile}
-                  value={""}
-                  onChange={handleFileChange}
-                  disabled={userType === "user"}
-                />
-              </FloatingLabel>
+              <Form.Control
+                type="file"
+                name="img"
+                placeholder={selectedFile}
+                value={""}
+                onChange={handleFileChange}
+                disabled={userType === "user"}
+                className="mb-2"
+              />
               <FloatingLabel className="mb-2" controlId="title" label="Title">
                 <Form.Control
                   type="text"

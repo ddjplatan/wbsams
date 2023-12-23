@@ -10,7 +10,7 @@ const VetCard = ({ data }) => {
     <>
       <Card onClick={handleShow}>
         <Card.Header>
-          <Card.Title>{data.firstName} {data.lastName}</Card.Title>
+          <Card.Title className="fw-bold">{data.firstName} {data.lastName}</Card.Title>
         </Card.Header>
         {/* <Card.Title>{data.title}</Card.Title> */}
 
@@ -18,6 +18,7 @@ const VetCard = ({ data }) => {
         <Image
               src={`http://localhost:3001/${data.img}`}
               alt="Vet Image"
+              height={300}
               className="mb-3 img-fluid"
               rounded
               fluid

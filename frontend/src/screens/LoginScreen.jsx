@@ -48,7 +48,7 @@ const LoginScreen = () => {
           <Card className="w-100 h-100">
             <Card.Img src={CAWS} height={"100%"} />
             <Card.Body>
-              <Card.Title className="fw-bold">Sign in</Card.Title>
+              <Card.Title className="fw-bold">Log in</Card.Title>
               <Form onSubmit={submitHandler}>
                 <Form.Group className="my-2" controlId="email">
                   <Form.Label>Email Address</Form.Label>
@@ -77,7 +77,7 @@ const LoginScreen = () => {
                   variant="primary"
                   className="mt-3 w-100"
                 >
-                  Sign in
+                  Log in
                 </Button>
                 {/* <Row className="py-3">
                   <Col>

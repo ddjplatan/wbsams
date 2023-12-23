@@ -186,7 +186,7 @@ const VetModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-center">
-          {!data && "Add "}Vet
+          {!data && "Add "}Veterinarian
         </Modal.Title>
       </Modal.Header>
       <Form>

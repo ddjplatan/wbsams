@@ -26,7 +26,10 @@ const {
   staffValidator,
 } = require("../middlewares/utils/validators");
 
-const { convertVolunteer } = require("../controllers/filesController");
+const {
+  convertVolunteer,
+  convertVolunteerToPdf,
+} = require("../controllers/filesController");
 
 const {
   postVolunteer,
@@ -50,6 +53,7 @@ router
   .delete(reqReceived, protectedRoute, adminValidator, deleteVolunteers);
 
 router.route("/toCsv").get(reqReceived, convertVolunteer);
+router.route("/toPdf").get(reqReceived, convertVolunteerToPdf);
 
 router
   .route("/:volunteerId")
