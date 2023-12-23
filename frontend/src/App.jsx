@@ -8,8 +8,10 @@ const App = () => {
   return (
     <>
       <Header />
-      <ToastContainer />
-      <Outlet />
+      <Container fluid>
+        <ToastContainer />
+        <Outlet />
+      </Container>
     </>
   );
 };
