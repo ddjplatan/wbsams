@@ -30,6 +30,7 @@ const EventScreen = () => {
       });
       console.log(res)
       if (res) {
+        console.log(res.data)
         setEvents(res.data);
       }
     } catch (error) {
@@ -40,7 +41,7 @@ const EventScreen = () => {
 
   useEffect(() => {
     getEvents();
-  }, [modalShow]);
+  }, []);
 
 
   return (

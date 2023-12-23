@@ -98,12 +98,12 @@ const Hero = () => {
           ) : (
             <>
               <Row
-                className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
+                className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end w-100"
                 style={{
                   backgroundImage: `url(${UserHomePageImg})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "280px",
+                  height: "400px",
                 }}
               >
                 <h1 className="mb-0">

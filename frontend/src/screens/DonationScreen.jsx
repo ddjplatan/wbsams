@@ -3,8 +3,12 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
+import GCash from "../assets/images/caws/png/gcash.png";
+import Maya from "../assets/images/caws/png/maya.png";
+import Cash from "../assets/images/caws/png/cash.png";
+
 import axios from "axios";
-import { Card, Row, Col, Button } from "react-bootstrap";
+import { Card, Row, Col, Button, Image } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import DonationCard from "../components/DonationCard";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
@@ -24,16 +28,16 @@ const DonationScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
 
-  const handleDownloadCsv = async() => {
+  const handleDownloadCsv = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/donation/toCsv')
-      if(res.status === 200) {
-        toast.success("Successfully downloaded CSV file")
+      const res = await axios.get("http://localhost:3001/api/donation/toCsv");
+      if (res.status === 200) {
+        toast.success("Successfully downloaded CSV file");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const getDonations = async () => {
     try {
@@ -64,16 +68,55 @@ const DonationScreen = () => {
           </div>
           {userInfo.user.userType !== "user" && (
             <>
+<<<<<<< HEAD
             <Button variant="primary" onClick={handleShow}>
               Add Donor
             </Button>
           </>
+=======
+              <Button variant="primary" onClick={handleShow}>
+                Add Donation
+              </Button>
+            </>
+>>>>>>> 831181de007e781c2ca4a4ac0561d8bd89956a87
           )}
         </Card.Header>
         <Card.Body
           className="flex-nowrap"
           style={{ maxHeight: "800px", overflowY: "auto" }}
         >
+          <Row width={300} className="mb-2">
+            <Col className="d-flex justify-content-center">
+              <Image
+                src={GCash}
+                style={{ objectFit: "cover" }}
+                alt="Gcash"
+                rounded
+                height={150}
+                width={150}
+              />
+            </Col>
+            <Col className="d-flex justify-content-center">
+              <Image
+                src={Maya}
+                style={{ objectFit: "cover" }}
+                alt="Maya"
+                rounded
+                height={150}
+                width={150}
+              />
+            </Col>
+            <Col className="d-flex justify-content-center">
+              <Image
+                src={Cash}
+                style={{ objectFit: "cover" }}
+                alt="Cash"
+                rounded
+                height={150}
+                width={150}
+              />
+            </Col>
+          </Row>
           <Row>
             {donations.map((donation, index) => (
               <Col sm={4} key={index} className="p-2">

@@ -13,3 +13,10 @@ body {
 .custom-text-justify {
   text-align: justify;
 }
+
+.custom-sticky-sidebar {
+  top: 0 !important; /* Adjust as needed based on your layout */
+  height: 100vh !important; /* Make sure it takes the full height of the viewport */
+  overflow-y: auto !important; /* Add vertical scrolling if the content overflows */
+  position: sticky !important;
+}
