@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -9,7 +10,8 @@ import {
 } from "cdbreact";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
-import DropdownPet from "./DropdownPet";
+
+import "../../src/index.css";
 
 const Sidebar = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -24,6 +26,10 @@ const Sidebar = () => {
   const toggleEventDropdown = () => {
     setShowEventDropdown(!showEventDropdown);
   };
+
+  const location = useLocation();
+  const currentUrl = location.pathname;
+  console.log(currentUrl);
 
   return (
     <CDBSidebar
@@ -40,66 +46,115 @@ const Sidebar = () => {
           {userInfo.user.userType === "admin" ? (
             <>
               <LinkContainer to="/dashboard">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/dashboard"}
+                >
                   Dashboard
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <CDBSidebarMenuItem onClick={togglePetDropdown} icon="th-large">
+              <CDBSidebarMenuItem
+                onClick={togglePetDropdown}
+                icon="th-large"
+                active={currentUrl === "/adopt" || currentUrl === "/adoption"}
+              >
                 Pet Adoption
               </CDBSidebarMenuItem>
               {showPetDropdown && (
                 <div className="dropdown-container">
                   <LinkContainer to="/adopt">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/adopt"}
+                    >
                       Manage Pets
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/adoption">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/adoption"}
+                    >
                       Adoption Monitoring
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                 </div>
               )}
               <LinkContainer to="/donation">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/donation"}
+                >
                   Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/spay-and-neuter">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/spay-and-neuter"}
+                >
                   Spay and Neuter
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <CDBSidebarMenuItem onClick={toggleEventDropdown} icon="th-large">
+              <CDBSidebarMenuItem
+                onClick={toggleEventDropdown}
+                icon="th-large"
+                active={
+                  currentUrl === "/events" ||
+                  currentUrl === "/news" ||
+                  currentUrl === "/volunteer" ||
+                  currentUrl === "/veterinarian"
+                }
+              >
                 Events
               </CDBSidebarMenuItem>
               {showEventDropdown && (
                 <div className="dropdown-container">
                   <LinkContainer to="/events">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
-                      Activity
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/events"}
+                    >
+                      Activity{" "}
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/news"}
+                    >
                       News
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/volunteer">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/volunteer"}
+                    >
                       Volunteer
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/veterinarian">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/veterinarian"}
+                    >
                       Veterinarian
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                 </div>
               )}
               <LinkContainer to="/about-us">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/about-us"}
+                >
                   About Us
                 </CDBSidebarMenuItem>
               </LinkContainer>
@@ -115,12 +170,20 @@ const Sidebar = () => {
               {showPetDropdown && (
                 <div className="dropdown-container">
                   <LinkContainer to="/adopt">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/adopt"}
+                    >
                       Manage Pets
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/adoption">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/adoption"}
+                    >
                       Adoption Monitoring
                     </CDBSidebarMenuItem>
                   </LinkContainer>
@@ -128,45 +191,79 @@ const Sidebar = () => {
               )}
 
               <LinkContainer to="/donation">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/donation"}
+                >
                   Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
 
               <LinkContainer to="/spay-and-neuter">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/spay-and-neuter"}
+                >
                   Spay and Neuter
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <CDBSidebarMenuItem onClick={toggleEventDropdown} icon="th-large">
+              <CDBSidebarMenuItem
+                onClick={toggleEventDropdown}
+                icon="th-large"
+                active={
+                  currentUrl === "/events" ||
+                  currentUrl === "/news" ||
+                  currentUrl === "/volunteer" ||
+                  currentUrl === "/veterinarian"
+                }
+              >
                 Events
               </CDBSidebarMenuItem>
               {showEventDropdown && (
                 <div className="dropdown-container">
                   <LinkContainer to="/events">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/events"}
+                    >
                       Activity
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/news"}
+                    >
                       News
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/volunteer">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/volunteer"}
+                    >
                       Volunteer
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/veterinarian">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/veterinarian"}
+                    >
                       Veterinarian
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                 </div>
               )}
               <LinkContainer to="/about-us">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/about-us"}
+                >
                   About Us
                 </CDBSidebarMenuItem>
               </LinkContainer>
@@ -174,52 +271,91 @@ const Sidebar = () => {
           ) : (
             <>
               <LinkContainer to="/">
-                <CDBSidebarMenuItem icon="th-large">Home</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="th-large" active={currentUrl === "/"}>
+                  Home
+                </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/pets">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/pets"}
+                >
                   Adopt a Pet
                 </CDBSidebarMenuItem>
               </LinkContainer>
               <LinkContainer to="/donation">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/donation"}
+                >
                   Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/spay-and-neuter">
+              <LinkContainer
+                to="/spay-and-neuter"
+                active={currentUrl === "/spay-and-neuter"}
+              >
                 <CDBSidebarMenuItem icon="th-large">
                   Spay and Neuter
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <CDBSidebarMenuItem onClick={toggleEventDropdown} icon="th-large">
+              <CDBSidebarMenuItem
+                onClick={toggleEventDropdown}
+                icon="th-large"
+                active={
+                  currentUrl === "/events" ||
+                  currentUrl === "/news" ||
+                  currentUrl === "/volunteer" ||
+                  currentUrl === "/veterinarian"
+                }
+              >
                 Events
               </CDBSidebarMenuItem>
               {showEventDropdown && (
                 <div className="dropdown-container">
                   <LinkContainer to="/events">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/events"}
+                    >
                       Activity
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/news">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/news"}
+                    >
                       News
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/volunteer">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/volunteer"}
+                    >
                       Volunteer
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                   <LinkContainer to="/veterinarian">
-                    <CDBSidebarMenuItem className="ms-5" icon="th-large">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/veterinarian"}
+                    >
                       Veterinarian
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                 </div>
               )}
               <LinkContainer to="/about-us">
-                <CDBSidebarMenuItem icon="th-large">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/about-us"}
+                >
                   About Us
                 </CDBSidebarMenuItem>
               </LinkContainer>
@@ -238,7 +374,7 @@ const Sidebar = () => {
         </div>
       </CDBSidebarFooter>
     </CDBSidebar>
-  );  
+  );
 };
 
 export default Sidebar;
