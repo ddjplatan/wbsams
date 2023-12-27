@@ -38,9 +38,17 @@ const AdoptionSchema = new Schema(
     parentJob: {
       type: String,
     },
-    isApproved: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      enum: ["Invited", "Pending", "Approved"],
+      default: "Pending",
+    },
+    // isApproved: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    remarks: {
+      type: String,
     },
     checkups: [CheckupSchema],
   },

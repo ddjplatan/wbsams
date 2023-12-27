@@ -49,51 +49,74 @@ const AdoptionTableView = () => {
             createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
             action: (
               <>
-                <Button
-                  variant="success"
-                  size="sm"
-                  className="w-100 my-1"
-                  onClick={async () => {
-                    const data = {
-                      adoptee: adoptionRequest.adoptee,
-                      adopter: adoptionRequest.adopter,
-                    };
+                {adoptionRequest.status === "Pending" && (
+                  <Button
+                    variant="info"
+                    size="sm"
+                    className="w-100 my-1"
+                    onClick={async () => {
+                      const updatedRequest = {
+                        ...adoptionRequest,
+                        status: "Invited",
+                      };
 
-                    const response = await axios.post(
-                      `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
-                      data,
-                      { headers }
-                    );
+                      const updateResponse = await axios.put(
+                        `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
+                        updatedRequest,
+                        { headers }
+                      );
 
-                    if (response.status === 200) {
-                      toast.success("Adoption request has been approved");
-                      setReload(!reload);
-                    }
-                  }}
-                >
-                  Approve
-                </Button>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  className="w-100 my-1"
-                  onClick={async () => {
-                    const headers = {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    };
-                    const response = await axios.delete(
-                      `http://localhost:3001/api/adoption/${adoptionRequest._id}`,
-                      { headers }
-                    );
-                    if (response.status === 200) {
-                      toast.error("Adoption request has been declined");
-                      setReload(!reload);
-                    }
-                  }}
-                >
-                  Reject
-                </Button>
+                      if (updateResponse.status === 200) {
+                        toast.success("Successfully invited for onsite evaluation");
+                        setReload(!reload);
+                      }
+                    }}
+                  >
+                    Invite
+                  </Button>
+                )}
+
+                {adoptionRequest.status === "Invited" && (
+                  <>
+                    <Button
+                      variant="success"
+                      size="sm"
+                      className="w-100 my-1"
+                      onClick={async () => {
+                        const data = {
+                          adoptee: adoptionRequest.adoptee,
+                          adopter: adoptionRequest.adopter,
+                        };
+                        await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data,{headers}).then((res)=>{
+                          if(res.status===200){
+                            toast.success("Approved adoption request")
+                            setReload(!reload)
+                          }
+                        })
+                      }}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      className="w-100 my-1"
+                      onClick={async () => {
+                        await axios.delete(`http://localhost:3001/api/adoption/${adoptionRequest._id}/`,{headers}).then((res)=>{
+                          if(res.status===200){
+                            setReload(!reload)
+                          }
+                        })
+                      }}
+                    >
+                      Decline
+                    </Button>
+                  </>
+                )}
+
+                {adoptionRequest.status === "Approved" && (
+                  <span>Approved</span>
+                )}
               </>
             ),
           })
