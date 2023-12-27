@@ -78,13 +78,9 @@ const confirmAdoption = async (req, res, next) => {
   const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
   const client = require("twilio")(accountSid, authToken);
 
-  console.log(accountSid);
-  console.log(authToken);
-
   client.messages
     .create({
       body: "Your adoption request has been confirmed. Congratulations",
-      // from: "+18777804236",
       from: "+14092373119",
       to: "+639061783380",
     })
@@ -104,7 +100,7 @@ const confirmAdoption = async (req, res, next) => {
 
     await Adoption.findOneAndUpdate(
       { _id: adoptionId },
-      { $set: { isApproved: true } },
+      { $set: { status: "Approved" } },
       { new: true }
     );
 
@@ -204,7 +200,7 @@ const addCheckup = async (req, res) => {
 const getConfirmedAdoptions = async (req, res, next) => {
   const { skip, limit } = req.query;
   const count = await Adoption.countDocuments();
-  const adoptions = await Adoption.find({ isApproved: true })
+  const adoptions = await Adoption.find({ status: "Approved" })
     .skip(skip)
     .limit(limit)
     .populate("adopter")
@@ -236,6 +232,23 @@ const getCheckups = async (req, res) => {
   }
 };
 
+const sendSMSInvite = async (req, res, next) => {
+  console.log("sending invite");
+  const accountSid = process.env.TWILIO_ACCOUNT_SID_PET;
+  const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
+  const client = require("twilio")(accountSid, authToken);
+
+  client.messages
+    .create({
+      body: "Hi! CAWS here. We're excited to extend an invitation for a screening about your adoption inquiry. You can drop by City Vet on any weekday.",
+      from: "+14092373119",
+      to: "+639061783380",
+    })
+    .then((message) => console.log(message.sid, "message sent"));
+
+  next();
+};
+
 module.exports = {
   postAdoption,
   getAdoptions,
@@ -248,4 +261,5 @@ module.exports = {
   addCheckup,
   getConfirmedAdoptions,
   getCheckups,
+  sendSMSInvite,
 };

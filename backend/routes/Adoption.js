@@ -26,6 +26,7 @@ const {
   confirmAdoption,
   getConfirmedAdoptions,
   getCheckups,
+  sendSMSInvite,
 } = require("../controllers/adoptionController");
 
 router
@@ -51,6 +52,16 @@ router
   .put(reqReceived, protectedRoute, updateAdoption)
   .get(reqReceived, protectedRoute, getAdoption)
   .delete(reqReceived, protectedRoute, staffValidator, deleteAdoption);
+
+router
+  .route("/:adoptionId/invite")
+  .put(
+    reqReceived,
+    protectedRoute,
+    staffValidator,
+    sendSMSInvite,
+    updateAdoption
+  );
 
 router
   .route("/:adoptionId/confirm")
