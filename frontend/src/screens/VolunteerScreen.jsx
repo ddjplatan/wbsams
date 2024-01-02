@@ -12,7 +12,7 @@ import VolunteerCard from "../components/VolunteerCard";
 
 const VolunteerScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const userType = userInfo.user.userType
+  const userType = userInfo.user.userType;
   const token = userInfo.token;
   const headers = {
     "Content-Type": "application/json",
@@ -44,36 +44,28 @@ const VolunteerScreen = () => {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Card className="p-3 d-flex hero-card bg-light w-100">
+      <Card className="p-3 d-flex bg-light w-100">
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">Volunteers</h4>
-          {
-            userType!=='user' &&
+          {userType !== "user" && (
             <Button
-            variant="success"
-            onClick={() => {
-              setModalShow(true);
-            }}
-          >
-            Add Volunteer
-          </Button>
-          }
-          
+              variant="success"
+              onClick={() => {
+                setModalShow(true);
+              }}
+            >
+              Add Volunteer
+            </Button>
+          )}
         </Card.Header>
-        <Card.Body className="flex-nowrap"
-                  style={{ maxHeight: "800px", overflowY: "auto" }}>
-          <Row>
-            
-                <Row >
-              {volunteers.map((volunteer, index) => (
-                  <Col className="p-2" sm={4} key = {index}>
-                    <VolunteerCard data={volunteer} />
-                  </Col>
-              ))}
-
-                </Row>
-           
-          </Row>
+        <Card.Body>
+            {volunteers.map((volunteer, index) => (
+              <Row key={index}>
+                <Col className="m-3">
+                  <VolunteerCard data={volunteer} />
+                </Col>
+              </Row>
+            ))}
         </Card.Body>
       </Card>
       <VolunteerModal

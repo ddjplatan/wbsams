@@ -41,10 +41,10 @@ const router = createBrowserRouter(
         <Route path="/dashboard" element={<DashboardScreen />} />
         <Route path="/users" element={<ManageUserScreen />} />
         <Route path="/donation" element={<DonationScreen />} />
-        <Route path="/adopt" element={<AdoptScreen />} />
+        <Route path="/adoption" element={<AdoptScreen />} />
         <Route path="/pets" element={<ViewPetsScreen />} />
         <Route path="/about-us" element={<AboutScreen />} />
-        <Route path="/adoption" element={<MonitorPetScreen />} />
+        <Route path="/adopted" element={<MonitorPetScreen />} />
         <Route path="/spay-and-neuter" element={<SpayNeuterScreen />} />
         <Route path="/events" element={<EventScreen />} />
         <Route path="/news" element={<NewsScreen />} />

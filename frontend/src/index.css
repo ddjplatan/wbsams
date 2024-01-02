@@ -20,8 +20,3 @@ body {
   overflow-y: auto !important;
   position: sticky !important;
 }
-
-.active {
-  background-color: #007bff; /* Highlight color */
-  cursor: pointer; /* Change cursor on hover */
-}

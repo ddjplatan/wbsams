@@ -42,9 +42,7 @@ const ManagePetScreen = () => {
     <>
       <div className="d-flex">
         <Sidebar />
-        <Card className="p-3 d-flex hero-card bg-light w-100">
-          <Row>
-            <Col>
+        <Card className="d-flex hero-card bg-light w-100">
               <Card border="default" >
                 <Card.Header className="d-flex justify-content-between">
                   <h4>Monitor Adopted Pets</h4>
@@ -67,8 +65,6 @@ const ManagePetScreen = () => {
                   </Row>
                 </Card.Body>
               </Card>
-            </Col>
-          </Row>
         </Card>
       </div>
     </>

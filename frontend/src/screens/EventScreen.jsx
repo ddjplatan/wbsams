@@ -65,9 +65,6 @@ const EventScreen = () => {
         </Card.Header>
         <Card.Body>
           <Row>
-            <div
-              className="p-2"
-            >
               {events.map((event, index) => (
                 <Row key={index}>
                   <Col className="m-2">
@@ -75,7 +72,6 @@ const EventScreen = () => {
                   </Col>
                 </Row>
               ))}
-            </div>
           </Row>
         </Card.Body>
       </Card>

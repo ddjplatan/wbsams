@@ -12,10 +12,9 @@ import DataTable from "../components/DataTable";
 import EventCard from "../components/EventCard";
 import NewsCard from "../components/NewsCard";
 
-
 const NewsScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const userType = userInfo.user.userType
+  const userType = userInfo.user.userType;
   const token = userInfo.token;
   const headers = {
     "Content-Type": "application/json",
@@ -47,36 +46,28 @@ const NewsScreen = () => {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Card className="p-3 d-flex hero-card bg-light w-100">
+      <Card className="d-flex bg-light w-100">
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">News</h4>
-          {
-            userType!=='user' &&
+          {userType !== "user" && (
             <Button
-            variant="success"
-            onClick={() => {
-              setModalShow(true);
-            }}
-          >
-            Add News
-          </Button>
-          }
-          
+              variant="success"
+              onClick={() => {
+                setModalShow(true);
+              }}
+            >
+              Add News
+            </Button>
+          )}
         </Card.Header>
         <Card.Body>
-          <Row>
-            <div
-              className="p-4"
-            >
-              {events.map((event, index) => (
-                <Row key={index}>
-                  <Col className="m-3">
-                    <NewsCard data={event} />
-                  </Col>
-                </Row>
-              ))}
-            </div>
-          </Row>
+            {events.map((event, index) => (
+              <Row key={index}>
+                <Col className="m-3">
+                  <NewsCard data={event} />
+                </Col>
+              </Row>
+            ))}
         </Card.Body>
       </Card>
       <NewsModal

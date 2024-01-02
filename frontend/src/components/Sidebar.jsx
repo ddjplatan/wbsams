@@ -56,26 +56,26 @@ const Sidebar = () => {
               <CDBSidebarMenuItem
                 onClick={togglePetDropdown}
                 icon="th-large"
-                active={currentUrl === "/adopt" || currentUrl === "/adoption"}
+                active={currentUrl === "/adopted" || currentUrl === "/adoption"}
               >
                 Pet Adoption
               </CDBSidebarMenuItem>
               {showPetDropdown && (
                 <div className="dropdown-container">
-                  <LinkContainer to="/adopt">
-                    <CDBSidebarMenuItem
-                      className="ms-5"
-                      icon="th-large"
-                      active={currentUrl === "/adopt"}
-                    >
-                      Manage Pets
-                    </CDBSidebarMenuItem>
-                  </LinkContainer>
                   <LinkContainer to="/adoption">
                     <CDBSidebarMenuItem
                       className="ms-5"
                       icon="th-large"
                       active={currentUrl === "/adoption"}
+                    >
+                      Manage Pets
+                    </CDBSidebarMenuItem>
+                  </LinkContainer>
+                  <LinkContainer to="/adopted">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/adopted"}
                     >
                       Adoption Monitoring
                     </CDBSidebarMenuItem>
@@ -164,32 +164,35 @@ const Sidebar = () => {
               <LinkContainer to="/">
                 <CDBSidebarMenuItem icon="th-large">Home</CDBSidebarMenuItem>
               </LinkContainer>
-              <CDBSidebarMenuItem onClick={togglePetDropdown} icon="th-large">
+              <CDBSidebarMenuItem
+                onClick={togglePetDropdown}
+                icon="th-large"
+                active={currentUrl === "/adopted" || currentUrl === "/adoption"}
+              >
                 Pet Adoption
               </CDBSidebarMenuItem>
               {showPetDropdown && (
                 <div className="dropdown-container">
-                  <LinkContainer to="/adopt">
-                    <CDBSidebarMenuItem
-                      className="ms-5"
-                      icon="th-large"
-                      active={currentUrl === "/adopt"}
-                    >
-                      Manage Pets
-                    </CDBSidebarMenuItem>
-                  </LinkContainer>
                   <LinkContainer to="/adoption">
                     <CDBSidebarMenuItem
                       className="ms-5"
                       icon="th-large"
                       active={currentUrl === "/adoption"}
                     >
+                      Manage Pets
+                    </CDBSidebarMenuItem>
+                  </LinkContainer>
+                  <LinkContainer to="/adopted">
+                    <CDBSidebarMenuItem
+                      className="ms-5"
+                      icon="th-large"
+                      active={currentUrl === "/adopted"}
+                    >
                       Adoption Monitoring
                     </CDBSidebarMenuItem>
                   </LinkContainer>
                 </div>
               )}
-
               <LinkContainer to="/donation">
                 <CDBSidebarMenuItem
                   icon="th-large"

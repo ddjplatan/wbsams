@@ -9,7 +9,7 @@ const EventCard = ({ data }) => {
 
   return (
     <>
-      <Card className="w-75 mx-auto" onClick={handleShow}>
+      <Card className="w-100" onClick={handleShow}>
         <Card.Header>
           <Card.Title className="fw-bold">{data.title}</Card.Title>
         </Card.Header>

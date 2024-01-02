@@ -106,7 +106,7 @@ const ManageUserScreen = (props) => {
     <>
       <div className="d-flex">
         <Sidebar />
-        <Card className="t p-3 d-flex hero-card bg-light w-100">
+        <Card className="p-3 d-flex hero-card bg-light w-100">
           <Row>
             <Col>
               <Card border="default">
