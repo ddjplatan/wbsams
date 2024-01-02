@@ -41,15 +41,15 @@ const Header = () => {
         expand="lg"
         variant="dark"
         collapseOnSelect
-        className="mb-2"
+        className="mb-2 w-100"
       >
-        <Container>
+        <Container fluid>
           <LinkContainer to="/">
             <Image src={CawsLogo} roundedCircle width={75} height={75} />
           </LinkContainer>
           <LinkContainer to="/" className="m-3">
             <Navbar.Brand className="text-white">
-              CDO Animal Welfare Society Inc.
+              CDO Animal Welfare Society
             </Navbar.Brand>
           </LinkContainer>
 
@@ -107,7 +107,7 @@ const Header = () => {
                 <>
                   <LinkContainer to="/login">
                     <Nav.Link>
-                      <FaSignInAlt /> Sign in
+                      <FaSignInAlt /> Log in
                     </Nav.Link>
                   </LinkContainer>
                   <LinkContainer to="/register">

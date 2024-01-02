@@ -54,7 +54,7 @@ const VeterinarianScreen = () => {
               setModalShow(true);
             }}
           >
-            Add Vet
+            Add Veterinarian
           </Button>
           }
           

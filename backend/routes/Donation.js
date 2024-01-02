@@ -21,7 +21,10 @@ const upload = multer({
   // dest: "./public/uploads",
 });
 
-const { convertDonation } = require("../controllers/filesController");
+const {
+  convertDonation,
+  convertDonationToPdf,
+} = require("../controllers/filesController");
 
 const {
   adminValidator,
@@ -50,6 +53,7 @@ router
   .delete(reqReceived, protectedRoute, adminValidator, deleteDonations);
 
 router.route("/toCsv").get(reqReceived, convertDonation);
+router.route("/toPdf").get(reqReceived, convertDonationToPdf);
 
 router
   .route("/:donationId")

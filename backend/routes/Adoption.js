@@ -8,7 +8,12 @@ const {
   staffValidator,
 } = require("../middlewares/utils/validators");
 
-const { convertAdoption } = require("../controllers/filesController");
+const {
+  convertAdoption,
+  convertAdoptionToPdf,
+  convertCheckupsToCsv,
+  convertCheckupsToPdf,
+} = require("../controllers/filesController");
 
 const {
   postAdoption,
@@ -21,6 +26,7 @@ const {
   confirmAdoption,
   getConfirmedAdoptions,
   getCheckups,
+  sendSMSInvite,
 } = require("../controllers/adoptionController");
 
 router
@@ -35,6 +41,8 @@ router.route("/toCsv").get(
   convertAdoption
 );
 
+router.route("/toPdf").get(reqReceived, convertAdoptionToPdf);
+
 router
   .route("/confirmed")
   .get(reqReceived, protectedRoute, staffValidator, getConfirmedAdoptions);
@@ -46,6 +54,16 @@ router
   .delete(reqReceived, protectedRoute, staffValidator, deleteAdoption);
 
 router
+  .route("/:adoptionId/invite")
+  .put(
+    reqReceived,
+    protectedRoute,
+    staffValidator,
+    sendSMSInvite,
+    updateAdoption
+  );
+
+router
   .route("/:adoptionId/confirm")
   .post(reqReceived, protectedRoute, staffValidator, confirmAdoption);
 
@@ -53,4 +71,12 @@ router
   .route("/:adoptionId/checkup")
   .get(reqReceived, protectedRoute, staffValidator, getCheckups)
   .post(reqReceived, protectedRoute, staffValidator, postCheckup);
+
+router
+  .route("/:adoptionId/checkup/toCsv")
+  .get(reqReceived, convertCheckupsToCsv);
+
+router
+  .route("/:adoptionId/checkup/toPdf")
+  .get(reqReceived, convertCheckupsToPdf);
 module.exports = router;

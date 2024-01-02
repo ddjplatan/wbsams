@@ -1,4 +1,4 @@
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import DataTable from "./DataTable";
 import { toast } from "react-toastify";
 
@@ -17,11 +17,11 @@ const SpayAndNeuterTableView = () => {
   const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
 
-  const handleDownloadCsv = async() => {
+  const handleDownload = async(fileType) => {
     try {
-      const res = await axios.get('http://localhost:3001/api/spay-and-neuter/toCsv')
+      const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`)
       if(res.status === 200) {
-        toast.success("Successfully downloaded CSV file")
+        toast.success("Successfully downloaded file")
       }
     } catch (error) {
       console.error(error)
@@ -146,7 +146,10 @@ const SpayAndNeuterTableView = () => {
         <h2 className="fw-bold">Spay and Neuter Requests</h2>
         {
           window.location.pathname!== '/spay-and-neuter' && (
-        <Button onClick={handleDownloadCsv}>Download CSV</Button>
+            <DropdownButton title="Download" variant="primary">
+            <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
+          </DropdownButton>
 
           )
         }

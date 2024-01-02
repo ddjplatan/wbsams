@@ -85,9 +85,9 @@ const RegisterScreen = () => {
     }
   };
   return (
-    <Card className="p-4 mt-3">
+    <Card className="p-2 mt-3">
       <Row>
-        <Col sm={12} lg={8}>
+        <Col sm={11} lg={8}>
           <Card.Img
             src={RegistrationBG}
             height={"100%"}
@@ -96,8 +96,8 @@ const RegisterScreen = () => {
         </Col>
         <Col className="d-flex align-items-center">
           <Card
-            className="w-100"
-            style={{ maxHeight: "80vh", overflowY: "auto" }}
+            className="w-150"
+            style={{ maxHeight: "100vh", overflowY: "auto" }}
           >
             <Card.Body>
               <Card.Title className="d-flex justify-content-center">
@@ -113,13 +113,13 @@ const RegisterScreen = () => {
                             <img
                               src={imagePreview}
                               alt="Image Preview"
-                              height={150}
-                              width={150}
+                              height={120}
+                              width={120}
                             />
                           ) : (
                             <div
                               className="d-flex justify-content-center text-center border border-primary p-2"
-                              style={{ height: "150px", width: "150px" }}
+                              style={{ height: "100px", width: "100px" }}
                             >
                               Upload Image
                             </div>
@@ -276,13 +276,13 @@ const RegisterScreen = () => {
 
                 {isLoading && <Loader />}
 
-                <Button type="submit" variant="primary" className="mt-3">
+                <Button type="submit" variant="primary" className="mt-3 w-100">
                   Sign up
                 </Button>
                 <Row className="py-3">
                   <Col>
                     Already have an account?{" "}
-                    <Link to="/login">Sign in here.</Link>
+                    <Link to="/login">Log in here.</Link>
                   </Col>
                 </Row>
               </Form>

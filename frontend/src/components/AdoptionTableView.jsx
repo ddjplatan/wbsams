@@ -1,4 +1,4 @@
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import DataTable from "./DataTable";
 import { toast } from "react-toastify";
 
@@ -13,11 +13,11 @@ const AdoptionTableView = () => {
   const [adoptionRequests, setAdoptionRequests] = useState([]);
   const [reload, setReload] = useState(false);
 
-  const handleDownloadCsv = async() => {
+  const handleDownload = async(fileType) => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/adoption/toCsv`);
+      const res = await axios.get(`http://localhost:3001/api/adoption/${fileType}`);
       if(res.status === 200) {
-        toast.success("Successfully downloaded csv")
+        toast.success("Successfully downloaded file")
       }
     } catch (error) {
       console.error(error.message)
@@ -49,51 +49,74 @@ const AdoptionTableView = () => {
             createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
             action: (
               <>
-                <Button
-                  variant="success"
-                  size="sm"
-                  className="w-100 my-1"
-                  onClick={async () => {
-                    const data = {
-                      adoptee: adoptionRequest.adoptee,
-                      adopter: adoptionRequest.adopter,
-                    };
+                {adoptionRequest.status === "Pending" && (
+                  <Button
+                    variant="info"
+                    size="sm"
+                    className="w-100 my-1"
+                    onClick={async () => {
+                      const updatedRequest = {
+                        ...adoptionRequest,
+                        status: "Invited",
+                      };
 
-                    const response = await axios.post(
-                      `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
-                      data,
-                      { headers }
-                    );
+                      const updateResponse = await axios.put(
+                        `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
+                        updatedRequest,
+                        { headers }
+                      );
 
-                    if (response.status === 200) {
-                      toast.success("Adoption request has been approved");
-                      setReload(!reload);
-                    }
-                  }}
-                >
-                  Approve
-                </Button>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  className="w-100 my-1"
-                  onClick={async () => {
-                    const headers = {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    };
-                    const response = await axios.delete(
-                      `http://localhost:3001/api/adoption/${adoptionRequest._id}`,
-                      { headers }
-                    );
-                    if (response.status === 200) {
-                      toast.error("Adoption request has been declined");
-                      setReload(!reload);
-                    }
-                  }}
-                >
-                  Reject
-                </Button>
+                      if (updateResponse.status === 200) {
+                        toast.success("Successfully invited for onsite evaluation");
+                        setReload(!reload);
+                      }
+                    }}
+                  >
+                    Invite
+                  </Button>
+                )}
+
+                {adoptionRequest.status === "Invited" && (
+                  <>
+                    <Button
+                      variant="success"
+                      size="sm"
+                      className="w-100 my-1"
+                      onClick={async () => {
+                        const data = {
+                          adoptee: adoptionRequest.adoptee,
+                          adopter: adoptionRequest.adopter,
+                        };
+                        await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data,{headers}).then((res)=>{
+                          if(res.status===200){
+                            toast.success("Approved adoption request")
+                            setReload(!reload)
+                          }
+                        })
+                      }}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      className="w-100 my-1"
+                      onClick={async () => {
+                        await axios.delete(`http://localhost:3001/api/adoption/${adoptionRequest._id}/`,{headers}).then((res)=>{
+                          if(res.status===200){
+                            setReload(!reload)
+                          }
+                        })
+                      }}
+                    >
+                      Decline
+                    </Button>
+                  </>
+                )}
+
+                {adoptionRequest.status === "Approved" && (
+                  <span>Approved</span>
+                )}
               </>
             ),
           })
@@ -159,9 +182,10 @@ const AdoptionTableView = () => {
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Adoption Requests</h2>
-        <Button onClick={handleDownloadCsv}>
-          Download CSV
-        </Button>
+        <DropdownButton title="Download" variant="primary">
+    <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
+  </DropdownButton>
       </Card.Header>
       <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
         <DataTable data={adoptionRequestList} />

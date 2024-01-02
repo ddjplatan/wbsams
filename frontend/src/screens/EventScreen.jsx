@@ -49,7 +49,7 @@ const EventScreen = () => {
       <Sidebar />
       <Card className="p-3 d-flex hero-card bg-light w-100">
         <Card.Header className="d-flex justify-content-between align-items-center">
-          <h4 className="fw-bold">Events</h4>
+          <h4 className="fw-bold">Activity</h4>
           {
             userType!=='user' &&
             <Button
@@ -58,7 +58,7 @@ const EventScreen = () => {
               setModalShow(true);
             }}
           >
-            Add an Event
+            Add an Activity
           </Button>
           }
           

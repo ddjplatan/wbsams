@@ -11,7 +11,7 @@ const EventCard = ({ data }) => {
     <>
       <Card className="w-75 mx-auto" onClick={handleShow}>
         <Card.Header>
-          <Card.Title>{data.title}</Card.Title>
+          <Card.Title className="fw-bold">{data.title}</Card.Title>
         </Card.Header>
         <Card.Body>
           <Row>

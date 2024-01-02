@@ -66,11 +66,11 @@ const NewsScreen = () => {
         <Card.Body>
           <Row>
             <div
-              className="p-2"
+              className="p-4"
             >
               {events.map((event, index) => (
                 <Row key={index}>
-                  <Col className="m-2">
+                  <Col className="m-3">
                     <NewsCard data={event} />
                   </Col>
                 </Row>

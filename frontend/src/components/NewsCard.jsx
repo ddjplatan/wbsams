@@ -8,24 +8,31 @@ const NewsCard = ({ data }) => {
 
   return (
     <>
-      <Card className="w-50 mx-auto" onClick={handleShow}>
-        <Card.Header>
-          <Card.Title>{data.category}</Card.Title>
+      <Card className="w-75 mx-auto" onClick={handleShow}>
+        <Card.Header >
+        <Card.Title className="fw-bold" >{data.title}</Card.Title>
         </Card.Header>
-        <Card.Title>{data.title}</Card.Title>
-
         <Card.Body>
-        <Image
+          <Row>
+            <Col sm={4}>
+              <Image
               src={`http://localhost:3001/${data.img}`}
+              style={{ opacity: "80%", maxHeight: "250px" }}
               alt="News Image"
-              className="mb-3 img-fluid"
+              className="mb-3"
+              width={350}
               rounded
               fluid
             />
-          <Card.Text className="fw-bold m-0">
-            Details: <span className="text-muted">{data.details}</span>
-          </Card.Text>
-        </Card.Body>
+          </Col>
+          <Col>
+          <Card.Text className="fw-bold m-0">Details: </Card.Text>
+            <Card.Text>
+              <span className="text-muted">{data.details}</span>
+            </Card.Text>
+         </Col>
+        </Row>
+       </Card.Body>
       </Card>
 
       <NewsModal

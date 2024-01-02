@@ -58,7 +58,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
     <Modal size="lg" show={show} onHide={onHide} centered>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Spay/Neuter Registration</Modal.Title>
+          <Modal.Title>Spay and Neuter Registration</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
@@ -134,7 +134,6 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
                 <option value="">Select gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-                <option value="Other">Other</option>
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="petDescription">
