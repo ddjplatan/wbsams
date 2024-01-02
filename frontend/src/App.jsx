@@ -9,7 +9,7 @@ const App = () => {
     <>
       <Header />
       <ToastContainer />
-      <Container className="d-flex justify-content-center m2">
+      <Container fluid className="d-flex justify-content-center">
       <Outlet />
       </Container>
     </>
