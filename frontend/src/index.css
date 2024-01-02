@@ -16,7 +16,6 @@ body {
 
 .custom-sticky-sidebar {
   top: 0 !important; 
-  height: 100vh !important;
   overflow-y: auto !important;
   position: sticky !important;
 }

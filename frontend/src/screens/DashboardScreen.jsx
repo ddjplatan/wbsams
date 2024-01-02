@@ -115,7 +115,7 @@ const DashboardScreen = () => {
     <div className="d-flex">
       <Sidebar />
       <Card
-        className="d-flex w-100 border-0"
+        className="d-flex border-0"
         style={{ backgroundColor: "#93B8C1" }}
       >
         {/* ADMIN */}

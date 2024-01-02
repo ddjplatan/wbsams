@@ -46,7 +46,7 @@ const NewsScreen = () => {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Card className="d-flex bg-light w-100">
+      <Card className="d-flex bg-light" style={{ width: "97vh" }}>
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">News</h4>
           {userType !== "user" && (
@@ -61,13 +61,13 @@ const NewsScreen = () => {
           )}
         </Card.Header>
         <Card.Body>
-            {events.map((event, index) => (
-              <Row key={index}>
-                <Col className="m-3">
-                  <NewsCard data={event} />
-                </Col>
-              </Row>
-            ))}
+          {events.map((event, index) => (
+            <Row key={index}>
+              <Col className="m-3">
+                <NewsCard data={event} />
+              </Col>
+            </Row>
+          ))}
         </Card.Body>
       </Card>
       <NewsModal

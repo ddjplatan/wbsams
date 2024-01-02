@@ -44,7 +44,7 @@ const VolunteerScreen = () => {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Card className="p-3 d-flex bg-light w-100">
+      <Card className="p-3 d-flex bg-light" style={{ minWidth: "97vh" }}>
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">Volunteers</h4>
           {userType !== "user" && (
@@ -59,13 +59,13 @@ const VolunteerScreen = () => {
           )}
         </Card.Header>
         <Card.Body>
-            {volunteers.map((volunteer, index) => (
-              <Row key={index}>
-                <Col className="m-3">
-                  <VolunteerCard data={volunteer} />
-                </Col>
-              </Row>
-            ))}
+          {volunteers.map((volunteer, index) => (
+            <Row key={index}>
+              <Col md={4} className="m-3">
+                <VolunteerCard data={volunteer} />
+              </Col>
+            </Row>
+          ))}
         </Card.Body>
       </Card>
       <VolunteerModal

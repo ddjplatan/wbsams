@@ -58,11 +58,13 @@ const DonationScreen = () => {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Card className="p-3 d-flex hero-card bg-light w-100">
+      <Card
+        className="p-3 d-flex hero-card bg-light" style={{ width: "97vh" }}
+      >
         <Card.Header className="d-flex justify-content-between">
-          <div> 
+          <div>
             <h3>
-               Acknowledgements
+              Acknowledgements
               <BsFillHandThumbsUpFill className="ms-2" size={25} />
             </h3>
           </div>
@@ -107,25 +109,30 @@ const DonationScreen = () => {
                 rounded
                 height={70}
                 width={70}
-                 />
+              />
             </Col>
           </Row>
-        
+
           <Row width={300} className="mb-2 p-1">
             <Col className="d-flex justify-content-center">
-              <p className="fw-bold">0935 8008 047 <br/>
-              Israel Emata</p>
+              <p className="fw-bold">
+                0935 8008 047 <br />
+                Israel Emata
+              </p>
             </Col>
             <Col className="d-flex justify-content-center">
-              <p className="fw-bold">0935 8008 047 <br/>
-              Israel Emata</p>
+              <p className="fw-bold">
+                0935 8008 047 <br />
+                Israel Emata
+              </p>
             </Col>
             <Col className="d-flex justify-content-center">
-              <p className="fw-bold">Visit CAWS Office <br/>
-              Carmen CDO City</p>
+              <p className="fw-bold">
+                Visit CAWS Office <br />
+                Carmen CDO City
+              </p>
             </Col>
           </Row>
-          
 
           <Row>
             {donations.map((donation, index) => (
