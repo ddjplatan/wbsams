@@ -46,7 +46,7 @@ const NewsScreen = () => {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Card className="d-flex bg-light" style={{ width: "97vh" }}>
+      <Card className="d-flex bg-light" style={{ minWidth: "140vh" }}>
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">News</h4>
           {userType !== "user" && (
