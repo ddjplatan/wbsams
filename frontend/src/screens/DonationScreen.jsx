@@ -59,7 +59,8 @@ const DonationScreen = () => {
     <div className="d-flex">
       <Sidebar />
       <Card
-        className="p-3 d-flex hero-card bg-light" style={{ width: "97vh" }}
+        className="p-3 d-flex hero-card bg-light w-100" 
+        // style={{ width: "97vh" }}
       >
         <Card.Header className="d-flex justify-content-between">
           <div>
