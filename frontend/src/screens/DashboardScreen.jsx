@@ -214,7 +214,95 @@ const DashboardScreen = () => {
         {/* STAFF */}
         {userType === "staff" && (
           <>
-            <Row
+
+
+            <Row className="mb-4">
+              <Col lg={8}>
+                <Card border="default" className="h-100">
+                  <Card.Header style={{ fontWeight: 'bold' }}>Hi! Welcome to CDO Animal Welfare Society.</Card.Header>
+                  <Card.Body>
+                  <Image
+                      src={StaffDashboardImg}
+                      alt="Image"
+                      fluid
+                      // style={{
+                      //   objectFit: 'cover', 
+                      //   width: '100%',     
+                      //   height: '100%', 
+                      // }}
+                    />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col lg={4}>
+                <Card className="h-100">
+                  <Card.Img variant="top" src={DashboardImg} />
+                  <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                      <Button
+                        onClick={() => {
+                          setTableView("Volunteer");
+                        }}
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Volunteer
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button
+                        onClick={() => {
+                          setTableView("Donation");
+                        }}
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Donation
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button
+                        onClick={() => {
+                          setTableView("Adoption");
+                        }}
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Adoption
+                      </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button
+                        onClick={() => {
+                          setTableView("Spay and Neuter");
+                        }}
+                        variant="info"
+                        className="w-100 text-white fw-bold"
+                      >
+                        Spay and Neuter
+                      </Button>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {tableView === "Volunteer" ? (
+                  <VolunteerTableView reload={reload} setReload={setReload} />
+                ) : tableView === "Donation" ? (
+                  <DonationTableView reload={reload} setReload={setReload} />
+                ) : tableView === "Spay and Neuter" ? (
+                  <SpayAndNeuterTableView
+                    reload={reload}
+                    setReload={setReload}
+                  />
+                ) : (
+                  <AdoptionTableView reload={reload} setReload={setReload} />
+                )}
+              </Col>
+            </Row>
+            {/* <Row
               className="p-2 mb-4 text-center d-flex flex-column align-items-center justify-content-end"
               style={{
                 backgroundImage: `url(${StaffDashboardImg})`,
@@ -242,7 +330,7 @@ const DashboardScreen = () => {
                   <AdoptionTableView reload={reload} setReload={setReload} />
                 )}
               </Col>
-            </Row>
+            </Row> */}
           </>
         )}
         {/* USER */}
