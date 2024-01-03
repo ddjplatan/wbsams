@@ -76,6 +76,7 @@ const AdoptScreen = (props) => {
     <>
       <div className="d-flex overflow-auto">
         <Sidebar />
+        
         <Card className="d-flex bg-light w-100" >
           <Card.Header className="d-flex justify-content-between">
             <h4 className="fw-bold">Manage Pets</h4>

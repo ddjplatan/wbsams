@@ -40,7 +40,7 @@ const AdoptionMonitoringScreen = () => {
   return (
     <div className="d-flex overflow-auto">
       <Sidebar />
-      <Card className="d-flex bg-light w-100" 
+      <Card className="d-flex bg-light" 
           style={{ minWidth: "140vh",
           //  maxWidth: "100vh"
            }}>

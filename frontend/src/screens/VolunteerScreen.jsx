@@ -54,18 +54,21 @@ const VolunteerScreen = () => {
                 setModalShow(true);
               }}
             >
+
               Add Volunteer
             </Button>
           )}
         </Card.Header>
-        <Card.Body>
-          {volunteers.map((volunteer, index) => (
-            <Row key={index}>
-              <Col md={4} className="m-3">
+        <Card.Body 
+            className="flex-nowrap"
+            style={{ overflowY: "auto" }}>
+              <Row>
+          {volunteers.map((volunteer, index) => (   
+              <Col sm={4} key={index} className="p-2">
                 <VolunteerCard data={volunteer} />
               </Col>
-            </Row>
           ))}
+          </Row>
         </Card.Body>
       </Card>
       <VolunteerModal
