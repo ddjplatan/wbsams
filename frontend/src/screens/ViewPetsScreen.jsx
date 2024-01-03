@@ -61,7 +61,7 @@ const ViewPetsScreen = () => {
     <>
       <div className="d-flex">
         <Sidebar />
-        <Card className="p-3 d-flex hero-card bg-light w-100">
+        <Card className="p-3 d-flex hero-card bg-light w-100" style={{ minWidth: "135vh" }}>
           <Card.Header className="d-flex justify-content-center">
             <h4 className="fw-bold">Adopt a Pet</h4>
             <BsFillHeartFill className="ms-2" size={25} />
