@@ -161,7 +161,7 @@ const Sidebar = () => {
             </>
           ) : userInfo.user.userType === "staff" ? (
             <>
-              <LinkContainer to="/">
+              <LinkContainer to="/dashboard">
                 <CDBSidebarMenuItem icon="th-large">Home</CDBSidebarMenuItem>
               </LinkContainer>
               <CDBSidebarMenuItem
