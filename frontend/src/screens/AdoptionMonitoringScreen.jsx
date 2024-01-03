@@ -41,7 +41,9 @@ const AdoptionMonitoringScreen = () => {
     <div className="d-flex overflow-auto">
       <Sidebar />
       <Card className="d-flex bg-light w-100" 
-          style={{ minWidth: "100vh", maxWidth: "100vh"}}>
+          style={{ minWidth: "140vh",
+          //  maxWidth: "100vh"
+           }}>
         <Card.Header className="d-flex justify-content-between ">
           <h4 className="fw-bold">Monitor Adopted Pets</h4>
         </Card.Header>
