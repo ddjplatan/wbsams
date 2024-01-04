@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const protectedRoute = require("../middlewares/auth");
 const reqReceived = require("../middlewares/reqReceived");
+const cloudinary = require("../config/cloudinary");
 const multer = require("multer");
 const path = require("path");
 const storage = multer.diskStorage({
@@ -47,6 +48,10 @@ router
     protectedRoute,
     staffValidator,
     upload.single("img"),
+    async (req, res, next) => {
+      const upload = await cloudinary.uploader.upload(req.file.path);
+      next();
+    },
     postDonation
   )
   .get(reqReceived, getDonations)
