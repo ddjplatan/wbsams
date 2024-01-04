@@ -1,10 +1,16 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import {useSelector} from 'react-redux';
 import NewsModal from "./NewsModal";
 
 const NewsCard = ({ data }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType){
+      setShowModal(true)
+    }
+  };
 
   return (
     <>
