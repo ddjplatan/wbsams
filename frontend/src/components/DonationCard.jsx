@@ -1,10 +1,16 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import DonationModal from "./DonationModal";
 
 const DonationCard = ({ data, toreload }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType==='admin'){
+    setShowModal(true)
+    }
+  };
 
   return (
     <>

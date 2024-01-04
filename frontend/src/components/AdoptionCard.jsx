@@ -16,7 +16,11 @@ const AdoptionCard = ({ data }) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType==='admin'){
+    setShowModal(true)
+    }
+  };
   const handleFormSubmit = async(formData) => {
         // console.log('Form Data:', formData);
         const response = await axios.post(`http://localhost:3001/api/adoption/${data._id}/checkup`, formData, {headers})
