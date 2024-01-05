@@ -4,9 +4,9 @@ const News = require("../models/News");
 const postNews = async (req, res, next) => {
   const postedBy = req.user._id;
   const { title, details } = req.body;
-  const img = req.file
-    ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
-    : "defaults/default-profile.png";
+  const img = req.upload
+    ? req.upload.secure_url
+    : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704408190/bla6dbcsi1gvxslngj6x.png";
 
   try {
     await News.create({

@@ -47,7 +47,12 @@ router
     protectedRoute,
     upload.single("image"),
     async (req, res, next) => {
-      const upload = await cloudinary.uploader.upload(req.file.path);
+      if (req.file) {
+        const upload = await cloudinary.uploader.upload(req.file.path);
+        req.upload = upload;
+      } else {
+        req.upload === null;
+      }
       next();
     },
     createPet
@@ -70,7 +75,12 @@ router
     staffValidator,
     upload.single("image"),
     async (req, res, next) => {
-      const upload = await cloudinary.uploader.upload(req.file.path);
+      if (req.file) {
+        const upload = await cloudinary.uploader.upload(req.file.path);
+        req.upload = upload;
+      } else {
+        req.upload === null;
+      }
       next();
     },
     updatePet

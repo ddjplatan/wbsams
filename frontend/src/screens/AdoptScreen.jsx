@@ -55,7 +55,7 @@ const AdoptScreen = (props) => {
           breed: pet.breed,
           description: pet.description,
           adopted: pet.isAdopted ? "No" : "Yes",
-          imgPath: `http://localhost:3001/${pet.imgPath}`,
+          imgPath: `${pet.imgPath}`,
         }));
 
         // Update the state with all petDetails objects after the map loop

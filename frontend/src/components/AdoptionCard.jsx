@@ -36,7 +36,7 @@ const AdoptionCard = ({ data }) => {
         <Card.Img
           variant="top"
           height={300}
-          src={`http://localhost:3001/${data.adoptee.imgPath}`}
+          src={`${data.adoptee.imgPath}`}
           style={{ objectFit: "cover" }}
         />
         <Card.Body>

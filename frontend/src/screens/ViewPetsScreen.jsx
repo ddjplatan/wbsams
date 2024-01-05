@@ -40,7 +40,7 @@ const ViewPetsScreen = () => {
           .map((pet) => {
             return {
               ...pet,
-              imgPath: `http://localhost:3001/${pet.imgPath}`,
+              imgPath: `${pet.imgPath}`,
             };
           });
 

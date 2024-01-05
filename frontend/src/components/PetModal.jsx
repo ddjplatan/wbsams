@@ -259,7 +259,7 @@ const PetModal = (props) => {
                   src={
                     data.imgPath
                       ? `${data.imgPath}`
-                      : "http://localhost:3001/defaults/default-questionmark.jpg"
+                      : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
                   }
                   alt="Preview"
                   rounded
@@ -268,7 +268,7 @@ const PetModal = (props) => {
                 />
               ) : (
                 <Image
-                  src="http://localhost:3001/defaults/default-questionmark.jpg"
+                  src="https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
                   rounded
                   height={350}
                   width={350}

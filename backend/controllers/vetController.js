@@ -4,9 +4,9 @@ const postVet = async (req, res, next) => {
   const { email, firstName, lastName, address, phoneNumber, workExperience } =
     req.body;
 
-  const img = req.file
-    ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
-    : "defaults/default-profile.png";
+  const img = req.upload
+    ? req.upload.secure_url
+    : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704408190/bla6dbcsi1gvxslngj6x.png";
 
   try {
     await Vet.create({
@@ -53,13 +53,9 @@ const updateVet = async (req, res, next) => {
   try {
     let updateFields = { ...req.body };
 
-    if (req.file) {
-      updateFields.img = req.file.path
-        .replace(/backend[\/\\]public[\/\\]/, "")
-        .replace(/\\/g, "/");
+    if (req.upload) {
+      updateFields.img = req.upload.secure_url;
     }
-
-    console.log(updateFields);
 
     const result = await Vet.findByIdAndUpdate(
       req.params.vetId,

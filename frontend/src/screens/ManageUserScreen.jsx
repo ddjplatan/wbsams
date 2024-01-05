@@ -48,7 +48,7 @@ const ManageUserScreen = (props) => {
               <Image
                 height={200}
                 width={200}
-                src={`http://localhost:3001/${user.img}`}
+                src={`${user.img}`}
               />
             </div>
           ),

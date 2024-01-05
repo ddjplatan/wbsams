@@ -23,7 +23,7 @@ const EventCard = ({ data }) => {
           <Row>
             <Col sm={4}>
               <Image
-                src={`http://localhost:3001/${data.img}`}
+                src={`${data.img}`}
                 style={{ opacity: "80%", maxHeight: "200px" }}
                 width={300}
                 alt="Event Image"

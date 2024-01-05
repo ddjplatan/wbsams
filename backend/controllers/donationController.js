@@ -4,9 +4,9 @@ const postDonation = async (req, res, next) => {
   const { donor, donationType, address, remarks } = req.body;
   const date = new Date(Date.now());
 
-  const img = req.file
-    ? req.file.path.replace(/backend[\/\\]public[\/\\]/, "").replace(/\\/g, "/")
-    : "defaults/default-profile.png";
+  const img = req.upload
+    ? req.upload.secure_url
+    : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704408190/bla6dbcsi1gvxslngj6x.png";
 
   try {
     await Donation.create({
@@ -17,7 +17,6 @@ const postDonation = async (req, res, next) => {
       remarks,
       img,
     });
-
     res
       .status(201)
       .setHeader("Content-Type", "application/json")
