@@ -51,9 +51,9 @@ const NewsModal = (props) => {
       await axios.post(url, formData, { headers }).then((response) => {
         setNewsData({
           _id: "",
-    title: "",
-    details: "",
-    img: null,
+          title: "",
+          details: "",
+          img: null,
         });
         onHide();
         toast.success("Successfully added news.");

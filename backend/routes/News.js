@@ -42,6 +42,7 @@ router
     reqReceived,
     protectedRoute,
     staffValidator,
+    upload.single("img"),
     async (req, res, next) => {
       if (req.file) {
         const upload = await cloudinary.uploader.upload(req.file.path);
