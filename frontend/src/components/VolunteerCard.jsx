@@ -23,7 +23,7 @@ const VolunteerCard = ({ data }) => {
   </Card.Header>
   <Card.Body>
     <Image
-      src={`http://localhost:3001/${data.img}`}
+      src={`${data.img}`}
       alt="Volunteer Image"
       className="mb-3 img-fluid"
       rounded

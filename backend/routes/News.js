@@ -42,9 +42,13 @@ router
     reqReceived,
     protectedRoute,
     staffValidator,
-    upload.single("img"),
     async (req, res, next) => {
-      const upload = await cloudinary.uploader.upload(req.file.path);
+      if (req.file) {
+        const upload = await cloudinary.uploader.upload(req.file.path);
+        req.upload = upload;
+      } else {
+        req.upload === null;
+      }
       next();
     },
     postNews

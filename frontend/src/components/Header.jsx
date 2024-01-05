@@ -81,7 +81,7 @@ const Header = () => {
                       <Col>
                         <div className="d-flex justify-content-center">
                           <Image
-                            src={`${baseUrl}/${userInfo.user.img}`}
+                            src={`${userInfo.user.img}`}
                             rounded
                             width={100}
                             height={100}

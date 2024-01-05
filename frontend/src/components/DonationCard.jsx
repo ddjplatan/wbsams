@@ -19,7 +19,7 @@ const DonationCard = ({ data, toreload }) => {
           <Card.Title>{data.name}</Card.Title>
           {data.img && (
             <Card.Img
-                    src={`http://localhost:3001/${data.img}`}
+                    src={`${data.img}`}
                     alt="Image"
                     height={300}
                     // width={300}

@@ -207,11 +207,9 @@ const createUser = async (req, res, next) => {
       userType,
       address,
     } = req.body;
-    const imgPath = req.file
-      ? req.file.path
-          .replace(/backend[\/\\]public[\/\\]/, "")
-          .replace(/\\/g, "/")
-      : "defaults/default-profile.png";
+    const imgPath = req.upload
+      ? req.upload.secure_url
+      : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704408190/bla6dbcsi1gvxslngj6x.png";
     User.create({
       email,
       password,
