@@ -35,10 +35,16 @@ const AdoptionCard = ({ data }) => {
       <Card>
         <Card.Img
           variant="top"
-          maxHeight="50vh"
+          height={300}
           src={`${data.adoptee.imgPath}`}
           style={{ objectFit: "cover" }}
         />
+        {/* <Image
+          src={`${data.adoptee.imgPath}`}
+          alt="Pet Image"
+          className="mb-3 img-fluid"
+          rounded
+    /> */}
         <Card.Body>
           <Card.Title>{data.adoptee.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">

@@ -57,7 +57,7 @@ const DonationScreen = () => {
   }, [showModal]);
 
   return (
-    <div className="d-flex overflow-auto">
+    <div className="d-flex overflow-auto w-100">
       <Sidebar />
       <Card
         className="p-3 d-flex hero-card bg-light w-100" 

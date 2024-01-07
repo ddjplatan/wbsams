@@ -22,12 +22,18 @@ const VolunteerCard = ({ data }) => {
     <Card.Title className="fw-bold">{data.firstName} {data.lastName}</Card.Title>
   </Card.Header>
   <Card.Body>
-    <Image
+    {/* <Image
       src={`${data.img}`}
       alt="Volunteer Image"
       className="mb-3 img-fluid"
       rounded
-    />
+    /> */}
+    <Card.Img
+          variant="top"
+          height={300}
+          src={`${data.img}`}
+          style={{ objectFit: "cover" }}
+        />
     <Card.Text className="fw-bold m-0">
       Address: <span className="text-muted">{data.address}</span>
     </Card.Text>

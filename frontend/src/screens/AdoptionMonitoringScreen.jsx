@@ -38,22 +38,26 @@ const AdoptionMonitoringScreen = () => {
   }, []);
 
   return (
-    <div className="d-flex overflow-auto">
+    <div className="d-flex overflow-auto w-100">
       <Sidebar />
-      <Card className="d-flex bg-light" style={{ width: "100vh" }}>
+      {/* <Card className="d-flex bg-light " style={{minWidth: '100%'}} > */}
+      <Card className="d-flex border-0 w-100" >
+
         <Card.Header className="d-flex justify-content-between ">
           <h4 className="fw-bold">Monitor Adopted Pets</h4>
         </Card.Header>
 
         <Card.Body
           className="flex-nowrap"
-          style={{ maxHeight: "100vh", overflowY: "auto" }}
+          style={{overflowY: "auto" }}
         >
+          <Row>
           {adoptions.map((adoption, index) => (
             <Col sm={4} key={index} className="p-2">
               <AdoptionCard data={adoption} />
             </Col>
           ))}
+          </Row>
         </Card.Body>
       </Card>
     </div>

@@ -74,7 +74,7 @@ const AdoptScreen = (props) => {
 
   return (
     <>
-      <div className="d-flex overflow-auto">
+      <div className="d-flex overflow-auto w-100">
         <Sidebar />
         
         <Card className="d-flex bg-light w-100" >
