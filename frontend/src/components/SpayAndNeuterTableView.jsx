@@ -17,16 +17,53 @@ const SpayAndNeuterTableView = () => {
   const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
 
-  const handleDownload = async(fileType) => {
+  // const handleDownload = async(fileType) => {
+  //   try {
+  //     const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`)
+  //     if(res.status === 200) {
+  //       toast.success("Successfully downloaded file")
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
+
+  const handleDownload = async (fileType) => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`)
-      if(res.status === 200) {
-        toast.success("Successfully downloaded file")
+      let mimeType;
+      let b;
+      const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`, {
+        responseType: 'blob', // Specify the response type as 'blob' for binary data
+      });
+
+      if (fileType === 'toPdf') {
+        mimeType = 'application/pdf';
+        b = 'pdf';
+      } else if (fileType === 'toCsv') {
+        mimeType = 'text/csv';
+        b = 'csv';
+      }
+      if (res.status === 200) {
+        // Create a Blob from the binary data and create a download link
+        const blob = new Blob([res.data], { type: mimeType });
+        const url = window.URL.createObjectURL(blob);
+  
+        // Create an anchor element and trigger a click event to start the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `SpayAndNeuter-${Date.now()}.${b}`;
+        document.body.appendChild(a);
+        a.click();
+  
+        // Remove the anchor element from the DOM
+        document.body.removeChild(a);
+  
+        // toast.success("Successfully downloaded file");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error.message);
     }
-  }
+  };
   const getSpayAndNeuters = async () => {
     try {
       const url = "http://localhost:3001/api/spay-and-neuter";

@@ -53,8 +53,21 @@ const convertAdoption = async (req, res, next) => {
     }));
 
     await csvWriter.writeRecords(records).then(() => {
-      console.log("CSV file generated successfully");
-      res.status(200).send("CSV file generated successfully");
+      res.download(csvFilePath, `Adoptions-${currentDate}.csv`, (err) => {
+        if (err) {
+          console.error("Error sending CSV:", err);
+          res.status(500).send("Internal Server Error");
+        } else {
+          // Optionally, you can delete the generated CSV file after it's sent
+          fs.unlink(csvFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting CSV file:", unlinkErr);
+            } else {
+              console.log("CSV file deleted successfully");
+            }
+          });
+        }
+      });
     });
   } catch (error) {
     console.error("Error converting to CSV:", error);
@@ -90,8 +103,20 @@ const convertAdoptionToPdf = async (req, res, next) => {
 
     await browser.close();
 
-    console.log("PDF file generated successfully");
-    res.status(200).send("PDF file generated successfully");
+    res.download(pdfFilePath, `Adoptions-${currentDate}.pdf`, (err) => {
+      if (err) {
+        console.error("Error sending PDF:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        fs.unlink(pdfFilePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting PDF file:", unlinkErr);
+          } else {
+            console.log("PDF file deleted successfully");
+          }
+        });
+      }
+    });
   } catch (error) {
     console.error("Error converting to PDF:", error);
     res.status(500).send("Internal Server Error");
@@ -131,7 +156,21 @@ const convertPets = async (req, res, next) => {
     }));
 
     await csvWriter.writeRecords(records).then(() => {
-      res.status(200).send("CSV file generated successfully");
+      res.download(csvFilePath, `Pets-${currentDate}.csv`, (err) => {
+        if (err) {
+          console.error("Error sending CSV:", err);
+          res.status(500).send("Internal Server Error");
+        } else {
+          // Optionally, you can delete the generated CSV file after it's sent
+          fs.unlink(csvFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting CSV file:", unlinkErr);
+            } else {
+              console.log("CSV file deleted successfully");
+            }
+          });
+        }
+      });
     });
   } catch (error) {
     console.error("Error converting to CSV:", error);
@@ -171,8 +210,21 @@ const convertDonation = async (req, res, next) => {
     }));
 
     await csvWriter.writeRecords(records).then(() => {
-      console.log("CSV file generated successfully");
-      res.status(200).send("CSV file generated successfully");
+      res.download(csvFilePath, `Donations-${currentDate}.csv`, (err) => {
+        if (err) {
+          console.error("Error sending CSV:", err);
+          res.status(500).send("Internal Server Error");
+        } else {
+          // Optionally, you can delete the generated CSV file after it's sent
+          fs.unlink(csvFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting CSV file:", unlinkErr);
+            } else {
+              console.log("CSV file deleted successfully");
+            }
+          });
+        }
+      });
     });
   } catch (error) {
     console.error("Error converting to CSV:", error);
@@ -207,8 +259,20 @@ const convertDonationToPdf = async (req, res, next) => {
 
     await browser.close();
 
-    console.log("PDF file generated successfully");
-    res.status(200).send("PDF file generated successfully");
+    res.download(pdfFilePath, `Donations-${currentDate}.pdf`, (err) => {
+      if (err) {
+        console.error("Error sending PDF:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        fs.unlink(pdfFilePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting PDF file:", unlinkErr);
+          } else {
+            console.log("PDF file deleted successfully");
+          }
+        });
+      }
+    });
   } catch (error) {
     console.error("Error converting to PDF:", error);
     res.status(500).send("Internal Server Error");
@@ -251,8 +315,21 @@ const convertSpayAndNeuter = async (req, res, next) => {
     }));
 
     await csvWriter.writeRecords(records).then(() => {
-      console.log("CSV file generated successfully");
-      res.status(200).send("CSV file generated successfully");
+      res.download(csvFilePath, `SpayAndNeuter-${currentDate}.csv`, (err) => {
+        if (err) {
+          console.error("Error sending CSV:", err);
+          res.status(500).send("Internal Server Error");
+        } else {
+          // Optionally, you can delete the generated CSV file after it's sent
+          fs.unlink(csvFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting CSV file:", unlinkErr);
+            } else {
+              console.log("CSV file deleted successfully");
+            }
+          });
+        }
+      });
     });
   } catch (error) {
     console.error("Error converting to CSV:", error);
@@ -286,8 +363,20 @@ const convertSpayAndNeuterToPdf = async (req, res, next) => {
 
     await browser.close();
 
-    console.log("PDF file generated successfully");
-    res.status(200).send("PDF file generated successfully");
+    res.download(pdfFilePath, `SpayAndNeuter-${currentDate}.pdf`, (err) => {
+      if (err) {
+        console.error("Error sending PDF:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        fs.unlink(pdfFilePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting PDF file:", unlinkErr);
+          } else {
+            console.log("PDF file deleted successfully");
+          }
+        });
+      }
+    });
   } catch (error) {
     console.error("Error converting to PDF:", error);
     res.status(500).send("Internal Server Error");
@@ -328,8 +417,21 @@ const convertVolunteer = async (req, res, next) => {
     }));
 
     await csvWriter.writeRecords(records).then(() => {
-      console.log("CSV file generated successfully");
-      res.status(200).send("CSV file generated successfully");
+      res.download(csvFilePath, `Volunteers-${currentDate}.csv`, (err) => {
+        if (err) {
+          console.error("Error sending CSV:", err);
+          res.status(500).send("Internal Server Error");
+        } else {
+          // Optionally, you can delete the generated CSV file after it's sent
+          fs.unlink(csvFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting CSV file:", unlinkErr);
+            } else {
+              console.log("CSV file deleted successfully");
+            }
+          });
+        }
+      });
     });
   } catch (error) {
     console.error("Error converting to CSV:", error);
@@ -363,8 +465,20 @@ const convertVolunteerToPdf = async (req, res, next) => {
 
     await browser.close();
 
-    console.log("PDF file generated successfully");
-    res.status(200).send("PDF file generated successfully");
+    res.download(pdfFilePath, `Volunteer-${currentDate}.pdf`, (err) => {
+      if (err) {
+        console.error("Error sending PDF:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        fs.unlink(pdfFilePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting PDF file:", unlinkErr);
+          } else {
+            console.log("PDF file deleted successfully");
+          }
+        });
+      }
+    });
   } catch (error) {
     console.error("Error converting to PDF:", error);
     res.status(500).send("Internal Server Error");
@@ -422,10 +536,23 @@ const convertCheckupsToCsv = async (req, res, next) => {
       remarks: checkup.remarks,
     }));
 
-    await csvWriter.writeRecords(records);
-
-    console.log("CSV file generated successfully:", csvFilePath);
-    res.status(200).send("CSV file generated successfully");
+    await csvWriter.writeRecords(records).then(() => {
+      res.download(csvFilePath, `Checkups-${currentDate}.csv`, (err) => {
+        if (err) {
+          console.error("Error sending CSV:", err);
+          res.status(500).send("Internal Server Error");
+        } else {
+          // Optionally, you can delete the generated CSV file after it's sent
+          fs.unlink(csvFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting CSV file:", unlinkErr);
+            } else {
+              console.log("CSV file deleted successfully");
+            }
+          });
+        }
+      });
+    });
   } catch (error) {
     console.error("Error generating CSV file:", error);
     throw error; // Rethrow the error to be handled by the calling code
@@ -489,7 +616,20 @@ const convertCheckupsToPdf = async (req, res, next) => {
 
     doc.end();
 
-    res.status(200).send("PDF file generated successfully");
+    res.download(pdfFilePath, `Checkups-${currentDate}.pdf`, (err) => {
+      if (err) {
+        console.error("Error sending PDF:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        fs.unlink(pdfFilePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting PDF file:", unlinkErr);
+          } else {
+            console.log("PDF file deleted successfully");
+          }
+        });
+      }
+    });
   } catch (error) {
     console.error("Error generating PDF file:", error.message);
     throw error; // Rethrow the error to be handled by the calling code
