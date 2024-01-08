@@ -24,6 +24,7 @@ import DonationScreen from "./screens/DonationScreen.jsx";
 import ViewPetsScreen from "./screens/ViewPetsScreen.jsx";
 import AboutScreen from "./screens/AboutScreen.jsx";
 import SpayNeuterScreen from "./screens/SpayNeuterScreen.jsx";
+import SpayNeuterInstancesScreen from "./screens/SpayNeuterInstancesScreen.jsx";
 import EventScreen from "./screens/EventScreen.jsx";
 import NewsScreen from "./screens/NewsScreen.jsx";
 import VolunteerScreen from "./screens/VolunteerScreen.jsx";
@@ -43,14 +44,13 @@ const router = createBrowserRouter(
         <Route path="/adopted" element={<AdoptionMonitoringScreen />} />
         <Route path="/news" element={<NewsScreen />} />
 
-        
 
         <Route path="/volunteer" element={<VolunteerScreen />} />
         <Route path="/users" element={<ManageUserScreen />} />
         <Route path="/donation" element={<DonationScreen />} />
         <Route path="/pets" element={<ViewPetsScreen />} />
         <Route path="/about-us" element={<AboutScreen />} />
-        <Route path="/spay-and-neuter" element={<SpayNeuterScreen />} />
+        <Route path="/spay-and-neuter" element={<SpayNeuterInstancesScreen />} />
         <Route path="/events" element={<EventScreen />} />
         <Route path="/veterinarian" element={<VeterinarianScreen />} />
       </Route>

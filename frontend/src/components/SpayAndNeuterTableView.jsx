@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const SpayAndNeuterTableView = () => {
+const SpayAndNeuterTableView = (data) => {
   console.log(window.location.pathname)
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
@@ -180,7 +180,7 @@ const SpayAndNeuterTableView = () => {
   return (
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
-        <h2 className="fw-bold">Spay and Neuter Requests</h2>
+        <h2 className="fw-bold">{data.location}</h2>
         {
           window.location.pathname!== '/spay-and-neuter' && (
             <DropdownButton title="Download" variant="primary">
