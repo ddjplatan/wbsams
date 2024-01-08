@@ -37,9 +37,8 @@ const DashboardScreen = () => {
       };
       const response = await axios.get(url, { headers });
       const approvedAdoptions = response.data.filter((adoptions) => {
-        return adoptions.isApproved === true;
+        return adoptions.status === 'Approved';
       });
-      console.log("Adoptions", response.data);
       setAdoptions(approvedAdoptions);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
