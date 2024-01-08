@@ -39,7 +39,7 @@ const DashboardScreen = () => {
       const approvedAdoptions = response.data.filter((adoptions) => {
         return adoptions.isApproved === true;
       });
-      console.log("Adoptions", response.data);
+      console.log("Adoptions", approvedAdoptions);
       setAdoptions(approvedAdoptions);
     } catch (error) {
       toast.error(error?.data?.message || error.error);

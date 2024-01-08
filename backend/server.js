@@ -11,6 +11,7 @@ const volunteer = require("./routes/Volunteer");
 const pet = require("./routes/Pet");
 const adoption = require("./routes/Adoption");
 const spayAndNeuter = require("./routes/SpayAndNeuter");
+const spayNeuterInstance = require("./routes/SpayNeuterInstance");
 
 const logger = require("./middlewares/logger");
 const errorHandler = require("./middlewares/error");
@@ -86,6 +87,7 @@ app.use("/api/volunteer", volunteer);
 app.use("/api/pet", pet);
 app.use("/api/adoption", adoption);
 app.use("/api/spay-and-neuter", spayAndNeuter);
+app.use("/api/spayNeuterInstance", spayNeuterInstance);
 app.use("/api/news", news);
 
 const server = app.listen(PORT, () => {
