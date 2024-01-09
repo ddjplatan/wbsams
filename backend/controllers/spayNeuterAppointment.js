@@ -7,14 +7,6 @@ const postAppointment = async (req, res, next) => {
   const { petName, petAge, petSpecies, petBreed, petGender, petDescription } =
     req.body;
 
-  console.log("owner", owner);
-  console.log("petName", petName);
-  console.log("petAge", petAge);
-  console.log("petSpecies", petSpecies);
-  console.log("petBreed", petBreed);
-  console.log("petGender", petGender);
-  console.log("petDescription", petDescription);
-
   try {
     await SpayNeuterAppointment.create({
       owner,

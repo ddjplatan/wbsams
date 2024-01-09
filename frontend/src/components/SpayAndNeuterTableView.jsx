@@ -18,22 +18,11 @@ const SpayAndNeuterTableView = (data) => {
   const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
 
-  // const handleDownload = async(fileType) => {
-  //   try {
-  //     const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`)
-  //     if(res.status === 200) {
-  //       toast.success("Successfully downloaded file")
-  //     }
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
-
   const handleDownload = async (fileType) => {
     try {
       let mimeType;
       let b;
-      const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`, {
+      const res = await axios.get(`http://localhost:3001/api/spayNeuterInstance/${data.data._id}/${fileType}`, {headers}, {
         responseType: 'blob', // Specify the response type as 'blob' for binary data
       });
 
@@ -52,7 +41,7 @@ const SpayAndNeuterTableView = (data) => {
         // Create an anchor element and trigger a click event to start the download
         const a = document.createElement('a');
         a.href = url;
-        a.download = `SpayAndNeuter-${Date.now()}.${b}`;
+        a.download = `SpayNeuterInstance-${Date.now()}.${b}`;
         document.body.appendChild(a);
         a.click();
   
@@ -206,16 +195,16 @@ const SpayAndNeuterTableView = (data) => {
         <Button variant="danger" className="mx-2" onClick={handleDelete}>
                 Delete Instance
               </Button>
-        {
-          window.location.pathname!== '/spay-and-neuter' && (
+        {/* {
+          window.location.pathname!== '/spay-and-neuter' && ( */}
             <DropdownButton title="Download" variant="primary">
             <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
             <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
             </DropdownButton>
           
 
-          )
-        }
+          {/* )
+        } */}
       </Card.Header>
       <Card.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
         <DataTable data={spayAndNeuterList} />

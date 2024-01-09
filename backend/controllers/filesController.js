@@ -8,6 +8,7 @@ const Pet = require("../models/Pet");
 const Donation = require("../models/Donation");
 const Volunteer = require("../models/Volunteer");
 const SpayNeuterAppointment = require("../models/SpayNeuterAppointment");
+const SpayNeuterInstance = require("../models/SpayNeuterInstance");
 
 const convertAdoption = async (req, res, next) => {
   try {
@@ -337,6 +338,223 @@ const convertSpayAndNeuter = async (req, res, next) => {
   }
 };
 
+const convertSpayAndNeuterInstance = async (req, res, next) => {
+  try {
+    const { instanceId } = req.params;
+    const instance = await SpayNeuterInstance.findById(instanceId).populate({
+      path: "registered",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    });
+    const currentDate = Date.now();
+    const csvFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `SpayNeuterInstance-${currentDate}.csv`
+    );
+
+    const csvWriter = createCsvWriter({
+      path: csvFilePath,
+      header: [
+        { id: "location", title: "Location" },
+        { id: "slots", title: "slots" },
+        { id: "schedule", title: "Schedule" },
+        { id: "owner", title: "Owner" },
+        { id: "petName", title: "Pet Name" },
+        { id: "petSpecies", title: "Pet Species" },
+        { id: "petBreed", title: "Pet Breed" },
+        { id: "petGender", title: "Pet Gender" },
+        { id: "petDescription", title: "Pet Description" },
+      ],
+    });
+
+    const records = instance.registered.map((pet) => ({
+      location: instance.location,
+      slots: instance.slots,
+      owner: pet.owner.firstName + " " + pet.owner.lastName,
+      petName: pet.petName,
+      petSpecies: pet.petSpecies,
+      petAge: pet.petAge,
+      petBreed: pet.petBreed,
+      petGender: pet.petGender,
+      petDescription: pet.petDescription,
+      schedule: instance.schedule,
+    }));
+
+    await csvWriter.writeRecords(records).then(() => {
+      res.download(
+        csvFilePath,
+        `SpayNeuterInstance-${currentDate}.csv`,
+        (err) => {
+          if (err) {
+            console.error("Error sending CSV:", err);
+            res.status(500).send("Internal Server Error");
+          } else {
+            // Optionally, you can delete the generated CSV file after it's sent
+            fs.unlink(csvFilePath, (unlinkErr) => {
+              if (unlinkErr) {
+                console.error("Error deleting CSV file:", unlinkErr);
+              } else {
+                console.log("CSV file deleted successfully");
+              }
+            });
+          }
+        }
+      );
+    });
+  } catch (error) {
+    console.error("Error converting to CSV:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const generateSpayNeuterInstanceReport = async (instance) => {
+  const currentDate = Date.now();
+  const htmlContent = generateHtmlContentForInstance(instance); // Create a function to generate HTML content based on your data
+
+  const pdfFilePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "files",
+    `SpayNeuterInstance-${instance._id}-${currentDate}.pdf`
+  );
+
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  await page.setContent(htmlContent);
+  await page.pdf({
+    path: pdfFilePath,
+    format: "A4",
+    margin: { top: 20, right: 20, bottom: 20, left: 20 },
+  });
+
+  await browser.close();
+
+  res.download(pdfFilePath, `SpayNeuterInstance-${currentDate}.pdf`, (err) => {
+    if (err) {
+      console.error("Error sending PDF:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      fs.unlink(pdfFilePath, (unlinkErr) => {
+        if (unlinkErr) {
+          console.error("Error deleting PDF file:", unlinkErr);
+        } else {
+          console.log("PDF file deleted successfully");
+        }
+      });
+    }
+  });
+};
+
+// const generateSpayNeuterInstancePdf = async (instance) => {
+//   const currentDate = Date.now();
+//   const pdfFilePath = path.join(
+//     __dirname,
+//     "..",
+//     "..",
+//     "files",
+//     `SpayNeuterInstance-${currentDate}.pdf`
+//   );
+
+//   const doc = new PDFDocument();
+//   const stream = fs.createWriteStream(pdfFilePath);
+
+//   doc.pipe(stream);
+
+//   // Header
+//   doc.fontSize(18).text("Spay/Neuter Instance Report", { align: "center" });
+//   doc.moveDown();
+
+//   // Instance Info
+//   doc.fontSize(14).text(`Location: ${instance.location}`);
+//   doc.fontSize(14).text(`Slots: ${instance.slots}`);
+//   doc.fontSize(14).text(`Schedule: ${instance.schedule}`);
+//   doc.moveDown();
+
+//   // Registered Pets Table
+//   doc.fontSize(14).text("Registered Pets:", { underline: true });
+//   doc.moveDown().fontSize(12);
+
+//   instance.registered.forEach((pet, index) => {
+//     doc.text(`- Owner: ${pet.owner.firstName} ${pet.owner.lastName}`);
+//     doc.text(`- Pet Name: ${pet.petName}`);
+//     doc.text(`- Species: ${pet.petSpecies}`);
+//     doc.text(`- Breed: ${pet.petBreed}`);
+//     doc.text(`- Gender: ${pet.petGender}`);
+//     doc.text(`- Description: ${pet.petDescription}`);
+//     doc.moveDown();
+//   });
+
+//   doc.end();
+
+//   return pdfFilePath;
+// };
+
+// Usage in your route/controller
+const convertSpayNeuterInstanceToPdf = async (req, res, next) => {
+  try {
+    const { instanceId } = req.params;
+    const instance = await SpayNeuterInstance.findById(instanceId).populate({
+      path: "registered",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    });
+    const currentDate = Date.now();
+    const pdfFilePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "files",
+      `SpayNeuterInstance-${currentDate}.pdf`
+    );
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    // Create an HTML string with your content
+    const htmlContent = await generateHtmlContentForInstance(instance);
+
+    await page.setContent(htmlContent);
+    await page.pdf({
+      path: pdfFilePath,
+      format: "A4",
+      margin: { top: 20, right: 20, bottom: 20, left: 20 },
+    });
+
+    await browser.close();
+
+    res.download(
+      pdfFilePath,
+      `SpayNeuterInstance-${currentDate}.pdf`,
+      (err) => {
+        if (err) {
+          console.error("Error sending PDF:", err);
+          res.status(500).send("Internal Server Error");
+        } else {
+          fs.unlink(pdfFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting PDF file:", unlinkErr);
+            } else {
+              console.log("PDF file deleted successfully");
+            }
+          });
+        }
+      }
+    );
+  } catch (error) {
+    console.error("Error converting to PDF:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const convertSpayAndNeuterToPdf = async (req, res, next) => {
   try {
     const appointments = await SpayNeuterAppointment.find().populate("owner");
@@ -382,6 +600,106 @@ const convertSpayAndNeuterToPdf = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+// const convertSpayNeuterInstanceToPdf = async (req, res, next) => {
+//   const { instanceId } = req.params;
+//   try {
+// const instance = await SpayNeuterInstance.findById(instanceId).populate({
+//   path: "registered",
+//   populate: {
+//     path: "owner",
+//     model: "User",
+//   },
+// });
+
+//     const currentDate = Date.now();
+//     const pdfFilePath = path.join(
+//       __dirname,
+//       "..",
+//       "..",
+//       "files",
+//       `SpayNeuterInstance-${instanceId}-${currentDate}.pdf`
+//     );
+
+//     const doc = new PDFDocument();
+//     const stream = fs.createWriteStream(pdfFilePath);
+
+//     doc.pipe(stream);
+
+//     // Header
+//     doc.fontSize(18).text("Spay/Neuter Instance Report", { align: "center" });
+//     doc.moveDown();
+
+//     // Instance Info
+//     doc.fontSize(14).text(`Location: ${instance.location}`);
+//     doc.fontSize(14).text(`Slots: ${instance.slots}`);
+//     doc.fontSize(14).text(`Details: ${instance.details}`);
+//     doc.fontSize(14).text(`Schedule: ${instance.schedule}`);
+//     doc.moveDown();
+
+//     // Registered Pets Table
+//     doc.fontSize(14).text("Registered Pets:", { underline: true });
+//     doc.moveDown().fontSize(12);
+
+//     if (instance.registered && instance.registered.length > 0) {
+//       instance.registered.forEach((pet, index) => {
+//         doc.text(`Pet ${index + 1}:`);
+//         doc.text(`- Owner: ${pet.owner.firstName} ${pet.owner.lastName}`);
+//         doc.text(`- Pet Name: ${pet.petName}`);
+//         doc.text(`- Species: ${pet.petSpecies}`);
+//         doc.text(`- Breed: ${pet.petBreed}`);
+//         doc.text(`- Gender: ${pet.petGender}`);
+//         doc.text(`- Description: ${pet.petDescription}`);
+//         doc.text(`- Approved: ${pet.isApproved ? "Yes" : "No"}`);
+//         doc.text(
+//           `- Date Registered: ${new Date(pet.createdAt).toLocaleString()}`
+//         );
+//         doc.moveDown();
+//       });
+//     } else {
+//       doc.text("No registered pets found.");
+//     }
+
+//     doc.end();
+
+//     res.download(
+//       pdfFilePath,
+//       `SpayNeuterInstance-${currentDate}.pdf`,
+//       (err) => {
+//         if (err) {
+//           console.error("Error sending PDF:", err);
+//           res.status(500).send("Internal Server Error");
+//         } else {
+//           fs.unlink(pdfFilePath, (unlinkErr) => {
+//             if (unlinkErr) {
+//               console.error("Error deleting PDF file:", unlinkErr);
+//             } else {
+//               console.log("PDF file deleted successfully");
+//             }
+//           });
+//         }
+//       }
+//     );
+
+//     // res.download(pdfFilePath, `Checkups-${currentDate}.pdf`, (err) => {
+//     //   if (err) {
+//     //     console.error("Error sending PDF:", err);
+//     //     res.status(500).send("Internal Server Error");
+//     //   } else {
+//     //     fs.unlink(pdfFilePath, (unlinkErr) => {
+//     //       if (unlinkErr) {
+//     //         console.error("Error deleting PDF file:", unlinkErr);
+//     //       } else {
+//     //         console.log("PDF file deleted successfully");
+//     //       }
+//     //     });
+//     //   }
+//     // });
+//   } catch (error) {
+//     console.error("Error generating PDF file:", error.message);
+//     throw error; // Rethrow the error to be handled by the calling code
+//   }
+// };
 
 const convertVolunteer = async (req, res, next) => {
   try {
@@ -634,6 +952,94 @@ const convertCheckupsToPdf = async (req, res, next) => {
     console.error("Error generating PDF file:", error.message);
     throw error; // Rethrow the error to be handled by the calling code
   }
+};
+
+const generateHtmlContentForInstance = async (instance) => {
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Spay/Neuter Report</title>
+      <style>
+        /* Add your custom styles here */
+        body {
+          font-family: Arial, sans-serif;
+        }
+        .header {
+          text-align: center;
+          font-size: 18px;
+          margin-bottom: 20px;
+        }
+        .info-section {
+          margin-bottom: 20px;
+        }
+        .registered-section {
+          margin-bottom: 20px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h1>Spay/Neuter Report</h1>
+      </div>
+      <div class="info-section">
+        <h2>Location:</h2>
+        <p>${instance.location}</p>
+      </div>
+      <div class="info-section">
+        <h2>Slots:</h2>
+        <p>${instance.slots}</p>
+      </div>
+      <div class="info-section">
+        <h2>Schedule:</h2>
+        <p>${instance.schedule}</p>
+      </div>
+      <div class="registered-section">
+        <h2>Registered Pets:</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Breed</th>
+              <th>Species</th>
+              <th>Gender</th>
+              <th>Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${instance.registered
+              .map(
+                (pet) => `
+              <tr>
+                <td>${pet.petName}</td>
+                <td>${pet.petBreed}</td>
+                <td>${pet.petSpecies}</td>
+                <td>${pet.petGender}</td>
+                <td>${pet.owner.firstName} ${pet.owner.lastName}</td>
+              </tr>
+            `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    </body>
+    </html>
+  `;
 };
 
 function generateHtmlForDonations(donations) {
@@ -1008,4 +1414,6 @@ module.exports = {
   convertSpayAndNeuterToPdf,
   convertCheckupsToCsv,
   convertCheckupsToPdf,
+  convertSpayAndNeuterInstance,
+  convertSpayNeuterInstanceToPdf,
 };
