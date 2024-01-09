@@ -27,7 +27,8 @@ const EventModal = (props) => {
   const [eventData, setEventData] = useState({
     _id: "",
     details: "",
-    slots: null,
+    schedule: "",
+    slots: 0,
     location: "",
   });
 
@@ -44,7 +45,8 @@ const EventModal = (props) => {
           _id: "",
           location: "",
           details: "",
-          slots: null,
+          schedule: "",
+          slots: 0,
         });
         onHide();
         toast.success("Successfully added event.");
@@ -102,6 +104,7 @@ const EventModal = (props) => {
         _id: data._id,
         location: data.location,
         details: data.details,
+        schedule: data.schedule,
         slots: data.slots,
       });
     } else {
@@ -109,7 +112,8 @@ const EventModal = (props) => {
         _id: "",
         location: "",
         details: "",
-        slots: null,
+        schedule: "",
+        slots: 0,
       });
     }
   }, [data]);
@@ -205,6 +209,30 @@ const EventModal = (props) => {
               </FloatingLabel>
               <FloatingLabel
                 className="mb-2"
+                controlId="slots"
+                label="Slots"
+              >
+                <Form.Control
+                  type="number"
+                  name="slots"
+                  value={eventData.slots}
+                  onChange={eventHandleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
+                controlId="schedule"
+                label="Schedule"
+              >
+                <Form.Control
+                  type="text"
+                  name="schedule"
+                  value={eventData.schedule}
+                  onChange={eventHandleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                className="mb-2"
                 controlId="details"
                 label="Details"
               >
@@ -216,18 +244,7 @@ const EventModal = (props) => {
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>
-              <FloatingLabel
-                className="mb-2"
-                controlId="slots"
-                label="Slots"
-              >
-                <Form.Control
-                  type="number"
-                  name="slots"
-                  value={eventData.slots}
-                  onChange={eventHandleChange}
-                />
-              </FloatingLabel>
+              
             </Col>
           </Row>
         </Modal.Body>

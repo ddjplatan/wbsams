@@ -9,6 +9,16 @@ const {
 } = require("../middlewares/utils/validators");
 
 const {
+  postInstance,
+  getInstances,
+  getInstance,
+  updateInstance,
+  deleteInstance,
+  deleteInstances,
+  confirmRegistration,
+} = require("../controllers/spayAndNeuterController");
+
+const {
   postSpayNeuterInstance,
   getSpayNeuterInstances,
   getSpayNeuterInstance,
@@ -24,6 +34,7 @@ router
 
 router
   .route("/:instanceId")
+  .post(reqReceived, protectedRoute, postInstance)
   .put(reqReceived, protectedRoute, updateSpayNeuterInstance)
   .get(reqReceived, protectedRoute, getSpayNeuterInstance)
   .delete(

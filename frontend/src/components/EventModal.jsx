@@ -107,7 +107,6 @@ const EventModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setEventData({
         _id: data._id,
         title: data.title,

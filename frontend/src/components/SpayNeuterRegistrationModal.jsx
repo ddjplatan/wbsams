@@ -6,7 +6,7 @@ import { BsFillHandThumbsUpFill } from "react-icons/bs";
 
 import { toast } from "react-toastify";
 
-const SpayNeuterRegistrationModal = ({ show, onHide }) => {
+const SpayNeuterRegistrationModal = ({ show, onHide, data }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const userType = userInfo.user.userType;
   const token = userInfo.token;
@@ -14,6 +14,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
+  const instanceId = data._id
   const [formData, setFormData] = useState({
     petName: "",
     petAge: "",
@@ -33,7 +34,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/spay-and-neuter`,
+        `http://localhost:3001/api/spayNeuterInstance/${instanceId}`,
         formData,
         { headers }
       );

@@ -29,7 +29,7 @@ const {
 
 router
   .route("/")
-  .post(reqReceived, protectedRoute, postInstance)
+  // .post(reqReceived, protectedRoute, postInstance)
   .get(reqReceived, protectedRoute, getInstances)
   .delete(reqReceived, protectedRoute, adminValidator, deleteInstances);
 
@@ -38,16 +38,17 @@ router.route("/toPdf").get(reqReceived, convertSpayAndNeuterToPdf);
 
 router
   .route("/:instanceId")
+  .post(reqReceived, protectedRoute, postInstance)
   .put(reqReceived, protectedRoute, updateInstance)
   .get(reqReceived, protectedRoute, getInstance)
   .delete(reqReceived, protectedRoute, staffValidator, deleteInstance);
 
 router
-  .route("/:instanceId/confirm")
+  .route("/:appointmentId/confirm")
   .get(reqReceived, protectedRoute, staffValidator, confirmRegistration);
 
 router
-  .route("/:instanceId/register")
+  .route("/:appointmentId/register")
   .post(reqReceived, protectedRoute, registerToSpayAndNeuter);
 
 module.exports = router;
