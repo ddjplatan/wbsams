@@ -31,6 +31,10 @@ const SpayNeuterAppointmentSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    instanceId: {
+      type: Schema.Types.ObjectId,
+      ref: "SpayNeuterInstance",
+    },
   },
   {
     timestamps: true,

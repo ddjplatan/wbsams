@@ -1,11 +1,17 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import DonationModal from "./DonationModal";
 import EventModal from "./EventModal";
 
 const EventCard = ({ data }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType==='admin'){
+      setShowModal(true)
+    }
+  };
 
   return (
     <>
@@ -17,7 +23,7 @@ const EventCard = ({ data }) => {
           <Row>
             <Col sm={4}>
               <Image
-                src={`http://localhost:3001/${data.img}`}
+                src={`${data.img}`}
                 style={{ opacity: "80%", maxHeight: "200px" }}
                 width={300}
                 alt="Event Image"

@@ -165,14 +165,11 @@ const updatePet = async (req, res, next) => {
 };
 
 const createPet = async (req, res, next) => {
-  console.log("creating pet");
   try {
     const { name, species, age, gender, breed, description } = req.body;
-    const imgPath = req.file
-      ? req.file.path
-          .replace(/backend[\/\\]public[\/\\]/, "")
-          .replace(/\\/g, "/")
-      : `defaults/default-${species}.jpg`;
+    const imgPath = req.upload
+      ? req.upload.secure_url
+      : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704408190/bla6dbcsi1gvxslngj6x.png";
 
     console.log("path", imgPath);
 

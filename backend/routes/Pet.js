@@ -3,6 +3,7 @@ const router = express.Router();
 const protectedRoute = require("../middlewares/auth");
 const reqReceived = require("../middlewares/reqReceived");
 const multer = require("multer");
+const cloudinary = require("../config/cloudinary");
 const path = require("path");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -41,7 +42,21 @@ const { postAdoption } = require("../controllers/adoptionController");
 
 router
   .route("/")
-  .post(reqReceived, protectedRoute, upload.single("image"), createPet)
+  .post(
+    reqReceived,
+    protectedRoute,
+    upload.single("image"),
+    async (req, res, next) => {
+      if (req.file) {
+        const upload = await cloudinary.uploader.upload(req.file.path);
+        req.upload = upload;
+      } else {
+        req.upload === null;
+      }
+      next();
+    },
+    createPet
+  )
   .get(reqReceived, getPets)
   .delete(reqReceived, protectedRoute, adminValidator, deletePets);
 
@@ -59,6 +74,15 @@ router
     protectedRoute,
     staffValidator,
     upload.single("image"),
+    async (req, res, next) => {
+      if (req.file) {
+        const upload = await cloudinary.uploader.upload(req.file.path);
+        req.upload = upload;
+      } else {
+        req.upload === null;
+      }
+      next();
+    },
     updatePet
   )
   .delete(reqReceived, protectedRoute, staffValidator, deletePet);

@@ -3,6 +3,7 @@ const router = express.Router();
 const protectedRoute = require("../middlewares/auth");
 const reqReceived = require("../middlewares/reqReceived");
 const multer = require("multer");
+const cloudinary = require("../config/cloudinary");
 const path = require("path");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -42,6 +43,15 @@ router
     protectedRoute,
     staffValidator,
     upload.single("img"),
+    async (req, res, next) => {
+      if (req.file) {
+        const upload = await cloudinary.uploader.upload(req.file.path);
+        req.upload = upload;
+      } else {
+        req.upload === null;
+      }
+      next();
+    },
     postVet
   )
   .get(reqReceived, getVets)
@@ -50,7 +60,21 @@ router
 router
   .route("/:vetId")
   .get(reqReceived, getVet)
-  .put(reqReceived, protectedRoute, upload.single("img"), updateVet)
+  .put(
+    reqReceived,
+    protectedRoute,
+    upload.single("img"),
+    async (req, res, next) => {
+      if (req.file) {
+        const upload = await cloudinary.uploader.upload(req.file.path);
+        req.upload = upload;
+      } else {
+        req.upload === null;
+      }
+      next();
+    },
+    updateVet
+  )
   .delete(reqReceived, protectedRoute, staffValidator, deleteVet);
 
 module.exports = router;

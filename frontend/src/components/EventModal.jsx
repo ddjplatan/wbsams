@@ -107,7 +107,6 @@ const EventModal = (props) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setEventData({
         _id: data._id,
         title: data.title,
@@ -178,8 +177,8 @@ const EventModal = (props) => {
                   <Image
                     src={
                       data.img
-                        ? `http://localhost:3001/${data.img}`
-                        : "http://localhost:3001/defaults/default-questionmark.jpg"
+                        ? `${data.img}`
+                        : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
                     }
                     alt="Preview"
                     rounded
@@ -188,7 +187,7 @@ const EventModal = (props) => {
                   />
                 ) : (
                   <Image
-                    src="http://localhost:3001/defaults/default-questionmark.jpg"
+                    src="https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
                     rounded
                     height={350}
                     className="w-100"
@@ -241,7 +240,7 @@ const EventModal = (props) => {
                     className="ms-2"
                     variant="warning"
                   >
-                    Update
+                    Edit
                   </Button>
                   <Button
                     onClick={() => {

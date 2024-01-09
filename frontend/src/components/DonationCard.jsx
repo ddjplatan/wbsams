@@ -1,10 +1,16 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import DonationModal from "./DonationModal";
 
 const DonationCard = ({ data, toreload }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType==='admin'){
+    setShowModal(true)
+    }
+  };
 
   return (
     <>
@@ -13,7 +19,7 @@ const DonationCard = ({ data, toreload }) => {
           <Card.Title>{data.name}</Card.Title>
           {data.img && (
             <Card.Img
-                    src={`http://localhost:3001/${data.img}`}
+                    src={`${data.img}`}
                     alt="Image"
                     height={300}
                     // width={300}

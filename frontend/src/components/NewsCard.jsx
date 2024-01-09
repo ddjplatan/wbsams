@@ -1,10 +1,16 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import {useSelector} from 'react-redux';
 import NewsModal from "./NewsModal";
 
 const NewsCard = ({ data }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType){
+      setShowModal(true)
+    }
+  };
 
   return (
     <>
@@ -16,7 +22,7 @@ const NewsCard = ({ data }) => {
           <Row>
             <Col sm={4}>
               <Image
-              src={`http://localhost:3001/${data.img}`}
+              src={`${data.img}`}
               style={{ opacity: "80%", maxHeight: "250px" }}
               alt="News Image"
               className="mb-3"

@@ -53,22 +53,23 @@ const DonationScreen = () => {
   };
   useEffect(() => {
     getDonations();
+
   }, [showModal]);
 
   return (
-    <div className="d-flex">
+    <div className="d-flex overflow-auto w-100">
       <Sidebar />
       <Card
         className="p-3 d-flex hero-card bg-light w-100" 
-        // style={{ width: "97vh" }}
+        style={{ width: "100vh" }}
       >
         <Card.Header className="d-flex justify-content-between">
-          <div>
+          
             <h3>
               Acknowledgements
               <BsFillHandThumbsUpFill className="ms-2" size={25} />
             </h3>
-          </div>
+        
           {userInfo.user.userType !== "user" && (
             <>
               <Button variant="primary" onClick={handleShow}>
@@ -79,7 +80,7 @@ const DonationScreen = () => {
         </Card.Header>
         <Card.Body
           className="flex-nowrap"
-          style={{ maxHeight: "800px", overflowY: "auto" }}
+          style={{ maxHeight: "100vh", overflowY: "auto" }}
         >
           <Row width={300} className="mb-2 p-2">
             <Col className="d-flex justify-content-center">

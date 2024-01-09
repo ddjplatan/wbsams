@@ -58,7 +58,7 @@ const Sidebar = () => {
                 icon="th-large"
                 active={currentUrl === "/adopted" || currentUrl === "/adoption"}
               >
-                Pet Adoption
+                Adopt a pet
               </CDBSidebarMenuItem>
               {showPetDropdown && (
                 <div className="dropdown-container">
@@ -169,7 +169,7 @@ const Sidebar = () => {
                 icon="th-large"
                 active={currentUrl === "/adopted" || currentUrl === "/adoption"}
               >
-                Pet Adoption
+                Adopt a pet
               </CDBSidebarMenuItem>
               {showPetDropdown && (
                 <div className="dropdown-container">

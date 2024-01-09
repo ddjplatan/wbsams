@@ -16,7 +16,11 @@ const AdoptionCard = ({ data }) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType==='admin'){
+    setShowModal(true)
+    }
+  };
   const handleFormSubmit = async(formData) => {
         // console.log('Form Data:', formData);
         const response = await axios.post(`http://localhost:3001/api/adoption/${data._id}/checkup`, formData, {headers})
@@ -32,9 +36,15 @@ const AdoptionCard = ({ data }) => {
         <Card.Img
           variant="top"
           height={300}
-          src={`http://localhost:3001/${data.adoptee.imgPath}`}
+          src={`${data.adoptee.imgPath}`}
           style={{ objectFit: "cover" }}
         />
+        {/* <Image
+          src={`${data.adoptee.imgPath}`}
+          alt="Pet Image"
+          className="mb-3 img-fluid"
+          rounded
+    /> */}
         <Card.Body>
           <Card.Title>{data.adoptee.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">

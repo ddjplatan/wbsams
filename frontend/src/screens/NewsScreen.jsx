@@ -44,9 +44,9 @@ const NewsScreen = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   return (
-    <div className="d-flex">
+    <div className="d-flex overflow-auto w-100">
       <Sidebar />
-      <Card className="d-flex bg-light" style={{ width: "80vh" }}>
+      <Card className="d-flex bg-light w-100" >
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">News</h4>
           {userType !== "user" && (

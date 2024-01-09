@@ -6,8 +6,9 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const SpayAndNeuterTableView = () => {
-  console.log(window.location.pathname)
+const SpayAndNeuterTableView = (data) => {
+  // console.log(window.location.pathname)
+  // console.log(data)
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const headers = {
@@ -17,14 +18,62 @@ const SpayAndNeuterTableView = () => {
   const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
 
-  const handleDownload = async(fileType) => {
+  // const handleDownload = async(fileType) => {
+  //   try {
+  //     const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`)
+  //     if(res.status === 200) {
+  //       toast.success("Successfully downloaded file")
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
+
+  const handleDownload = async (fileType) => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`)
-      if(res.status === 200) {
-        toast.success("Successfully downloaded file")
+      let mimeType;
+      let b;
+      const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`, {
+        responseType: 'blob', // Specify the response type as 'blob' for binary data
+      });
+
+      if (fileType === 'toPdf') {
+        mimeType = 'application/pdf';
+        b = 'pdf';
+      } else if (fileType === 'toCsv') {
+        mimeType = 'text/csv';
+        b = 'csv';
+      }
+      if (res.status === 200) {
+        // Create a Blob from the binary data and create a download link
+        const blob = new Blob([res.data], { type: mimeType });
+        const url = window.URL.createObjectURL(blob);
+  
+        // Create an anchor element and trigger a click event to start the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `SpayAndNeuter-${Date.now()}.${b}`;
+        document.body.appendChild(a);
+        a.click();
+  
+        // Remove the anchor element from the DOM
+        document.body.removeChild(a);
+  
+        // toast.success("Successfully downloaded file");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error.message);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      // console.log(data)
+      await axios.delete(`http://localhost:3001/api/spayNeuterInstance/${data.data._id}`, {headers}).then((res)=> {
+        if(res.status === 200 || res.status === 201) toast.success("Successfully deleted instance")
+      })
+    } catch (error) {
+      console.error(error.message);
     }
   }
   const getSpayAndNeuters = async () => {
@@ -32,31 +81,38 @@ const SpayAndNeuterTableView = () => {
       const url = "http://localhost:3001/api/spay-and-neuter";
       const response = await axios.get(url, { headers });
       const spayAndNeuterArray = response.data;
-      const updatedSpayAndNeuters = spayAndNeuterArray.map((spayAndNeuter) => {
+      console.log("spayAndNeuterArray", spayAndNeuterArray)
+      console.log(data.data._id)
+      const filteredSpayNeuterRequests = spayAndNeuterArray.filter((request)=> {
+        if(request.instanceId ==data.data._id) return request
+      })
+      
+      console.log("filteredSpayNeuterRequests", filteredSpayNeuterRequests)
+      const updatedSpayAndNeuters = filteredSpayNeuterRequests.map((request) => {
         return {
           // id: spayAndNeuter._id,
-          owner: `${spayAndNeuter.owner.firstName} ${spayAndNeuter.owner.lastName}`,
-          address: spayAndNeuter.owner.address,
-          phoneNumber: spayAndNeuter.owner.phoneNumber,
-          petName: spayAndNeuter.petName,
-          petGender: spayAndNeuter.petGender,
-          petAge: spayAndNeuter.petAge,
-          petBreed: spayAndNeuter.petBreed,
-          petSpecies: spayAndNeuter.petSpecies,
-          createdAt: new Date(spayAndNeuter.createdAt).toDateString(),
-          action: spayAndNeuter.isApproved ? 'APPROVED' : (
+          owner: `${request.owner.firstName} ${request.owner.lastName}`,
+          address: request.owner.address,
+          phoneNumber: request.owner.phoneNumber,
+          petName: request.petName,
+          petGender: request.petGender,
+          petAge: request.petAge,
+          petBreed: request.petBreed,
+          petSpecies: request.petSpecies,
+          createdAt: new Date(request.createdAt).toDateString(),
+          action: request.isApproved ? 'APPROVED' : (
             <>
               <Button
                 variant="success"
                 className="w-100 m-1"
-                onClick={() => handleAcceptRegistration(spayAndNeuter._id)}
+                onClick={() => handleAcceptRegistration(request._id)}
               >
-                Approve
+                Confirm
               </Button>
               <Button
                 variant="warning"
                 className="w-100 m-1"
-                onClick={() => handleDeclineRegistration(spayAndNeuter._id)}
+                onClick={() => handleDeclineRegistration(request._id)}
               >
                 Decline
               </Button>
@@ -64,8 +120,11 @@ const SpayAndNeuterTableView = () => {
           ),
         };
       });
+      console.log("updatedSpayAndNeuters", updatedSpayAndNeuters)
       // console.log("Spay and Neuter Table View", updatedSpayAndNeuters);
-      setSpayAndNeuters([...spayAndNeuters, ...updatedSpayAndNeuters]);
+      // setSpayAndNeuters([...spayAndNeuters, ...updatedSpayAndNeuters]);
+      setSpayAndNeuters(updatedSpayAndNeuters);
+
       return response;
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -143,13 +202,17 @@ const SpayAndNeuterTableView = () => {
   return (
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
-        <h2 className="fw-bold">Spay and Neuter Requests</h2>
+        <h2 className="fw-bold">{data.data.location}</h2>
+        <Button variant="danger" className="mx-2" onClick={handleDelete}>
+                Delete Instance
+              </Button>
         {
           window.location.pathname!== '/spay-and-neuter' && (
             <DropdownButton title="Download" variant="primary">
             <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
             <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
-          </DropdownButton>
+            </DropdownButton>
+          
 
           )
         }
@@ -157,6 +220,7 @@ const SpayAndNeuterTableView = () => {
       <Card.Body style={{ maxHeight: "600px", overflowY: "auto" }}>
         <DataTable data={spayAndNeuterList} />
       </Card.Body>
+      
     </Card>
   );
 };

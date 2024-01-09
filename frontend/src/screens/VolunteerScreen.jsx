@@ -42,9 +42,9 @@ const VolunteerScreen = () => {
   const [selectedVolunteer, setSelectedVolunteer] = useState(null);
 
   return (
-    <div className="d-flex">
+    <div className="d-flex overflow-auto w-100">
       <Sidebar />
-      <Card className="p-3 d-flex bg-light" style={{ minWidth: "97vh" }}>
+      <Card className="p-3 d-flex bg-light w-100">
         <Card.Header className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">Volunteers</h4>
           {userType !== "user" && (

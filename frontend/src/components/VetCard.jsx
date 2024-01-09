@@ -1,10 +1,16 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import {useSelector } from 'react-redux';
 import VetModal from "./VetModal";
 
 const VetCard = ({ data }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if(userInfo.user.userType==='admin'){
+      setShowModal(true)
+    }
+  };
 
   return (
     <>
@@ -16,7 +22,7 @@ const VetCard = ({ data }) => {
 
         <Card.Body>
         <Image
-              src={`http://localhost:3001/${data.img}`}
+              src={`${data.img}`}
               alt="Vet Image"
               height={300}
               className="mb-3 img-fluid"

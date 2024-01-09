@@ -1,11 +1,18 @@
 import { Card, Button, Modal, Image, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import {useSelector} from 'react-redux'
 import DonationModal from "./DonationModal";
 import VolunteerModal from "./VolunteerModal";
 
 const VolunteerCard = ({ data }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    
+    if(userInfo.user.userType==='admin') {
+      setShowModal(true)
+    }
+    };
 
   return (
     <>
@@ -15,12 +22,18 @@ const VolunteerCard = ({ data }) => {
     <Card.Title className="fw-bold">{data.firstName} {data.lastName}</Card.Title>
   </Card.Header>
   <Card.Body>
-    <Image
-      src={`http://localhost:3001/${data.img}`}
+    {/* <Image
+      src={`${data.img}`}
       alt="Volunteer Image"
       className="mb-3 img-fluid"
       rounded
-    />
+    /> */}
+    <Card.Img
+          variant="top"
+          height={300}
+          src={`${data.img}`}
+          style={{ objectFit: "cover" }}
+        />
     <Card.Text className="fw-bold m-0">
       Address: <span className="text-muted">{data.address}</span>
     </Card.Text>
