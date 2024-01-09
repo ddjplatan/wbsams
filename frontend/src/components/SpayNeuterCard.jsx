@@ -69,14 +69,6 @@ const SpayNeuterCard = ({ data }) => {
               </Card.Text>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <Card.Text className="fw-bold m-0">Details:</Card.Text>
-              <Card.Text>
-                <span className="text-muted">{data.details}</span>
-              </Card.Text>
-            </Col>
-          </Row>
         </Card.Body>
       </Card>
 

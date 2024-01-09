@@ -50,7 +50,8 @@ const router = createBrowserRouter(
         <Route path="/donation" element={<DonationScreen />} />
         <Route path="/pets" element={<ViewPetsScreen />} />
         <Route path="/about-us" element={<AboutScreen />} />
-        <Route path="/spay-and-neuter" element={<SpayNeuterInstancesScreen />} />
+        <Route path="/spay-and-neuter" element={<SpayNeuterScreen />} />
+        <Route path="/spay-and-neuter-admin" element={<SpayNeuterInstancesScreen />} />
         <Route path="/events" element={<EventScreen />} />
         <Route path="/veterinarian" element={<VeterinarianScreen />} />
       </Route>

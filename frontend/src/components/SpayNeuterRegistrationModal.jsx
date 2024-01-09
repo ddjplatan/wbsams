@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import { BsFillHandThumbsUpFill } from "react-icons/bs";
 
 import { toast } from "react-toastify";
 
-const SpayNeuterRegistrationModal = ({ show, onHide, data }) => {
+const SpayNeuterRegistrationModal = ({ show, onHide }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const userType = userInfo.user.userType;
   const token = userInfo.token;
@@ -14,7 +14,11 @@ const SpayNeuterRegistrationModal = ({ show, onHide, data }) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  const instanceId = data._id
+
+  const [instances, setInstances] = useState([])
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedInstance, setSelectedInstance] = useState(null)
+  // const instanceId = data._id
   const [formData, setFormData] = useState({
     petName: "",
     petAge: "",
@@ -22,17 +26,50 @@ const SpayNeuterRegistrationModal = ({ show, onHide, data }) => {
     petBreed: "",
     petGender: "",
     petDescription: "",
+    instanceId: ""
   });
 
-  const handleChange = (e) => {
+  const fetchSpayNeuterInstances = async () => {
+    try {
+      const url = "http://localhost:3001/api/spayNeuterInstance";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(url, { headers });
+      if (response.status === 200) {
+        setInstances(response.data);
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSpayNeuterInstances();
+  }, []);
+
+  const handleChange = async(e) => {
     const { name, value } = e.target;
+
     setFormData({ ...formData, [name]: value });
   };
+
+  const handleInstanceSelect = async (e) => {
+    const selectedInstanceId = e.target.value;
+    setFormData({...formData, instanceId: selectedInstanceId})
+    const selectedInstance = instances.find(instance => instance._id === selectedInstanceId);
+
+    setSelectedLocation(selectedInstance?.location || '');
+    setSelectedInstance(selectedInstance);
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      const instanceId = formData.instanceId
       const response = await axios.post(
         `http://localhost:3001/api/spayNeuterInstance/${instanceId}`,
         formData,
@@ -42,7 +79,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide, data }) => {
         toast.success("Successfully applied for spay/neuter");
       }
     } catch (error) {
-      console.error(error);
+      toast.error(error?.data?.message || error.error);
     }
     setFormData({
       petName: "",
@@ -51,6 +88,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide, data }) => {
       petBreed: "",
       petGender: "",
       petDescription: "",
+      instanceId: ""
     });
     onHide();
   };
@@ -148,6 +186,47 @@ const SpayNeuterRegistrationModal = ({ show, onHide, data }) => {
                 required
               />
             </Form.Group>
+            <Form.Group controlId="location">
+                <Form.Label>Location</Form.Label>
+                <Form.Select
+                  type="text"
+                  placeholder="Enter location"
+                  name="location"
+                  value={formData.instanceId}  
+                  onChange={handleInstanceSelect}
+                  // required
+                >
+                  <option value="">Select location</option>
+                  {instances.map((instance) => (
+                    <option key={instance._id} value={instance._id}>{instance.location}</option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+              {selectedInstance && (
+        <div className="mt-3 p-3 border">
+          <h5>Selected Information</h5>
+          <Row>
+            <Col>
+              <strong>Location:</strong> {selectedInstance.location}
+            </Col>
+          </Row>
+            {selectedInstance.schedule && (
+          <Row>
+              <Col>
+                <strong>Schedule:</strong>  {selectedInstance.schedule}
+              </Col>
+          </Row>
+            )}
+            {selectedInstance.slots && (
+            <Row>
+              <Col>
+                <strong>Slots:</strong> {selectedInstance.registered.length}/{selectedInstance.slots}
+              </Col>
+            </Row>
+            )}
+          {/* </Row> */}
+        </div>
+      )}
           </Row>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">

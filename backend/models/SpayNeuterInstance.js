@@ -9,9 +9,6 @@ const SpayNeuterInstanceSchema = new Schema(
     slots: {
       type: Number,
     },
-    details: {
-      type: String,
-    },
     registered: [{ type: Schema.Types.ObjectId, ref: "SpayNeuterAppointment" }],
     schedule: {
       type: String,

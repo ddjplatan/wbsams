@@ -15,6 +15,7 @@ import "../../src/index.css";
 
 const Sidebar = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const userType = userInfo.user.userType
   const [showPetDropdown, setShowPetDropdown] = useState(false);
 
   const togglePetDropdown = () => {
@@ -29,7 +30,6 @@ const Sidebar = () => {
 
   const location = useLocation();
   const currentUrl = location.pathname;
-  console.log(currentUrl);
 
   return (
     <CDBSidebar
@@ -90,14 +90,27 @@ const Sidebar = () => {
                   Donation
                 </CDBSidebarMenuItem>
               </LinkContainer>
-              <LinkContainer to="/spay-and-neuter">
+              {
+                userType==='user' ? 
+                <LinkContainer to="/spay-and-neuter">
                 <CDBSidebarMenuItem
                   icon="th-large"
                   active={currentUrl === "/spay-and-neuter"}
                 >
                   Spay and Neuter
                 </CDBSidebarMenuItem>
+              </LinkContainer> :
+              <LinkContainer to="/spay-and-neuter-admin">
+                <CDBSidebarMenuItem
+                  icon="th-large"
+                  active={currentUrl === "/spay-and-neuter-admin"}
+                >
+                  Spay and Neuter
+                </CDBSidebarMenuItem>
               </LinkContainer>
+              }
+              
+              
               <CDBSidebarMenuItem
                 onClick={toggleEventDropdown}
                 icon="th-large"

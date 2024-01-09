@@ -26,7 +26,6 @@ const EventModal = (props) => {
 
   const [eventData, setEventData] = useState({
     _id: "",
-    details: "",
     schedule: "",
     slots: 0,
     location: "",
@@ -44,7 +43,6 @@ const EventModal = (props) => {
         setEventData({
           _id: "",
           location: "",
-          details: "",
           schedule: "",
           slots: 0,
         });
@@ -103,7 +101,6 @@ const EventModal = (props) => {
       setEventData({
         _id: data._id,
         location: data.location,
-        details: data.details,
         schedule: data.schedule,
         slots: data.slots,
       });
@@ -111,7 +108,6 @@ const EventModal = (props) => {
       setEventData({
         _id: "",
         location: "",
-        details: "",
         schedule: "",
         slots: 0,
       });
@@ -228,19 +224,6 @@ const EventModal = (props) => {
                   type="text"
                   name="schedule"
                   value={eventData.schedule}
-                  onChange={eventHandleChange}
-                />
-              </FloatingLabel>
-              <FloatingLabel
-                className="mb-2"
-                controlId="details"
-                label="Details"
-              >
-                <Form.Control
-                  as="textarea"
-                  type="text"
-                  name="details"
-                  value={eventData.details}
                   onChange={eventHandleChange}
                 />
               </FloatingLabel>

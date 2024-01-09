@@ -19,6 +19,11 @@ const {
 } = require("../controllers/spayAndNeuterController");
 
 const {
+  convertSpayAndNeuterInstance,
+  convertSpayNeuterInstanceToPdf,
+} = require("../controllers/filesController");
+
+const {
   postSpayNeuterInstance,
   getSpayNeuterInstances,
   getSpayNeuterInstance,
@@ -42,6 +47,24 @@ router
     protectedRoute,
     staffValidator,
     deleteSpayNeuterInstance
+  );
+
+router
+  .route("/:instanceId/toCsv")
+  .get(
+    reqReceived,
+    protectedRoute,
+    staffValidator,
+    convertSpayAndNeuterInstance
+  );
+
+router
+  .route("/:instanceId/toPdf")
+  .get(
+    reqReceived,
+    protectedRoute,
+    staffValidator,
+    convertSpayNeuterInstanceToPdf
   );
 
 module.exports = router;
