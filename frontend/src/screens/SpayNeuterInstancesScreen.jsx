@@ -69,7 +69,11 @@ const EventScreen = () => {
               {events.map((event, index) => (
                 <Row key={index}>
                   <Col className="m-2">
-                    <SpayAndNeuterTableView data={event} />
+                  {userType === 'user' ? (
+                  <SpayNeuterCard data={event} />
+                ) : (
+                  <SpayAndNeuterTableView data={event} />
+                )}
                   </Col>
                 </Row>
               ))}

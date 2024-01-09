@@ -3,13 +3,14 @@ const SpayNeuterInstance = require("../models/SpayNeuterInstance");
 // const Pet = require("../models/Pet");
 
 const postSpayNeuterInstance = async (req, res, next) => {
-  const { location, slots, details } = req.body;
+  const { location, slots, details, schedule } = req.body;
   console.log(req.body);
   try {
     await SpayNeuterInstance.create({
       location,
       slots,
       details,
+      schedule,
     });
 
     res.status(201).setHeader("Content-Type", "application/json").json({

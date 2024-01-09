@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const SpayAndNeuterTableView = (data) => {
+const SpayAndNeuterTableView = () => {
   // console.log(window.location.pathname)
   // console.log(data)
   const { userInfo } = useSelector((state) => state.auth);
@@ -80,15 +80,11 @@ const SpayAndNeuterTableView = (data) => {
     try {
       const url = "http://localhost:3001/api/spay-and-neuter";
       const response = await axios.get(url, { headers });
+      console.log(response)
       const spayAndNeuterArray = response.data;
       console.log("spayAndNeuterArray", spayAndNeuterArray)
-      console.log(data.data._id)
-      const filteredSpayNeuterRequests = spayAndNeuterArray.filter((request)=> {
-        if(request.instanceId ==data.data._id) return request
-      })
       
-      console.log("filteredSpayNeuterRequests", filteredSpayNeuterRequests)
-      const updatedSpayAndNeuters = filteredSpayNeuterRequests.map((request) => {
+      const updatedSpayAndNeuters = spayAndNeuterArray.map((request) => {
         return {
           // id: spayAndNeuter._id,
           owner: `${request.owner.firstName} ${request.owner.lastName}`,
@@ -107,7 +103,7 @@ const SpayAndNeuterTableView = (data) => {
                 className="w-100 m-1"
                 onClick={() => handleAcceptRegistration(request._id)}
               >
-                Confirm
+                Approve
               </Button>
               <Button
                 variant="warning"
@@ -202,10 +198,7 @@ const SpayAndNeuterTableView = (data) => {
   return (
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
-        <h2 className="fw-bold">{data.data.location}</h2>
-        <Button variant="danger" className="mx-2" onClick={handleDelete}>
-                Delete Instance
-              </Button>
+        <h2 className="fw-bold">Spay/Neuter</h2>
         {
           window.location.pathname!== '/spay-and-neuter' && (
             <DropdownButton title="Download" variant="primary">

@@ -18,7 +18,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import DonationTableView from "../components/DonationTableView";
-import SpayAndNeuterTableView from "../components/SpayAndNeuterTableView";
+import SpayNeuterDashboardTableView from "../components/SpayNeuterDashboardTableView";
+
 
 const DashboardScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -198,7 +199,7 @@ const DashboardScreen = () => {
                 ) : tableView === "Donation" ? (
                   <DonationTableView reload={reload} setReload={setReload} />
                 ) : tableView === "Spay and Neuter" ? (
-                  <SpayAndNeuterTableView
+                  <SpayNeuterDashboardTableView
                     reload={reload}
                     setReload={setReload}
                   />
@@ -292,7 +293,7 @@ const DashboardScreen = () => {
                 ) : tableView === "Donation" ? (
                   <DonationTableView reload={reload} setReload={setReload} />
                 ) : tableView === "Spay and Neuter" ? (
-                  <SpayAndNeuterTableView
+                  <SpayNeuterDashboardTableView
                     reload={reload}
                     setReload={setReload}
                   />
