@@ -68,7 +68,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
           </Row>
           <Row>
             <p className="custom-text-justify text-center">
-              CDO Animal Rescue Organization offers FREE SERVICEC of Spay and
+              CDO Animal Rescue Organization offers FREE SERVICES of Spay and
               Neuter (except for Medicines and Materials) twice a month at
               Cagayan de Oro City
             </p>

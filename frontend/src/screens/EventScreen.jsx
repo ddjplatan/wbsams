@@ -58,7 +58,7 @@ const EventScreen = () => {
               setModalShow(true);
             }}
           >
-            Add an Activity
+            Add Activity
           </Button>
           }
           

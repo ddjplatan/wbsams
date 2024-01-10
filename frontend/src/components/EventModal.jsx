@@ -241,7 +241,7 @@ const EventModal = (props) => {
                     className="ms-2"
                     variant="warning"
                   >
-                    Update
+                    Edit
                   </Button>
                   <Button
                     onClick={() => {

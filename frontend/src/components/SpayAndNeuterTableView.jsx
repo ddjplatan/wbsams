@@ -88,7 +88,7 @@ const SpayAndNeuterTableView = () => {
                 className="w-100 m-1"
                 onClick={() => handleAcceptRegistration(spayAndNeuter._id)}
               >
-                Approve
+                Confirm
               </Button>
               <Button
                 variant="warning"

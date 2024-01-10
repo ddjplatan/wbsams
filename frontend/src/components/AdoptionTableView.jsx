@@ -132,7 +132,7 @@ const AdoptionTableView = () => {
                         })
                       }}
                     >
-                      Accept
+                      Confirm
                     </Button>
                     <Button
                       variant="danger"
