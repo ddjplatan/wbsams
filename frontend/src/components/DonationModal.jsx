@@ -92,7 +92,7 @@ const DonationModal = (props) => {
       onHide();
       toast.success("Successfully deleted donation")
       // location.reload();
-      toreload();
+      // toreload();
     }
     } catch (error) {
       toast.error("Error deleting donation", error.message)
