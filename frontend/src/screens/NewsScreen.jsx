@@ -38,7 +38,7 @@ const NewsScreen = () => {
 
   useEffect(() => {
     getEvents();
-  }, [modalShow]);
+  }, []);
 
   const [modalShow, setModalShow] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
