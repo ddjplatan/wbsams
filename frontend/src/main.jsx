@@ -37,7 +37,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
       {/* Private Routes */}
-      <Route path="" element={<PrivateRoute />}>
+      {/* <Route path="" element={<PrivateRoute />}> */}
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/dashboard" element={<DashboardScreen />} />
         <Route path="/adoption" element={<AdoptScreen />} />
@@ -54,7 +54,7 @@ const router = createBrowserRouter(
         <Route path="/spay-and-neuter-admin" element={<SpayNeuterInstancesScreen />} />
         <Route path="/events" element={<EventScreen />} />
         <Route path="/veterinarian" element={<VeterinarianScreen />} />
-      </Route>
+      {/* </Route> */}
     </Route>
   )
 );
