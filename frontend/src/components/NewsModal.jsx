@@ -57,7 +57,7 @@ const NewsModal = (props) => {
         });
         onHide();
         toast.success("Successfully added news.");
-        location.reload();
+        // location.reload();
       });
     } catch (error) {
       console.log(error.message)
@@ -73,7 +73,7 @@ const NewsModal = (props) => {
       if (response.status === 200) {
         onHide();
         toast.success("Successfully updated news")
-        location.reload();
+        // location.reload();
         setReload(!reload);
       }
     } catch (error) {
@@ -88,7 +88,7 @@ const NewsModal = (props) => {
       if (response.status === 200) {
         onHide();
         toast.success("Successfully deleted news")
-        location.reload();
+        // location.reload();
         setReload(!reload);
       }
     } catch (error) {
