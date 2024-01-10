@@ -1,4 +1,5 @@
 const Pet = require("../models/Pet");
+const Adoption = require("../models/Adoption");
 const multer = require("multer");
 const path = require("path");
 const storage = multer.diskStorage({
@@ -124,6 +125,7 @@ const deletePets = async (req, res, next) => {
 const deletePet = async (req, res, next) => {
   try {
     await Pet.findByIdAndDelete(req.params.petId);
+    await Adoption.deleteOne({ adoptee: req.params.petId });
     res
       .status(202)
       .setHeader("Content-Type", "application/json")

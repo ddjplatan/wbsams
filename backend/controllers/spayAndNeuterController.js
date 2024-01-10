@@ -94,14 +94,14 @@ const deleteInstance = async (req, res, next) => {
     const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
     const client = require("twilio")(accountSid, authToken);
 
-    // client.messages
-    //   .create({
-    //     body: "Your spay/neuter registration has been declined",
-    //     // from: "+18777804236",
-    //     from: "+14092373119",
-    //     to: "+639061783380",
-    //   })
-    //   .then((message) => console.log(message.sid));
+    client.messages
+      .create({
+        body: "Your spay/neuter registration has been declined",
+        // from: "+18777804236",
+        from: "+14092373119",
+        to: "+639061783380",
+      })
+      .then((message) => console.log(message.sid));
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
@@ -129,13 +129,13 @@ const confirmRegistration = async (req, res, next) => {
   const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
   const client = require("twilio")(accountSid, authToken);
   const appointment = await SpayNeuterAppointment.findById(appointmentId);
-  // client.messages
-  //   .create({
-  //     body: "Your spay/neuter registration has been confirmed",
-  //     from: "+14092373119",
-  //     to: "+639061783380",
-  //   })
-  //   .then((message) => console.log(message.sid));
+  client.messages
+    .create({
+      body: "Your spay/neuter registration has been confirmed",
+      from: "+14092373119",
+      to: "+639061783380",
+    })
+    .then((message) => console.log(message.sid));
 
   await SpayNeuterAppointment.findOneAndUpdate(
     { _id: appointmentId },
