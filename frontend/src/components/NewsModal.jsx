@@ -66,7 +66,6 @@ const NewsModal = (props) => {
   };
 
   const updateNews = async (id) => {
-    console.log('updateNews client')
     try {
       const url = `https://wbasms.onrender.com/api/news/${id}`;
       const response = await axios.put(url, newsData, { headers });
