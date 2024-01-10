@@ -98,7 +98,7 @@ const AdoptionTableView = () => {
                       };
 
                       const updateResponse = await axios.put(
-                        `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
+                        `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
                         updatedRequest,
                         { headers }
                       );
@@ -124,7 +124,7 @@ const AdoptionTableView = () => {
                           adoptee: adoptionRequest.adoptee,
                           adopter: adoptionRequest.adopter,
                         };
-                        await axios.post(`http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,data,{headers}).then((res)=>{
+                        await axios.post(`https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/confirm`,data,{headers}).then((res)=>{
                           if(res.status===200){
                             toast.success("Approved adoption request")
                             setReload(!reload)
@@ -139,7 +139,7 @@ const AdoptionTableView = () => {
                       size="sm"
                       className="w-100 my-1"
                       onClick={async () => {
-                        await axios.delete(`http://localhost:3001/api/adoption/${adoptionRequest._id}/`,{headers}).then((res)=>{
+                        await axios.delete(`https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/`,{headers}).then((res)=>{
                           if(res.status===200){
                             setReload(!reload)
                           }
