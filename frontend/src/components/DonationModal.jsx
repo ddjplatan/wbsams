@@ -148,7 +148,7 @@ const DonationModal = (props) => {
           setImg(null)
           onHide();
           toast.success("Successfully added donation.");
-          location.reload();
+          // location.reload();
         });
       }
     } catch (error) {
