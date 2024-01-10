@@ -27,7 +27,7 @@ const AdoptionTableView = () => {
     try {
       let mimeType;
       let b;
-      const res = await axios.get(`http://localhost:3001/api/adoption/${fileType}`, {
+      const res = await axios.get(`https://wbasms.onrender.com/api/adoption/${fileType}`, {
         responseType: 'blob', // Specify the response type as 'blob' for binary data
       });
 
@@ -62,7 +62,7 @@ const AdoptionTableView = () => {
   };
   const getAdoptionRequests = async () => {
     try {
-      const petUrl = "http://localhost:3001/api/adoption";
+      const petUrl = "https://wbasms.onrender.com/api/adoption";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

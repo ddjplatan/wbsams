@@ -27,7 +27,7 @@ const AdoptScreen = (props) => {
   const [pets, setPets] = useState([]);
   const handleDownloadCsv = async() => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/pet/toCsv`);
+      const res = await axios.get(`https://wbasms.onrender.com/api/pet/toCsv`);
       if(res.status === 200) {
         toast.success("Successfully downloaded csv")
       }
@@ -37,7 +37,7 @@ const AdoptScreen = (props) => {
   }
   const getPets = async () => {
     try {
-      const petUrl = "http://localhost:3001/api/pet";
+      const petUrl = "https://wbasms.onrender.com/api/pet";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

@@ -44,7 +44,7 @@ const NewsModal = (props) => {
         }
       });
 
-      const url = "http://localhost:3001/api/news";
+      const url = "https://wbasms.onrender.com/api/news";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -68,7 +68,7 @@ const NewsModal = (props) => {
   const updateNews = async (id) => {
     console.log('updateNews client')
     try {
-      const url = `http://localhost:3001/api/news/${id}`;
+      const url = `https://wbasms.onrender.com/api/news/${id}`;
       const response = await axios.put(url, newsData, { headers });
       if (response.status === 200) {
         onHide();
@@ -83,7 +83,7 @@ const NewsModal = (props) => {
 
   const deleteNews = async (id) => {
     try {
-      const url = `http://localhost:3001/api/news/${id}`;
+      const url = `https://wbasms.onrender.com/api/news/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
@@ -98,7 +98,7 @@ const NewsModal = (props) => {
 
   const deleteNewss = async (id) => {
     try {
-      const url = `http://localhost:3001/api/news/`;
+      const url = `https://wbasms.onrender.com/api/news/`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         setReload(!reload);

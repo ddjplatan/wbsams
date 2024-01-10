@@ -35,7 +35,7 @@ const DonationTableView = ({reload, setReload}) => {
     try {
       let mimeType;
       let b;
-      const res = await axios.get(`http://localhost:3001/api/donation/${fileType}`, {
+      const res = await axios.get(`https://wbasms.onrender.com/api/donation/${fileType}`, {
         responseType: 'blob', // Specify the response type as 'blob' for binary data
       });
 
@@ -70,7 +70,7 @@ const DonationTableView = ({reload, setReload}) => {
 
   const getDonations = async () => {
     try {
-      const url = "http://localhost:3001/api/donation";
+      const url = "https://wbasms.onrender.com/api/donation";
       
       const response = await axios.get(url, { headers });
       setDonations(response.data);
@@ -82,7 +82,7 @@ const DonationTableView = ({reload, setReload}) => {
 
   const addDonation = async() => {
     try {
-      const url = "http://localhost:3001/api/donation"
+      const url = "https://wbasms.onrender.com/api/donation"
 
       const response = await axios.post(url, donationData, {headers});
       if(response.status === 201){
@@ -95,7 +95,7 @@ const DonationTableView = ({reload, setReload}) => {
 
   const updateDonation = async(id) => {
     try {
-      const url = `http://localhost:3001/api/donation/${id}`
+      const url = `https://wbasms.onrender.com/api/donation/${id}`
 
       const response = await axios.post(url, donationData, {headers});
       if(response.status === 200){
@@ -108,7 +108,7 @@ const DonationTableView = ({reload, setReload}) => {
 
   const deleteDonation = async(id) => {
     try {
-      const url = `http://localhost:3001/api/donation/${id}`
+      const url = `https://wbasms.onrender.com/api/donation/${id}`
 
       const response = await axios.delete(url, {headers});
       if(response.status === 200){
@@ -121,7 +121,7 @@ const DonationTableView = ({reload, setReload}) => {
 
   const deleteDonations = async(id) => {
     try {
-      const url = `http://localhost:3001/api/donation`
+      const url = `https://wbasms.onrender.com/api/donation`
 
       const response = await axios.delete(url, {headers});
       if(response.status === 200){

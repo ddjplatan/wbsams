@@ -12,7 +12,7 @@ const AdoptionMonitoringScreen = () => {
   const token = userInfo.token;
 
   const getAdoptedPets = async () => {
-    const url = "http://localhost:3001/api/adoption/confirmed";
+    const url = "https://wbasms.onrender.com/api/adoption/confirmed";
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ const AdoptionMonitoringScreen = () => {
 
   const handleDownloadCSV = async () => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/adoption/toCsv`);
+      const res = await axios.get(`https://wbasms.onrender.com/api/adoption/toCsv`);
       if (res.status === 200) {
         toast.success("Successfully downloaded CSV file");
       }

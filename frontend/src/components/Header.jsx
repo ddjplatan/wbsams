@@ -18,7 +18,7 @@ import CawsLogo from "../assets/images/caws/png/caws-logo.png";
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
   // console.log(userInfo)
-  const baseUrl = "http://localhost:3001";
+  const baseUrl = "https://wbasms.onrender.com";
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

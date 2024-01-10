@@ -34,7 +34,7 @@ const EventModal = (props) => {
   const postEvent = async () => {
     try {
 
-      const url = "http://localhost:3001/api/spayNeuterInstance";
+      const url = "https://wbasms.onrender.com/api/spayNeuterInstance";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -57,7 +57,7 @@ const EventModal = (props) => {
 
   const updateEvent = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/${id}`;
+      const url = `https://wbasms.onrender.com/api/event/${id}`;
       const response = await axios.put(url, eventData, { headers });
       if (response.status === 200) {
         onHide();
@@ -71,7 +71,7 @@ const EventModal = (props) => {
 
   const deleteEvent = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/${id}`;
+      const url = `https://wbasms.onrender.com/api/event/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
@@ -85,7 +85,7 @@ const EventModal = (props) => {
 
   const deleteEvents = async (id) => {
     try {
-      const url = `http://localhost:3001/api/event/`;
+      const url = `https://wbasms.onrender.com/api/event/`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         setReload(!reload);

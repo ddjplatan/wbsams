@@ -31,7 +31,7 @@ const DashboardScreen = () => {
   const [adoptions, setAdoptions] = useState([]);
   const getAdoptions = async () => {
     try {
-      const url = "http://localhost:3001/api/adoption";
+      const url = "https://wbasms.onrender.com/api/adoption";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ const DashboardScreen = () => {
   const [volunteers, setVolunteers] = useState([]);
   const getVolunteers = async () => {
     try {
-      const url = "http://localhost:3001/api/volunteer";
+      const url = "https://wbasms.onrender.com/api/volunteer";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ const DashboardScreen = () => {
   const [donations, setDonations] = useState([]);
   const getDonations = async () => {
     try {
-      const url = "http://localhost:3001/api/donation";
+      const url = "https://wbasms.onrender.com/api/donation";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ const DashboardScreen = () => {
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
   const getSpayAndNeuters = async () => {
     try {
-      const url = "http://localhost:3001/api/spay-and-neuter";
+      const url = "https://wbasms.onrender.com/api/spay-and-neuter";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

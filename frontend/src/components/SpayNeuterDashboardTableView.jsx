@@ -33,7 +33,7 @@ const SpayAndNeuterTableView = () => {
     try {
       let mimeType;
       let b;
-      const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`, {
+      const res = await axios.get(`https://wbasms.onrender.com/api/spay-and-neuter/${fileType}`, {
         responseType: 'blob', // Specify the response type as 'blob' for binary data
       });
 
@@ -69,7 +69,7 @@ const SpayAndNeuterTableView = () => {
   const handleDelete = async () => {
     try {
       // console.log(data)
-      await axios.delete(`http://localhost:3001/api/spayNeuterInstance/${data.data._id}`, {headers}).then((res)=> {
+      await axios.delete(`https://wbasms.onrender.com/api/spayNeuterInstance/${data.data._id}`, {headers}).then((res)=> {
         if(res.status === 200 || res.status === 201) toast.success("Successfully deleted instance")
       })
     } catch (error) {
@@ -78,7 +78,7 @@ const SpayAndNeuterTableView = () => {
   }
   const getSpayAndNeuters = async () => {
     try {
-      const url = "http://localhost:3001/api/spay-and-neuter";
+      const url = "https://wbasms.onrender.com/api/spay-and-neuter";
       const response = await axios.get(url, { headers });
       console.log(response)
       const spayAndNeuterArray = response.data;
@@ -129,7 +129,7 @@ const SpayAndNeuterTableView = () => {
 
   const handleAcceptRegistration = async (id) => {
     const res = await axios.get(
-      `http://localhost:3001/api/spay-and-neuter/${id}/confirm`,
+      `https://wbasms.onrender.com/api/spay-and-neuter/${id}/confirm`,
       { headers }
     );
     if (res.status === 200) {
@@ -140,7 +140,7 @@ const SpayAndNeuterTableView = () => {
 
   const handleDeclineRegistration = async (id) => {
     const res = await axios.delete(
-      `http://localhost:3001/api/spay-and-neuter/${id}/`,
+      `https://wbasms.onrender.com/api/spay-and-neuter/${id}/`,
       { headers }
     );
     if (res.status === 200) {

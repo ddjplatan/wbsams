@@ -48,7 +48,7 @@ const VetModal = (props) => {
         }
       });
 
-      const url = "http://localhost:3001/api/vet";
+      const url = "https://wbasms.onrender.com/api/vet";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -85,7 +85,7 @@ const VetModal = (props) => {
           formData.append("img", vetData.img);
         }
       });
-      const url = `http://localhost:3001/api/vet/${id}`;
+      const url = `https://wbasms.onrender.com/api/vet/${id}`;
       const response = await axios.put(url, formData, { headers:{
     Authorization: `Bearer ${token}`,
         
@@ -103,7 +103,7 @@ const VetModal = (props) => {
   const deleteVet = async (id) => {
     console.log('delete client')
     try {
-      const url = `http://localhost:3001/api/vet/${id}`;
+      const url = `https://wbasms.onrender.com/api/vet/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
@@ -117,7 +117,7 @@ const VetModal = (props) => {
 
   const deleteVets = async (id) => {
     try {
-      const url = `http://localhost:3001/api/vet/`;
+      const url = `https://wbasms.onrender.com/api/vet/`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         setReload(!reload);

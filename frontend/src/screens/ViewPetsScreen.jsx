@@ -25,7 +25,7 @@ const ViewPetsScreen = () => {
   const [pets, setPets] = useState([]);
   const getPets = async () => {
     try {
-      const petUrl = "http://localhost:3001/api/pet";
+      const petUrl = "https://wbasms.onrender.com/api/pet";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

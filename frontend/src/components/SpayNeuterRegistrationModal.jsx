@@ -31,7 +31,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
 
   const fetchSpayNeuterInstances = async () => {
     try {
-      const url = "http://localhost:3001/api/spayNeuterInstance";
+      const url = "https://wbasms.onrender.com/api/spayNeuterInstance";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
     try {
       const instanceId = formData.instanceId
       const response = await axios.post(
-        `http://localhost:3001/api/spayNeuterInstance/${instanceId}`,
+        `https://wbasms.onrender.com/api/spayNeuterInstance/${instanceId}`,
         formData,
         { headers }
       );

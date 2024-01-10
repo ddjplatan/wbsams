@@ -25,7 +25,7 @@ const NewsScreen = () => {
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/news", {
+      const res = await axios.get("https://wbasms.onrender.com/api/news", {
         headers,
       });
       if (res) {

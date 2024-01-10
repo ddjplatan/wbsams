@@ -48,7 +48,7 @@ const VolunteerModal = (props) => {
         }
       });
 
-      const url = "http://localhost:3001/api/volunteer";
+      const url = "https://wbasms.onrender.com/api/volunteer";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -86,7 +86,7 @@ const VolunteerModal = (props) => {
           formData.append("img", volunteerData.img);
         }
       });
-      const url = `http://localhost:3001/api/volunteer/${id}`;
+      const url = `https://wbasms.onrender.com/api/volunteer/${id}`;
       const response = await axios.put(url, formData, { headers:{
     Authorization: `Bearer ${token}`,
 
@@ -104,7 +104,7 @@ const VolunteerModal = (props) => {
 
   const deleteVolunteer = async (id) => {
     try {
-      const url = `http://localhost:3001/api/volunteer/${id}`;
+      const url = `https://wbasms.onrender.com/api/volunteer/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();
@@ -119,7 +119,7 @@ const VolunteerModal = (props) => {
 
   const deleteVolunteers = async (id) => {
     try {
-      const url = `http://localhost:3001/api/volunteer/`;
+      const url = `https://wbasms.onrender.com/api/volunteer/`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         setReload(!reload);

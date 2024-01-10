@@ -28,21 +28,21 @@ const SpayNeuterRequestScreen = () => {
   };
 
   const fetchSpayNeuterRequests = async() => {
-    const res = await axios.get(`http://localhost:3001/api/spay-and-neuter`, {headers})
+    const res = await axios.get(`https://wbasms.onrender.com/api/spay-and-neuter`, {headers})
     const unApproved = res.data.filter(request=>!request.isApproved)
     setRequests(unApproved)
     
   }
 
   const handleAcceptRegistration = async(id) => {
-    const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${id}/confirm`, {headers})
+    const res = await axios.get(`https://wbasms.onrender.com/api/spay-and-neuter/${id}/confirm`, {headers})
     if(res.status===200){
       setReload(!reload)
     }
   }
 
   const handleDeclineRegistration = async(id) => {
-    const res = await axios.delete(`http://localhost:3001/api/spay-and-neuter/${id}/`, {headers})
+    const res = await axios.delete(`https://wbasms.onrender.com/api/spay-and-neuter/${id}/`, {headers})
     if(res.status===200){
       setReload(!reload)
     }

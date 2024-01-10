@@ -42,7 +42,7 @@ const UserModal = (props) => {
     console.log(id)
 
     try {
-      const response = await axios.delete(`http://localhost:3001/api/user/${id}`, {headers})
+      const response = await axios.delete(`https://wbasms.onrender.com/api/user/${id}`, {headers})
       if(response.status===200){
         toast.success("Successfully deleted user")
         onHide();
@@ -54,7 +54,7 @@ const UserModal = (props) => {
 
   const handleUpdate=async(id)=>{
     try {
-      const response = await axios.put(`http://localhost:3001/api/user/${id}`, userData, { headers })
+      const response = await axios.put(`https://wbasms.onrender.com/api/user/${id}`, userData, { headers })
       if(response.status === 200){
         toast.success("Successfully updated user")
         onHide();

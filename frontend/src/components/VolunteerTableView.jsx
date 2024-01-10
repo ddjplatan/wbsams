@@ -27,7 +27,7 @@ const AdoptionTableView = () => {
     try {
       let mimeType;
       let b;
-      const res = await axios.get(`http://localhost:3001/api/volunteer/${fileType}`, {
+      const res = await axios.get(`https://wbasms.onrender.com/api/volunteer/${fileType}`, {
         responseType: 'blob', // Specify the response type as 'blob' for binary data
       });
 
@@ -61,7 +61,7 @@ const AdoptionTableView = () => {
   };
   const getVolunteers = async () => {
     try {
-      const url = "http://localhost:3001/api/volunteer";
+      const url = "https://wbasms.onrender.com/api/volunteer";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

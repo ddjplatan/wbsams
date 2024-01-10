@@ -97,7 +97,7 @@ const PetModal = (props) => {
         }
       });
 
-      const petUrl = "http://localhost:3001/api/pet";
+      const petUrl = "https://wbasms.onrender.com/api/pet";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -134,7 +134,7 @@ const PetModal = (props) => {
         }
       });
 
-      const petUrl = `http://localhost:3001/api/pet/${petInfo._id}`;
+      const petUrl = `https://wbasms.onrender.com/api/pet/${petInfo._id}`;
       const headers = {
         // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -152,7 +152,7 @@ const PetModal = (props) => {
   //! delete pet
   const deletePet = async (id) => {
     try {
-      const petUrl = `http://localhost:3001/api/pet/${id}`;
+      const petUrl = `https://wbasms.onrender.com/api/pet/${id}`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -198,7 +198,7 @@ const PetModal = (props) => {
       ...adoptForm,
       _id: petInfo._id
     }
-    const petUrl = `http://localhost:3001/api/pet/${petInfo._id}/adopt`;
+    const petUrl = `https://wbasms.onrender.com/api/pet/${petInfo._id}/adopt`;
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

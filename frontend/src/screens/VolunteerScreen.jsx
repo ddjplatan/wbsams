@@ -23,7 +23,7 @@ const VolunteerScreen = () => {
 
   const getVolunteers = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/volunteer", {
+      const res = await axios.get("https://wbasms.onrender.com/api/volunteer", {
         headers,
       });
       if (res) {

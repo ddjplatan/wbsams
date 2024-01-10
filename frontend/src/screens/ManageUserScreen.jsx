@@ -26,7 +26,7 @@ const ManageUserScreen = (props) => {
   const [users, setUsers] = useState([]);
   const getUsers = async () => {
     try {
-      const userUrl = "http://localhost:3001/api/user";
+      const userUrl = "https://wbasms.onrender.com/api/user";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

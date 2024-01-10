@@ -35,7 +35,7 @@ const CheckupModal = ({ show, onHide, data }) => {
     try {
       let mimeType;
       let b;
-      const res = await axios.get(`http://localhost:3001/api/adoption/${data._id}/checkup/${fileType}`, {
+      const res = await axios.get(`https://wbasms.onrender.com/api/adoption/${data._id}/checkup/${fileType}`, {
         responseType: 'blob', // Specify the response type as 'blob' for binary data
       });
 
@@ -75,7 +75,7 @@ const CheckupModal = ({ show, onHide, data }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           };
-      const response = await axios.get(`http://localhost:3001/api/adoption/${data._id}/checkup`, {headers});
+      const response = await axios.get(`https://wbasms.onrender.com/api/adoption/${data._id}/checkup`, {headers});
       setCheckups(response.data);
     } catch (error) {
       console.error('Error fetching checkups:', error);
@@ -89,7 +89,7 @@ const CheckupModal = ({ show, onHide, data }) => {
             Authorization: `Bearer ${token}`,
           };
       // Send a request to add a new checkup
-      await axios.post(`http://localhost:3001/api/adoption/${data._id}/checkup`, newCheckupData, {headers});
+      await axios.post(`https://wbasms.onrender.com/api/adoption/${data._id}/checkup`, newCheckupData, {headers});
 
       // Fetch updated checkups
       fetchCheckups();
