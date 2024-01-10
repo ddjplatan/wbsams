@@ -91,7 +91,7 @@ const DonationModal = (props) => {
     if(response.status === 200){
       onHide();
       toast.success("Successfully deleted donation")
-      // location.reload();
+      location.reload();
       // toreload();
     }
     } catch (error) {
@@ -118,7 +118,7 @@ const DonationModal = (props) => {
           setImg(null)
           onHide();
           toast.success("Successfully updated donation");
-          // location.reload();
+          location.reload();
            
       })
       }else{
@@ -148,7 +148,7 @@ const DonationModal = (props) => {
           setImg(null)
           onHide();
           toast.success("Successfully added donation.");
-          // location.reload();
+          location.reload();
         });
       }
     } catch (error) {
