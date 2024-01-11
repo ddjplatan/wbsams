@@ -53,8 +53,8 @@ router
       }
       next();
     },
-    userValidator,
-    usernameValidator,
+    // userValidator,
+    // usernameValidator,
     createUser
   )
   .get(reqReceived, protectedRoute, adminValidator, getUsers)
