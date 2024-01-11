@@ -4,7 +4,6 @@ const SpayNeuterInstance = require("../models/SpayNeuterInstance");
 
 const postSpayNeuterInstance = async (req, res, next) => {
   const { location, slots, schedule } = req.body;
-  console.log(req.body);
   try {
     await SpayNeuterInstance.create({
       location,
