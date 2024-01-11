@@ -98,7 +98,8 @@ const AdoptionTableView = () => {
                       };
 
                       const updateResponse = await axios.put(
-                        `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
+                        // `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
+                        `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
                         updatedRequest,
                         { headers }
                       );
