@@ -8,7 +8,7 @@
     "server": "nodemon backend/server.js",
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "react-scripts build && cp build/index.html build/404.html"
+    "build": "npm install"
   },
   "keywords": [],
   "author": "",
