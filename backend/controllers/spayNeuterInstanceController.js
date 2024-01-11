@@ -9,7 +9,6 @@ const postSpayNeuterInstance = async (req, res, next) => {
     await SpayNeuterInstance.create({
       location,
       slots,
-      details,
       schedule,
     });
 

@@ -32,9 +32,12 @@ const EventModal = (props) => {
   });
 
   const postEvent = async () => {
+    console.log('post instance clickedd')
     try {
 
       const url = "https://wbasms.onrender.com/api/spayNeuterInstance";
+      // const url = "http://localhost:3001/api/spayNeuterInstance";
+
       const headers = {
         Authorization: `Bearer ${token}`,
       };
