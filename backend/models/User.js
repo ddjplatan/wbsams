@@ -76,12 +76,14 @@ const UserSchema = new Schema(
       min: "1900-01-01",
       max: Date.now(),
     },
-
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     isVerified: {
       type: Boolean,
       default: false,
     },
-
     verification: {
       type: Object,
     },

@@ -112,7 +112,7 @@ const SpayAndNeuterTableView = (data) => {
                   className="w-100 m-1"
                   onClick={() => handleAcceptRegistration(request._id)}
                 >
-                  AAAA
+                  Approve
                 </Button>
                 <Button
                   variant="warning"
@@ -125,15 +125,13 @@ const SpayAndNeuterTableView = (data) => {
 
                     const updateResponse = await axios.put(
                       //   // `https://wbasms.onrender.com/api/spay-and-neuter/${id}/update`,
-                        `http://localhost:3001/api/spay-and-neuter/${request._id}/`,
+                      `http://localhost:3001/api/spay-and-neuter/${request._id}/`,
                       updatedRequest,
                       { headers }
                     );
 
                     if (updateResponse.status === 200) {
-                      toast.success(
-                        "Declined for Spay and Neuter request."
-                      );
+                      toast.success("Declined for Spay and Neuter request.");
                       setReload(!reload);
                     }
                   }}
@@ -159,8 +157,8 @@ const SpayAndNeuterTableView = (data) => {
 
   const handleAcceptRegistration = async (id) => {
     const res = await axios.get(
-      `https://wbasms.onrender.com/api/spay-and-neuter/${id}/confirm`,
-
+      // `https://wbasms.onrender.com/api/spay-and-neuter/${id}/confirm`,
+      `http://localhost:3001/api/spay-and-neuter/${id}/confirm`,
       { headers }
     );
     if (res.status === 200) {
@@ -179,7 +177,6 @@ const SpayAndNeuterTableView = (data) => {
     //   toast.success("Successfully declined the request.");
     //   setReload(!reload);
     // }
-    
   };
 
   const spayAndNeuterList = {

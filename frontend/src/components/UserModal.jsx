@@ -10,7 +10,9 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useSelector } from "react-redux";
+
+import { useSelector, useDispatch } from "react-redux";
+const dispatch = useDispatch();
 
 const UserModal = (props) => {
   const { data, onHide } = props;
@@ -35,35 +37,47 @@ const UserModal = (props) => {
     image: "",
     createdAt: "",
     updatedAt: "",
+    isActive: true,
   });
 
-  const handleDelete = async(id) => {
-    console.log('handleDelete called')
-    console.log(id)
+  const handleDelete = async (id) => {
+    console.log("handleDelete called");
+    console.log(id);
+    dispatch(setUserData({ ...userData, isActive: !userData.isActive }));
 
     try {
-      const response = await axios.delete(`https://wbasms.onrender.com/api/user/${id}`, {headers})
-      if(response.status===200){
-        toast.success("Successfully deleted user")
+      const response = await axios.put(
+        `https://wbasms.onrender.com/api/user/${id}`,
+        { userData },
+        { headers }
+      );
+      if (response.status === 200) {
+        toast.success(
+          `Successfully ${userData.isActive ? "deactivated" : "activated"} user`
+        );
         onHide();
       }
     } catch (error) {
-      toast.error("Error")
+      toast.error("Error");
     }
-  }
+  };
 
-  const handleUpdate=async(id)=>{
+  const handleUpdate = async (id) => {
     try {
-      const response = await axios.put(`https://wbasms.onrender.com/api/user/${id}`, userData, { headers })
-      if(response.status === 200){
-        toast.success("Successfully updated user")
+      const response = await axios.put(
+        `https://wbasms.onrender.com/api/user/${id}`,
+        userData,
+        { headers }
+      );
+      if (response.status === 200) {
+        toast.success("Successfully updated user");
         onHide();
         // setReload(!reload)
       }
     } catch (error) {
-      toast.error("Error")
+      toast.error("Error");
     }
-  }
+  };
 
   useEffect(() => {
     if (data) {
@@ -81,6 +95,7 @@ const UserModal = (props) => {
         image: data.img,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
+        isActive: data.isActive,
       });
     } else {
       setUserData({
@@ -97,6 +112,7 @@ const UserModal = (props) => {
         image: "",
         createdAt: "",
         updatedAt: "",
+        isActive: true,
       });
     }
   }, [data]);
@@ -123,6 +139,7 @@ const UserModal = (props) => {
         phoneNumber: "",
         userType: "",
         image: "",
+        isActive: true,
       });
       setSelectedFile(null);
     } else {
@@ -167,37 +184,37 @@ const UserModal = (props) => {
           </Modal.Header>
           <Modal.Body className="px-5">
             <Row>
-              <Col className="d-flex justify-content-center">
-                {selectedFile ? (
-                  <Image
-                    src={selectedFile}
-                    alt="Preview"
-                    rounded
-                    height={350}
-                    width={350}
-                  />
-                ) : data ? (
-                  <Image
-                    src={
-                      data.img
-                        ? `${data.img}`
-                        : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
-                    }
-                    alt="Preview"
-                    rounded
-                    height={350}
-                    width={350}
-                  />
-                ) : (
-                  <Image
-                    src="https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
-                    rounded
-                    height={350}
-                    width={350}
-                  />
-                )}
-              </Col>
-              <Col>
+              <Col className="justify-content-center">
+                <div className="mb-4">
+                  {selectedFile ? (
+                    <Image
+                      src={selectedFile}
+                      alt="Preview"
+                      rounded
+                      height={350}
+                      width={350}
+                    />
+                  ) : data ? (
+                    <Image
+                      src={
+                        data.img
+                          ? `${data.img}`
+                          : "https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
+                      }
+                      alt="Preview"
+                      rounded
+                      height={350}
+                      width={350}
+                    />
+                  ) : (
+                    <Image
+                      src="https://res.cloudinary.com/dhndw6jia/image/upload/v1704410237/cfdmu6c0efuxagoa3ddn.jpg"
+                      rounded
+                      height={350}
+                      width={350}
+                    />
+                  )}
+                </div>
                 <FloatingLabel className="mb-2" controlId="image" label="image">
                   <Form.Control
                     type="file"
@@ -220,7 +237,28 @@ const UserModal = (props) => {
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <FloatingLabel controlId="firstName" label="First Name">
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="userStatus"
+                  label="User Status"
+                >
+                  <Form.Control
+                    type="text"
+                    disabled
+                    name="username"
+                    placeholder="User Status"
+                    value={userData.isActive ? "ACTIVE" : "DEACTIVATED"}
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+              </Col>
+
+              <Col>
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="firstName"
+                  label="First Name"
+                >
                   <Form.Control
                     type="text"
                     name="firstName"
@@ -229,7 +267,11 @@ const UserModal = (props) => {
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <FloatingLabel controlId="middleName" label="Middle Name">
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="middleName"
+                  label="Middle Name"
+                >
                   <Form.Control
                     type="text"
                     name="middleName"
@@ -238,7 +280,11 @@ const UserModal = (props) => {
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <FloatingLabel controlId="lastName" label="Last Name">
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="lastName"
+                  label="Last Name"
+                >
                   <Form.Control
                     type="text"
                     name="lastName"
@@ -275,7 +321,11 @@ const UserModal = (props) => {
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <FloatingLabel controlId="phoneNumber" label="Phone Number">
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="phoneNumber"
+                  label="Phone Number"
+                >
                   <Form.Control
                     type="text"
                     name="phoneNumber"
@@ -284,7 +334,11 @@ const UserModal = (props) => {
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <FloatingLabel controlId="email" label="Email Address">
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="email"
+                  label="Email Address"
+                >
                   <Form.Control
                     type="email"
                     name="email"
@@ -293,7 +347,11 @@ const UserModal = (props) => {
                     onChange={handleChange}
                   />
                 </FloatingLabel>
-                <FloatingLabel controlId="address" label="Permanent Address">
+                <FloatingLabel
+                  className="mb-2"
+                  controlId="address"
+                  label="Permanent Address"
+                >
                   <Form.Control
                     type="text"
                     name="address"
@@ -316,7 +374,6 @@ const UserModal = (props) => {
                     <option value="admin">Admin</option>
                     <option value="staff">Staff</option>
                     <option value="user">User</option>
-
                   </Form.Select>
                 </FloatingLabel>
               </Col>
@@ -326,27 +383,39 @@ const UserModal = (props) => {
               userType: "", */}
           <Modal.Footer>
             <Col className="d-flex justify-content-between">
-              {data && (
-                <Button
-                  onClick= {(e)=>{
-                    e.preventDefault();
-                    handleDelete(data._id)}}
-                  variant="danger"
-                >
-                  Delete User
-                </Button>
-              )}
+              {data &&
+                (userData.isActive ? (
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDelete(data._id);
+                    }}
+                    variant="danger"
+                  >
+                    Deactivate User
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDelete(data._id);
+                    }}
+                    variant="danger"
+                  >
+                    Activate User
+                  </Button>
+                ))}
               <Button
-  onClick={(e) => {
-    e.preventDefault();
-    data ? handleUpdate(data._id) : handleRegister();
-  }}
-  className="ms-auto"
-  type="submit"
-  variant={data ? "warning" : "primary"}
->
-  {data ? "Update User" : "Register User"}
-</Button>
+                onClick={(e) => {
+                  e.preventDefault();
+                  data ? handleUpdate(data._id) : handleRegister();
+                }}
+                className="ms-auto"
+                type="submit"
+                variant={data ? "warning" : "primary"}
+              >
+                {data ? "Update User" : "Register User"}
+              </Button>
             </Col>
             <Button onClick={clearForm} variant="secondary">
               Clear

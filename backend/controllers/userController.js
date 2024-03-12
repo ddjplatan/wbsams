@@ -119,7 +119,7 @@ const deleteUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id);
+    // const user = await User.findById(req.user._id);
     const update = { ...req.body };
     if (req.file) {
       const img = req.file.path
@@ -206,6 +206,7 @@ const createUser = async (req, res, next) => {
       birthday,
       userType,
       address,
+      isActive,
     } = req.body;
     const imgPath = req.upload
       ? req.upload.secure_url
@@ -222,6 +223,7 @@ const createUser = async (req, res, next) => {
       birthday,
       userType,
       address,
+      isActive,
       img: imgPath,
     })
       .then((user) => {

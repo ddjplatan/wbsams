@@ -139,7 +139,7 @@ const confirmRegistration = async (req, res, next) => {
 
   await SpayNeuterAppointment.findOneAndUpdate(
     { _id: appointmentId },
-    { $set: { isApproved: true } },
+    { $set: { status: "Approved" } },
     { new: true }
   );
 
