@@ -88,7 +88,8 @@ const SpayNeuterRegistrationModal = ({ show, onHide }) => {
       petBreed: "",
       petGender: "",
       petDescription: "",
-      instanceId: ""
+      instanceId: "",
+      isApproved: "Pending"
     });
     onHide();
   };

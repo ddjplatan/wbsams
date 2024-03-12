@@ -55,7 +55,7 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      console.log("Volunteers", response.data);
+      // console.log("Volunteers", response.data);
       setVolunteers(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -86,7 +86,7 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(url, { headers });
-      console.log("Spay And Neuter", response.data);
+      // console.log("Spay And Neuter", response.data);
       setSpayAndNeuters(response.data);
     } catch (error) {
       toast.error(error?.data?.message || error.error);

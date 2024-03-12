@@ -39,7 +39,7 @@ const Sidebar = () => {
       style={{ marginRight: "20px" }}
     >
       <CDBSidebarHeader prefix={<i className="fa fa-bars" />}>
-        Dashboard
+        Animal Welfare
       </CDBSidebarHeader>
       <CDBSidebarContent>
         <CDBSidebarMenu>

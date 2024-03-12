@@ -116,19 +116,22 @@ const deleteAdoption = async (req, res, next) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID_PET;
     const authToken = process.env.TWILIO_AUTH_TOKEN_PET;
     const client = require("twilio")(accountSid, authToken);
-
     client.messages
       .create({
-        body: "Your adoption request has been declined",
+        body: "Your adoption request has eben declined",
         from: "+14092373119",
         to: "+639061783380",
       })
       .then((message) => console.log(message.sid));
-    await Adoption.deleteOne({ _id: req.params.adoptionId });
+    
+    await Adoption.updateOne(
+      { _id: req.params.adoptionId },
+      { status: req.body.status }
+    );
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully deleted one adoption" });
+      .json({ success: true, message: "Declined one adoption" });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }

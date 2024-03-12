@@ -27,33 +27,36 @@ const AdoptionTableView = () => {
     try {
       let mimeType;
       let b;
-      const res = await axios.get(`https://wbasms.onrender.com/api/adoption/${fileType}`, {
-        responseType: 'blob', // Specify the response type as 'blob' for binary data
-      });
+      const res = await axios.get(
+        `https://wbasms.onrender.com/api/adoption/${fileType}`,
+        {
+          responseType: "blob", // Specify the response type as 'blob' for binary data
+        }
+      );
 
-      if (fileType === 'toPdf') {
-        mimeType = 'application/pdf';
-        b = 'pdf';
-      } else if (fileType === 'toCsv') {
-        mimeType = 'text/csv';
-        b = 'csv';
+      if (fileType === "toPdf") {
+        mimeType = "application/pdf";
+        b = "pdf";
+      } else if (fileType === "toCsv") {
+        mimeType = "text/csv";
+        b = "csv";
       }
-  
+
       if (res.status === 200) {
         // Create a Blob from the binary data and create a download link
         const blob = new Blob([res.data], { type: mimeType });
         const url = window.URL.createObjectURL(blob);
-  
+
         // Create an anchor element and trigger a click event to start the download
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
         a.download = `Adoptions-${Date.now()}.${b}`;
         document.body.appendChild(a);
         a.click();
-  
+
         // Remove the anchor element from the DOM
         document.body.removeChild(a);
-  
+
         // toast.success("Successfully downloaded file");
       }
     } catch (error) {
@@ -105,7 +108,9 @@ const AdoptionTableView = () => {
                       );
 
                       if (updateResponse.status === 200) {
-                        toast.success("Successfully invited for onsite evaluation");
+                        toast.success(
+                          "Successfully invited for onsite evaluation"
+                        );
                         setReload(!reload);
                       }
                     }}
@@ -113,6 +118,7 @@ const AdoptionTableView = () => {
                     Invite
                   </Button>
                 )}
+                {adoptionRequest.status === "Declined" && <span>DECLINED</span>}
 
                 {adoptionRequest.status === "Invited" && (
                   <>
@@ -125,12 +131,18 @@ const AdoptionTableView = () => {
                           adoptee: adoptionRequest.adoptee,
                           adopter: adoptionRequest.adopter,
                         };
-                        await axios.post(`https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/confirm`,data,{headers}).then((res)=>{
-                          if(res.status===200){
-                            toast.success("Approved adoption request")
-                            setReload(!reload)
-                          }
-                        })
+                        await axios
+                          .post(
+                            `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/confirm`,
+                            data,
+                            { headers }
+                          )
+                          .then((res) => {
+                            if (res.status === 200) {
+                              toast.success("Approved adoption request");
+                              setReload(!reload);
+                            }
+                          });
                       }}
                     >
                       Confirm
@@ -140,11 +152,24 @@ const AdoptionTableView = () => {
                       size="sm"
                       className="w-100 my-1"
                       onClick={async () => {
-                        await axios.delete(`https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/`,{headers}).then((res)=>{
-                          if(res.status===200){
-                            setReload(!reload)
-                          }
-                        })
+                        const updatedRequest = {
+                          ...adoptionRequest,
+                          status: "Declined",
+                        };
+
+                        const updateResponse = await axios.put(
+                          `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
+                          // `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
+                          updatedRequest,
+                          { headers }
+                        );
+
+                        if (updateResponse.status === 200) {
+                          toast.success(
+                            "Declined for onsite evaluation"
+                          );
+                          setReload(!reload);
+                        }
                       }}
                     >
                       Decline
@@ -152,9 +177,7 @@ const AdoptionTableView = () => {
                   </>
                 )}
 
-                {adoptionRequest.status === "Approved" && (
-                  <span>Approved</span>
-                )}
+                {adoptionRequest.status === "Approved" && <span>APPROVED</span>}
               </>
             ),
           })
@@ -221,9 +244,13 @@ const AdoptionTableView = () => {
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Adoption Requests</h2>
         <DropdownButton title="Download" variant="primary">
-    <Dropdown.Item onClick={() => handleDownload('toCsv')}>Download CSV</Dropdown.Item>
-    <Dropdown.Item onClick={() => handleDownload('toPdf')}>Download PDF</Dropdown.Item>
-  </DropdownButton>
+          <Dropdown.Item onClick={() => handleDownload("toCsv")}>
+            Download CSV
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDownload("toPdf")}>
+            Download PDF
+          </Dropdown.Item>
+        </DropdownButton>
       </Card.Header>
       <Card.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
         <DataTable data={adoptionRequestList} />

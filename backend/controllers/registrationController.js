@@ -72,11 +72,11 @@ const confirmRegistration = async (req, res) => {
 
 const deleteRegistration = async (req, res, next) => {
   try {
-    await SpayNeuterAppointment.deleteOne({ _id: req.params.appointmentId });
+    await SpayNeuterAppointment.updateOne({ _id: req.params.appointmentId, status: "Declined" });
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully deleted one appointment" });
+      .json({ success: true, message: "Successfully declined one appointment" });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
