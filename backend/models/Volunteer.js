@@ -44,6 +44,10 @@ const VolunteerSchema = new Schema(
     img: {
       type: String,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
   },
   {
     timestamps: true,

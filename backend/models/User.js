@@ -102,6 +102,10 @@ const UserSchema = new Schema(
       type: String,
       // required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
     resetPasswordToken: {
       type: String,
     },

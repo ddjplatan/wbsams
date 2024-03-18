@@ -19,6 +19,10 @@ const SpayAndNeuterSchema = new Schema(
       type: Number,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
     registeredPets: [
       {
         type: Schema.Types.ObjectId,

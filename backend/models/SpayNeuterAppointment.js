@@ -35,6 +35,10 @@ const SpayNeuterAppointmentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "SpayNeuterInstance",
     },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
   },
   {
     timestamps: true,

@@ -17,6 +17,10 @@ const EventSchema = new Schema(
     details: {
       type: String,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,

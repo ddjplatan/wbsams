@@ -42,6 +42,10 @@ const PetSchema = new Schema(
       ref: "User",
       default: null,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,
