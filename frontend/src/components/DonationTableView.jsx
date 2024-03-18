@@ -71,6 +71,8 @@ const DonationTableView = ({reload, setReload}) => {
   const getDonations = async () => {
     try {
       const url = "https://wbasms.onrender.com/api/donation";
+      // const url = "http://localhost:3001/api/donation";
+
       
       const response = await axios.get(url, { headers });
       setDonations(response.data);

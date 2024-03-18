@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   Button,
   Modal,
@@ -11,8 +13,7 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 
-import { useSelector, useDispatch } from "react-redux";
-const dispatch = useDispatch();
+// const dispatch = useDispatch();
 
 const UserModal = (props) => {
   const { data, onHide } = props;

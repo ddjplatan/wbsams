@@ -13,6 +13,8 @@ const AdoptionMonitoringScreen = () => {
 
   const getAdoptedPets = async () => {
     const url = "https://wbasms.onrender.com/api/adoption/confirmed";
+    // const url = "http://localhost:3001/api/adoption/confirmed";
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

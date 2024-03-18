@@ -32,6 +32,8 @@ const DashboardScreen = () => {
   const getAdoptions = async () => {
     try {
       const url = "https://wbasms.onrender.com/api/adoption";
+      // const url = "http://localhost:3001/api/adoption";
+
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -50,6 +52,8 @@ const DashboardScreen = () => {
   const getVolunteers = async () => {
     try {
       const url = "https://wbasms.onrender.com/api/volunteer";
+      // const url = "http://localhost:3001/api/volunteer";
+
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -66,6 +70,8 @@ const DashboardScreen = () => {
   const getDonations = async () => {
     try {
       const url = "https://wbasms.onrender.com/api/donation";
+      // const url = "http://localhost:3001/api/donation";
+
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -81,6 +87,8 @@ const DashboardScreen = () => {
   const getSpayAndNeuters = async () => {
     try {
       const url = "https://wbasms.onrender.com/api/spay-and-neuter";
+      // const url = "http://localhost:3001/api/spay-and-neuter";
+
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

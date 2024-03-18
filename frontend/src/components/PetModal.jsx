@@ -98,6 +98,7 @@ const PetModal = (props) => {
       });
 
       const petUrl = "https://wbasms.onrender.com/api/pet";
+      // const petUrl = "http://localhost:3001/api/pet";
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -199,6 +200,8 @@ const PetModal = (props) => {
       _id: petInfo._id
     }
     const petUrl = `https://wbasms.onrender.com/api/pet/${petInfo._id}/adopt`;
+    // const petUrl = `http://localhost:3001/api/pet/${petInfo._id}/adopt`;
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

@@ -40,7 +40,7 @@ const AdoptionSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Invited", "Pending", "Approved"],
+      enum: ["Invited", "Pending", "Approved", "Declined"],
       default: "Pending",
     },
     // isApproved: {

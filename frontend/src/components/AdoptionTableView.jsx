@@ -13,6 +13,11 @@ const AdoptionTableView = () => {
   const [adoptionRequests, setAdoptionRequests] = useState([]);
   const [reload, setReload] = useState(false);
 
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
   // const handleDownload = async(fileType) => {
   //   try {
   //     const res = await axios.get(`http://localhost:3001/api/adoption/${fileType}`);
@@ -23,6 +28,37 @@ const AdoptionTableView = () => {
   //     console.error(error.message)
   //   }
   // }
+  const handleDecline = async (adoptionRequest) => {
+    const remarks = prompt("Please provide remarks for declining the adoption request:");
+  
+    if (remarks !== null && remarks.trim() !== "") {
+      const updatedRequest = {
+        ...adoptionRequest,
+        status: "Declined",
+        remarks: remarks.trim() 
+      };
+  
+      try {
+        const updateResponse = await axios.put(
+          `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
+          // `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
+          updatedRequest,
+          { headers }
+        );
+  
+        if (updateResponse.status === 200) {
+          toast.success("Adoption application declined");
+          setReload(!reload);
+        }
+      } catch (error) {
+        console.error("Error occurred while updating adoption:", error);
+        toast.error("Failed to decline adoption application. Please try again later.");
+      }
+    } else {
+      alert("Remarks are required to decline the adoption request.");
+    }
+  };
+  
   const handleDownload = async (fileType) => {
     try {
       let mimeType;
@@ -66,6 +102,8 @@ const AdoptionTableView = () => {
   const getAdoptionRequests = async () => {
     try {
       const petUrl = "https://wbasms.onrender.com/api/adoption";
+      // const petUrl = "http://localhost:3001/api/adoption";
+
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -86,6 +124,7 @@ const AdoptionTableView = () => {
             adoptee: adoptionRequest.adoptee.name,
             parentJob: adoptionRequest.parentJob,
             reason: adoptionRequest.reason,
+            remarks: adoptionRequest.remarks,
             createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
             action: (
               <>
@@ -134,6 +173,8 @@ const AdoptionTableView = () => {
                         await axios
                           .post(
                             `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/confirm`,
+                            // `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
+
                             data,
                             { headers }
                           )
@@ -151,26 +192,7 @@ const AdoptionTableView = () => {
                       variant="danger"
                       size="sm"
                       className="w-100 my-1"
-                      onClick={async () => {
-                        const updatedRequest = {
-                          ...adoptionRequest,
-                          status: "Declined",
-                        };
-
-                        const updateResponse = await axios.put(
-                          `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
-                          // `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
-                          updatedRequest,
-                          { headers }
-                        );
-
-                        if (updateResponse.status === 200) {
-                          toast.success(
-                            "Declined for onsite evaluation"
-                          );
-                          setReload(!reload);
-                        }
-                      }}
+                      onClick={()=> handleDecline(adoptionRequest)}
                     >
                       Decline
                     </Button>
@@ -234,6 +256,11 @@ const AdoptionTableView = () => {
       {
         label: "Action",
         field: "action",
+        sort: "disabled",
+      },
+      {
+        label: "Remarks",
+        field: "remarks",
         sort: "disabled",
       },
     ],
