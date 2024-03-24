@@ -35,15 +35,38 @@ const getNews = async (req, res, next) => {
   }
 };
 
+// const getNewss = async (req, res, next) => {
+//   const { skip, limit, category } = req.query;
+//   const count = await News.countDocuments();
+//   let newss;
+//   if (category === undefined) {
+//     newss = await News.find().skip(skip).limit(limit);
+//   } else {
+//     newss = await News.find({ category }).skip(skip).limit(limit);
+//   }
+//   res
+//     .status(200)
+//     .setHeader("Content-Type", "application/json")
+//     .setHeader("X-Total-Count", `${count}`)
+//     .json(newss);
+// };
+
 const getNewss = async (req, res, next) => {
   const { skip, limit, category } = req.query;
-  const count = await News.countDocuments();
-  let newss;
+  const filterCondition = { isDeleted: false }; // Add this filter condition
+
+  let newss, count;
+
   if (category === undefined) {
-    newss = await News.find().skip(skip).limit(limit);
+    count = await News.countDocuments(filterCondition);
+    newss = await News.find(filterCondition).skip(skip).limit(limit);
   } else {
-    newss = await News.find({ category }).skip(skip).limit(limit);
+    const categoryCondition = { category };
+    const finalCondition = { ...filterCondition, ...categoryCondition };
+    count = await News.countDocuments(finalCondition);
+    newss = await News.find(finalCondition).skip(skip).limit(limit);
   }
+
   res
     .status(200)
     .setHeader("Content-Type", "application/json")
@@ -69,15 +92,37 @@ const updateNews = async (req, res, next) => {
   }
 };
 
+// const deleteNews = async (req, res, next) => {
+//   try {
+//     await News.deleteOne({ _id: req.params.newsId });
+//     res
+//       .status(200)
+//       .setHeader("Content-Type", "application/json")
+//       .json({ success: true, message: "Successfully deleted one news" });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
 const deleteNews = async (req, res, next) => {
   try {
-    await News.deleteOne({ _id: req.params.newsId });
+    const news = await News.findOneAndUpdate(
+      { _id: req.params.newsId },
+      { isDeleted: true },
+      { new: true } // To return the updated document
+    );
+
+    if (!news) {
+      return res.status(404).json({ success: false, message: "News not found" });
+    }
+
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully deleted one news" });
+      .json({ success: true, message: "Successfully marked news as deleted", news });
   } catch (err) {
-    console.error(err);
+    console.error("Error occurred while marking news as deleted:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 

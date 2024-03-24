@@ -118,7 +118,7 @@ const deleteAdoption = async (req, res, next) => {
     const client = require("twilio")(accountSid, authToken);
     client.messages
       .create({
-        body: "Your adoption request has eben declined",
+        body: "Your adoption request has been declined",
         from: "+14092373119",
         to: "+639061783380",
       })

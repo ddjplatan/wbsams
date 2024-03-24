@@ -34,21 +34,45 @@ const getEvent = async (req, res, next) => {
   }
 };
 
+// const getEvents = async (req, res, next) => {
+//   const { skip, limit, category } = req.query;
+//   const count = await Event.countDocuments();
+//   let events;
+//   if (category === undefined) {
+//     events = await Event.find().skip(skip).limit(limit);
+//   } else {
+//     events = await Event.find({ category }).skip(skip).limit(limit);
+//   }
+//   res
+//     .status(200)
+//     .setHeader("Content-Type", "application/json")
+//     .setHeader("X-Total-Count", `${count}`)
+//     .json(events);
+// };
+
 const getEvents = async (req, res, next) => {
   const { skip, limit, category } = req.query;
-  const count = await Event.countDocuments();
-  let events;
+  const filterCondition = { isDeleted: false }; // Add this filter condition
+
+  let events, count;
+
   if (category === undefined) {
-    events = await Event.find().skip(skip).limit(limit);
+    count = await Event.countDocuments(filterCondition);
+    events = await Event.find(filterCondition).skip(skip).limit(limit);
   } else {
-    events = await Event.find({ category }).skip(skip).limit(limit);
+    const categoryCondition = { category };
+    const finalCondition = { ...filterCondition, ...categoryCondition };
+    count = await Event.countDocuments(finalCondition);
+    events = await Event.find(finalCondition).skip(skip).limit(limit);
   }
+
   res
     .status(200)
     .setHeader("Content-Type", "application/json")
     .setHeader("X-Total-Count", `${count}`)
     .json(events);
 };
+
 
 const updateEvent = async (req, res, next) => {
   try {
@@ -68,15 +92,37 @@ const updateEvent = async (req, res, next) => {
   }
 };
 
+// const deleteEvent = async (req, res, next) => {
+//   try {
+//     await Event.deleteOne({ _id: req.params.eventId });
+//     res
+//       .status(200)
+//       .setHeader("Content-Type", "application/json")
+//       .json({ success: true, message: "Successfully deleted one event" });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
 const deleteEvent = async (req, res, next) => {
   try {
-    await Event.deleteOne({ _id: req.params.eventId });
+    const event = await Event.findOneAndUpdate(
+      { _id: req.params.eventId },
+      { isDeleted: true },
+      { new: true } // To return the updated document
+    );
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: "Event not found" });
+    }
+
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully deleted one event" });
+      .json({ success: true, message: "Successfully marked event as deleted", event });
   } catch (err) {
-    console.error(err);
+    console.error("Error occurred while marking event as deleted:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 

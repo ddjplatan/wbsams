@@ -38,16 +38,35 @@ const getDonation = async (req, res, next) => {
   }
 };
 
+// const getDonations = async (req, res, next) => {
+//   const { skip, limit } = req.query;
+//   const count = await Donation.countDocuments();
+//   const donations = await Donation.find().skip(skip).limit(limit);
+//   res
+//     .status(200)
+//     .setHeader("Content-Type", "application/json")
+//     .setHeader("X-Total-Count", `${count}`)
+//     .json(donations);
+// };
+
 const getDonations = async (req, res, next) => {
   const { skip, limit } = req.query;
-  const count = await Donation.countDocuments();
-  const donations = await Donation.find().skip(skip).limit(limit);
-  res
-    .status(200)
-    .setHeader("Content-Type", "application/json")
-    .setHeader("X-Total-Count", `${count}`)
-    .json(donations);
+  
+  try {
+    const count = await Donation.countDocuments({ isDeleted: false });
+    const donations = await Donation.find({ isDeleted: false }).skip(skip).limit(limit);
+    
+    res
+      .status(200)
+      .setHeader("Content-Type", "application/json")
+      .setHeader("X-Total-Count", `${count}`)
+      .json(donations);
+  } catch (err) {
+    console.error("Error occurred while fetching donations:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 };
+
 
 const updateDonation = async (req, res, next) => {
   try {
@@ -67,17 +86,39 @@ const updateDonation = async (req, res, next) => {
   }
 };
 
+// const deleteDonation = async (req, res, next) => {
+//   try {
+//     await Donation.deleteOne({ _id: req.params.donationId });
+//     res
+//       .status(200)
+//       .setHeader("Content-Type", "application/json")
+//       .json({ success: true, message: "Successfully deleted one event" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
 const deleteDonation = async (req, res, next) => {
   try {
-    await Donation.deleteOne({ _id: req.params.donationId });
+    const donation = await Donation.findOneAndUpdate(
+      { _id: req.params.donationId },
+      { isDeleted: true },
+      { new: true } // To return the updated document
+    );
+
+    if (!donation) {
+      return res.status(404).json({ success: false, message: "Donation not found" });
+    }
+
     res
       .status(200)
       .setHeader("Content-Type", "application/json")
-      .json({ success: true, message: "Successfully deleted one event" });
+      .json({ success: true, message: "Successfully marked donation as deleted", donation });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Error occurred while marking donation as deleted:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 const deleteDonations = async (req, res, next) => {
   try {
