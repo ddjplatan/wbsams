@@ -41,9 +41,9 @@ const DonationScreen = () => {
 
   const getDonations = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/donation", {
-
-      // const res = await axios.get("https://wbasms.onrender.com/api/donation", {
+      // const res = await axios.get("http://localhost:3001/api/donation", {
+// 
+      const res = await axios.get("https://wbasms.onrender.com/api/donation", {
         headers,
       });
       if (res.status === 200) {

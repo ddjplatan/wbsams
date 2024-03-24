@@ -87,6 +87,7 @@ const DonationModal = (props) => {
   const handleDelete = async (id) => {
     try {
     const url = `https://wbasms.onrender.com/api/donation/${id}`
+    // const url = `http://localhost:3001/api/donation/${id}`
     const response = await axios.delete(url, {headers})
     if(response.status === 200){
       onHide();
@@ -123,6 +124,7 @@ const DonationModal = (props) => {
       })
       }else{
         url =`https://wbasms.onrender.com/api/donation/`
+        // url =`http://localhost:3001/api/donation/`
 
         const formData = new FormData();
 
