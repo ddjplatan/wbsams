@@ -233,9 +233,75 @@ const convertDonation = async (req, res, next) => {
   }
 };
 
+// const convertDonationToPdf = async (req, res, next) => {
+//   try {
+//     const { startDate, endDate } = req.query;
+//     const donations = await Donation.find();
+//     const currentDate = Date.now();
+//     const pdfFilePath = path.join(
+//       __dirname,
+//       "..",
+//       "..",
+//       "files",
+//       `Donations-${currentDate}.pdf`
+//     );
+
+//     const browser = await puppeteer.launch();
+//     const page = await browser.newPage();
+
+//     // Create an HTML string with your content
+//     const htmlContent = generateHtmlForDonations(donations);
+
+//     await page.setContent(htmlContent);
+//     await page.pdf({
+//       path: pdfFilePath,
+//       format: "A4",
+//       margin: { top: 20, right: 20, bottom: 20, left: 20 },
+//     });
+
+//     await browser.close();
+
+//     res.download(pdfFilePath, `Donations-${currentDate}.pdf`, (err) => {
+//       if (err) {
+//         console.error("Error sending PDF:", err);
+//         res.status(500).send("Internal Server Error");
+//       } else {
+//         fs.unlink(pdfFilePath, (unlinkErr) => {
+//           if (unlinkErr) {
+//             console.error("Error deleting PDF file:", unlinkErr);
+//           } else {
+//             console.log("PDF file deleted successfully");
+//           }
+//         });
+//       }
+//     });
+//   } catch (error) {
+//     console.error("Error converting to PDF:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
 const convertDonationToPdf = async (req, res, next) => {
   try {
-    const donations = await Donation.find();
+    const { startDate, endDate } = req.query;
+
+    // Parse startDate and endDate strings into Date objects if needed
+    const parsedStartDate = startDate ? new Date(startDate) : null;
+    const parsedEndDate = endDate ? new Date(endDate) : null;
+
+    // Construct query conditions based on the provided date range
+    const query = {};
+    if (parsedStartDate && parsedEndDate) {
+      query.date = { $gte: parsedStartDate, $lte: parsedEndDate };
+    } else if (parsedStartDate) {
+      query.date = { $gte: parsedStartDate };
+    } else if (parsedEndDate) {
+      query.date = { $lte: parsedEndDate };
+    }
+
+    // Fetch donations based on the provided date range
+    const donations = await Donation.find(query);
+
     const currentDate = Date.now();
     const pdfFilePath = path.join(
       __dirname,
@@ -279,6 +345,7 @@ const convertDonationToPdf = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 const convertSpayAndNeuter = async (req, res, next) => {
   try {
