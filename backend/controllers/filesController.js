@@ -181,7 +181,25 @@ const convertPets = async (req, res, next) => {
 
 const convertDonation = async (req, res, next) => {
   try {
-    const donations = await Donation.find();
+    const { startDate, endDate } = req.query;
+
+    // Parse startDate and endDate strings into Date objects if needed
+    const parsedStartDate = startDate ? new Date(startDate) : null;
+    const parsedEndDate = endDate ? new Date(endDate) : null;
+
+    // Construct query conditions based on the provided date range
+    const query = {};
+    if (parsedStartDate && parsedEndDate) {
+      query.date = { $gte: parsedStartDate, $lte: parsedEndDate };
+    } else if (parsedStartDate) {
+      query.date = { $gte: parsedStartDate };
+    } else if (parsedEndDate) {
+      query.date = { $lte: parsedEndDate };
+    }
+
+    // Fetch donations based on the provided date range
+    const donations = await Donation.find(query);
+
     const currentDate = Date.now();
     const csvFilePath = path.join(
       __dirname,
@@ -232,6 +250,61 @@ const convertDonation = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+// const convertDonation = async (req, res, next) => {
+//   try {
+//     const donations = await Donation.find();
+//     const currentDate = Date.now();
+//     const csvFilePath = path.join(
+//       __dirname,
+//       "..",
+//       "..",
+//       "files",
+//       `Donations-${currentDate}.csv`
+//     );
+
+//     const csvWriter = createCsvWriter({
+//       path: csvFilePath,
+//       header: [
+//         { id: "donor", title: "Donor" },
+//         { id: "donationType", title: "Donation" },
+//         { id: "address", title: "Address" },
+//         { id: "remarks", title: "Remarks" },
+//         { id: "date", title: "Date" },
+//       ],
+//     });
+
+//     const records = donations.map((doc) => ({
+//       donor: doc.donor,
+//       donationType: doc.donationType,
+//       address: doc.address,
+//       remarks: doc.remarks,
+//       date: new Date(doc.date),
+//     }));
+
+//     await csvWriter.writeRecords(records).then(() => {
+//       res.download(csvFilePath, `Donations-${currentDate}.csv`, (err) => {
+//         if (err) {
+//           console.error("Error sending CSV:", err);
+//           res.status(500).send("Internal Server Error");
+//         } else {
+//           // Optionally, you can delete the generated CSV file after it's sent
+//           fs.unlink(csvFilePath, (unlinkErr) => {
+//             if (unlinkErr) {
+//               console.error("Error deleting CSV file:", unlinkErr);
+//             } else {
+//               console.log("CSV file deleted successfully");
+//             }
+//           });
+//         }
+//       });
+//     });
+//   } catch (error) {
+//     console.error("Error converting to CSV:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
 
 // const convertDonationToPdf = async (req, res, next) => {
 //   try {
