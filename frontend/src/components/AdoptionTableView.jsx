@@ -1,5 +1,7 @@
 import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import DataTable from "./DataTable";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 
 import { useState, useEffect } from "react";
@@ -18,16 +20,16 @@ const AdoptionTableView = () => {
     Authorization: `Bearer ${token}`,
   };
 
-  // const handleDownload = async(fileType) => {
-  //   try {
-  //     const res = await axios.get(`http://localhost:3001/api/adoption/${fileType}`);
-  //     if(res.status === 200) {
-  //       toast.success("Successfully downloaded file")
-  //     }
-  //   } catch (error) {
-  //     console.error(error.message)
-  //   }
-  // }
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
   const handleDecline = async (adoptionRequest) => {
     const remarks = prompt("Please provide remarks for declining the adoption request:");
   
@@ -60,15 +62,18 @@ const AdoptionTableView = () => {
   };
   
   const handleDownload = async (fileType) => {
+    
     try {
       let mimeType;
       let b;
-      const res = await axios.get(
-        `https://wbasms.onrender.com/api/adoption/${fileType}`,
-        {
-          responseType: "blob", // Specify the response type as 'blob' for binary data
-        }
-      );
+      // const res = await axios.get(`https://wbasms.onrender.com/api/donation/${fileType}`, {
+      const res = await axios.get(`http://localhost:3001/api/adoption/${fileType}`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate
+          },
+          responseType: 'blob', // Specify the response type as 'blob' for binary data
+        });
 
       if (fileType === "toPdf") {
         mimeType = "application/pdf";
@@ -270,6 +275,24 @@ const AdoptionTableView = () => {
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Adoption Requests</h2>
+        <DatePicker
+            selected={startDate}
+            onChange={handleStartDateChange}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            placeholderText="Start Date"
+            className="form-control me-2"
+          />
+          <DatePicker
+            selected={endDate}
+            onChange={handleEndDateChange}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            placeholderText="End Date"
+            className="form-control me-2"
+          />
         <DropdownButton title="Download" variant="primary">
           <Dropdown.Item onClick={() => handleDownload("toCsv")}>
             Download CSV

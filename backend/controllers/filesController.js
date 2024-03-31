@@ -12,9 +12,27 @@ const SpayNeuterInstance = require("../models/SpayNeuterInstance");
 
 const convertAdoption = async (req, res, next) => {
   try {
-    const adoptions = await Adoption.find()
+    const { startDate, endDate } = req.query;
+
+    // Parse startDate and endDate strings into Date objects if needed
+    const parsedStartDate = startDate ? new Date(startDate) : null;
+    const parsedEndDate = endDate ? new Date(endDate) : null;
+
+    // Construct query conditions based on the provided date range
+    const query = {};
+    if (parsedStartDate && parsedEndDate) {
+      query.date = { $gte: parsedStartDate, $lte: parsedEndDate };
+    } else if (parsedStartDate) {
+      query.date = { $gte: parsedStartDate };
+    } else if (parsedEndDate) {
+      query.date = { $lte: parsedEndDate };
+    }
+
+    // Fetch adoptions based on the provided date range
+    const adoptions = await Adoption.find(query)
       .populate("adopter")
       .populate("adoptee");
+
     const currentDate = Date.now();
     const csvFilePath = path.join(
       __dirname,
@@ -76,11 +94,31 @@ const convertAdoption = async (req, res, next) => {
   }
 };
 
+
+
 const convertAdoptionToPdf = async (req, res, next) => {
   try {
-    const adoptions = await Adoption.find()
+    const { startDate, endDate } = req.query;
+
+    // Parse startDate and endDate strings into Date objects if needed
+    const parsedStartDate = startDate ? new Date(startDate) : null;
+    const parsedEndDate = endDate ? new Date(endDate) : null;
+
+    // Construct query conditions based on the provided date range
+    const query = {};
+    if (parsedStartDate && parsedEndDate) {
+      query.date = { $gte: parsedStartDate, $lte: parsedEndDate };
+    } else if (parsedStartDate) {
+      query.date = { $gte: parsedStartDate };
+    } else if (parsedEndDate) {
+      query.date = { $lte: parsedEndDate };
+    }
+
+    // Fetch adoptions based on the provided date range
+    const adoptions = await Adoption.find(query)
       .populate("adopter")
       .populate("adoptee");
+
     const currentDate = Date.now();
     const pdfFilePath = path.join(
       __dirname,
@@ -123,6 +161,7 @@ const convertAdoptionToPdf = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 const convertPets = async (req, res, next) => {
   try {
@@ -252,108 +291,6 @@ const convertDonation = async (req, res, next) => {
 };
 
 
-// const convertDonation = async (req, res, next) => {
-//   try {
-//     const donations = await Donation.find();
-//     const currentDate = Date.now();
-//     const csvFilePath = path.join(
-//       __dirname,
-//       "..",
-//       "..",
-//       "files",
-//       `Donations-${currentDate}.csv`
-//     );
-
-//     const csvWriter = createCsvWriter({
-//       path: csvFilePath,
-//       header: [
-//         { id: "donor", title: "Donor" },
-//         { id: "donationType", title: "Donation" },
-//         { id: "address", title: "Address" },
-//         { id: "remarks", title: "Remarks" },
-//         { id: "date", title: "Date" },
-//       ],
-//     });
-
-//     const records = donations.map((doc) => ({
-//       donor: doc.donor,
-//       donationType: doc.donationType,
-//       address: doc.address,
-//       remarks: doc.remarks,
-//       date: new Date(doc.date),
-//     }));
-
-//     await csvWriter.writeRecords(records).then(() => {
-//       res.download(csvFilePath, `Donations-${currentDate}.csv`, (err) => {
-//         if (err) {
-//           console.error("Error sending CSV:", err);
-//           res.status(500).send("Internal Server Error");
-//         } else {
-//           // Optionally, you can delete the generated CSV file after it's sent
-//           fs.unlink(csvFilePath, (unlinkErr) => {
-//             if (unlinkErr) {
-//               console.error("Error deleting CSV file:", unlinkErr);
-//             } else {
-//               console.log("CSV file deleted successfully");
-//             }
-//           });
-//         }
-//       });
-//     });
-//   } catch (error) {
-//     console.error("Error converting to CSV:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-// const convertDonationToPdf = async (req, res, next) => {
-//   try {
-//     const { startDate, endDate } = req.query;
-//     const donations = await Donation.find();
-//     const currentDate = Date.now();
-//     const pdfFilePath = path.join(
-//       __dirname,
-//       "..",
-//       "..",
-//       "files",
-//       `Donations-${currentDate}.pdf`
-//     );
-
-//     const browser = await puppeteer.launch();
-//     const page = await browser.newPage();
-
-//     // Create an HTML string with your content
-//     const htmlContent = generateHtmlForDonations(donations);
-
-//     await page.setContent(htmlContent);
-//     await page.pdf({
-//       path: pdfFilePath,
-//       format: "A4",
-//       margin: { top: 20, right: 20, bottom: 20, left: 20 },
-//     });
-
-//     await browser.close();
-
-//     res.download(pdfFilePath, `Donations-${currentDate}.pdf`, (err) => {
-//       if (err) {
-//         console.error("Error sending PDF:", err);
-//         res.status(500).send("Internal Server Error");
-//       } else {
-//         fs.unlink(pdfFilePath, (unlinkErr) => {
-//           if (unlinkErr) {
-//             console.error("Error deleting PDF file:", unlinkErr);
-//           } else {
-//             console.log("PDF file deleted successfully");
-//           }
-//         });
-//       }
-//     });
-//   } catch (error) {
-//     console.error("Error converting to PDF:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
 const convertDonationToPdf = async (req, res, next) => {
   try {
     const { startDate, endDate } = req.query;
@@ -477,6 +414,83 @@ const convertSpayAndNeuter = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+// const convertSpayAndNeuter = async (req, res, next) => {
+//   try {
+//     const { startDate, endDate } = req.query;
+
+//     // Parse startDate and endDate strings into Date objects if needed
+//     const parsedStartDate = startDate ? new Date(startDate) : null;
+//     const parsedEndDate = endDate ? new Date(endDate) : null;
+
+//     // Construct query conditions based on the provided date range
+//     const query = {};
+//     if (parsedStartDate && parsedEndDate) {
+//       query.date = { $gte: parsedStartDate, $lte: parsedEndDate };
+//     } else if (parsedStartDate) {
+//       query.date = { $gte: parsedStartDate };
+//     } else if (parsedEndDate) {
+//       query.date = { $lte: parsedEndDate };
+//     }
+
+//     // Fetch appointments based on the provided date range
+//     const appointments = await SpayNeuterAppointment.find(query).populate("owner");
+
+//     const currentDate = Date.now();
+//     const csvFilePath = path.join(
+//       __dirname,
+//       "..",
+//       "..",
+//       "files",
+//       `SpayAndNeuter-${currentDate}.csv`
+//     );
+
+//     const csvWriter = createCsvWriter({
+//       path: csvFilePath,
+//       header: [
+//         { id: "owner", title: "Owner" },
+//         { id: "phoneNumber", title: "Phone Number" },
+//         { id: "petName", title: "Pet" },
+//         { id: "species", title: "Species" },
+//         { id: "age", title: "Pet Age" },
+//         { id: "petGender", title: "Pet Gender" },
+//         { id: "isApproved", title: "Is Approved?" },
+//       ],
+//     });
+
+//     const records = appointments.map((doc) => ({
+//       owner: doc.owner.firstName + " " + doc.owner.lastName,
+//       phoneNumber: doc.owner.phoneNumber,
+//       petName: doc.petName,
+//       species: doc.petSpecies,
+//       age: doc.petAge,
+//       petGender: doc.petGender,
+//       isApproved: doc.isApproved,
+//     }));
+
+//     await csvWriter.writeRecords(records).then(() => {
+//       res.download(csvFilePath, `SpayAndNeuter-${currentDate}.csv`, (err) => {
+//         if (err) {
+//           console.error("Error sending CSV:", err);
+//           res.status(500).send("Internal Server Error");
+//         } else {
+//           // Optionally, you can delete the generated CSV file after it's sent
+//           fs.unlink(csvFilePath, (unlinkErr) => {
+//             if (unlinkErr) {
+//               console.error("Error deleting CSV file:", unlinkErr);
+//             } else {
+//               console.log("CSV file deleted successfully");
+//             }
+//           });
+//         }
+//       });
+//     });
+//   } catch (error) {
+//     console.error("Error converting to CSV:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
 
 const convertSpayAndNeuterInstance = async (req, res, next) => {
   try {
@@ -740,6 +754,71 @@ const convertSpayAndNeuterToPdf = async (req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+// const convertSpayAndNeuterToPdf = async (req, res, next) => {
+//   try {
+//     const { startDate, endDate } = req.query;
+
+//     // Parse startDate and endDate strings into Date objects if needed
+//     const parsedStartDate = startDate ? new Date(startDate) : null;
+//     const parsedEndDate = endDate ? new Date(endDate) : null;
+
+//     // Construct query conditions based on the provided date range
+//     const query = {};
+//     if (parsedStartDate && parsedEndDate) {
+//       query.date = { $gte: parsedStartDate, $lte: parsedEndDate };
+//     } else if (parsedStartDate) {
+//       query.date = { $gte: parsedStartDate };
+//     } else if (parsedEndDate) {
+//       query.date = { $lte: parsedEndDate };
+//     }
+
+//     // Fetch appointments based on the provided date range
+//     const appointments = await SpayNeuterAppointment.find(query).populate("owner");
+
+//     const currentDate = Date.now();
+//     const pdfFilePath = path.join(
+//       __dirname,
+//       "..",
+//       "..",
+//       "files",
+//       `SpayAndNeuter-${currentDate}.pdf`
+//     );
+
+//     const htmlContent = generateHtmlForSpayAndNeuter(appointments);
+
+//     const browser = await puppeteer.launch();
+//     const page = await browser.newPage();
+
+//     await page.setContent(htmlContent);
+//     await page.pdf({
+//       path: pdfFilePath,
+//       format: "A4",
+//       margin: { top: 20, right: 20, bottom: 20, left: 20 },
+//     });
+
+//     await browser.close();
+
+//     res.download(pdfFilePath, `SpayAndNeuter-${currentDate}.pdf`, (err) => {
+//       if (err) {
+//         console.error("Error sending PDF:", err);
+//         res.status(500).send("Internal Server Error");
+//       } else {
+//         fs.unlink(pdfFilePath, (unlinkErr) => {
+//           if (unlinkErr) {
+//             console.error("Error deleting PDF file:", unlinkErr);
+//           } else {
+//             console.log("PDF file deleted successfully");
+//           }
+//         });
+//       }
+//     });
+//   } catch (error) {
+//     console.error("Error converting to PDF:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
 
 // const convertSpayNeuterInstanceToPdf = async (req, res, next) => {
 //   const { instanceId } = req.params;

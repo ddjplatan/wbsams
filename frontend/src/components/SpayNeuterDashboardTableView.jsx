@@ -1,5 +1,7 @@
 import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import DataTable from "./DataTable";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 
 import { useState, useEffect } from "react";
@@ -18,27 +20,30 @@ const SpayAndNeuterTableView = () => {
   const [reload, setReload] = useState(false);
   const [spayAndNeuters, setSpayAndNeuters] = useState([]);
 
-  // const handleDownload = async(fileType) => {
-  //   try {
-  //     const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`)
-  //     if(res.status === 200) {
-  //       toast.success("Successfully downloaded file")
-  //     }
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
 
   const handleDownload = async (fileType) => {
+    
     try {
       let mimeType;
       let b;
-      const res = await axios.get(
-        `https://wbasms.onrender.com/api/spay-and-neuter/${fileType}`,
-        {
-          responseType: "blob", // Specify the response type as 'blob' for binary data
-        }
-      );
+      // const res = await axios.get(`https://wbasms.onrender.com/api/donation/${fileType}`, {
+        const res = await axios.get(`http://localhost:3001/api/spay-and-neuter/${fileType}`, {
+          params: {
+            startDate: startDate,
+            endDate: endDate
+          },
+          responseType: 'blob', // Specify the response type as 'blob' for binary data
+        });
 
       if (fileType === "toPdf") {
         mimeType = "application/pdf";
@@ -218,7 +223,26 @@ const SpayAndNeuterTableView = () => {
     <Card border="default">
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Spay/Neuter</h2>
+        <DatePicker
+            selected={startDate}
+            onChange={handleStartDateChange}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            placeholderText="Start Date"
+            className="form-control me-2"
+          />
+          <DatePicker
+            selected={endDate}
+            onChange={handleEndDateChange}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            placeholderText="End Date"
+            className="form-control me-2"
+          />
         {window.location.pathname !== "/spay-and-neuter" && (
+          
           <DropdownButton title="Download" variant="primary">
             <Dropdown.Item onClick={() => handleDownload("toCsv")}>
               Download CSV
