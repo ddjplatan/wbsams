@@ -128,7 +128,7 @@ const convertAdoptionToPdf = async (req, res, next) => {
       `Adoptions-${currentDate}.pdf`
     );
 
-    const htmlContent = generateHtmlForAdoptions(adoptions);
+    const htmlContent = generateHtmlForAdoptions(adoptions, 'CDO Animal Welfare Society', '../public/defaults/caws-logo.png');
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -1345,7 +1345,111 @@ function generateHtmlForDonations(donations) {
   return htmlContent;
 }
 
-function generateHtmlForAdoptions(adoptions) {
+// function generateHtmlForAdoptions(adoptions) {
+//   const formattedAdoptions = adoptions.map((adoption) => ({
+//     adopter: `${adoption.adopter.firstName} ${adoption.adopter.lastName}`,
+//     email: adoption.adopter.email,
+//     phoneNumber: adoption.adopter.phoneNumber,
+//     adoptee: adoption.adoptee.name,
+//     species: adoption.adoptee.species,
+//     breed: adoption.adoptee.breed,
+//     reason: adoption.reason,
+//     date: new Date(adoption.date).toLocaleDateString(),
+//     parentJob: adoption.parentJob,
+//     isApproved: adoption.isApproved,
+//   }));
+
+//   const htmlContent = `
+//     <!DOCTYPE html>
+//     <html lang="en">
+//       <head>
+//         <meta charset="UTF-8">
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//         <style>
+//           body {
+//             font-family: Arial, sans-serif;
+//             margin: 0;
+//             padding: 0;
+//           }
+//           header {
+//             background-color: #4CAF50;
+//             color: white;
+//             text-align: center;
+//             padding: 1em;
+//           }
+//           main {
+//             margin: 2em;
+//           }
+//           table {
+//             width: 100%;
+//             border-collapse: collapse;
+//           }
+//           th, td {
+//             border: 1px solid #ddd;
+//             padding: 8px;
+//             text-align: left;
+//           }
+//           th {
+//             background-color: #4CAF50;
+//             color: white;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         <header>
+//           <h1>Adoptions Report</h1>
+//         </header>
+//         <main>
+//           <table>
+//             <thead>
+//               <tr>
+//                 <th>Parent</th>
+//                 <th>Email</th>
+//                 <th>Phone Number</th>
+//                 <th>Pet</th>
+//                 <th>Species</th>
+//                 <th>Breed</th>
+//                 <th>Reason</th>
+//                 <th>Adoption Date</th>
+//                 <th>Parent Job</th>
+//                 <th>Is Approved</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               ${formattedAdoptions
+//                 .map(
+//                   (adoption) => `
+//                     <tr>
+//                       <td>${adoption.adopter}</td>
+//                       <td>${adoption.email}</td>
+//                       <td>${adoption.phoneNumber}</td>
+//                       <td>${adoption.adoptee}</td>
+//                       <td>${adoption.species}</td>
+//                       <td>${adoption.breed}</td>
+//                       <td>${adoption.reason}</td>
+//                       <td>${adoption.date}</td>
+//                       <td>${adoption.parentJob}</td>
+//                       <td>${adoption.isApproved}</td>
+//                     </tr>
+//                   `
+//                 )
+//                 .join("")}
+//             </tbody>
+//           </table>
+//         </main>
+//       </body>
+//     </html>
+//   `;
+
+//   return htmlContent;
+// }
+
+function generateHtmlForAdoptions(adoptions, institutionName, logoUrl) {
+  // const logoFilePath = path.resolve(__dirname, logoUrl);
+  const logoFilePath = path.resolve(__dirname, logoUrl).replace(/\\/g, '/');
+
+  console.log("Logo File Path:", logoFilePath);
+
   const formattedAdoptions = adoptions.map((adoption) => ({
     adopter: `${adoption.adopter.firstName} ${adoption.adopter.lastName}`,
     email: adoption.adopter.email,
@@ -1393,11 +1497,18 @@ function generateHtmlForAdoptions(adoptions) {
             background-color: #4CAF50;
             color: white;
           }
+          .institution-logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+          }
         </style>
       </head>
       <body>
         <header>
-          <h1>Adoptions Report</h1>
+          <img src="${logoFilePath}" alt="Logo" class="institution-logo">
+          <h1>${institutionName}</h1>
+          <h2>Adoptions Report</h2>
         </header>
         <main>
           <table>
@@ -1443,6 +1554,7 @@ function generateHtmlForAdoptions(adoptions) {
 
   return htmlContent;
 }
+
 
 function generateHtmlForVolunteers(volunteers) {
   const formattedVolunteers = volunteers.map((volunteer) => ({
