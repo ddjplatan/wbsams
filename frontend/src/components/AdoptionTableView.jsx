@@ -39,7 +39,6 @@ const AdoptionTableView = () => {
   };
 
   const handleConfirmAction = async() => {
-    console.log('handle confirm action')
     setIsSubmitting(true);
     if(isSubmitting){
       return;

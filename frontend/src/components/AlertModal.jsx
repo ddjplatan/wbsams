@@ -1,6 +1,7 @@
 import React from 'react';
 
 const AlertModal = ({ isOpen, onClose, onConfirm, text }) => {
+    console.log('AlertModal rendered')
   if (!isOpen) return null;
 
   const modalStyle = {
@@ -13,7 +14,7 @@ const AlertModal = ({ isOpen, onClose, onConfirm, text }) => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: '999',
+    zIndex: '5000',
   };
 
   const modalContentStyle = {

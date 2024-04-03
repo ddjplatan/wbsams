@@ -8,6 +8,7 @@ import {
   Form,
   FloatingLabel,
 } from "react-bootstrap";
+import AlertModal from "./AlertModal";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -19,6 +20,8 @@ const PetModal = (props) => {
   const userType = userInfo.user.userType;
   // console.log(data);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modalText, setModalText] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false)
   const [petInfo, setPetInfo] = useState({
     name: "",
     species: "",
@@ -57,35 +60,7 @@ const PetModal = (props) => {
     }
   }, [data]);
 
-  const petHandleChange = (e) => {
-    setPetInfo({
-      ...petInfo,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const clearForm = (e) => {
-    e.preventDefault();
-    if (window.confirm(`Are you sure you want to clear the form?`)) {
-      setPetInfo({
-        name: "",
-        species: "",
-        age: "",
-        gender: "",
-        breed: "",
-        description: "",
-        image: "",
-        _id:""
-      });
-      setSelectedFile(null);
-    } else {
-      return;
-    }
-  };
-
-  // Register PET
-  const registerPet = async (e) => {
-    e.preventDefault();
+  const handleConfirmAction = async() => {
     setIsSubmitting(true);
     if(isSubmitting){
       return; 
@@ -126,8 +101,84 @@ const PetModal = (props) => {
       }
       setIsSubmitting(false)
     }
-    
+  }
+
+  const petHandleChange = (e) => {
+    setPetInfo({
+      ...petInfo,
+      [e.target.name]: e.target.value,
+    });
   };
+
+  const clearForm = (e) => {
+    e.preventDefault();
+    if (window.confirm(`Are you sure you want to clear the form?`)) {
+      setPetInfo({
+        name: "",
+        species: "",
+        age: "",
+        gender: "",
+        breed: "",
+        description: "",
+        image: "",
+        _id:""
+      });
+      setSelectedFile(null);
+    } else {
+      return;
+    }
+  };
+
+  const handleRegister = async() => {
+    setModalText("register this pet");
+    setShowAlertModal(true)
+  }
+
+  // Register PET
+  // const registerPet = async (e) => {
+  //   e.preventDefault();
+    // setIsSubmitting(true);
+    // if(isSubmitting){
+    //   return; 
+    // }else{
+    //   try {
+    //     const formData = new FormData();
+  
+    //     Object.keys(petInfo).forEach((key) => {
+    //       if (key !== "image") {
+    //         formData.append(key, petInfo[key]);
+    //       }
+    //       if (key === "image") {
+    //         formData.append("image", petInfo.image);
+    //       }
+    //     });
+  
+    //     // const petUrl = "https://wbasms.onrender.com/api/pet";
+    //     const petUrl = "http://localhost:3001/api/pet";
+    //     const headers = {
+    //       Authorization: `Bearer ${token}`,
+    //     };
+    //     await axios.post(petUrl, formData, { headers }).then((response) => {
+    //       setPetInfo({
+    //         name: "",
+    //         species: "",
+    //         age: "",
+    //         gender: "",
+    //         breed: "",
+    //         description: "",
+    //         image: "",
+    //       });
+    //       onHide();
+    //       location.reload();
+    //       toast.success("Successfully registered pet.");
+    //     });
+    //   } catch (err) {
+    //     toast.error(err?.data?.message || err.error);
+    //   }
+    //   setIsSubmitting(false)
+    // }
+    
+  // };
 
   const updatePet = async (e) => {
     e.preventDefault();
@@ -239,6 +290,13 @@ const PetModal = (props) => {
 
   return (
     <>
+    {showAlertModal && 
+      <AlertModal
+        isOpen={showAlertModal}
+        onClose={() => setShowAlertModal(false)}
+        onConfirm={handleConfirmAction}
+        text={modalText}
+      />}
       <Modal
         {...props}
         size="lg"
@@ -437,7 +495,7 @@ const PetModal = (props) => {
                   Delete Pet
                 </Button>
                 <Button
-                  onClick={data ? updatePet : registerPet}
+                  onClick={data ? updatePet : handleRegister}
                   className="ms-auto"
                   type="submit"
                   variant={data ? "warning" : "primary"}
