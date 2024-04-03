@@ -102,8 +102,8 @@ const PetModal = (props) => {
           }
         });
   
-        const petUrl = "https://wbasms.onrender.com/api/pet";
-        // const petUrl = "http://localhost:3001/api/pet";
+        // const petUrl = "https://wbasms.onrender.com/api/pet";
+        const petUrl = "http://localhost:3001/api/pet";
         const headers = {
           Authorization: `Bearer ${token}`,
         };
@@ -244,6 +244,7 @@ const PetModal = (props) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        // scrollable
         onExited={() => {
           setSelectedFile(null);
         }}

@@ -98,6 +98,7 @@ const AdoptionTableView = () => {
   }
 
   const handleInvite = async (adoptionRequest) => {
+    setModalText("invite this")
     await setSelectedAdoptionRequest(adoptionRequest);
     setShowAlertModal(true)
   }

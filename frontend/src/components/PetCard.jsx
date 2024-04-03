@@ -52,11 +52,14 @@ const PetCard = ({ data }) => {
         </Card.Body>
       </Card>
 
-      <PetModal
+        { showModal && 
+        <PetModal
         show={showModal}
         onHide={() => setShowModal(false)}
         data={data}
       />
+        }
+      
     </>
   );
 };
