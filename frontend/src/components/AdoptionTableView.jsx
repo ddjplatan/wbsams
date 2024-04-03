@@ -1,6 +1,7 @@
 import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import DataTable from "./DataTable";
 import DatePicker from 'react-datepicker';
+import AlertModal from "./AlertModal";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 
@@ -13,7 +14,12 @@ const AdoptionTableView = () => {
   const token = userInfo.token;
 
   const [adoptionRequests, setAdoptionRequests] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [reload, setReload] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [showAlertModalForConfirm, setShowAlertModalForConfirm] = useState(false);
+  const [showAlertModalForDecline, setShowAlertModalForDecline] = useState(false);
+  const [selectedAdoptionRequest, setSelectedAdoptionRequest] = useState(null);
 
   const headers = {
     "Content-Type": "application/json",
@@ -22,6 +28,7 @@ const AdoptionTableView = () => {
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [modalText, setModalText] = useState("")
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -30,6 +37,77 @@ const AdoptionTableView = () => {
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
+
+  const handleConfirmAction = async() => {
+    console.log('handle confirm action')
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return;
+    }else{
+      const updatedRequest = {
+        ...selectedAdoptionRequest,
+        status: "Invited",
+      };
+  
+      const updateResponse = await axios.put(
+        // `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
+        `http://localhost:3001/api/adoption/${selectedAdoptionRequest._id}/invite`,
+        updatedRequest,
+        { headers }
+      );
+  
+      if (updateResponse.status === 200) {
+        toast.success(
+          "Successfully invited for onsite evaluation"
+        );
+        setShowAlertModal(false);
+        setReload(!reload);
+      }
+      setIsSubmitting(false);
+    }
+  }
+
+  const handleConfirmAdoption = async() => {
+
+    setIsSubmitting(true);
+
+    if(isSubmitting){
+      return;
+    } else{
+      const data = {
+        adoptee: selectedAdoptionRequest.adoptee,
+        adopter: selectedAdoptionRequest.adopter,
+      };
+      await axios
+        .post(
+          // `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/confirm`,
+          `http://localhost:3001/api/adoption/${selectedAdoptionRequest._id}/confirm`,
+  
+          data,
+          { headers }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success("Approved adoption request");
+            setReload(!reload);
+          }
+        });
+        setIsSubmitting(false);
+        setShowAlertModalForConfirm(false);
+    }
+  }
+
+  const handleInvite = async (adoptionRequest) => {
+    await setSelectedAdoptionRequest(adoptionRequest);
+    setShowAlertModal(true)
+  }
+
+  const handleConfirm = async (adoptionRequest) => {
+    setModalText("confirm this")
+    setSelectedAdoptionRequest(adoptionRequest);
+    setShowAlertModalForConfirm(true)
+  }
+
   const handleDecline = async (adoptionRequest) => {
     const remarks = prompt("Please provide remarks for declining the adoption request:");
   
@@ -42,8 +120,8 @@ const AdoptionTableView = () => {
   
       try {
         const updateResponse = await axios.put(
-          `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
-          // `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
+          // `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
+          `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
           updatedRequest,
           { headers }
         );
@@ -133,35 +211,17 @@ const AdoptionTableView = () => {
             createdAt: new Date(adoptionRequest.createdAt).toLocaleString(),
             action: (
               <>
-                {adoptionRequest.status === "Pending" && (
+              {adoptionRequest.status === "Pending" && (
                   <Button
                     variant="info"
                     size="sm"
                     className="w-100 my-1"
-                    onClick={async () => {
-                      const updatedRequest = {
-                        ...adoptionRequest,
-                        status: "Invited",
-                      };
-
-                      const updateResponse = await axios.put(
-                        `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/invite`,
-                        // `http://localhost:3001/api/adoption/${adoptionRequest._id}/invite`,
-                        updatedRequest,
-                        { headers }
-                      );
-
-                      if (updateResponse.status === 200) {
-                        toast.success(
-                          "Successfully invited for onsite evaluation"
-                        );
-                        setReload(!reload);
-                      }
-                    }}
+                    onClick={()=>handleInvite(adoptionRequest)}
                   >
                     Invite
                   </Button>
                 )}
+    
                 {adoptionRequest.status === "Declined" && <span>DECLINED</span>}
 
                 {adoptionRequest.status === "Invited" && (
@@ -170,26 +230,7 @@ const AdoptionTableView = () => {
                       variant="success"
                       size="sm"
                       className="w-100 my-1"
-                      onClick={async () => {
-                        const data = {
-                          adoptee: adoptionRequest.adoptee,
-                          adopter: adoptionRequest.adopter,
-                        };
-                        await axios
-                          .post(
-                            `https://wbasms.onrender.com/api/adoption/${adoptionRequest._id}/confirm`,
-                            // `http://localhost:3001/api/adoption/${adoptionRequest._id}/confirm`,
-
-                            data,
-                            { headers }
-                          )
-                          .then((res) => {
-                            if (res.status === 200) {
-                              toast.success("Approved adoption request");
-                              setReload(!reload);
-                            }
-                          });
-                      }}
+                      onClick={()=>handleConfirm(adoptionRequest)}
                     >
                       Confirm
                     </Button>
@@ -273,6 +314,20 @@ const AdoptionTableView = () => {
   };
   return (
     <Card border="default">
+      {showAlertModal && 
+      <AlertModal
+        isOpen={showAlertModal}
+        onClose={() => setShowAlertModal(false)}
+        onConfirm={handleConfirmAction} // Replace handleConfirmActinon with your actual function
+        text={modalText}
+      />}
+      {showAlertModalForConfirm && 
+      <AlertModal
+        isOpen={showAlertModalForConfirm}
+        onClose={() => setShowAlertModalForConfirm(false)}
+        onConfirm={handleConfirmAdoption} // Replace handleConfirmActinon with your actual function
+        text={modalText}
+      />}
       <Card.Header className="d-flex justify-content-between">
         <h2 className="fw-bold">Adoption Requests</h2>
         <DatePicker
