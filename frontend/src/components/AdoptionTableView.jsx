@@ -21,6 +21,8 @@ const AdoptionTableView = () => {
   const [showAlertModalForDecline, setShowAlertModalForDecline] = useState(false);
   const [selectedAdoptionRequest, setSelectedAdoptionRequest] = useState(null);
 
+  console.log('requests ', adoptionRequests)
+
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -184,8 +186,8 @@ const AdoptionTableView = () => {
   };
   const getAdoptionRequests = async () => {
     try {
-      const petUrl = "https://wbasms.onrender.com/api/adoption";
-      // const petUrl = "http://localhost:3001/api/adoption";
+      // const petUrl = "https://wbasms.onrender.com/api/adoption";
+      const petUrl = "http://localhost:3001/api/adoption";
 
       const headers = {
         "Content-Type": "application/json",
