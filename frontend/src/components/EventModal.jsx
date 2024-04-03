@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 
 const EventModal = (props) => {
   const { data, onHide } = props;
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
@@ -32,37 +33,45 @@ const EventModal = (props) => {
   });
 
   const postEvent = async () => {
-    try {
-      const formData = new FormData();
-
-      Object.keys(eventData).forEach((key) => {
-        if (key !== "img") {
-          formData.append(key, eventData[key]);
-        }
-        if (key === "img") {
-          formData.append("img", eventData.img);
-        }
-      });
-
-      const url = "https://wbasms.onrender.com/api/event";
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.post(url, formData, { headers }).then((response) => {
-        console.log(response.data);
-        setEventData({
-          _id: "",
-          title: "",
-          details: "",
-          img: null,
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return;
+    }else{
+      try {
+        const formData = new FormData();
+  
+        Object.keys(eventData).forEach((key) => {
+          if (key !== "img") {
+            formData.append(key, eventData[key]);
+          }
+          if (key === "img") {
+            formData.append("img", eventData.img);
+          }
         });
-        onHide();
-        toast.success("Successfully added event.");
-      });
-    } catch (error) {
-      console.log(error.message);
-      toast.error(error?.data?.message || error.error);
+  
+        // const url = "https://wbasms.onrender.com/api/event";
+        const url = "http://localhost:3001/api/event";
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        await axios.post(url, formData, { headers }).then((response) => {
+          console.log(response.data);
+          setEventData({
+            _id: "",
+            title: "",
+            details: "",
+            img: null,
+          });
+          onHide();
+          toast.success("Successfully added event.");
+        });
+      } catch (error) {
+        console.log(error.message);
+        toast.error(error?.data?.message || error.error);
+      }
     }
+    
   };
 
   const updateEvent = async (id) => {
@@ -81,7 +90,9 @@ const EventModal = (props) => {
 
   const deleteEvent = async (id) => {
     try {
-      const url = `https://wbasms.onrender.com/api/event/${id}`;
+      // const url = `https://wbasms.onrender.com/api/event/${id}`;
+      const url = `http://localhost:3001/api/event/${id}`;
+
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();

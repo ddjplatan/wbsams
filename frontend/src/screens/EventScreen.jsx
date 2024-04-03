@@ -25,7 +25,9 @@ const EventScreen = () => {
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("https://wbasms.onrender.com/api/event", {
+      // const res = await axios.get("https://wbasms.onrender.com/api/event", {
+      const res = await axios.get("http://localhost:3001/api/event", {
+
         headers,
       });
       console.log(res)

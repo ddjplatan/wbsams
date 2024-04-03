@@ -23,6 +23,7 @@ const NewsModal = (props) => {
   };
 
   const [reload, setReload] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [newsData, setNewsData] = useState({
     _id: "",
@@ -32,37 +33,45 @@ const NewsModal = (props) => {
   });
 
   const postNews = async () => {
-    try {
-      const formData = new FormData();
-
-      Object.keys(newsData).forEach((key) => {
-        if (key !== "img") {
-          formData.append(key, newsData[key]);
-        }
-        if (key === "img") {
-          formData.append("img", newsData.img);
-        }
-      });
-
-      const url = "https://wbasms.onrender.com/api/news";
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.post(url, formData, { headers }).then((response) => {
-        setNewsData({
-          _id: "",
-          title: "",
-          details: "",
-          img: null,
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return;
+    }else{
+      try {
+        const formData = new FormData();
+  
+        Object.keys(newsData).forEach((key) => {
+          if (key !== "img") {
+            formData.append(key, newsData[key]);
+          }
+          if (key === "img") {
+            formData.append("img", newsData.img);
+          }
         });
-        onHide();
-        toast.success("Successfully added news.");
-        location.reload();
-      });
-    } catch (error) {
-      console.log(error.message)
-      toast.error(error?.data?.message || error.error);
+  
+        // const url = "https://wbasms.onrender.com/api/news";
+        const url = "http://localhost:3001/api/news";
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        await axios.post(url, formData, { headers }).then((response) => {
+          setNewsData({
+            _id: "",
+            title: "",
+            details: "",
+            img: null,
+          });
+          onHide();
+          toast.success("Successfully added news.");
+          location.reload();
+        });
+      } catch (error) {
+        console.log(error.message)
+        toast.error(error?.data?.message || error.error);
+      }
     }
+    
   };
 
   const updateNews = async (id) => {
@@ -82,7 +91,8 @@ const NewsModal = (props) => {
 
   const deleteNews = async (id) => {
     try {
-      const url = `https://wbasms.onrender.com/api/news/${id}`;
+      // const url = `https://wbasms.onrender.com/api/news/${id}`;
+      const url = `http://localhost:3001/api/news/${id}`;
       const response = await axios.delete(url, { headers });
       if (response.status === 200) {
         onHide();

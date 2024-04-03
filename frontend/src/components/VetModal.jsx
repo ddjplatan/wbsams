@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 
 const VetModal = (props) => {
   const { data, onHide } = props;
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
@@ -36,41 +37,47 @@ const VetModal = (props) => {
   });
 
   const postVet = async () => {
-    try {
-      const formData = new FormData();
-
-      Object.keys(vetData).forEach((key) => {
-        if (key !== "img") {
-          formData.append(key, vetData[key]);
-        }
-        if (key === "img") {
-          formData.append("img", vetData.img);
-        }
-      });
-
-      const url = "https://wbasms.onrender.com/api/vet";
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.post(url, formData, { headers }).then((response) => {
-        console.log(response.data);
-        setVetData({
-          _id: "",
-          email: "",
-          firstName: "",
-          lastName: "",
-          phoneNumber: "",
-          address: "",
-          workExperience: "",
-          img: null,
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return;
+    }else{
+      try {
+        const formData = new FormData();
+  
+        Object.keys(vetData).forEach((key) => {
+          if (key !== "img") {
+            formData.append(key, vetData[key]);
+          }
+          if (key === "img") {
+            formData.append("img", vetData.img);
+          }
         });
-        onHide();
-        toast.success("Successfully added vet.");
-      });
-    } catch (error) {
-      console.log(error.message)
-      toast.error(error?.data?.message || error.error);
+  
+        const url = "https://wbasms.onrender.com/api/vet";
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        await axios.post(url, formData, { headers }).then((response) => {
+          console.log(response.data);
+          setVetData({
+            _id: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            address: "",
+            workExperience: "",
+            img: null,
+          });
+          onHide();
+          toast.success("Successfully added vet.");
+        });
+      } catch (error) {
+        console.log(error.message)
+        toast.error(error?.data?.message || error.error);
+      }
     }
+    
   };
 
   const updateVet = async (id) => {

@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 
 const VolunteerModal = (props) => {
   const { data, onHide } = props;
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { userInfo } = useSelector((state) => state.auth);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
@@ -36,41 +37,47 @@ const VolunteerModal = (props) => {
   });
 
   const postVolunteer = async () => {
-    try {
-      const formData = new FormData();
-
-      Object.keys(volunteerData).forEach((key) => {
-        if (key !== "img") {
-          formData.append(key, volunteerData[key]);
-        }
-        if (key === "img") {
-          formData.append("img", volunteerData.img);
-        }
-      });
-
-      const url = "https://wbasms.onrender.com/api/volunteer";
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.post(url, formData, { headers }).then((response) => {
-        console.log(response.data);
-        setVolunteerData({
-          _id: "",
-          email: "",
-          firstName: "",
-          lastName: "",
-          phoneNumber: "",
-          address: "",
-          workExperience: "",
-          img: null,
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return;
+    }else{
+      try {
+        const formData = new FormData();
+  
+        Object.keys(volunteerData).forEach((key) => {
+          if (key !== "img") {
+            formData.append(key, volunteerData[key]);
+          }
+          if (key === "img") {
+            formData.append("img", volunteerData.img);
+          }
         });
-        onHide();
-        toast.success("Successfully added volunteer.");
-        location.reload();
-      });
-    } catch (error) {
-      console.log(error.message)
-      toast.error(error?.data?.message || error.error);
+  
+        // const url = "https://wbasms.onrender.com/api/volunteer";
+        const url = "http://localhost:3001/api/volunteer";
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        await axios.post(url, formData, { headers }).then((response) => {
+          console.log(response.data);
+          setVolunteerData({
+            _id: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            address: "",
+            workExperience: "",
+            img: null,
+          });
+          onHide();
+          toast.success("Successfully added volunteer.");
+          location.reload();
+        });
+      } catch (error) {
+        console.log(error.message)
+        toast.error(error?.data?.message || error.error);
+      }
     }
   };
 

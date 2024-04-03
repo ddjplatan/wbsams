@@ -18,7 +18,7 @@ const PetModal = (props) => {
   const token = userInfo.token;
   const userType = userInfo.user.userType;
   // console.log(data);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [petInfo, setPetInfo] = useState({
     name: "",
     species: "",
@@ -29,6 +29,7 @@ const PetModal = (props) => {
     image: "",
     _id:""
   });
+
 
   useEffect(() => {
     if (data) {
@@ -85,40 +86,47 @@ const PetModal = (props) => {
   // Register PET
   const registerPet = async (e) => {
     e.preventDefault();
-    try {
-      const formData = new FormData();
-
-      Object.keys(petInfo).forEach((key) => {
-        if (key !== "image") {
-          formData.append(key, petInfo[key]);
-        }
-        if (key === "image") {
-          formData.append("image", petInfo.image);
-        }
-      });
-
-      const petUrl = "https://wbasms.onrender.com/api/pet";
-      // const petUrl = "http://localhost:3001/api/pet";
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      await axios.post(petUrl, formData, { headers }).then((response) => {
-        setPetInfo({
-          name: "",
-          species: "",
-          age: "",
-          gender: "",
-          breed: "",
-          description: "",
-          image: "",
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return; 
+    }else{
+      try {
+        const formData = new FormData();
+  
+        Object.keys(petInfo).forEach((key) => {
+          if (key !== "image") {
+            formData.append(key, petInfo[key]);
+          }
+          if (key === "image") {
+            formData.append("image", petInfo.image);
+          }
         });
-        onHide();
-        location.reload();
-        toast.success("Successfully registered pet.");
-      });
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
+  
+        const petUrl = "https://wbasms.onrender.com/api/pet";
+        // const petUrl = "http://localhost:3001/api/pet";
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        await axios.post(petUrl, formData, { headers }).then((response) => {
+          setPetInfo({
+            name: "",
+            species: "",
+            age: "",
+            gender: "",
+            breed: "",
+            description: "",
+            image: "",
+          });
+          onHide();
+          location.reload();
+          toast.success("Successfully registered pet.");
+        });
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+      setIsSubmitting(false)
     }
+    
   };
 
   const updatePet = async (e) => {
