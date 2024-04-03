@@ -143,7 +143,6 @@ const DonationScreen = () => {
               <Col sm={4} key={index} className="p-2">
                 <DonationCard
                   data={donation}
-                  toreload={() => setReload(!reload)}
                 />
               </Col>
             ))}
@@ -153,7 +152,6 @@ const DonationScreen = () => {
       <DonationModal
         show={showModal}
         onHide={() => setShowModal(false)}
-        toReload={() => setReload(!reload)}
       />
     </div>
   );

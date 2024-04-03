@@ -3,10 +3,17 @@ import { Button, Modal, Form, FloatingLabel, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import AlertModal from './AlertModal'
 
 const DonationModal = (props) => {
-  const { data, onHide, toreload } = props;
+  const { data, onHide } = props;
   const { userInfo } = useSelector((state) => state.auth);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [donationId, setDonationId] = useState(null);
+  const [id, setId] = useState(null);
+  const [modalText, setModalText] = useState("");
+  const [showAlertModalForAdd, setShowAlertModalForAdd] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
   const token = userInfo.token;
   const userType = userInfo.user.userType;
   const headers = {
@@ -41,6 +48,12 @@ const DonationModal = (props) => {
       setImagePreview(null);
     }
   };
+
+  const handleShowModal = async(id) => {
+    setId(id);
+    setModalText("add this");
+    setShowAlertModalForAdd(true);
+  }
 
   const deleteDonations = async (id) => {
     try {
@@ -85,81 +98,178 @@ const DonationModal = (props) => {
   };
 
   const handleDelete = async (id) => {
+    setDonationId(id);
+    setModalText("delete this");
+    setShowAlertModal(true)
+  }
+
+
+  const handleConfirmAdd = async() => {
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return;
+    }else {
+      try {
+        let url;
+  
+        if(id){
+          url =`https://wbasms.onrender.com/api/donation/${id}`
+        await axios.put(url, donation, {headers: {
+          Authorization: `Bearer ${token}`
+        }}).then((response)=>{
+            setDonation({
+              donor: "",
+              donationType: "",
+              remarks: "",
+              address: "",
+              _id: "",
+              description: "",
+            })
+            setImg(null)
+            onHide();
+            toast.success("Successfully updated donation");
+            location.reload();
+             
+        })
+        }else{
+          // url =`https://wbasms.onrender.com/api/donation/`
+          url =`http://localhost:3001/api/donation/`
+  
+          const formData = new FormData();
+  
+        Object.keys(donation).forEach((key) => {
+            formData.append(key, donation[key]);
+        });
+  
+        if(img) {
+          formData.append("img", img);
+        }
+  
+          await axios.post(url, formData, {headers: {
+            Authorization: `Bearer ${token}`
+          }}).then((response) => {
+            setDonation({
+              donor: "",
+              donationType: "",
+              remarks: "",
+              address: "",
+              _id: "",
+              description: "",
+            });
+            setImg(null)
+            onHide();
+            toast.success("Successfully added donation.");
+            location.reload();
+          });
+        }
+      } catch (error) {
+        console.log(error.message)
+        toast.error("Error ", error.message);
+      }
+    setIsSubmitting(false);
+    }
+    setId(null)
+  }
+
+  const handleConfirmAction = async() => {
     try {
-    // const url = `https://wbasms.onrender.com/api/donation/${id}`
-    const url = `http://localhost:3001/api/donation/${id}`
-    const response = await axios.delete(url, {headers})
-    if(response.status === 200){
-      onHide();
-      toast.success("Successfully deleted donation")
-      location.reload();
-      // toreload();
-    }
-    } catch (error) {
-      toast.error("Error deleting donation", error.message)
-    }
+      // const url = `https://wbasms.onrender.com/api/donation/${id}`
+      const url = `http://localhost:3001/api/donation/${donationId}`
+      const response = await axios.delete(url, {headers})
+      if(response.status === 200){
+        onHide();
+        toast.success("Successfully deleted donation")
+        location.reload();
+        // toreload();
+        setModalText("")
+        setShowAlertModal(false);
+      }
+      } catch (error) {
+        toast.error("Error deleting donation", error.message)
+      }
   }
   const handleSubmit = async (id) => {
-    try {
-      let url;
-
-      if(id){
-        url =`https://wbasms.onrender.com/api/donation/${id}`
-      await axios.put(url, donation, {headers: {
-        Authorization: `Bearer ${token}`
-      }}).then((response)=>{
-          setDonation({
-            donor: "",
-            donationType: "",
-            remarks: "",
-            address: "",
-            _id: "",
-            description: "",
-          })
-          setImg(null)
-          onHide();
-          toast.success("Successfully updated donation");
-          location.reload();
-           
-      })
-      }else{
-        // url =`https://wbasms.onrender.com/api/donation/`
-        url =`http://localhost:3001/api/donation/`
-
-        const formData = new FormData();
-
-      Object.keys(donation).forEach((key) => {
-          formData.append(key, donation[key]);
-      });
-
-      if(img) {
-        formData.append("img", img);
-      }
-
-        await axios.post(url, formData, {headers: {
+    setIsSubmitting(true);
+    if(isSubmitting){
+      return;
+    }else {
+      try {
+        let url;
+  
+        if(id){
+          url =`https://wbasms.onrender.com/api/donation/${id}`
+        await axios.put(url, donation, {headers: {
           Authorization: `Bearer ${token}`
-        }}).then((response) => {
-          setDonation({
-            donor: "",
-            donationType: "",
-            remarks: "",
-            address: "",
-            _id: "",
-            description: "",
-          });
-          setImg(null)
-          onHide();
-          toast.success("Successfully added donation.");
-          location.reload();
+        }}).then((response)=>{
+            setDonation({
+              donor: "",
+              donationType: "",
+              remarks: "",
+              address: "",
+              _id: "",
+              description: "",
+            })
+            setImg(null)
+            onHide();
+            toast.success("Successfully updated donation");
+            location.reload();
+             
+        })
+        }else{
+          // url =`https://wbasms.onrender.com/api/donation/`
+          url =`http://localhost:3001/api/donation/`
+  
+          const formData = new FormData();
+  
+        Object.keys(donation).forEach((key) => {
+            formData.append(key, donation[key]);
         });
+  
+        if(img) {
+          formData.append("img", img);
+        }
+  
+          await axios.post(url, formData, {headers: {
+            Authorization: `Bearer ${token}`
+          }}).then((response) => {
+            setDonation({
+              donor: "",
+              donationType: "",
+              remarks: "",
+              address: "",
+              _id: "",
+              description: "",
+            });
+            setImg(null)
+            onHide();
+            toast.success("Successfully added donation.");
+            location.reload();
+          });
+        }
+      } catch (error) {
+        console.log(error.message)
+        toast.error("Error ", error.message);
       }
-    } catch (error) {
-      console.log(error.message)
-      toast.error("Error ", error.message);
+    setIsSubmitting(false);
     }
   };
 
   return (
+    <>
+    {showAlertModal && 
+      <AlertModal
+        isOpen={showAlertModal}
+        onClose={() => setShowAlertModal(false)}
+        onConfirm={handleConfirmAction}
+        text={modalText}
+      />}
+    {showAlertModalForAdd && 
+      <AlertModal
+        isOpen={showAlertModalForAdd}
+        onClose={() => setShowAlertModalForAdd(false)}
+        onConfirm={handleConfirmAdd}
+        text={modalText}
+      />}
     <Modal
       {...props}
       size="lg"
@@ -237,7 +347,7 @@ const DonationModal = (props) => {
           <Modal.Footer>
           <Col className="d-flex justify-content-end">
           <Button variant="success" onClick={
-            ()=>{handleSubmit(donation._id)}
+            ()=>{handleShowModal(donation._id)}
             }>
               Submit
             </Button>
@@ -259,6 +369,7 @@ const DonationModal = (props) => {
       }
    
     </Modal>
+    </>
   );
 };
 
