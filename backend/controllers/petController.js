@@ -99,6 +99,28 @@ const getAdoptedPets = async (req, res, next) => {
   }
 };
 
+const getAdoptedPetsOfUser = async(req, res, next) => {
+  const {userId} = req.params
+  const filter = { isAdopted: true, owner: userId };
+  const options = {
+    sort: {
+      createdAt: -1,
+    },
+  };
+  try {
+    const count = await Pet.countDocuments(filter);
+    const pets = await Pet.find(filter, {}, options)
+    console.log(pets)
+    res
+      .status(200)
+      .setHeader("Content-Type", "application/json")
+      .setHeader("X-Total-Count", `${count}`)
+      .json({ pets, count });
+  } catch (err) {
+    throw new Error(`Error retrieving pets: ${err.message}`);
+  }
+}
+
 const getPet = async (req, res, next) => {
   try {
     const pet = await Pet.findById(req.params.petId);
@@ -207,4 +229,5 @@ module.exports = {
   updatePet,
   createPet,
   getAdoptedPets,
+  getAdoptedPetsOfUser
 };

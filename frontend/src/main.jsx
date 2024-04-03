@@ -29,6 +29,7 @@ import EventScreen from "./screens/EventScreen.jsx";
 import NewsScreen from "./screens/NewsScreen.jsx";
 import VolunteerScreen from "./screens/VolunteerScreen.jsx";
 import VeterinarianScreen from "./screens/VeterinarianScreen.jsx";
+import MyPetsScreen from "./screens/MyPetsScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +44,8 @@ const router = createBrowserRouter(
         <Route path="/adoption" element={<AdoptScreen />} />
         <Route path="/adopted" element={<AdoptionMonitoringScreen />} />
         <Route path="/news" element={<NewsScreen />} />
+        <Route path="/mypets" element={<MyPetsScreen />} />
+
 
 
         <Route path="/volunteer" element={<VolunteerScreen />} />

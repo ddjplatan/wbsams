@@ -291,6 +291,12 @@ const Sidebar = () => {
                   Home
                 </CDBSidebarMenuItem>
               </LinkContainer>
+              {userInfo.user.userType === "user" ?
+              <LinkContainer to="/mypets">
+                <CDBSidebarMenuItem icon="th-large" active={currentUrl === "/mypets"}>
+                  My Pets
+                </CDBSidebarMenuItem>
+              </LinkContainer> : null}
               <LinkContainer to="/pets">
                 <CDBSidebarMenuItem
                   icon="th-large"

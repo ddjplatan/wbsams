@@ -37,6 +37,7 @@ const {
   updatePet,
   createPet,
   getAdoptedPets,
+  getAdoptedPetsOfUser
 } = require("../controllers/petController");
 const { postAdoption } = require("../controllers/adoptionController");
 
@@ -65,6 +66,10 @@ router.route("/toCsv").get(reqReceived, convertPets);
 router
   .route("/adoptedPets")
   .get(reqReceived, protectedRoute, staffValidator, getAdoptedPets);
+
+router
+    .route("/adoptedPets/:userId")
+    .get(reqReceived, getAdoptedPetsOfUser)
 
 router
   .route("/:petId")
